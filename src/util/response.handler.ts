@@ -1,0 +1,27 @@
+import { Response } from 'express';
+
+const successRespond = (response: Response, status = 201) => {
+  return function (data: any) {
+    if (!data) {
+      return response.status(404).json({ status:404, message: 'Not Found' });
+    }
+    return response.status(status).json(data);
+  };
+}
+
+const notFoundRespond = (response: Response) => {
+  return function (data: any) {
+    if (!data) {
+      return response.status(404).json({ status:404, message: 'Not Found' });
+    }
+    return data;
+  };
+}
+
+const errorRespond = (response: Response) => {
+  return function (error: any) {
+    return response.status(400).json({ status: 400, details: error });
+  };
+}
+
+export default { successRespond, notFoundRespond, errorRespond };
