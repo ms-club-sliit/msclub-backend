@@ -14,7 +14,7 @@ import UserModel from '../models/User.model';
  * the user in the system. If the authentication success, then only necessary 
  * method will execute.
  */
-export const authentication = async (request: Request, response: Response, next: NextFunction) => {
+export const authenticate = async (request: Request, response: Response, next: NextFunction) => {
   try {
     const secret = process.env.JWT_SECRET as string;
     
@@ -40,6 +40,6 @@ export const authentication = async (request: Request, response: Response, next:
     }
   } catch (error: any) {
     logger.warn(error.message);
-    return request.handleResponse.errorRespond(response)(error.message);
+    return request.handleResponse.unauthorizedRespond(response)(error.message);
   }
 }

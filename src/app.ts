@@ -2,6 +2,7 @@ import express, { Express, Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import logger from './util/logger';
 import responseHandler from './util/response.handler';
+import routes from './api/routes';
 
 dotenv.config();
 const app: Express = express();
@@ -30,4 +31,7 @@ app.listen(PORT, () => {
   logger.info(MONGO_URI);
   logger.info(`Database Synced`);
   logger.info(`API Server up and running on PORT ${PORT}`);
+  // Inject Routes
+  logger.info('Injecting Routes');
+  routes(app);
 });
