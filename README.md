@@ -8,12 +8,12 @@ Read further to know how **you** can start contributing to MS Club!
 - [Learning Resources](#how-can-i-get-start)
 - [About Docker Image](#about-docker-image)
 
-## [Tech Stack](#Tech-stack) :electron:
+## [Tech Stack](#Tech-stack)
 
 ![banner-whitegb-spacing-10x(2)](https://firebasestorage.googleapis.com/v0/b/msclubofsliit-v2.appspot.com/o/tech_stack_logo.png?alt=media&token=74635794-1141-411c-8b82-5e90f6113aae)
 
-## [How to contribute](#how-to) :octocat:
-1. Fork the repo on GitHub.
+## [How to contribute](#how-to)
+1. Fork the repo on GitHub :octocat:.
 2. Clone the project to your own machine. <br>
 ```
 git clone https://github.com/<YOUR_USERNAME>/msclubwebsite.git
@@ -38,7 +38,7 @@ git push origin <add-your-branch-name>
 ```
 6. Submit a Pull request so that we can review your changes. [Learn about creating a pull request.](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
 
-## [How can I get start](#resources) :thinking:
+## [How can I get start](#resources)
 We got your back. Here are some **FREE** resources for you to strengthen your web development skills and start firing some commits.
 
 **TypeScript**
@@ -50,19 +50,19 @@ We got your back. Here are some **FREE** resources for you to strengthen your we
 - [Node JS 14.x Official Documentaion](https://nodejs.org/docs/latest-v14.x/api/)
 - [Express Official Documentation](https://expressjs.com/)
 
-## [About Docker Image](#about-docker-image) :whale:
-We use Docker image to deploy this API application to the server. You can build and run the docker container in your local machine. Follow below steps to build and run the Docker container. <br>
+## [About Docker Image](#about-docker-image) 
+We use Docker :whale: image to deploy this API application to the server. You can build and run the docker container in your local machine. Follow below steps to build and run the Docker container. <br>
 :memo: In order to build and run the Docker container, you must have Docker install on you computer. <br>
 
-1. :building_construction: Build the Docker image.
+1. Build the Docker image. :building_construction: 
 ```
 docker build -t ghcr.io/ms-club-sliit/msclubwebserver:v1.0.0 .
 ```
-2. :heavy_check_mark: Check the build Docker images.
+2. Check the build Docker images. :heavy_check_mark: 
 ```
 docker image ls
 ```
-3. :package: Run the Docker container. After run this command the container will start running. <br>
+3. Run the Docker container. After run this command the container will start running. :package:  <br>
 `docker run -p <expose_port>:<application_port> -d --name "<name_for_the_container>":<tag>` <br>
 **`-d`** - Run in ditach mode <br>
 **`-p`** - Port mapping between Docker container and application
@@ -70,19 +70,19 @@ docker image ls
 ```
 docker run -p 9096:8078 -d --name "mswebserver"  ghcr.io/ms-club-sliit/msclubwebserver:v1.0.0
 ```
-4. :earth_asia: Open your web browser and paste below URL
+4. Open your web browser and paste below URL :earth_asia: 
 ```
 http://localhost:9096
 ```
-5. :eyes: View the running container
+5. View the running container :eyes: 
 ```
 docker ps
 ```
-6. :stop_sign: Stop the running container
+6. Stop the running container :stop_sign: 
 ```
 docker stop mswebserver
 ```
-7. :coffin: Remove the Docker container
+7. Remove the Docker container :coffin:
 ```
 docker rm mswebserver
 ```
