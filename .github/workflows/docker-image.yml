@@ -17,7 +17,7 @@ jobs:
     - uses: mr-smithers-excellent/docker-build-push@v5
       name: Build & Push Docker image
       with:
-        image: ghcr.io/ms-club-sliit/msclubwebserver
+        image: msclubwebserver
         tags: v1.0.0, latest
         registry: ghcr.io
         dockerfile: Dockerfile
