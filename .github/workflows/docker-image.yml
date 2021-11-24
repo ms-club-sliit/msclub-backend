@@ -1,3 +1,6 @@
+# This workflow will build the Docker image of the MS Club Web Server and push it 
+# to the GitHub Container Registry (GHCR)
+
 name: Docker Image CI
 
 on:
@@ -5,9 +8,7 @@ on:
     branches: [ master ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
