@@ -21,6 +21,7 @@
     "@types/bcryptjs": "^2.4.2",
     "@types/jsonwebtoken": "^8.5.6",
     "@types/mongoose": "^5.11.97",
+    "@types/validator": "^13.7.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -29,7 +30,6 @@
     "env-cmd": "^10.1.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.13",
     "pino": "^7.4.0",
     "pino-pretty": "^7.2.0",
     "validator": "^13.7.0"

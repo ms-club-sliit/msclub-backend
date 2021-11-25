@@ -2,6 +2,7 @@ import mongoose, { Schema } from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { IUser } from "../interfaces";
+import validator from 'validator';
 
 const UserSchema = new Schema<IUser>({
   firstName: { type: String, required: true },
@@ -11,12 +12,42 @@ const UserSchema = new Schema<IUser>({
   addressLine02: { type: String, required: true },
   city: { type: String, required: true },
   province: { type: String, required: true },
-  phoneNumber01: { type: String, required: true },
-  phoneNumber02: { type: String, required: true },
-  email: { type: String, required: true },
-  userName: { type: String, required: false },
+  phoneNumber01: { 
+    type: String, 
+    required: [true, 'Phone number 1 is required'],
+    trim: true,
+    max: [10, 'Phone number should have 10 numbers'],
+    validate(value: string) {
+      if (!validator.isMobilePhone(value)) {
+        throw new Error('Phone number 1 is not valid');
+      }
+    } 
+  },
+  phoneNumber02: {
+    type: String, 
+    required: false,
+    trim: true,
+    max: [10, 'Phone number should have 10 numbers'],
+    validate(value: string) {
+      if (!validator.isMobilePhone(value) && value.length > 0) {
+        throw new Error('Phone number 2 is not valid');
+      }
+    } 
+  },
+  email: { 
+    type: String, 
+    required: [true, 'Email is required'],
+    trim: true,
+    unique: true,
+    validate(value: string) {
+      if (!validator.isEmail(value)) {
+        throw new Error('Email address is not valid');
+      }
+    }
+  },
+  userName: { type: String, required: false, default: null, unique: true },
   password: { type: String, required: false },
-  profileImageUrl: { type: String, required: false },
+  profileImageUrl: { type: String, required: false, default: null },
   description: { type: String, required: false },
   socialMedia: [
     {

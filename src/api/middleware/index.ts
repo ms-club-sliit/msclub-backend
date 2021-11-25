@@ -1,5 +1,5 @@
-import { authentication } from './Auth.middleware';
+import { authenticate } from './Auth.middleware';
 
 export default {
-  authentication,
+  authenticate,
 }
