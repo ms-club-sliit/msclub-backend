@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 
 interface IEvent extends Document {
-  eventName : string;
+  title : string;
   description : string;
   imageUrl : string;
   dateTime : Date;

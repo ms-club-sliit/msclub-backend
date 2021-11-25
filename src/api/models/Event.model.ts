@@ -3,7 +3,7 @@ import { IEvent } from "../interfaces";
 
 const EventSchema = new Schema<IEvent>(
   {
-    eventName: { type: String, required: true },
+    title: { type: String, required: true },
     description: { type: String, required: true },
     imageUrl: { type: String, required: true },
     dateTime: { type: Date, required: true },

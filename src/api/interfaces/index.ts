@@ -6,6 +6,9 @@ import { IEvent } from "./IEvent";
 /**
  * @todo import the @interface ITopSpeaker
  */
+/**
+ * @todo import the @interface IApplication
+ */
 
 export {
   IUser,
@@ -15,5 +18,8 @@ export {
    */
   /**
    * @todo export the @interface ITopSpeaker
+   */
+  /**
+   * @todo export the @interface IApplication
    */
 };
