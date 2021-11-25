@@ -23,17 +23,17 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 // Root API Call
-app.get('/', (req: Request, res: Response, next: NextFunction) => {
-  res.send('<h2>MS CLUB SLIIT Web API</h2>');
+app.get("/", (req: Request, res: Response, next: NextFunction) => {
+  res.send("<h2>MS CLUB SLIIT Web API</h2>");
 });
 
 // Start the Server
 app.listen(PORT, () => {
   logger.info(`Starting on ${ENVIRONMENT} Environment`);
   logger.info(MONGO_URI);
-  logger.info(`API Server up and running on PORT ${PORT}`);
   // Connect to Database
   connect();
   // Inject Routes
   routes(app);
+  logger.info(`API Server up and running on PORT ${PORT}`);
 });
