@@ -24,4 +24,7 @@ export default function (app: Express) {
   /**
    * @todo  implement the @routes for TopSpeakerController
    */
+  /**
+   * @todo  implement the @routes for ApplicationController
+   */
 }

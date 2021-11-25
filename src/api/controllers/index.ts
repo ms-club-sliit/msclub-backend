@@ -12,6 +12,9 @@ import { insertEvent, getEvent, getEvents,getPastEvents,getUpcomingEvent,updateE
 /**
  * @todo import the @methods from TopSpeakerController
  */
+/**
+ * @todo import the @methods from ApplicationController
+ */
 
 export default {
    /**
@@ -33,5 +36,8 @@ export default {
    */
   /**
    * @todo export the @methods from TopSpeakerController
+   */
+   /**
+   * @todo export the @methods from ApplicationController
    */
 };
