@@ -3,13 +3,14 @@ import dotenv from 'dotenv';
 import logger from './util/logger';
 import responseHandler from './util/response.handler';
 import routes from './api/routes';
-import connect from './config/Database.connection';
+import { configuration } from './config';
+import connect from './util/database.connection';
 
 dotenv.config();
 const app: Express = express();
-const PORT: string = process.env.PORT as string;
-const ENVIRONMENT = process.env.ENVIRONMENT as string;
-const MONGO_URI = process.env.MONGO_URI as string;
+const PORT: string = configuration.port;
+const ENVIRONMENT = configuration.environment;
+const MONGO_URI = configuration.mongodb.uri;
  
 // Register Middleware Chain
 app.use(express.json());
