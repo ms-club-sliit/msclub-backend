@@ -1,15 +1,9 @@
 import { createUser } from "./User.controller";
 /**
- * @todo import the @methods from PastEventController
+ * @todo import the @methods from EventController
  */
 /**
- * @todo import the @methods from UpcomingEventController
- */
-/**
- * @todo import the @methods from PastWebinarController
- */
-/**
- * @todo import the @methods from UpcomingWebinarController
+ * @todo import the @methods from WebinarController
  */
 /**
  * @todo import the @methods from TopSpeakerController
@@ -18,16 +12,10 @@ import { createUser } from "./User.controller";
 export default {
   createUser,
   /**
-   * @todo export the @methods from PastEventController
+   * @todo export the @methods from EventController
    */
   /**
-   * @todo export the @methods from UpcomingEventController
-   */
-  /**
-   * @todo export the @methods from PastWebinarController
-   */
-  /**
-   * @todo export the @methods from UpcomingWebinarController
+   * @todo export the @methods from WebinarController
    */
   /**
    * @todo export the @methods from TopSpeakerController

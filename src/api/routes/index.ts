@@ -5,16 +5,10 @@ import middleware from "../middleware";
 export default function (app: Express) {
   app.post("/user/", controller.createUser);
   /**
-   * @todo implement the @routes for PastEventController
+   * @todo implement the @routes for EventController
    */
   /**
-   * @todo  implement the @routes for UpcomingEventController
-   */
-  /**
-   * @todo  implement the @routes for PastWebinarController
-   */
-  /**
-   * @todo  implement the @routes for UpcomingWebinarController
+   * @todo  implement the @routes for WebinarController
    */
   /**
    * @todo  implement the @routes for TopSpeakerController
