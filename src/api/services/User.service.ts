@@ -13,7 +13,7 @@ export const insertUser = async (userData: DocumentDefinition<IUser>) => {
       return user;
     })
     .catch((error) => {
-      return error.message;
+      throw new Error(error.message);
     });
 }
 
