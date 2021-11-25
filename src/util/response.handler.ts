@@ -3,7 +3,7 @@ import { Response } from 'express';
 const successRespond = (response: Response, status = 201) => {
   return function (data: any) {
     if (!data) {
-      return response.status(404).json({ status:404, message: 'Not Found' });
+      return response.status(204).json({ status:204, message: 'Not Found' });
     }
     return response.status(status).json(data);
   };
@@ -12,9 +12,9 @@ const successRespond = (response: Response, status = 201) => {
 const notFoundRespond = (response: Response) => {
   return function (data: any) {
     if (!data) {
-      return response.status(404).json({ status:404, message: 'Not Found' });
+      return response.status(204).json({ status:204, message: 'Not Found' });
     }
-    return data;
+    return response.status(404).json({ status: 404, details: 'Not Found' });
   };
 }
 
@@ -24,4 +24,13 @@ const errorRespond = (response: Response) => {
   };
 }
 
-export default { successRespond, notFoundRespond, errorRespond };
+const unauthorizedRespond = (response: Response) => {
+  return function (data: any) {
+    if (!data) {
+      return response.status(204).json({ status:204, message: 'Not Found' });
+    }
+    return response.status(401).json({ details: data });
+  }
+}
+
+export default { successRespond, notFoundRespond, errorRespond, unauthorizedRespond };
