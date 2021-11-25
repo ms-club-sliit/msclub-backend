@@ -1,8 +1,8 @@
-import mongoose, { Schema } from 'mongoose';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
+import mongoose, { Schema } from "mongoose";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import { IUser } from "../interfaces";
 import validator from 'validator';
-import { IUser } from '../interfaces';
 
 const UserSchema = new Schema<IUser>({
   firstName: { type: String, required: true },
@@ -49,20 +49,22 @@ const UserSchema = new Schema<IUser>({
   password: { type: String, required: false },
   profileImageUrl: { type: String, required: false, default: null },
   description: { type: String, required: false },
-  socialMedia: [{
-    name: { type: String, required: true },
-    publicURL: { type: String, required: true },
-  }],
+  socialMedia: [
+    {
+      name: { type: String, required: true },
+      publicURL: { type: String, required: true },
+    },
+  ],
   tags: [{ type: String, required: false }],
   authToken: { type: String, required: false },
 });
 
 // Hash the user password
-UserSchema.pre('save', async function (next) {
+UserSchema.pre("save", async function (next) {
   let user = this as IUser;
   let password: any = user.password;
 
-  if (!user.isModified('password')) {
+  if (!user.isModified("password")) {
     return next();
   }
 
@@ -82,8 +84,8 @@ UserSchema.methods.generateAuthToken = async function () {
   user.authToken = authToken;
   await user.save();
   return authToken;
-}
+};
 
-const UserModel = mongoose.model<IUser>('users', UserSchema);
+const UserModel = mongoose.model<IUser>("users", UserSchema);
 
 export default UserModel;

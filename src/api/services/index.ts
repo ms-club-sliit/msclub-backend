@@ -1,7 +1,13 @@
 import { insertUser } from "./User.service";
-/**
- * @todo import @methods from Event Service
- */
+import {
+  insertEvent,
+  getEvent,
+  getEvents,
+  getPastEvents,
+  getUpcomingEvent,
+  updateEvent,
+  deleteEvent
+} from "./Event.service";
 /**
  * @todo import @methods from Webinar Service
  */
@@ -14,6 +20,13 @@ export default {
   /**
    * @todo export @methods from Event Service
    */
+  insertEvent,
+  getEvent,
+  getEvents,
+  getPastEvents,
+  getUpcomingEvent,
+  updateEvent,
+  deleteEvent
   /**
    * @todo export @methods from Webinar Service
    */
