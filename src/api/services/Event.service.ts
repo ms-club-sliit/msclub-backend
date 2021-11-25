@@ -11,7 +11,7 @@ export const insertEvent = async (eventData: DocumentDefinition<IEvent>) => {
       return event;
     })
     .catch((error) => {
-      return error.message;
+      throw new Error(error.message);
     });
 };
 
@@ -25,7 +25,7 @@ export const getEvent = async (eventId: string) => {
       return event;
     })
     .catch((error) => {
-      return error.message;
+      throw new Error(error.message);
     });
 };
 
@@ -38,7 +38,7 @@ export const getEvents = async () => {
       return events;
     })
     .catch((error) => {
-      return error.message;
+      throw new Error(error.message);
     });
 };
 
@@ -51,7 +51,7 @@ export const getPastEvents = async () => {
       return events;
     })
     .catch((error) => {
-      return error.message;
+      throw new Error(error.message);
     });
 };
 
@@ -66,7 +66,7 @@ export const getUpcomingEvent = async () => {
       return event;
     })
     .catch((error) => {
-      return error.message;
+      throw new Error(error.message);
     });
 };
 
@@ -84,7 +84,7 @@ export const updateEvent = async (
       return await event;
     })
     .catch((error) => {
-      return error.message;
+      throw new Error(error.message);
     });
 };
 
@@ -98,6 +98,6 @@ export const deleteEvent = async (eventId: string) => {
       return event;
     })
     .catch((error) => {
-      return error.message;
+      throw new Error(error.message);
     });
 };
