@@ -7,8 +7,11 @@ const TopSpeakerSchema = new Schema<ITopSpeaker>({
   image_url: { type: String, required: false, default: null },
   socialMedia: [
     {
-      name: { type: String, required: true },
-      publicURL: { type: String, required: true },
+      facebook: { type: String, required: true },
+      instagram: { type: String, required: true },
+      twitter: { type: String, required: true },
+      linkedIn: { type: String, required: true },
+      web: { type: String, required: true },
     },
   ],
   isDelete: { type: Boolean, required: true, default: false },

@@ -9,8 +9,11 @@ interface ITopSpeaker extends Document {
 }
 
 interface ITopSpeakerMedia {
-  name: string;
-  publicURL: string;
+  facebook: string;
+  instagram: string;
+  twitter: string;
+  linkedIn: string;
+  web: string;
 }
 
 export type { ITopSpeaker };
