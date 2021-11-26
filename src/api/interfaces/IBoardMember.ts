@@ -4,7 +4,7 @@ interface IBoardMember extends Document {
   name: string;
   position: string;
   image?: string;
-  socialMedia: ISocialMedia[];
+  socialMedia: ISocialMedia;
 }
 
 interface ISocialMedia {
