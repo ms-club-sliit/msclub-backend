@@ -1,11 +1,15 @@
-/**
- * @todo import the @methods from UserController
- */
-import { createUser } from "./User.controller";
-/**
- * @todo import the @methods from EventController
- */
-import { insertEvent, getEvent, getEvents,getPastEvents,getUpcomingEvent,updateEvent,deleteEvent } from "./Event.controller";
+import { createUser } from './User.controller';
+import { createContact } from './Contact.controller';
+import { 
+  insertEvent, 
+  getEvent, 
+  getEvents,
+  getPastEvents,
+  getUpcomingEvent,
+  updateEvent,
+  deleteEvent 
+} from "./Event.controller";
+
 /**
  * @todo import the @methods from WebinarController
  */
@@ -17,13 +21,8 @@ import { insertEvent, getEvent, getEvents,getPastEvents,getUpcomingEvent,updateE
  */
 
 export default {
-   /**
-   * @todo export the @methods from UserController
-   */
   createUser,
-   /**
-   * @todo export the @methods from EventController
-   */
+  createContact,
   insertEvent,
   getEvent,
   getEvents,
@@ -31,13 +30,4 @@ export default {
   getUpcomingEvent,
   updateEvent,
   deleteEvent
-  /**
-   * @todo export the @methods from WebinarController
-   */
-  /**
-   * @todo export the @methods from TopSpeakerController
-   */
-   /**
-   * @todo export the @methods from ApplicationController
-   */
-};
+}

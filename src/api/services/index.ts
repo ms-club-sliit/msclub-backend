@@ -2,6 +2,7 @@
  * @todo import @methods from User Service
  */
 import { insertUser } from "./User.service";
+import { insertContact } from './Contact.service';
 /**
  * @todo import @methods from Event Service
  */
@@ -26,6 +27,7 @@ import {
 
 export default {
   insertUser,
+  insertContact,
   /**
    * @todo export @methods from Event Service
    */

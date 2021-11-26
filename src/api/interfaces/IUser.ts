@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document, Schema } from 'mongoose';
 
 interface IUser extends Document {
   firstName: string;
@@ -18,6 +18,8 @@ interface IUser extends Document {
   socialMedia: ISocialMedia[];
   tags?: string[];
   authToken?: string;
+  deletedAt?: Date;
+  deletedBy?: Schema.Types.ObjectId;
   generateAuthToken(): string;
 } 
 

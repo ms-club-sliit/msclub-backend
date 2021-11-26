@@ -7,6 +7,7 @@ export default function (app: Express) {
    * @todo implement the @routes for UserController
    */
   app.post("/user/", controller.createUser);
+  app.post('/contact/', controller.createContact);
 
   /**
    * @todo implement the @routes for EventController
