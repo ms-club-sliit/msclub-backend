@@ -8,7 +8,7 @@ interface IEvent extends Document {
   tags ?: string[];
   link ?: string;
   eventType : string;
-  isDeleted : boolean;
+  deletedAt ?: Date;
 };
 
 export type { IEvent };

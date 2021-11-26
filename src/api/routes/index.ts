@@ -18,7 +18,7 @@ export default function (app: Express) {
   app.get("/pastevent/", controller.getPastEvents);
   app.get("/upcomingevent/", controller.getUpcomingEvent);
   app.put("/event/:eventId", controller.updateEvent);
-  app.delete("/event/:eventId", controller.deleteEvent);
+  app.put("/event/delete/:eventId", controller.deleteEvent);
   /**
    * @todo  implement the @routes for WebinarController
    */

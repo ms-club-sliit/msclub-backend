@@ -79,9 +79,20 @@ export const updateEvent = async (
   eventId: string,
   eventData: DocumentDefinition<IEvent>
 ) => {
-  return await EventModel.findByIdAndUpdate(eventId, eventData)
-    .then(async (event) => {
-      return await event;
+  return await EventModel.findById(eventId)
+    .then(async (eventDetails) => {
+      if (eventDetails) {
+        eventDetails.title = eventData.title;
+        eventDetails.description = eventData.description;
+        eventDetails.imageUrl = eventData.imageUrl;
+        eventDetails.link = eventData.link;
+        eventDetails.tags = eventData.tags;
+        eventDetails.dateTime = eventData.dateTime;
+        eventDetails.eventType = eventData.eventType;
+        return await eventDetails.save();
+      } else {
+        return null;
+      }
     })
     .catch((error) => {
       throw new Error(error.message);
@@ -93,9 +104,14 @@ export const updateEvent = async (
  * @param eventId @type string
  */
 export const deleteEvent = async (eventId: string) => {
-  return await EventModel.findByIdAndDelete(eventId)
-    .then(async (event) => {
-      return event;
+  return await EventModel.findById(eventId)
+    .then(async (eventDetails) => {
+      if (eventDetails) {
+        eventDetails.deletedAt = new Date();
+        return await eventDetails.save();
+      } else {
+        return null;
+      }
     })
     .catch((error) => {
       throw new Error(error.message);
