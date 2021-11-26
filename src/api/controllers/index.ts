@@ -28,6 +28,9 @@ import {
 /**
  * @todo import the @methods from ApplicationController
  */
+/**
+ * @todo import the @methods from BoardMemberController
+ */
 
 export default {
   createUser,
