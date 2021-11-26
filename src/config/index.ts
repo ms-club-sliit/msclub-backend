@@ -35,6 +35,7 @@ if (environment === 'Development') {
       messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID as string,
       appId: process.env.FIREBASE_APP_ID as string,
       measurementId: process.env.FIREBASE_MEASUREMENT_ID as string,
+      serviceAccount: process.env.FIREBASE_SERVICE_ACCOUNT as string,
     }
   };
 } else if (environment === 'Production') {
@@ -70,6 +71,7 @@ if (environment === 'Development') {
       messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID as string,
       appId: process.env.FIREBASE_APP_ID as string,
       measurementId: process.env.FIREBASE_MEASUREMENT_ID as string,
+      serviceAccount: process.env.FIREBASE_SERVICE_ACCOUNT as string,
     }
   };
 }

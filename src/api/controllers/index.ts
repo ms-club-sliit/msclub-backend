@@ -1,5 +1,12 @@
-import { createUser } from "./User.controller";
-import { createContact } from "./Contact.controller";
+import { 
+  createUser 
+} from "./User.controller";
+
+import { 
+  createContact, 
+  testImageUploader 
+} from "./Contact.controller";
+
 import {
   insertEvent,
   getEvent,
@@ -19,6 +26,7 @@ import {
   updateWebinar,
   deleteWebinar,
 } from "./Webinar.controller";
+
 /**
  * @todo import the @methods from TopSpeakerController
  */
@@ -43,4 +51,5 @@ export default {
   getUpcomingWebinar,
   updateWebinar,
   deleteWebinar,
+  testImageUploader, // This function is only for testing
 };

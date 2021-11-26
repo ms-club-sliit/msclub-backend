@@ -30,6 +30,7 @@ interface IConfig {
     messagingSenderId: string;
     appId: string;
     measurementId: string;
+    serviceAccount: string;
   }
 }
 
