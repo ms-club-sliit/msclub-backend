@@ -1,18 +1,16 @@
 import { Document } from 'mongoose';
 
 interface IBoardMember extends Document {
-  firstName: string;
-  middleName?: string;
-  lastName: string;
+  name: string;
   position: string;
-  profileImageUrl?: string;
-  socialMedia: ISocialMedia[];
-  generateAuthToken(): string;
+  image?: string;
+  socialMedia: {
+    facebook:String,
+    linkedin:String,
+    instagram:String,
+    twitter:String,
+  };
 } 
 
-interface ISocialMedia {
-  name: string;
-  publicURL: string;
-}
 
 export type { IBoardMember };
