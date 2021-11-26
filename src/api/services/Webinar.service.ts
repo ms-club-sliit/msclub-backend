@@ -3,20 +3,20 @@
  */
 
 /**
- * @todo create @function getWebinar to fetch a webinar in the system
+ * @todo create @function fetchWebinarById to fetch a webinar in the system
  * @param webinarId @type string
  */
 
 /**
- * @todo create @function getWebinars to fetch all the webinars in the system
+ * @todo create @function fetchWebinars to fetch all the webinars in the system
  */
 
 /**
- * @todo create @function getPastWebinars to fetch all the past webinars in the system
+ * @todo create @function fetchPastWebinars to fetch all the past webinars in the system
  */
 
 /**
- * @todo create @function getUpcomingWebinar to fetch an upcoming webinars in the system
+ * @todo create @function fetchUpcomingWebinar to fetch an upcoming webinars in the system
  */
 
 /**
@@ -26,6 +26,6 @@
  */
 
 /**
- * @todo create @function deleteWebinar to delete a webinar
+ * @todo create @function removeWebinar to delete a webinar
  * @param webinarId @type string
  */

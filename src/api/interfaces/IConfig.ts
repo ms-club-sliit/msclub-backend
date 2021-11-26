@@ -4,7 +4,7 @@ interface IConfig {
   environment: string;
   mongodb: {
     uri: string;
-  }
+  },
   auth: {
     secret: string;
   },
@@ -13,9 +13,13 @@ interface IConfig {
     port: number;
     secure: boolean;
     pool: boolean;
+    secureConnection: boolean;
     auth: {
       user: string;
       pass: string;
+    }
+    tls: {
+      rejectUnauthorized: boolean;
     }
   }
 }

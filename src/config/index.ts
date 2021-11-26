@@ -18,9 +18,13 @@ if (environment === 'Development') {
       port: 465,
       secure: true,
       pool: true,
+      secureConnection: true,
       auth: {
         user: 'msclubofsliit@gmail.com',
         pass: 'bbyfeykrgcayvrzx'
+      },
+      tls: {
+        rejectUnauthorized: false
       }
     }
   };
@@ -40,9 +44,13 @@ if (environment === 'Development') {
       port: 465,
       secure: true,
       pool: true,
+      secureConnection: true,
       auth: {
         user: 'msclubofsliit@gmail.com',
         pass: 'bbyfeykrgcayvrzx'
+      },
+      tls: {
+        rejectUnauthorized: false
       }
     }
   };

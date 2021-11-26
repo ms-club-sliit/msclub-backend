@@ -1,9 +1,15 @@
-import { Express, Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import ContactService from '../services';
 import Email from '../../util/email.handler';
 import path from 'path';
 import moment from 'moment';
 
+/**
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns {IContact} Contact document
+ */
 export const createContact = async (request: Request, response: Response, next: NextFunction) => {
   await ContactService.insertContact(request.body)
     .then((data) => {

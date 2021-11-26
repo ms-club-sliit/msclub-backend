@@ -57,6 +57,10 @@ const UserSchema = new Schema<IUser>({
   ],
   tags: [{ type: String, required: false }],
   authToken: { type: String, required: false },
+  deletedAt: { type: Date, required: false, default: null },
+  deletedBy: { type: Schema.Types.ObjectId, required: false, default: null },
+}, {
+  timestamps: true,
 });
 
 // Hash the user password

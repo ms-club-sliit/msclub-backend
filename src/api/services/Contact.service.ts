@@ -1,9 +1,11 @@
-import { DocumentDefinition, FilterQuery } from 'mongoose';
+import { DocumentDefinition } from 'mongoose';
 import { IContact } from '../interfaces';
 import ContactModel from '../models/Contact.model';
 
 /**
- * @todo create @function insertContact to save a user in the database
+ * @param {IContact} contactData
+ * @returns {IContact} Contact data
+ * @throws Error 
  */
 export const insertContact = async (contactData: DocumentDefinition<IContact>) => {
   return await ContactModel.create(contactData)
