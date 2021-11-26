@@ -10,7 +10,7 @@ const EventSchema = new Schema<IEvent>(
     tags: [{ type: String, required: false }],
     link: { type: String, required: false },
     eventType: { type: String, enum: ["PAST", "UPCOMING"], required: true },
-    isDeleted: { type: Boolean, required: true },
+    deletedAt: { type: Date, required: false, default: null },
   },
   { timestamps: true }
 );
