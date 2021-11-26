@@ -1,12 +1,14 @@
 import { Express } from "express";
 import controller from "../controllers";
 import middleware from "../middleware";
+import multer from 'multer';
+const upload = multer();
 
 export default function (app: Express) {
   /**
    * @todo implement the @routes for UserController
    */
-  app.post("/user/", controller.createUser);
+  app.post("/user/", upload.single('profileImage'), controller.createUser);
   app.post('/contact/', controller.createContact);
 
   /**

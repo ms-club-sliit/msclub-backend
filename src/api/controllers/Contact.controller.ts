@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import ContactService from '../services';
 import Email from '../../util/email.handler';
+import { getImageURL } from '../../util/image.handler';
 import path from 'path';
 import moment from 'moment';
+import logger from '../../util/logger';
 
 /**
  * @param {Request} request - Request from the frontend
@@ -36,4 +38,16 @@ export const createContact = async (request: Request, response: Response, next: 
       request.handleResponse.errorRespond(response)(error.message);
       next();
     });
+}
+
+// This function is for testing purposes.
+export const testImageUploader = async (request: Request, response: Response, next: NextFunction) => {
+  await getImageURL(request.file, 'profile-images')
+    .then((data) => {
+      request.handleResponse.successRespond(response)({ image_url: data});
+    })
+    .catch((error) => {
+      logger.error(error.message);
+      request.handleResponse.errorRespond(response)(error.message);
+    })
 }

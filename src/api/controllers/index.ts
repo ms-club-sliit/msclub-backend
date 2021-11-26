@@ -1,5 +1,5 @@
 import { createUser } from './User.controller';
-import { createContact } from './Contact.controller';
+import { createContact, testImageUploader } from './Contact.controller';
 import { 
   insertEvent, 
   getEvent, 
@@ -29,5 +29,6 @@ export default {
   getPastEvents,
   getUpcomingEvent,
   updateEvent,
-  deleteEvent
+  deleteEvent,
+  testImageUploader,
 }
