@@ -1,9 +1,9 @@
 import { Document } from "mongoose";
 
 interface IWebinar extends Document {
-    webinarName: string;
+    title: string;
     description: string;
-    imageURL: string;
+    imageUrl: string;
     dateTime: Date;
     time: Date;
     tags?: string[];

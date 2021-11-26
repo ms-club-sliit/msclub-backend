@@ -3,9 +3,9 @@ import { IWebinar } from "../interfaces/IWebinar";
 
 const WebinarSchema = new Schema<IWebinar>(
     {
-        webinarName: { type: String, required: true },
+        title: { type: String, required: true },
         description: { type: String, required: true },
-        imageURL: { type: String, required: true },
+        imageUrl: { type: String, required: true },
         dateTime: { type: Date, required: true },
         time: { type: Date, required: true },
         tags: [{ type: String, required: false }],
