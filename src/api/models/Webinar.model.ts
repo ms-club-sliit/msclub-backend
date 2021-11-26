@@ -10,7 +10,7 @@ const WebinarSchema = new Schema<IWebinar>(
         time: { type: Date, required: true },
         tags: [{ type: String, required: false }],
         link: { type: String, required: true },
-        isDeleted: { type: Boolean, required: true },
+        deletedAt: { type: Date, required: false, default: null },
     },
     { timestamps: true }
 );
