@@ -33,6 +33,16 @@ import {
 /**
  * @todo import @methods from Application Service
  */
+/**
+ * @todo import @methods from BoardMember Service
+ */
+import {
+  insertBoardMember,
+  getBoardMemberbyID,
+  getAllBoardMembers,
+  updateBoardMemberDetails,
+  deleteBoardMemberDetails,
+} from "./BoardMember.service";
 
 export default {
   insertUser,
@@ -63,4 +73,12 @@ export default {
   /**
    * @todo export @methods from Application Service
    */
+  /**
+   * @todo export @methods from Event Service
+   */
+  insertBoardMember,
+  getBoardMemberbyID,
+  getAllBoardMembers,
+  updateBoardMemberDetails,
+  deleteBoardMemberDetails,
 };
