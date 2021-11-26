@@ -80,6 +80,7 @@ export const deleteBoardMemberDetails = async (boardMemberId: string) => {
   return await BoardMemberModel.findById(boardMemberId)
     .then(async (boardMemberDetails) => {
       if (boardMemberDetails) {
+        boardMemberDetails.deletedAt = new Date();
         return await boardMemberDetails.save();
       } else {
         return null;
