@@ -1,16 +1,17 @@
-import { Document } from 'mongoose';
+import { Document } from "mongoose";
 
 interface IBoardMember extends Document {
   name: string;
   position: string;
   image?: string;
-  socialMedia: {
-    facebook:String,
-    linkedin:String,
-    instagram:String,
-    twitter:String,
-  };
-} 
+  socialMedia: ISocialMedia[];
+}
 
+interface ISocialMedia {
+  facebook: string;
+  instagram: string;
+  twitter: string;
+  linkedIn: string;
+}
 
 export type { IBoardMember };

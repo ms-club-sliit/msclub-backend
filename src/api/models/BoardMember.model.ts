@@ -7,9 +7,10 @@ const BoardMemberSchema = new Schema<IBoardMember>({
   image: { type: String, required: false, default: null },
   socialMedia: {
     facebook: { type: String, required: true },
-    linkedin: { type: String, required: true },
     instagram: { type: String, required: true },
     twitter: { type: String, required: true },
+    linkedIn: { type: String, required: true },
+
   },
 });
 
