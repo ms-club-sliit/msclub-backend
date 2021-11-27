@@ -5,7 +5,7 @@ interface ITopSpeaker extends Document {
   description: string;
   image_url?: string;
   socialMedia: ITopSpeakerMedia[];
-  isDelete: boolean;
+  deletedAt?: string;
 }
 
 interface ITopSpeakerMedia {

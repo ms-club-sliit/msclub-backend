@@ -14,7 +14,7 @@ const TopSpeakerSchema = new Schema<ITopSpeaker>({
       web: { type: String, required: true },
     },
   ],
-  isDelete: { type: Boolean, required: true, default: false },
+  deletedAt: { type: Date, required: false, default: null },
 });
 
 const TopSpeakerModel = mongoose.model<ITopSpeaker>(
