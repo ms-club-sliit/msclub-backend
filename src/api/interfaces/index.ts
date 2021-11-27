@@ -8,8 +8,6 @@ import { IExecutiveBoard } from "./IExecutiveBoard";
 import { IBoardMember } from "./IBoardMember";
 import { IApplication } from "./IApplication";
 
-export { IUser,ITopSpeaker, IContact, IConfig, IEvent, IWebinar };
-
 export {
   IUser,
   IContact,
