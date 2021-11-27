@@ -1,3 +1,19 @@
-/**
- * @todo implement the @interface ITopSpeaker
- */
+import { Document } from 'mongoose';
+
+interface ITopSpeaker extends Document {
+  imageUrl?: string;
+  title: string;
+  description: string;
+  socialMediaURLs: ITopSpeakerMedia;
+  deletedAt?: Date;
+}
+
+interface ITopSpeakerMedia {
+  facebook: string;
+  instagram: string;
+  twitter: string;
+  linkedIn: string;
+  web: string;
+}
+
+export type { ITopSpeaker };
