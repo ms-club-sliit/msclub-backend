@@ -2,7 +2,6 @@ import { DocumentDefinition, FilterQuery } from "mongoose";
 import { IApplication} from "../interfaces";
 import ApplicationModel from "../models/Application.model";
 
-
 /**
  * @todo create @function addApplication to save an Application in the database
  */
