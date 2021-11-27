@@ -27,6 +27,9 @@ export default function (app: Express) {
   app.put("/webinar/:webinarId", controller.updateWebinar);
   app.put("/webinar/delete/:webinarId", controller.deleteWebinar);
   /**
+   * @todo  implement the @routes for BoardMemberController
+   */
+  /**
    * @todo  implement the @routes for TopSpeakerController
    */
   /**
