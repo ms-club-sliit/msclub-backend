@@ -1,11 +1,12 @@
 import { Document } from 'mongoose';
 
 interface ITopSpeaker extends Document {
-  speakerName: string;
-  description: string;
+  id: number;
   image_url?: string;
-  socialMedia: ITopSpeakerMedia[];
-  deletedAt?: string;
+  title: string;
+  description: string;
+  socialMedia: ITopSpeakerMedia;
+  deletedAt?: Date;
 }
 
 interface ITopSpeakerMedia {

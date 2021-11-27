@@ -2,9 +2,10 @@ import mongoose, { Schema } from 'mongoose';
 import { ITopSpeaker } from '../interfaces';
 
 const TopSpeakerSchema = new Schema<ITopSpeaker>({
-  speakerName: { type: String, required: true },
-  description: { type: String, required: false },
+  id: { type: Number, required: true },
   image_url: { type: String, required: false, default: null },
+  title: { type: String, required: true },
+  description: { type: String, required: false },
   socialMedia: [
     {
       facebook: { type: String, required: true },
