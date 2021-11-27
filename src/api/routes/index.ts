@@ -7,6 +7,7 @@ export default function (app: Express) {
    * @todo implement the @routes for UserController
    */
   app.post("/user/", controller.createUser);
+  app.post("/contact/", controller.createContact);
 
   /**
    * @todo implement the @routes for EventController
@@ -20,6 +21,16 @@ export default function (app: Express) {
   app.put("/event/delete/:eventId", controller.deleteEvent);
   /**
    * @todo  implement the @routes for WebinarController
+   */
+  app.post("/webinar/", controller.insertWebinar);
+  app.get("/webinar/", controller.getWebinars);
+  app.get("/webinar/:webinarId/", controller.getWebinarById);
+  app.get("/pastwebinar/", controller.getPastWebinars);
+  app.get("/upcomingwebinar/", controller.getUpcomingWebinar);
+  app.put("/webinar/:webinarId", controller.updateWebinar);
+  app.put("/webinar/delete/:webinarId", controller.deleteWebinar);
+  /**
+   * @todo  implement the @routes for BoardMemberController
    */
   /**
    * @todo  implement the @routes for TopSpeakerController

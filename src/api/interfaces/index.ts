@@ -1,27 +1,9 @@
 import { IUser } from "./IUser";
+import { IContact } from "./IContact";
+import { IConfig } from "./IConfig";
 import { IEvent } from "./IEvent";
+import { IWebinar } from "./IWebinar";
 import { IApplication } from "./IApplication";
-/**
- * @todo import the @interface IWebinar
- */
-/**
- * @todo import the @interface ITopSpeaker
- */
-/**
- * @todo import the @interface IApplication
- */
 
-export {
-  IUser,
-  IEvent,
-  IApplication,
-  /**
-   * @todo export the @interface IWebinar
-   */
-  /**
-   * @todo export the @interface ITopSpeaker
-   */
-  /**
-   * @todo export the @interface IApplication
-   */
-};
+export { IUser, IContact, IConfig, IEvent, IWebinar, IApplication };
+

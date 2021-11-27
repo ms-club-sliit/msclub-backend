@@ -1,43 +1,52 @@
-/**
- * @todo import the @methods from UserController
- */
 import { createUser } from "./User.controller";
-/**
- * @todo import the @methods from EventController
- */
-import { insertEvent, getEvent, getEvents,getPastEvents,getUpcomingEvent,updateEvent,deleteEvent } from "./Event.controller";
-/**
- * @todo import the @methods from WebinarController
- */
-/**
- * @todo import the @methods from TopSpeakerController
- */
-/**
- * @todo import the @methods from ApplicationController
- */
-
-export default {
-   /**
-   * @todo export the @methods from UserController
-   */
-  createUser,
-   /**
-   * @todo export the @methods from EventController
-   */
+import { createContact } from "./Contact.controller";
+import {
   insertEvent,
   getEvent,
   getEvents,
   getPastEvents,
   getUpcomingEvent,
   updateEvent,
-  deleteEvent
-  /**
-   * @todo export the @methods from WebinarController
-   */
-  /**
-   * @todo export the @methods from TopSpeakerController
-   */
-   /**
-   * @todo export the @methods from ApplicationController
-   */
+  deleteEvent,
+} from "./Event.controller";
+
+/**
+ * @todo import the @methods from WebinarController
+ */
+import {
+  insertWebinar,
+  getWebinarById,
+  getWebinars,
+  getPastWebinars,
+  getUpcomingWebinar,
+  updateWebinar,
+  deleteWebinar,
+} from "./Webinar.controller";
+/**
+ * @todo import the @methods from TopSpeakerController
+ */
+/**
+ * @todo import the @methods from ApplicationController
+ */
+/**
+ * @todo import the @methods from BoardMemberController
+ */
+
+export default {
+  createUser,
+  createContact,
+  insertEvent,
+  getEvent,
+  getEvents,
+  getPastEvents,
+  getUpcomingEvent,
+  updateEvent,
+  deleteEvent,
+  insertWebinar,
+  getWebinarById,
+  getWebinars,
+  getPastWebinars,
+  getUpcomingWebinar,
+  updateWebinar,
+  deleteWebinar,
 };

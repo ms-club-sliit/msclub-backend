@@ -1,39 +1,39 @@
 /**
- * @todo implement a @function addApplication that calls
- * @function addApplication in the ApplicationService
+ * @todo implement a @function getBoardMember that calls
+ * @function getBoardMember in the BoardMemberService
  *
  * @param {Request} request - Request from the frontend
  * @param {Response} response - Response that need to send to the client
  * @param {NextFunction} next - Next function
- * @returns {IApplication} - New application document
+ * @returns boardMember
  */
 
 /**
- * @todo implement a @function getApplicationById that calls
- * @function fetchApplicationById in the ApplicationService
+ * @todo implement a @function getAllBoardMembers that calls
+ * @function getAllBoardMembers in the BoardMemberService
  *
  * @param {Request} request - Request from the frontend
  * @param {Response} response - Response that need to send to the client
  * @param {NextFunction} next - Next function
- * @returns {IApplication} - Application document that relevent to the passed ID
+ * @returns boardMember[]
  */
 
 /**
- * @todo implement a @function getApplications that calls
- * @function fetchApplications in the ApplicationService
+ * @todo implement a @function updateBoardMemberDetails that calls
+ * @function updateBoardMemberDetails in the BoardMemberService
  *
  * @param {Request} request - Request from the frontend
  * @param {Response} response - Response that need to send to the client
  * @param {NextFunction} next - Next function
- * @returns {IApplication} - All application documents
+ * @returns updated boardMember
  */
 
 /**
- * @todo implement a @function setApplicationArchive that calls
- * @function archiveApplication in the ApplicationService
+ * @todo implement a @function deleteBoardMemberDetails that calls
+ * @function deleteBoardMemberDetails in the BoardMemberService
  *
  * @param {Request} request - Request from the frontend
  * @param {Response} response - Response that need to send to the client
  * @param {NextFunction} next - Next function
- * @returns {IApplication} - Updated application document
+ * @returns updated boardMember
  */
