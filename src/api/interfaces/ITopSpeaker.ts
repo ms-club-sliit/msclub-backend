@@ -1,7 +1,6 @@
 import { Document } from 'mongoose';
 
 interface ITopSpeaker extends Document {
-  id: number;
   imageUrl?: string;
   title: string;
   description: string;
