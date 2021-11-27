@@ -1,10 +1,11 @@
-import { DocumentDefinition, FilterQuery } from 'mongoose';
+import { DocumentDefinition } from 'mongoose';
 import { IUser } from '../interfaces';
 import UserModel from '../models/User.model';
 import bcrypt from 'bcrypt';
 
 /**
- * @todo create @function insertUser to save a user in the database
+ * @param {IUser} userData
+ * @returns {Document} User document
  */
 export const insertUser = async (userData: DocumentDefinition<IUser>) => {
   return await UserModel.create(userData)
