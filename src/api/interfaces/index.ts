@@ -1,5 +1,6 @@
 import { IUser } from "./IUser";
 import { IEvent } from "./IEvent";
+import { IApplication } from "./IApplication";
 /**
  * @todo import the @interface IWebinar
  */
@@ -13,6 +14,7 @@ import { IEvent } from "./IEvent";
 export {
   IUser,
   IEvent,
+  IApplication,
   /**
    * @todo export the @interface IWebinar
    */
