@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 
 interface IApplication extends Document {
-    sliitId : string;
+    studentId : string;
     name : string;
     email : string
     contactNumber : string;
@@ -14,7 +14,7 @@ interface IApplication extends Document {
     experiences : string;
     challenges : string;
     goal : string;
-    skillsAndtalents : string[];
+    skillsAndTalents : string[];
     pastWork ?: string;
     deletedAt : Date;
     status : string;
