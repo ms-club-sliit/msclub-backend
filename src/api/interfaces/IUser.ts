@@ -13,6 +13,7 @@ interface IUser extends Document {
   province: string;
   userName?: string;
   password?: string;
+  profileImage?: any;
   profileImageUrl?: string;
   description?: string;
   socialMedia: ISocialMedia[];

@@ -1,5 +1,5 @@
-import mongoose, { Schema } from 'mongoose';
-import { IBoardMember } from '../interfaces/IBoardMember';
+import mongoose, { Schema } from "mongoose";
+import { IBoardMember } from "../interfaces/IBoardMember";
 
 const BoardMemberSchema = new Schema<IBoardMember>({
   name: { type: String, required: true },
@@ -10,10 +10,13 @@ const BoardMemberSchema = new Schema<IBoardMember>({
     instagram: { type: String, required: true },
     twitter: { type: String, required: true },
     linkedIn: { type: String, required: true },
-
   },
+  deletedAt: { type: Date, required: false, default: null },
 });
 
-const BoardMemberModel = mongoose.model<IBoardMember>('boardmember', BoardMemberSchema);
+const BoardMemberModel = mongoose.model<IBoardMember>(
+  "boardmember",
+  BoardMemberSchema
+);
 
 export default BoardMemberModel;
