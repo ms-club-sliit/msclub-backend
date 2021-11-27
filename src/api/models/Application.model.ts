@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { IApplication } from "../interfaces/IApplication";
+import { IApplication } from "../interfaces";
 
 const ApplicationSchema = new Schema<IApplication>(
   {
