@@ -2,10 +2,10 @@ import { Document } from 'mongoose';
 
 interface ITopSpeaker extends Document {
   id: number;
-  image_url?: string;
+  imageUrl?: string;
   title: string;
   description: string;
-  socialMedia: ITopSpeakerMedia;
+  socialMediaURLs: ITopSpeakerMedia;
   deletedAt?: Date;
 }
 

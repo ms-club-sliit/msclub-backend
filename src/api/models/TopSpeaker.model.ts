@@ -3,10 +3,10 @@ import { ITopSpeaker } from '../interfaces';
 
 const TopSpeakerSchema = new Schema<ITopSpeaker>({
   id: { type: Number, required: true },
-  image_url: { type: String, required: false, default: null },
+  imageUrl: { type: String, required: false, default: null },
   title: { type: String, required: true },
   description: { type: String, required: false },
-  socialMedia: [
+  socialMediaURLs: [
     {
       facebook: { type: String, required: true },
       instagram: { type: String, required: true },
