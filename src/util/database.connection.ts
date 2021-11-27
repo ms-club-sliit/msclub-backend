@@ -1,5 +1,5 @@
 import Mongoose, { ConnectOptions } from 'mongoose';
-import logger from '../util/logger';
+import logger from './logger';
 
 let database: Mongoose.Connection;
 
