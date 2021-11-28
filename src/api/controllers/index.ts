@@ -25,12 +25,19 @@ import {
 /**
  * @todo import the @methods from TopSpeakerController
  */
+
 /**
  * @todo import the @methods from ApplicationController
  */
 /**
  * @todo import the @methods from BoardMemberController
  */
+import {
+  getBoardMemberbyID,
+  getAllBoardMembers,
+  updateBoardMemberDetails,
+  deleteBoardMemberDetails,
+} from "./BoardMember.controller";
 /**
  * @todo import the @methods from ExecutiveBoardMemberController
  */
@@ -67,4 +74,8 @@ export default {
   updateExecutiveBoardDetails,
   deleteExecutiveBoardDetails,
   testImageUploader, // This function is only for testing
+  getBoardMemberbyID,
+  getAllBoardMembers,
+  updateBoardMemberDetails,
+  deleteBoardMemberDetails,
 };

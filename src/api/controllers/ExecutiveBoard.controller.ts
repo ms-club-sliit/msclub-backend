@@ -1,6 +1,5 @@
 import { Express, Request, Response, NextFunction } from "express";
 import ExecutiveBoardService from "../services";
-import BoardMemberService from "../services";
 import logger from "../../util/logger";
 /**
  * @todo implement a @function insertExecutiveBoard that calls
@@ -90,7 +89,10 @@ export const addBoardMember = async (
   response: Response,
   next: NextFunction
 ) => {
-  await BoardMemberService.addBoardMember(request.body)
+  await ExecutiveBoardService.addBoardMember(
+    request.params.executiveBoardId,
+    request.body
+  )
     .then((data) => {
       request.handleResponse.successRespond(response)(data);
       next();
