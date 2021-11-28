@@ -30,10 +30,10 @@ export const fetchApplicationById = async (applicationId: string) => {
 };
 
 /**
- * @todo create @function fetchApplications to fetch all the Applications in the system
+ * @todo create @function fetchApplications to fetch all the Applications in the system.
  */
-export const fetchApplications = async () => {
-    return await ApplicationModel.find()
+export const fetchApplications = async (filter: FilterQuery<IApplication>) => {
+    return await ApplicationModel.find(filter)
     .then(async (applications) => {
         return applications;
     })
@@ -42,14 +42,20 @@ export const fetchApplications = async () => {
     });
 };
 
+
 /**
  * @todo create @function archiveApplication to delete an Application
  * @param applicationId @type string
  */
 export const archiveApplication = async (applicationId: string) => {
-    return await ApplicationModel.findByIdAndDelete(applicationId)
+    return await ApplicationModel.findById(applicationId)
     .then(async (application) => {
-        return application;
+        if (application) {
+        application.deletedAt = new Date();
+        return await application.save();
+      } else {
+        return null;
+      }
     })
     .catch((error) => {
         throw new Error(error.message);
