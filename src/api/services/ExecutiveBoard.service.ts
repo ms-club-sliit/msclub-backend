@@ -3,6 +3,7 @@ import { IExecutiveBoard } from "../interfaces";
 import { IBoardMember } from "../interfaces";
 import ExecutiveBoardModel from "../models/ExecutiveBoard.model";
 import BoardMemberModel from "../models/BoardMember.model";
+import { insertBoardMember } from "../services/BoardMember.service";
 
 /**
  * @todo create @function insertExecutiveBoard to add a new executive board to the database
@@ -24,8 +25,8 @@ export const insertExecutiveBoard = async (
  */
 export const getExecutiveBoardbyID = async (executiveBoardId: string) => {
   return await ExecutiveBoardModel.findById(executiveBoardId)
+    .populate({ path: "board", match: { deletedAt: null } })
     .then(async (executiveBoard) => {
-      /* populate(executiveBoard?.board) */
       return executiveBoard;
     })
     .catch((error) => {
@@ -37,6 +38,10 @@ export const getExecutiveBoardbyID = async (executiveBoardId: string) => {
  */
 export const getExecutiveBoard = async () => {
   return await ExecutiveBoardModel.find()
+    .populate({
+      path: "board",
+      match: { deletedAt: null },
+    })
     .then(async (executiveBoards) => {
       return executiveBoards;
     })
@@ -50,16 +55,53 @@ export const getExecutiveBoard = async () => {
  * @param insertData @type DocumentDefinition<IBoardMember>
  */
 export const addBoardMember = async (
+  executiveBoardId: string,
   insertData: DocumentDefinition<IBoardMember>
 ) => {
-  return await ExecutiveBoardModel.create(insertData)
-    .then(async (boardMember) => {
-      return boardMember;
+  // const newMember = new BoardMemberModel({
+  //   name: insertData.name,
+  //   position: insertData.position,
+  //   image: insertData.image,
+  //   socialMedia: {
+  //     facebook: insertData.name,
+  //     instagram: insertData.name,
+  //     twitter: insertData.name,
+  //     linkedIn: insertData.name,
+  //   },
+  // });
+  return await BoardMemberModel.create(insertData)
+    .then(async (event) => {
+      return event;
     })
     .catch((error) => {
       throw new Error(error.message);
     });
+  // return await newMember
+  //   .save()
+  //   .then((createdMember) => {
+  //     return createdMember;
+  //   })
+  //   .catch((error) => {
+  //     throw new Error(error.message);
+  //   });
+
+  // return await insertBoardMember(insertData)
+  //   .then(async (createdBoardMember: IBoardMember) => {
+  //     const executiveBoard = await ExecutiveBoardModel.findById(
+  //       executiveBoardId
+  //     );
+  //     if (executiveBoard) {
+  //       executiveBoard.board.unshift(createdBoardMember);
+  //       return await executiveBoard.save();
+  //     } else {
+  //       return null;
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     throw new Error(error.message);
+  //   });
 };
+
 /**
  * @todo create @function updateExecutiveBoardDetails to update details of members in the executiveboard
  * @param boardId @type string
