@@ -26,6 +26,14 @@ export default function (app: Express) {
   app.get("/upcomingwebinar/", controller.getUpcomingWebinar);
   app.put("/webinar/:webinarId", controller.updateWebinar);
   app.put("/webinar/delete/:webinarId", controller.deleteWebinar);
+
+  // Top Speaker endpoints
+  app.post("/topspeaker/", controller.insertTopSpeaker);
+  app.get("/topspeaker/", controller.getTopSpeaker);
+  app.get("/topspeaker/", controller.getTopSpeakers);
+  app.put("/topspeaker/:topspeakerId", controller.updateTopSpeaker);
+  app.put("/topspeaker/delete/:topspeakerId", controller.deleteTopSpeaker);
+
   /**
    * @todo  implement the @routes for BoardMemberController
    */
