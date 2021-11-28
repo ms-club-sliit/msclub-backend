@@ -31,6 +31,17 @@ import {
 /**
  * @todo import the @methods from BoardMemberController
  */
+/**
+ * @todo import the @methods from ExecutiveBoardMemberController
+ */
+import {
+  insertExecutiveBoard,
+  getExecutiveBoardbyID,
+  getExecutiveBoard,
+  addBoardMember,
+  updateExecutiveBoardDetails,
+  deleteExecutiveBoardDetails,
+} from "./ExecutiveBoard.controller";
 
 export default {
   createUser,
@@ -49,4 +60,10 @@ export default {
   getUpcomingWebinar,
   updateWebinar,
   deleteWebinar,
+  insertExecutiveBoard,
+  getExecutiveBoardbyID,
+  getExecutiveBoard,
+  addBoardMember,
+  updateExecutiveBoardDetails,
+  deleteExecutiveBoardDetails,
 };

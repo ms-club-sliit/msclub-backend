@@ -33,6 +33,10 @@ export default function (app: Express) {
    * @todo  implement the @routes for BoardMemberController
    */
   /**
+   * @todo  implement the @routes for ExecutiveBoardMemberController
+   */
+  app.post("/executive/", controller.insertExecutiveBoard);
+  /**
    * @todo  implement the @routes for TopSpeakerController
    */
   /**
