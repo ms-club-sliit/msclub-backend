@@ -53,6 +53,17 @@ import {
   updateBoardMemberDetails,
   deleteBoardMemberDetails,
 } from "./BoardMember.service";
+/**
+ * @todo import @methods from ExecutiveBoardMember Service
+ */
+import {
+  insertExecutiveBoard,
+  getExecutiveBoardbyID,
+  getExecutiveBoard,
+  addBoardMember,
+  updateExecutiveBoardDetails,
+  deleteExecutiveBoardDetails,
+} from "./ExecutiveBoard.service";
 
 export default {
   insertUser,
@@ -98,4 +109,13 @@ export default {
   getAllBoardMembers,
   updateBoardMemberDetails,
   deleteBoardMemberDetails,
+  /**
+   * @todo export @methods from ExecutiveBoardMember Service
+   */
+  insertExecutiveBoard,
+  getExecutiveBoardbyID,
+  getExecutiveBoard,
+  addBoardMember,
+  updateExecutiveBoardDetails,
+  deleteExecutiveBoardDetails,
 };
