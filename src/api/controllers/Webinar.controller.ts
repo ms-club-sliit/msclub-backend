@@ -39,15 +39,20 @@ export const getWebinarById = async (
   response: Response,
   next: NextFunction
 ) => {
-  await WebinarService.fetchWebinarById(request.params.webinarId)
-    .then((data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+  let webinarId = request.params.webinarId;
+  if (webinarId) {
+    await WebinarService.fetchWebinarById(request.params.webinarId)
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)("WebinarId not found");
+  }
 };
 /**
  * @todo implement a @function getWebinars that calls
@@ -135,15 +140,20 @@ export const updateWebinar = async (
   response: Response,
   next: NextFunction
 ) => {
-  await WebinarService.updateWebinar(request.params.webinarId, request.body)
-    .then((data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+  let webinarId = request.params.webinarId;
+  if (webinarId) {
+    await WebinarService.updateWebinar(request.params.webinarId, request.body)
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)("WebinarId not found");
+  }
 };
 /**
  * @todo implement a @function deleteWebinar that calls
@@ -159,13 +169,18 @@ export const deleteWebinar = async (
   response: Response,
   next: NextFunction
 ) => {
-  await WebinarService.removeWebinar(request.params.webinarId)
-    .then((data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+  let webinarId = request.params.webinarId;
+  if (webinarId) {
+    await WebinarService.removeWebinar(request.params.webinarId)
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)("WebinarId not found");
+  }
 };
