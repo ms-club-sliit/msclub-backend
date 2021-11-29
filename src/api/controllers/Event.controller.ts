@@ -35,15 +35,20 @@ export const getEvent = async (
   response: Response,
   next: NextFunction
 ) => {
-  await EventService.getEvent(request.params.eventId)
-    .then((data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+  let eventId = request.params.eventId;
+  if (eventId) {
+    await EventService.getEvent(request.params.eventId)
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)('Event ID not found');
+  }
 };
 
 /**
@@ -140,7 +145,7 @@ export const updateEvent = async (
  * @param {NextFunction} next - Next function
  * @returns {IEvent} - Deleted event details
  */
- export const deleteEvent = async (
+export const deleteEvent = async (
   request: Request,
   response: Response,
   next: NextFunction
