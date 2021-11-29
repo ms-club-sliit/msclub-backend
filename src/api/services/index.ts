@@ -30,7 +30,17 @@ import {
 /**
  * @todo import @methods from TopSpeaker Service
  */
+
+import {
+  insertTopSpeaker,
+  getTopSpeaker,
+  getTopSpeakers,
+  updateTopSpeaker,
+  deleteTopSpeaker,
+} from "./TopSpeaker.service";
+
 /**
+ * 
  * @todo import @methods from Application Service
  */
 /**
@@ -81,6 +91,13 @@ export default {
   /**
    * @todo export @methods from TopSpeaker Service
    */
+
+  insertTopSpeaker,
+  getTopSpeaker,
+  getTopSpeakers,
+  updateTopSpeaker,
+  deleteTopSpeaker,
+
   /**
    * @todo export @methods from Application Service
    */

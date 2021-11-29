@@ -26,6 +26,15 @@ import {
  * @todo import the @methods from TopSpeakerController
  */
 
+import {
+  insertTopSpeaker,
+  getTopSpeaker,
+  getTopSpeakers,
+  updateTopSpeaker,
+  deleteTopSpeaker,
+} from "./TopSpeaker.controller";
+
+
 /**
  * @todo import the @methods from ApplicationController
  */
@@ -74,6 +83,11 @@ export default {
   updateExecutiveBoardDetails,
   deleteExecutiveBoardDetails,
   testImageUploader, // This function is only for testing
+  insertTopSpeaker,
+  getTopSpeaker,
+  getTopSpeakers,
+  updateTopSpeaker,
+  deleteTopSpeaker,
   getBoardMemberbyID,
   getAllBoardMembers,
   updateBoardMemberDetails,
