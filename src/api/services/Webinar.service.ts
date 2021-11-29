@@ -36,7 +36,7 @@ export const fetchWebinarById = async (webinarId: string) => {
  * @returns {IWebinar} All webinar documents in the database
  */
 export const fetchWebinars = async () => {
-  return await WebinarModel.find()
+  return await WebinarModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
     .then((webinars) => {
       return webinars;
     })
