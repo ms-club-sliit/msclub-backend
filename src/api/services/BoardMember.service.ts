@@ -9,7 +9,7 @@ export const insertBoardMember = async (
   BoardMemberData: DocumentDefinition<IBoardMember>
 ) => {
   return await BoardMemberModel.create(BoardMemberData)
-    .then((boardMember) => {
+    .then(async (boardMember) => {
       return boardMember;
     })
     .catch((error) => {

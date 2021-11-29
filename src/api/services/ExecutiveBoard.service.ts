@@ -58,48 +58,21 @@ export const addBoardMember = async (
   executiveBoardId: string,
   insertData: DocumentDefinition<IBoardMember>
 ) => {
-  // const newMember = new BoardMemberModel({
-  //   name: insertData.name,
-  //   position: insertData.position,
-  //   image: insertData.image,
-  //   socialMedia: {
-  //     facebook: insertData.name,
-  //     instagram: insertData.name,
-  //     twitter: insertData.name,
-  //     linkedIn: insertData.name,
-  //   },
-  // });
-  return await BoardMemberModel.create(insertData)
-    .then(async (event) => {
-      return event;
+  return await insertBoardMember(insertData)
+    .then(async (createdBoardMember: IBoardMember) => {
+      const executiveBoard = await ExecutiveBoardModel.findById(
+        executiveBoardId
+      );
+      if (executiveBoard) {
+        executiveBoard.board.unshift(createdBoardMember);
+        return await executiveBoard.save();
+      } else {
+        return null;
+      }
     })
     .catch((error) => {
       throw new Error(error.message);
     });
-  // return await newMember
-  //   .save()
-  //   .then((createdMember) => {
-  //     return createdMember;
-  //   })
-  //   .catch((error) => {
-  //     throw new Error(error.message);
-  //   });
-
-  // return await insertBoardMember(insertData)
-  //   .then(async (createdBoardMember: IBoardMember) => {
-  //     const executiveBoard = await ExecutiveBoardModel.findById(
-  //       executiveBoardId
-  //     );
-  //     if (executiveBoard) {
-  //       executiveBoard.board.unshift(createdBoardMember);
-  //       return await executiveBoard.save();
-  //     } else {
-  //       return null;
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     throw new Error(error.message);
-  //   });
 };
 
 /**
@@ -133,6 +106,7 @@ export const deleteExecutiveBoardDetails = async (boardId: string) => {
   return await ExecutiveBoardModel.findById(boardId)
     .then(async (executiveBoardDetails) => {
       if (executiveBoardDetails) {
+        executiveBoardDetails.deletedAt = new Date();
         return await executiveBoardDetails.save();
       } else {
         return null;

@@ -48,7 +48,7 @@ export default function (app: Express) {
     controller.updateExecutiveBoardDetails
   );
   app.put(
-    "/webinar/delete/:executiveBoardId/",
+    "/executive/delete/:executiveBoardId/",
     controller.deleteExecutiveBoardDetails
   );
   /**
