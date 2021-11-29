@@ -29,10 +29,10 @@ export default function (app: Express) {
 
   // Top Speaker endpoints
   app.post("/topspeaker/", controller.insertTopSpeaker);
-  app.get("/topspeaker/:topspeakerId/", controller.getTopSpeaker);
+  app.get("/topspeaker/:topSpeakerId/", controller.getTopSpeaker);
   app.get("/topspeaker/", controller.getTopSpeakers);
-  app.put("/topspeaker/:topspeakerId", controller.updateTopSpeaker);
-  app.put("/topspeaker/delete/:topspeakerId", controller.deleteTopSpeaker);
+  app.put("/topspeaker/:topSpeakerId", controller.updateTopSpeaker);
+  app.put("/topspeaker/delete/:topSpeakerId", controller.deleteTopSpeaker);
 
   /**
    * @todo  implement the @routes for BoardMemberController
