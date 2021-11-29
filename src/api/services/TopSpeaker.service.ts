@@ -53,14 +53,39 @@ export const updateTopSpeaker = async (
   return await TopSpeakerModel.findById(topSpeakerId)
     .then(async (topSpeakerDetails) => {
       if (topSpeakerDetails) {
-        topSpeakerDetails.title = updateData.title;
-        topSpeakerDetails.description = updateData.description;
-        topSpeakerDetails.imageUrl = updateData.imageUrl;
-        topSpeakerDetails.socialMediaURLs.facebook = updateData.socialMediaURLs.facebook;
-        topSpeakerDetails.socialMediaURLs.instagram = updateData.socialMediaURLs.instagram;
-        topSpeakerDetails.socialMediaURLs.linkedIn = updateData.socialMediaURLs.linkedIn;
-        topSpeakerDetails.socialMediaURLs.twitter = updateData.socialMediaURLs.twitter;
-        topSpeakerDetails.socialMediaURLs.web = updateData.socialMediaURLs.web;
+
+        if (updateData.title) {
+          topSpeakerDetails.title = updateData.title;
+        }
+
+        if (updateData.description) {
+          topSpeakerDetails.description = updateData.description;
+        }
+
+        if (updateData.imageUrl) {
+          topSpeakerDetails.imageUrl = updateData.imageUrl;
+        }
+
+        if (updateData.socialMediaURLs.facebook) {
+          topSpeakerDetails.socialMediaURLs.facebook = updateData.socialMediaURLs.facebook;
+        }
+
+        if (updateData.socialMediaURLs.instagram) {
+          topSpeakerDetails.socialMediaURLs.instagram = updateData.socialMediaURLs.instagram;
+        }
+
+        if (updateData.socialMediaURLs.linkedin) {
+          topSpeakerDetails.socialMediaURLs.linkedin = updateData.socialMediaURLs.linkedin;
+        }
+
+        if (updateData.socialMediaURLs.twitter) {
+          topSpeakerDetails.socialMediaURLs.twitter = updateData.socialMediaURLs.twitter;
+        }
+
+        if (updateData.socialMediaURLs.web) {
+          topSpeakerDetails.socialMediaURLs.web = updateData.socialMediaURLs.web;
+        }
+
         return await topSpeakerDetails.save();
       } else {
         return null;
