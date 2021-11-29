@@ -32,7 +32,7 @@ export const getTopSpeaker = async (topSpeakerId: string) => {
  * @todo create @function getTopSpeakers to fetch all the TopSpeakers in the system
  */
 export const getTopSpeakers = async () => {
-  return await TopSpeakerModel.find({ deletedAt: null })
+  return await TopSpeakerModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
     .then((topSpeaker) => {
       return topSpeaker;
     })
