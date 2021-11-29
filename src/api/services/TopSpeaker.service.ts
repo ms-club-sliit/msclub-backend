@@ -6,7 +6,7 @@ import TopSpeakerModel from "../models/TopSpeaker.model";
  */
 export const insertTopSpeaker = async (topSpeakerData: DocumentDefinition<ITopSpeaker>) => {
   return await TopSpeakerModel.create(topSpeakerData)
-    .then(async (topSpeaker) => {
+    .then((topSpeaker) => {
       return topSpeaker;
     })
     .catch((error) => {
@@ -20,7 +20,7 @@ export const insertTopSpeaker = async (topSpeakerData: DocumentDefinition<ITopSp
  */
 export const getTopSpeaker = async (topSpeakerId: string) => {
   return await TopSpeakerModel.findById(topSpeakerId)
-    .then(async (topSpeaker) => {
+    .then((topSpeaker) => {
       return topSpeaker;
     })
     .catch((error) => {
@@ -33,7 +33,7 @@ export const getTopSpeaker = async (topSpeakerId: string) => {
  */
 export const getTopSpeakers = async () => {
   return await TopSpeakerModel.find({ deletedAt: null })
-    .then(async (topSpeaker) => {
+    .then((topSpeaker) => {
       return topSpeaker;
     })
     .catch((error) => {
