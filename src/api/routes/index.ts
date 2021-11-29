@@ -29,7 +29,7 @@ export default function (app: Express) {
 
   // Top Speaker endpoints
   app.post("/topspeaker/", controller.insertTopSpeaker);
-  app.get("/topspeaker/", controller.getTopSpeaker);
+  app.get("/topspeaker/:topspeakerId/", controller.getTopSpeaker);
   app.get("/topspeaker/", controller.getTopSpeakers);
   app.put("/topspeaker/:topspeakerId", controller.updateTopSpeaker);
   app.put("/topspeaker/delete/:topspeakerId", controller.deleteTopSpeaker);
