@@ -8,7 +8,7 @@ export const insertWebinar = async (
   webinarData: DocumentDefinition<IWebinar>
 ) => {
   return await WebinarModel.create(webinarData)
-    .then(async (webinar) => {
+    .then((webinar) => {
       return webinar;
     })
     .catch((error) => {
@@ -21,7 +21,7 @@ export const insertWebinar = async (
  */
 export const fetchWebinarById = async (webinarId: string) => {
   return await WebinarModel.findById(webinarId)
-    .then(async (webinar) => {
+    .then((webinar) => {
       return webinar;
     })
     .catch((error) => {
@@ -33,7 +33,7 @@ export const fetchWebinarById = async (webinarId: string) => {
  */
 export const fetchWebinars = async () => {
   return await WebinarModel.find()
-    .then(async (webinars) => {
+    .then((webinars) => {
       return webinars;
     })
     .catch((error) => {
@@ -45,7 +45,7 @@ export const fetchWebinars = async () => {
  */
 export const fetchPastWebinars = async () => {
   return await WebinarModel.find({ webinarType: "PAST" })
-    .then(async (webinars) => {
+    .then((webinars) => {
       return webinars;
     })
     .catch((error) => {
@@ -59,7 +59,7 @@ export const fetchUpcomingWebinar = async () => {
   return await WebinarModel.findOne({ webinarType: "UPCOMING" })
     .limit(1)
     .sort({ $natural: -1 })
-    .then(async (webinar) => {
+    .then((webinar) => {
       return webinar;
     })
     .catch((error) => {
