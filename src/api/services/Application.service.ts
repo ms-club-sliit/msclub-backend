@@ -3,11 +3,13 @@ import { IApplication} from "../interfaces";
 import ApplicationModel from "../models/Application.model";
 
 /**
- * @todo create @function addApplication to save an Application in the database
+ * Application Service
+ * @param {IApplication} application
+ * @returns {Promise<IApplication>}
  */
 export const addApplication = async (applicationData: DocumentDefinition<IApplication>) => {
   return await ApplicationModel.create(applicationData)
-    .then(async (application) => {
+    .then( (application) => {
       return application;
     })
     .catch((error) => {
@@ -16,12 +18,13 @@ export const addApplication = async (applicationData: DocumentDefinition<IApplic
 };
 
 /**
- * @todo create @function fetchApplicationById to fetch a Application  in the system
+ * Application Service
  * @param applicationId @type string
+ * @returns {Promise<IApplication>}
  */
 export const fetchApplicationById = async (applicationId: string) => { 
     return await ApplicationModel.findById(applicationId)
-    .then(async (application) => {
+    .then( (application) => {
         return application;
     })
     .catch((error) => {
@@ -30,11 +33,13 @@ export const fetchApplicationById = async (applicationId: string) => {
 };
 
 /**
- * @todo create @function fetchApplications to fetch all the Applications in the system.
+ * Application Service
+ * @param {FilterQuery<IApplication>} query
+ * @returns {Promise<IApplication>}
  */
 export const fetchApplications = async (filter: FilterQuery<IApplication>) => {
-    return await ApplicationModel.find(filter)
-    .then(async (applications) => {
+    return await ApplicationModel.find({deleteAt: null})
+    .then( (applications) => {
         return applications;
     })
     .catch((error) => {
