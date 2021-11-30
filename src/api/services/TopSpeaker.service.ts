@@ -66,24 +66,28 @@ export const updateTopSpeaker = async (
           topSpeakerDetails.imageUrl = updateData.imageUrl;
         }
 
-        if (updateData.socialMediaURLs.facebook) {
-          topSpeakerDetails.socialMediaURLs.facebook = updateData.socialMediaURLs.facebook;
-        }
+        if (updateData.socialMediaURLs) {
+          topSpeakerDetails.socialMediaURLs = updateData.socialMediaURLs;
 
-        if (updateData.socialMediaURLs.instagram) {
-          topSpeakerDetails.socialMediaURLs.instagram = updateData.socialMediaURLs.instagram;
-        }
+          if (updateData.socialMediaURLs.facebook) {
+            topSpeakerDetails.socialMediaURLs.facebook = updateData.socialMediaURLs.facebook;
+          }
 
-        if (updateData.socialMediaURLs.linkedIn) {
-          topSpeakerDetails.socialMediaURLs.linkedIn = updateData.socialMediaURLs.linkedIn;
-        }
+          if (updateData.socialMediaURLs.instagram) {
+            topSpeakerDetails.socialMediaURLs.instagram = updateData.socialMediaURLs.instagram;
+          }
 
-        if (updateData.socialMediaURLs.twitter) {
-          topSpeakerDetails.socialMediaURLs.twitter = updateData.socialMediaURLs.twitter;
-        }
+          if (updateData.socialMediaURLs.linkedIn) {
+            topSpeakerDetails.socialMediaURLs.linkedIn = updateData.socialMediaURLs.linkedIn;
+          }
 
-        if (updateData.socialMediaURLs.web) {
-          topSpeakerDetails.socialMediaURLs.web = updateData.socialMediaURLs.web;
+          if (updateData.socialMediaURLs.twitter) {
+            topSpeakerDetails.socialMediaURLs.twitter = updateData.socialMediaURLs.twitter;
+          }
+
+          if (updateData.socialMediaURLs.web) {
+            topSpeakerDetails.socialMediaURLs.web = updateData.socialMediaURLs.web;
+          }
         }
 
         return await topSpeakerDetails.save();
