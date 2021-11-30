@@ -1,6 +1,6 @@
 interface IConfig {
   ip: string;
-  port: string;
+  port: number;
   environment: string;
   mongodb: {
     uri: string;

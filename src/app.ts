@@ -8,7 +8,7 @@ import connect from './util/database.connection';
 
 dotenv.config();
 const app: Express = express();
-const PORT: string = configuration.port;
+const PORT: number = configuration.port;
 const ENVIRONMENT = configuration.environment;
 const MONGO_URI = configuration.mongodb.uri;
  
