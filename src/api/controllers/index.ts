@@ -1,6 +1,10 @@
 import { createUser } from "./User.controller";
 
-import { createContact, testImageUploader } from "./Contact.controller";
+import { 
+  createContact, 
+  getAllContacts,
+  removeContact 
+} from "./Contact.controller";
 
 import {
   insertEvent,
@@ -61,6 +65,8 @@ import {
 export default {
   createUser,
   createContact,
+  getAllContacts,
+  removeContact,
   insertEvent,
   getEvent,
   getEvents,
@@ -81,7 +87,6 @@ export default {
   addBoardMember,
   updateExecutiveBoardDetails,
   deleteExecutiveBoardDetails,
-  testImageUploader, // This function is only for testing
   insertTopSpeaker,
   getTopSpeaker,
   getTopSpeakers,

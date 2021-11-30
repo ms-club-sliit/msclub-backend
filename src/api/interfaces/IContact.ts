@@ -6,6 +6,7 @@ interface IContact extends Document {
   message: string;
   createdAt: Date;
   updatedAt: Date;
+  deletedAt?: Date;
 }
 
 export type { IContact };

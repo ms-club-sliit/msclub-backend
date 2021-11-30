@@ -5,7 +5,7 @@ let configuration: IConfig;
 if (environment === 'Development') {
   configuration = {
     ip: process.env.IP || 'localhost',
-    port: process.env.PORT as string,
+    port: process.env.PORT as string || '8087',
     environment: process.env.ENVIRONMENT as string,
     mongodb: {
       uri: process.env.MONGO_URI as string
@@ -41,7 +41,7 @@ if (environment === 'Development') {
 } else if (environment === 'Production') {
   configuration = {
     ip: process.env.IP || 'localhost',
-    port: process.env.PORT as string,
+    port: process.env.PORT as string || '8087',
     environment: process.env.ENVIRONMENT as string,
     mongodb: {
       uri: process.env.MONGO_URI as string

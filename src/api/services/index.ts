@@ -2,7 +2,11 @@
 import @methods from User Service
  */
 import { insertUser } from "./User.service";
-import { insertContact } from "./Contact.service";
+import {
+  insertContact,
+  archiveContact,
+  fetchContactInfo,
+} from "./Contact.service";
 /**
 import @methods from Event Service
  */
@@ -66,11 +70,13 @@ import {
 } from "./ExecutiveBoard.service";
 
 export default {
+  // User services
   insertUser,
+  // Contact services
   insertContact,
-  /**
- export @methods from Event Service
-   */
+  fetchContactInfo,
+  archiveContact,
+  // Event services
   insertEvent,
   getEvent,
   getEvents,
@@ -78,9 +84,7 @@ export default {
   getUpcomingEvent,
   updateEvent,
   deleteEvent,
-  /**
- export @methods from Webinar Service
-   */
+  // Webinar services
   insertWebinar,
   fetchWebinarById,
   fetchWebinars,
@@ -88,30 +92,22 @@ export default {
   fetchUpcomingWebinar,
   updateWebinar,
   removeWebinar,
-  /**
- export @methods from TopSpeaker Service
-   */
-
+  //TopSpeaker Service
   insertTopSpeaker,
   getTopSpeaker,
   getTopSpeakers,
   updateTopSpeaker,
   deleteTopSpeaker,
-
   /**
    * @todo export @methods from Application Service
    */
-  /**
-export @methods from BoardMember Service
-   */
+  // BoardMember Service
   insertBoardMember,
   getBoardMemberbyID,
   getAllBoardMembers,
   updateBoardMemberDetails,
   deleteBoardMemberDetails,
-  /**
- export @methods from ExecutiveBoardMember Service
-   */
+  // ExecutiveBoardMember Service
   insertExecutiveBoard,
   getExecutiveBoardbyID,
   getExecutiveBoard,
