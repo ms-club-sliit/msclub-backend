@@ -1,6 +1,5 @@
 import firebase from "../config/firebase.config";
 import imagemin from "imagemin";
-import mozjpeg from "imagemin-mozjpeg";
 import sharp from "sharp";
 import { v4 as uuidv4 } from 'uuid';
 import logger from "./logger";
@@ -48,10 +47,7 @@ const compressImage = async (file: any) => {
 
   const compressedImage = await imagemin.buffer(file, {
     plugins: [
-      convertToJPG, 
-      mozjpeg({ 
-        quality: compressQuality 
-      })
+      convertToJPG
     ]
   });
 
