@@ -1,43 +1,100 @@
-/**
- * @todo import the @methods from UserController
- */
 import { createUser } from "./User.controller";
-/**
- * @todo import the @methods from EventController
- */
-import { insertEvent, getEvent, getEvents,getPastEvents,getUpcomingEvent,updateEvent,deleteEvent } from "./Event.controller";
-/**
- * @todo import the @methods from WebinarController
- */
-/**
- * @todo import the @methods from TopSpeakerController
- */
-/**
- * @todo import the @methods from ApplicationController
- */
 
-export default {
-   /**
-   * @todo export the @methods from UserController
-   */
-  createUser,
-   /**
-   * @todo export the @methods from EventController
-   */
+import { 
+  createContact, 
+  getAllContacts,
+  removeContact 
+} from "./Contact.controller";
+
+import {
   insertEvent,
   getEvent,
   getEvents,
   getPastEvents,
   getUpcomingEvent,
   updateEvent,
-  deleteEvent
-  /**
-   * @todo export the @methods from WebinarController
-   */
-  /**
-   * @todo export the @methods from TopSpeakerController
-   */
-   /**
-   * @todo export the @methods from ApplicationController
-   */
+  deleteEvent,
+} from "./Event.controller";
+
+import {
+  insertWebinar,
+  getWebinarById,
+  getWebinars,
+  getPastWebinars,
+  getUpcomingWebinar,
+  updateWebinar,
+  deleteWebinar,
+} from "./Webinar.controller";
+
+/**
+ * @todo import the @methods from TopSpeakerController
+ */
+
+import {
+  insertTopSpeaker,
+  getTopSpeaker,
+  getTopSpeakers,
+  updateTopSpeaker,
+  deleteTopSpeaker,
+} from "./TopSpeaker.controller";
+
+
+/**
+ * @todo import the @methods from ApplicationController
+ */
+/**
+ * @todo import the @methods from BoardMemberController
+ */
+import {
+  getBoardMemberbyID,
+  getAllBoardMembers,
+  updateBoardMemberDetails,
+  deleteBoardMemberDetails,
+} from "./BoardMember.controller";
+/**
+ * @todo import the @methods from ExecutiveBoardMemberController
+ */
+import {
+  insertExecutiveBoard,
+  getExecutiveBoardbyID,
+  getExecutiveBoard,
+  addBoardMember,
+  updateExecutiveBoardDetails,
+  deleteExecutiveBoardDetails,
+} from "./ExecutiveBoard.controller";
+
+export default {
+  createUser,
+  createContact,
+  getAllContacts,
+  removeContact,
+  insertEvent,
+  getEvent,
+  getEvents,
+  getPastEvents,
+  getUpcomingEvent,
+  updateEvent,
+  deleteEvent,
+  insertWebinar,
+  getWebinarById,
+  getWebinars,
+  getPastWebinars,
+  getUpcomingWebinar,
+  updateWebinar,
+  deleteWebinar,
+  insertExecutiveBoard,
+  getExecutiveBoardbyID,
+  getExecutiveBoard,
+  addBoardMember,
+  updateExecutiveBoardDetails,
+  deleteExecutiveBoardDetails,
+  insertTopSpeaker,
+  getTopSpeaker,
+  getTopSpeakers,
+  updateTopSpeaker,
+  deleteTopSpeaker,
+  getBoardMemberbyID,
+  getAllBoardMembers,
+  updateBoardMemberDetails,
+  deleteBoardMemberDetails,
 };

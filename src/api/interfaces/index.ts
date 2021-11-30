@@ -1,25 +1,21 @@
-import { IUser } from "./IUser";
-import { IEvent } from "./IEvent";
-/**
- * @todo import the @interface IWebinar
- */
-/**
- * @todo import the @interface ITopSpeaker
- */
-/**
- * @todo import the @interface IApplication
- */
+import { IUser } from './IUser';
+import { ITopSpeaker } from './ITopSpeaker';
+import { IContact } from './IContact';
+import { IConfig } from './IConfig';
+import { IEvent } from './IEvent';
+import { IWebinar } from './IWebinar';
+import { IExecutiveBoard } from './IExecutiveBoard';
+import { IBoardMember } from './IBoardMember';
+import { IApplication } from './IApplication';
 
 export {
   IUser,
+  IContact,
+  IConfig,
   IEvent,
-  /**
-   * @todo export the @interface IWebinar
-   */
-  /**
-   * @todo export the @interface ITopSpeaker
-   */
-  /**
-   * @todo export the @interface IApplication
-   */
+  IWebinar,
+  IExecutiveBoard,
+  IBoardMember,
+  IApplication,
+  ITopSpeaker,
 };
