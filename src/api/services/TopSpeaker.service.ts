@@ -71,7 +71,6 @@ export const updateTopSpeaker = async (
         }
 
         if (updateData.socialMediaURLs) {
-          topSpeakerDetails.socialMediaURLs = updateData.socialMediaURLs;
 
           if (updateData.socialMediaURLs.facebook) {
             topSpeakerDetails.socialMediaURLs.facebook = updateData.socialMediaURLs.facebook;
