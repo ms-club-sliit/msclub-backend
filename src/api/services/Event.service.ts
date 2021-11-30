@@ -82,14 +82,32 @@ export const updateEvent = async (
   return await EventModel.findById(eventId)
     .then(async (eventDetails) => {
       if (eventDetails) {
-        eventDetails.title = eventData.title;
-        eventDetails.description = eventData.description;
-        eventDetails.imageUrl = eventData.imageUrl;
-        eventDetails.link = eventData.link;
-        eventDetails.tags = eventData.tags;
-        eventDetails.dateTime = eventData.dateTime;
-        eventDetails.eventType = eventData.eventType;
-        return await eventDetails.save();
+        if (eventDetails.deletedAt === null) {
+          if (eventData.title) {
+            eventDetails.title = eventData.title;
+          }
+          if (eventData.description) {
+            eventDetails.description = eventData.description;
+          }
+          if (eventData.imageUrl) {
+            eventDetails.imageUrl = eventData.imageUrl;
+          }
+          if (eventData.link) {
+            eventDetails.link = eventData.link;
+          }
+          if (eventData.tags) {
+            eventDetails.tags = eventData.tags;
+          }
+          if (eventData.dateTime) {
+            eventDetails.dateTime = eventData.dateTime;
+          }
+          if (eventData.eventType) {
+            eventDetails.eventType = eventData.eventType;
+          }
+          return await eventDetails.save();
+        } else {
+          throw new Error("Event is not found");
+        }
       } else {
         return null;
       }
