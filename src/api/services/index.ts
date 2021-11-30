@@ -1,10 +1,10 @@
 /**
- * @todo import @methods from User Service
+import @methods from User Service
  */
 import { insertUser } from "./User.service";
 import { insertContact } from "./Contact.service";
 /**
- * @todo import @methods from Event Service
+import @methods from Event Service
  */
 import {
   insertEvent,
@@ -16,7 +16,7 @@ import {
   deleteEvent,
 } from "./Event.service";
 /**
- * @todo import @methods from Webinar Service
+ import @methods from Webinar Service
  */
 import {
   insertWebinar,
@@ -28,7 +28,7 @@ import {
   removeWebinar,
 } from "./Webinar.service";
 /**
- * @todo import @methods from TopSpeaker Service
+import @methods from TopSpeaker Service
  */
 
 import {
@@ -40,11 +40,11 @@ import {
 } from "./TopSpeaker.service";
 
 /**
- * 
+ *
  * @todo import @methods from Application Service
  */
 /**
- * @todo import @methods from BoardMember Service
+ import @methods from BoardMember Service
  */
 import {
   insertBoardMember,
@@ -54,7 +54,7 @@ import {
   deleteBoardMemberDetails,
 } from "./BoardMember.service";
 /**
- * @todo import @methods from ExecutiveBoardMember Service
+ import @methods from ExecutiveBoardMember Service
  */
 import {
   insertExecutiveBoard,
@@ -69,7 +69,7 @@ export default {
   insertUser,
   insertContact,
   /**
-   * @todo export @methods from Event Service
+ export @methods from Event Service
    */
   insertEvent,
   getEvent,
@@ -79,7 +79,7 @@ export default {
   updateEvent,
   deleteEvent,
   /**
-   * @todo export @methods from Webinar Service
+ export @methods from Webinar Service
    */
   insertWebinar,
   fetchWebinarById,
@@ -89,7 +89,7 @@ export default {
   updateWebinar,
   removeWebinar,
   /**
-   * @todo export @methods from TopSpeaker Service
+ export @methods from TopSpeaker Service
    */
 
   insertTopSpeaker,
@@ -102,7 +102,7 @@ export default {
    * @todo export @methods from Application Service
    */
   /**
-   * @todo export @methods from Event Service
+export @methods from BoardMember Service
    */
   insertBoardMember,
   getBoardMemberbyID,
@@ -110,7 +110,7 @@ export default {
   updateBoardMemberDetails,
   deleteBoardMemberDetails,
   /**
-   * @todo export @methods from ExecutiveBoardMember Service
+ export @methods from ExecutiveBoardMember Service
    */
   insertExecutiveBoard,
   getExecutiveBoardbyID,

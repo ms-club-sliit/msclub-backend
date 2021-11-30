@@ -3,7 +3,7 @@ import { IBoardMember } from "../interfaces";
 import BoardMemberModel from "../models/BoardMember.model";
 
 /**
- * @todo create @function insertBoardMember to add a new Board Member to the database
+ add a new Board Member to the database
  */
 export const insertBoardMember = async (
   BoardMemberData: DocumentDefinition<IBoardMember>
@@ -17,7 +17,7 @@ export const insertBoardMember = async (
     });
 };
 /**
- * @todo create @function getBoardMemberbyID to get the Board Memberby ID from the database
+ get the Board Memberby ID from the database
  * @param boardMemberId @type string
  */
 export const getBoardMemberbyID = async (boardMemberId: string) => {
@@ -30,7 +30,7 @@ export const getBoardMemberbyID = async (boardMemberId: string) => {
     });
 };
 /**
- * @todo create @function getAllBoardMembers to get all Board Memberbys from the database
+ get all Board Memberbys from the database
  */
 export const getAllBoardMembers = async () => {
   return await BoardMemberModel.find()
@@ -42,7 +42,7 @@ export const getAllBoardMembers = async () => {
     });
 };
 /**
- * @todo create @function updateBoardMemberDetails to update details of the member
+ update details of the member
  * @param boardMemberId @type string
  * @param updateData @type DocumentDefinition<IBoardMember>
  */
@@ -73,7 +73,7 @@ export const updateBoardMemberDetails = async (
     });
 };
 /**
- * @todo create @function deleteBoardMemberDetails to delete member
+ delete member
  * @param boardMemberId @type string
  */
 export const deleteBoardMemberDetails = async (boardMemberId: string) => {
