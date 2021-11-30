@@ -34,9 +34,7 @@ export default function (app: Express) {
   app.put("/topspeaker/:topSpeakerId", controller.updateTopSpeaker);
   app.put("/topspeaker/delete/:topSpeakerId", controller.deleteTopSpeaker);
 
-  /**
-   * @todo  implement the @routes for BoardMemberController
-   */
+  // BoardMember endpoints
   app.get("/boardmember/:boardMemberId/", controller.getBoardMemberbyID);
   app.get("/boardmember/", controller.getAllBoardMembers);
   app.put("/boardmember/:boardMemberId", controller.updateBoardMemberDetails);
@@ -44,9 +42,8 @@ export default function (app: Express) {
     "/boardmember/delete/:boardMemberId",
     controller.deleteBoardMemberDetails
   );
-  /**
-   * @todo  implement the @routes for ExecutiveBoardMemberController
-   */
+
+  // ExecutiveBoard endpoints
   app.post("/executive/", controller.insertExecutiveBoard);
   app.get("/executive/:executiveBoardId/", controller.getExecutiveBoardbyID);
   app.get("/executive/", controller.getExecutiveBoard);
