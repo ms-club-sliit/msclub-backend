@@ -21,7 +21,15 @@ export const insertTopSpeaker = async (topSpeakerData: DocumentDefinition<ITopSp
 export const getTopSpeaker = async (topSpeakerId: string) => {
   return await TopSpeakerModel.findById(topSpeakerId)
     .then((topSpeaker) => {
-      return topSpeaker;
+      if (topSpeaker) {
+        if (topSpeaker.deletedAt != null) {
+          throw new Error("Speaker is not found");
+        } else {
+          return topSpeaker;
+        }
+      } else {
+        return null;
+      }
     })
     .catch((error) => {
       throw new Error(error.message);
