@@ -55,29 +55,31 @@ export const updateBoardMemberDetails = async (
     .then(async (boardMemberDetails) => {
       if (boardMemberDetails) {
         if (boardMemberDetails.deletedAt === null) {
-          if (updateData.name !== "") {
+          if (updateData.name) {
             boardMemberDetails.name = updateData.name;
           }
-          if (updateData.position !== "") {
+          if (updateData.position) {
             boardMemberDetails.position = updateData.position;
           }
-          if (updateData.image !== "") {
+          if (updateData.image) {
             boardMemberDetails.image = updateData.image;
           }
-          if (updateData.socialMedia.facebook !== "") {
-            boardMemberDetails.socialMedia.facebook =
-              updateData.socialMedia.facebook;
-          }
-          if (updateData.socialMedia.instagram !== "") {
-            boardMemberDetails.socialMedia.instagram =
-              updateData.socialMedia.instagram;
-          }
-          if (updateData.socialMedia.linkedIn !== "") {
-            boardMemberDetails.socialMedia.linkedIn =
-              updateData.socialMedia.linkedIn;
-          }
-          if (updateData.socialMedia.twitter !== "") {
-            boardMemberDetails.socialMedia.twitter = updateData.socialMedia.twitter;
+          if (updateData.socialMedia) {
+            if (updateData.socialMedia.facebook) {
+              boardMemberDetails.socialMedia.facebook =
+                updateData.socialMedia.facebook;
+            }
+            if (updateData.socialMedia.instagram) {
+              boardMemberDetails.socialMedia.instagram =
+                updateData.socialMedia.instagram;
+            }
+            if (updateData.socialMedia.linkedIn) {
+              boardMemberDetails.socialMedia.linkedIn =
+                updateData.socialMedia.linkedIn;
+            }
+            if (updateData.socialMedia.twitter) {
+              boardMemberDetails.socialMedia.twitter = updateData.socialMedia.twitter;
+            }
           }
           return await boardMemberDetails.save();
         } else {
