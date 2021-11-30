@@ -84,13 +84,34 @@ export const updateWebinar = async (
   return await WebinarModel.findById(webinarId)
     .then(async (webinarDetails) => {
       if (webinarDetails) {
-        webinarDetails.title = webinarData.title;
-        webinarDetails.description = webinarData.description;
-        webinarDetails.imageUrl = webinarData.imageUrl;
-        webinarDetails.dateTime = webinarData.dateTime;
-        webinarDetails.time = webinarData.time;
-        webinarDetails.tags = webinarData.tags;
-        webinarDetails.link = webinarData.link;
+        if (webinarData.title) {
+          webinarDetails.title = webinarData.title;
+        }
+
+        if (webinarData.description) {
+          webinarDetails.description = webinarData.description;
+        }
+
+        if (webinarData.imageUrl) {
+          webinarDetails.imageUrl = webinarData.imageUrl;
+        }
+
+        if (webinarData.dateTime) {
+          webinarDetails.dateTime = webinarData.dateTime;
+        }
+
+        if (webinarData.time) {
+          webinarDetails.time = webinarData.time;
+        }
+
+        if (webinarData.tags) {
+          webinarDetails.tags = webinarData.tags;
+        }
+
+        if (webinarData.link) {
+          webinarDetails.link = webinarData.link;
+        }
+
         return await webinarDetails.save();
       } else {
         return null;
