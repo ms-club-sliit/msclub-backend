@@ -33,8 +33,8 @@ export const getTopSpeaker = async (topSpeakerId: string) => {
  */
 export const getTopSpeakers = async () => {
   return await TopSpeakerModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
-    .then((topSpeaker) => {
-      return topSpeaker;
+    .then((topSpeakers) => {
+      return topSpeakers;
     })
     .catch((error) => {
       throw new Error(error.message);
