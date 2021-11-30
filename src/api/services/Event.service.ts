@@ -82,7 +82,7 @@ export const updateEvent = async (
   return await EventModel.findById(eventId)
     .then(async (eventDetails) => {
       if (eventDetails) {
-        if (eventDetails.deletedAt === null) {
+        if (eventDetails.deletedAt) {
           if (eventData.title) {
             eventDetails.title = eventData.title;
           }
