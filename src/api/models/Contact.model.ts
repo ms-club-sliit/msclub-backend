@@ -23,6 +23,7 @@ const ContactSchema = new Schema<IContact>({
     required: [true, 'Message is required'], 
     trim: true
   },
+  deletedAt: { type: Date, required: false, default: null },
 }, {
   timestamps: true,
 });

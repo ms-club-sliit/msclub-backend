@@ -4,7 +4,8 @@ import {
 
 import { 
   createContact, 
-  testImageUploader 
+  getAllContacts,
+  removeContact 
 } from "./Contact.controller";
 
 import {
@@ -40,6 +41,8 @@ import {
 export default {
   createUser,
   createContact,
+  getAllContacts,
+  removeContact,
   insertEvent,
   getEvent,
   getEvents,
@@ -54,5 +57,4 @@ export default {
   getUpcomingWebinar,
   updateWebinar,
   deleteWebinar,
-  testImageUploader, // This function is only for testing
 };

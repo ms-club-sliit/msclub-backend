@@ -46,14 +46,36 @@ export const createContact = async (request: Request, response: Response, next: 
     });
 }
 
-// This function is for testing purposes.
-export const testImageUploader = async (request: Request, response: Response, next: NextFunction) => {
-  await getImageURL(request.file, 'profile-images')
-    .then((data) => {
-      request.handleResponse.successRespond(response)({ image_url: data});
+/**
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns {IContact[]} Contacts
+ */
+export const getAllContacts = async (request: Request, response: Response, next: NextFunction) => {
+  await ContactService.fetchContactInfo()
+    .then((contacts) => {
+      request.handleResponse.successRespond(response)(contacts);
     })
     .catch((error) => {
-      logger.error(error.message);
       request.handleResponse.errorRespond(response)(error.message);
+      next();
+    });
+}
+
+/**
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns {IContact[]} Removed contact information
+ */
+export const removeContact = async (request: Request, response: Response, next: NextFunction) => {
+  await ContactService.archiveContact(request.params.id)
+    .then((deletedContactData) => {
+      request.handleResponse.successRespond(response)(deletedContactData);
     })
+    .catch((error) => {
+      request.handleResponse.errorRespond(response)(error.message);
+      next();
+    });
 }

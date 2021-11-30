@@ -2,7 +2,11 @@
  * @todo import @methods from User Service
  */
 import { insertUser } from "./User.service";
-import { insertContact } from "./Contact.service";
+import { 
+  insertContact,
+  archiveContact,
+  fetchContactInfo
+} from "./Contact.service";
 /**
  * @todo import @methods from Event Service
  */
@@ -35,11 +39,13 @@ import {
  */
 
 export default {
+  // User services
   insertUser,
+  // Contact services
   insertContact,
-  /**
-   * @todo export @methods from Event Service
-   */
+  fetchContactInfo,
+  archiveContact,
+  // Event services
   insertEvent,
   getEvent,
   getEvents,
@@ -47,9 +53,7 @@ export default {
   getUpcomingEvent,
   updateEvent,
   deleteEvent,
-  /**
-   * @todo export @methods from Webinar Service
-   */
+  // Webinar services
   insertWebinar,
   fetchWebinarById,
   fetchWebinars,
