@@ -23,7 +23,7 @@ import {
 } from "./Webinar.controller";
 
 /**
- * @todo import the @methods from TopSpeakerController
+ *import the @methods from TopSpeakerController
  */
 
 import {
@@ -34,12 +34,11 @@ import {
   deleteTopSpeaker,
 } from "./TopSpeaker.controller";
 
-
 /**
- * @todo import the @methods from ApplicationController
+ *import the @methods from ApplicationController
  */
 /**
- * @todo import the @methods from BoardMemberController
+ *import the @methods from BoardMemberController
  */
 import {
   getBoardMemberbyID,
@@ -48,7 +47,7 @@ import {
   deleteBoardMemberDetails,
 } from "./BoardMember.controller";
 /**
- * @todo import the @methods from ExecutiveBoardMemberController
+ *import the @methods from ExecutiveBoardMemberController
  */
 import {
   insertExecutiveBoard,
