@@ -40,7 +40,9 @@ export const fetchApplicationById = async (applicationId: string) => {
  * @returns {Promise<IApplication>}
  */
 export const fetchApplications = async () => {
-  return await ApplicationModel.find({ deleteAt: null })
+  return await ApplicationModel.aggregate([
+    { $match: { deletedAt: { $eq: null } } },
+  ])
     .then((applications) => {
       return applications;
     })
