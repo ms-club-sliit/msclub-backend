@@ -5,6 +5,7 @@ interface IBoardMember extends Document {
   position: string;
   image?: string;
   socialMedia: ISocialMedia;
+  deletedAt?: Date;
 }
 
 interface ISocialMedia {

@@ -7,7 +7,7 @@ import EventModel from "../models/Event.model";
  */
 export const insertEvent = async (eventData: DocumentDefinition<IEvent>) => {
   return await EventModel.create(eventData)
-    .then(async (event) => {
+    .then((event) => {
       return event;
     })
     .catch((error) => {
@@ -21,7 +21,7 @@ export const insertEvent = async (eventData: DocumentDefinition<IEvent>) => {
  */
 export const getEvent = async (eventId: string) => {
   return await EventModel.findById(eventId)
-    .then(async (event) => {
+    .then((event) => {
       return event;
     })
     .catch((error) => {
@@ -33,8 +33,8 @@ export const getEvent = async (eventId: string) => {
  * @todo create @function getEvents to fetch all the events in the system
  */
 export const getEvents = async () => {
-  return await EventModel.find()
-    .then(async (events) => {
+  return await EventModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
+    .then((events) => {
       return events;
     })
     .catch((error) => {
@@ -47,7 +47,7 @@ export const getEvents = async () => {
  */
 export const getPastEvents = async () => {
   return await EventModel.find({ eventType: "PAST" })
-    .then(async (events) => {
+    .then((events) => {
       return events;
     })
     .catch((error) => {
@@ -62,7 +62,7 @@ export const getUpcomingEvent = async () => {
   return await EventModel.findOne({ eventType: "UPCOMING" })
     .limit(1)
     .sort({ $natural: -1 })
-    .then(async (event) => {
+    .then((event) => {
       return event;
     })
     .catch((error) => {

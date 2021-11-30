@@ -2,13 +2,15 @@ import { DocumentDefinition, FilterQuery } from "mongoose";
 import { IWebinar } from "../interfaces";
 import WebinarModel from "../models/Webinar.model";
 /**
- * @todo create @function insertWebinar to save a webinar in the database
+ * Save a webinar in the database
+ * @param {IWebinar} webinarData
+ * @returns {IWebinar} New webinar document
  */
 export const insertWebinar = async (
   webinarData: DocumentDefinition<IWebinar>
 ) => {
   return await WebinarModel.create(webinarData)
-    .then(async (webinar) => {
+    .then((webinar) => {
       return webinar;
     })
     .catch((error) => {
@@ -16,12 +18,13 @@ export const insertWebinar = async (
     });
 };
 /**
- * @todo create @function fetchWebinarById to fetch a webinar in the system
+ * Fetch a webinar in the database
  * @param webinarId @type string
+ * @returns {IWebinar} Webinar document for relevent ID
  */
 export const fetchWebinarById = async (webinarId: string) => {
   return await WebinarModel.findById(webinarId)
-    .then(async (webinar) => {
+    .then((webinar) => {
       return webinar;
     })
     .catch((error) => {
@@ -29,11 +32,12 @@ export const fetchWebinarById = async (webinarId: string) => {
     });
 };
 /**
- * @todo create @function fetchWebinars to fetch all the webinars in the system
+ * Fetch all the webinars in the database
+ * @returns {IWebinar} All webinar documents in the database
  */
 export const fetchWebinars = async () => {
-  return await WebinarModel.find()
-    .then(async (webinars) => {
+  return await WebinarModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
+    .then((webinars) => {
       return webinars;
     })
     .catch((error) => {
@@ -41,11 +45,12 @@ export const fetchWebinars = async () => {
     });
 };
 /**
- * @todo create @function fetchPastWebinars to fetch all the past webinars in the system
+ * Fetch all the past webinars in the database
+ * @returns {IWebinar} All the past webinar documents in the database
  */
 export const fetchPastWebinars = async () => {
   return await WebinarModel.find({ webinarType: "PAST" })
-    .then(async (webinars) => {
+    .then((webinars) => {
       return webinars;
     })
     .catch((error) => {
@@ -53,13 +58,14 @@ export const fetchPastWebinars = async () => {
     });
 };
 /**
- * @todo create @function fetchUpcomingWebinar to fetch an upcoming webinars in the system
+ * Fetch an upcoming webinars in the database
+ * @returns {IWebinar} All the upcoming webinar documents in the database
  */
 export const fetchUpcomingWebinar = async () => {
   return await WebinarModel.findOne({ webinarType: "UPCOMING" })
     .limit(1)
     .sort({ $natural: -1 })
-    .then(async (webinar) => {
+    .then((webinar) => {
       return webinar;
     })
     .catch((error) => {
@@ -67,7 +73,7 @@ export const fetchUpcomingWebinar = async () => {
     });
 };
 /**
- * @todo create @function updateWebinar to update a webinar in the system
+ * Update a webinar in the database
  * @param webinarId @type string
  * @param updateData @type DocumentDefinition<IWebinar>
  */
@@ -95,7 +101,7 @@ export const updateWebinar = async (
     });
 };
 /**
- * @todo create @function removeWebinar to delete a webinar
+ * Delete a webinar in the database
  * @param webinarId @type string
  */
 export const removeWebinar = async (webinarId: string) => {

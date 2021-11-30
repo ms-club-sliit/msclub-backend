@@ -24,11 +24,13 @@ export const archiveContact = async (contactId: string) => {
   return await ContactModel.findById(contactId)
     .then(async (contactData) => {
       if (contactData) {
-        contactData.deletedAt = new Date();
-        return await contactData.save();
-      } else {
-        throw new Error('Contact Information Not Found');
-      }
+        if (contactData.deletedAt) {
+          throw new Error('Contact Information Not Found');
+        } else {
+          contactData.deletedAt = new Date();
+          return await contactData.save();
+        }
+      } 
     })
     .catch((error) => {
       throw new Error(error.message);
