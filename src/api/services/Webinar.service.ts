@@ -84,35 +84,38 @@ export const updateWebinar = async (
   return await WebinarModel.findById(webinarId)
     .then(async (webinarDetails) => {
       if (webinarDetails) {
-        if (webinarData.title) {
-          webinarDetails.title = webinarData.title;
-        }
+        if (!webinarDetails.deletedAt) {
+          if (webinarData.title) {
+            webinarDetails.title = webinarData.title;
+          }
 
-        if (webinarData.description) {
-          webinarDetails.description = webinarData.description;
-        }
+          if (webinarData.description) {
+            webinarDetails.description = webinarData.description;
+          }
 
-        if (webinarData.imageUrl) {
-          webinarDetails.imageUrl = webinarData.imageUrl;
-        }
+          if (webinarData.imageUrl) {
+            webinarDetails.imageUrl = webinarData.imageUrl;
+          }
 
-        if (webinarData.dateTime) {
-          webinarDetails.dateTime = webinarData.dateTime;
-        }
+          if (webinarData.dateTime) {
+            webinarDetails.dateTime = webinarData.dateTime;
+          }
 
-        if (webinarData.time) {
-          webinarDetails.time = webinarData.time;
-        }
+          if (webinarData.time) {
+            webinarDetails.time = webinarData.time;
+          }
 
-        if (webinarData.tags) {
-          webinarDetails.tags = webinarData.tags;
-        }
+          if (webinarData.tags) {
+            webinarDetails.tags = webinarData.tags;
+          }
 
-        if (webinarData.link) {
-          webinarDetails.link = webinarData.link;
+          if (webinarData.link) {
+            webinarDetails.link = webinarData.link;
+          }
+          return await webinarDetails.save();
+        } else {
+          throw new Error("Webinar is not found");
         }
-
-        return await webinarDetails.save();
       } else {
         return null;
       }
