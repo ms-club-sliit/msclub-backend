@@ -7,7 +7,7 @@ const upload = multer();
 export default function (app: Express) {
   // User endpoints
   app.post("/user/", upload.single('profileImage'), controller.createUser);
-  app.post('/contact/', upload.single('image'), controller.testImageUploader);
+  app.post('/contact/', controller.createContact);
 
   // Event endpoints
   app.post("/event/", controller.insertEvent);

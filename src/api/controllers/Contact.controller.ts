@@ -16,7 +16,7 @@ export const createContact = async (request: Request, response: Response, next: 
   await ContactService.insertContact(request.body)
     .then((data) => {
       // Send email 
-      let emailTemplate = path.join(__dirname, '../..', 'templates', 'Contact-Us-Email-Template.html');
+      let emailTemplate = 'Contact-Us-Email-Template.html';
       let to = data.email;
       let subject = 'MS Club SLIIT - Contact Us';
       let emailBodyData = {
@@ -26,12 +26,18 @@ export const createContact = async (request: Request, response: Response, next: 
         date_time: moment(data.createdAt).format('LLL'),
       };
 
-      Email.sendEmail(emailTemplate, to, subject, emailBodyData)
+      Email.sendEmailWithTemplate(emailTemplate, to, subject, emailBodyData)
         .then((emailData) => {
-          request.handleResponse.successRespond(response)(data);
+          request.handleResponse.successRespond(response)({
+            contactData: data,
+            emailData: emailData,
+          });
         })
         .catch((error) => {
-          request.handleResponse.errorRespond(response)(error.message);
+          request.handleResponse.errorRespond(response)({
+            message: error.message,
+            data: data,
+          });
         });
     })
     .catch((error: any) => {
