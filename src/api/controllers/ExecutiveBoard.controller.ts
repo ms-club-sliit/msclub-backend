@@ -2,9 +2,6 @@ import { Express, Request, Response, NextFunction } from "express";
 import ExecutiveBoardService from "../services";
 import logger from "../../util/logger";
 /**
- * @todo implement a @function insertExecutiveBoard that calls
- * @function insertExecutiveBoard in the ExecutiveBoard.service
- *
  * @param request
  * @param response
  * @param next
@@ -26,9 +23,6 @@ export const insertExecutiveBoard = async (
     });
 };
 /**
- * @todo implement a @function getExecutiveBoardbyID that calls
- * @function getExecutiveBoardbyID in the ExecutiveBoard.service
- *
  * @param request
  * @param response
  * @param next
@@ -52,9 +46,6 @@ export const getExecutiveBoardbyID = async (
     });
 };
 /**
- * @todo implement a @function getExecutiveBoard that calls
- * @function getExecutiveBoard in the ExecutiveBoard.service
- *
  * @param request
  * @param response
  * @param next
@@ -76,9 +67,6 @@ export const getExecutiveBoard = async (
     });
 };
 /**
- * @todo implement a @function addBoardMember that calls
- * @function addBoardMember in the ExecutiveBoard.service
- *
  * @param request
  * @param response
  * @param next
@@ -103,9 +91,6 @@ export const addBoardMember = async (
     });
 };
 /**
- * @todo implement a @function updateExecutiveBoardDetails that calls
- * @function updateExecutiveBoardDetails in the ExecutiveBoard.service
- *
  * @param request
  * @param response
  * @param next
@@ -130,9 +115,6 @@ export const updateExecutiveBoardDetails = async (
     });
 };
 /**
- * @todo implement a @function deleteExecutiveBoardDetails that calls
- * @function deleteExecutiveBoardDetails in the ExecutiveBoard.service
- *
  * @param request
  * @param response
  * @param next

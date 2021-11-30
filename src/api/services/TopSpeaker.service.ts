@@ -2,9 +2,11 @@ import { DocumentDefinition } from "mongoose";
 import { ITopSpeaker } from "../interfaces";
 import TopSpeakerModel from "../models/TopSpeaker.model";
 /**
- * @todo create @function insertTopSpeaker to save a speaker in the database
+ save a speaker in the database
  */
-export const insertTopSpeaker = async (topSpeakerData: DocumentDefinition<ITopSpeaker>) => {
+export const insertTopSpeaker = async (
+  topSpeakerData: DocumentDefinition<ITopSpeaker>
+) => {
   return await TopSpeakerModel.create(topSpeakerData)
     .then((topSpeaker) => {
       return topSpeaker;
@@ -15,7 +17,7 @@ export const insertTopSpeaker = async (topSpeakerData: DocumentDefinition<ITopSp
 };
 
 /**
- * @todo create @function getTopSpeaker to fetch a TopSpeaker in the system
+ fetch a TopSpeaker in the system
  * @param topSpeakerId @type string
  */
 export const getTopSpeaker = async (topSpeakerId: string) => {
@@ -33,10 +35,12 @@ export const getTopSpeaker = async (topSpeakerId: string) => {
 };
 
 /**
- * @todo create @function getTopSpeakers to fetch all the TopSpeakers in the system
+ fetch all the TopSpeakers in the system
  */
 export const getTopSpeakers = async () => {
-  return await TopSpeakerModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
+  return await TopSpeakerModel.aggregate([
+    { $match: { deletedAt: { $eq: null } } },
+  ])
     .then((topSpeakers) => {
       return topSpeakers;
     })
@@ -46,7 +50,7 @@ export const getTopSpeakers = async () => {
 };
 
 /**
- * @todo create @function updateTopSpeaker to update a TopSpeaker in the system
+ update a TopSpeaker in the system
  * @param topSpeakerId @type string
  * @param updateData @type DocumentDefinition<ITopSpeaker>
  */
@@ -57,7 +61,6 @@ export const updateTopSpeaker = async (
   return await TopSpeakerModel.findById(topSpeakerId)
     .then(async (topSpeakerDetails) => {
       if (topSpeakerDetails) {
-
         if (updateData.title) {
           topSpeakerDetails.title = updateData.title;
         }
@@ -71,23 +74,31 @@ export const updateTopSpeaker = async (
         }
 
         if (updateData.socialMediaURLs && updateData.socialMediaURLs.facebook) {
-          topSpeakerDetails.socialMediaURLs.facebook = updateData.socialMediaURLs.facebook;
+          topSpeakerDetails.socialMediaURLs.facebook =
+            updateData.socialMediaURLs.facebook;
         }
 
-        if (updateData.socialMediaURLs && updateData.socialMediaURLs.instagram) {
-          topSpeakerDetails.socialMediaURLs.instagram = updateData.socialMediaURLs.instagram;
+        if (
+          updateData.socialMediaURLs &&
+          updateData.socialMediaURLs.instagram
+        ) {
+          topSpeakerDetails.socialMediaURLs.instagram =
+            updateData.socialMediaURLs.instagram;
         }
 
         if (updateData.socialMediaURLs && updateData.socialMediaURLs.linkedIn) {
-          topSpeakerDetails.socialMediaURLs.linkedIn = updateData.socialMediaURLs.linkedIn;
+          topSpeakerDetails.socialMediaURLs.linkedIn =
+            updateData.socialMediaURLs.linkedIn;
         }
 
         if (updateData.socialMediaURLs && updateData.socialMediaURLs.twitter) {
-          topSpeakerDetails.socialMediaURLs.twitter = updateData.socialMediaURLs.twitter;
+          topSpeakerDetails.socialMediaURLs.twitter =
+            updateData.socialMediaURLs.twitter;
         }
 
         if (updateData.socialMediaURLs && updateData.socialMediaURLs.web) {
-          topSpeakerDetails.socialMediaURLs.web = updateData.socialMediaURLs.web;
+          topSpeakerDetails.socialMediaURLs.web =
+            updateData.socialMediaURLs.web;
         }
 
         return await topSpeakerDetails.save();
@@ -101,7 +112,7 @@ export const updateTopSpeaker = async (
 };
 
 /**
- * @todo create @function deleteTopSpeaker to delete a past event
+delete a past event
  * @param topSpeakerId @type string
  */
 export const deleteTopSpeaker = async (topSpeakerId: string) => {

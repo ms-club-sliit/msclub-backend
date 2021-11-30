@@ -6,7 +6,7 @@ import BoardMemberModel from "../models/BoardMember.model";
 import { insertBoardMember } from "../services/BoardMember.service";
 
 /**
- * @todo create @function insertExecutiveBoard to add a new executive board to the database
+ add a new executive board to the database
  */
 export const insertExecutiveBoard = async (
   executiveBoardData: DocumentDefinition<IExecutiveBoard>
@@ -20,7 +20,7 @@ export const insertExecutiveBoard = async (
     });
 };
 /**
- * @todo create @function getExecutiveBoardbyID to get the executive board by ID from the database (the details of the existing board members should be populated)
+get the executive board by ID from the database (the details of the existing board members should be populated)
  * @param executiveBoardId @type string
  */
 export const getExecutiveBoardbyID = async (executiveBoardId: string) => {
@@ -34,7 +34,7 @@ export const getExecutiveBoardbyID = async (executiveBoardId: string) => {
     });
 };
 /**
- * @todo create @function getExecutiveBoard to get all the executive boards from the database (the details of the existing board members should be populated)
+get all the executive boards from the database (the details of the existing board members should be populated)
  */
 export const getExecutiveBoard = async () => {
   return await ExecutiveBoardModel.find()
@@ -50,7 +50,7 @@ export const getExecutiveBoard = async () => {
     });
 };
 /**
- * @todo create @function addBoardMember to add members to executiveboard
+ add members to executiveboard
  * @param boardId @type string
  * @param insertData @type DocumentDefinition<IBoardMember>
  */
@@ -76,7 +76,7 @@ export const addBoardMember = async (
 };
 
 /**
- * @todo create @function updateExecutiveBoardDetails to update details of members in the executiveboard
+ update details of members in the executiveboard
  * @param boardId @type string
  * @param updateData @type DocumentDefinition<IExecutiveBoard>
  */
@@ -98,7 +98,7 @@ export const updateExecutiveBoardDetails = async (
     });
 };
 /**
- * @todo create @function DeleteExecutiveBoardDetails to delete members from executiveboard
+ delete members from executiveboard
  * @param boardId @type string
  * @param boardMemberId @type string
  */

@@ -3,7 +3,7 @@ import { IEvent } from "../interfaces";
 import EventModel from "../models/Event.model";
 
 /**
- * @todo create @function insertEvent to save an event in the database
+ save an event in the database
  */
 export const insertEvent = async (eventData: DocumentDefinition<IEvent>) => {
   return await EventModel.create(eventData)
@@ -16,7 +16,7 @@ export const insertEvent = async (eventData: DocumentDefinition<IEvent>) => {
 };
 
 /**
- * @todo create @function getEvent to fetch an event in the system
+ fetch an event in the system
  * @param eventId @type string
  */
 export const getEvent = async (eventId: string) => {
@@ -30,7 +30,7 @@ export const getEvent = async (eventId: string) => {
 };
 
 /**
- * @todo create @function getEvents to fetch all the events in the system
+ fetch all the events in the system
  */
 export const getEvents = async () => {
   return await EventModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
@@ -43,7 +43,7 @@ export const getEvents = async () => {
 };
 
 /**
- * @todo create @function getPastEvents to fetch an past events in the system
+ fetch an past events in the system
  */
 export const getPastEvents = async () => {
   return await EventModel.find({ eventType: "PAST" })
@@ -56,7 +56,7 @@ export const getPastEvents = async () => {
 };
 
 /**
- * @todo create @function getUpcomingEvent to fetch an upcoming event in the system
+ fetch an upcoming event in the system
  */
 export const getUpcomingEvent = async () => {
   return await EventModel.findOne({ eventType: "UPCOMING" })
@@ -71,7 +71,7 @@ export const getUpcomingEvent = async () => {
 };
 
 /**
- * @todo create @function updateEvent to update an event in the system
+ update an event in the system
  * @param eventId @type string
  * @param updateData @type DocumentDefinition<IEvent>
  */
@@ -118,7 +118,7 @@ export const updateEvent = async (
 };
 
 /**
- * @todo create @function deleteEvent to delete an event
+ delete an event
  * @param eventId @type string
  */
 export const deleteEvent = async (eventId: string) => {
