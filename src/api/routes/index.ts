@@ -11,7 +11,7 @@ export default function (app: Express) {
   // Contact Us endpoints
   app.post('/contact/', controller.createContact);
   app.get('/contact/', controller.getAllContacts);
-  app.delete('/contact/:id', controller.removeContact);
+  app.delete('/contact/:contactId', controller.removeContact);
 
   // Event endpoints
   app.post("/event/", controller.insertEvent);

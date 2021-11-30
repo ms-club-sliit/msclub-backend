@@ -16,14 +16,14 @@ export const createContact = async (request: Request, response: Response, next: 
   await ContactService.insertContact(request.body)
     .then((data) => {
       // Send email 
-      let emailTemplate = 'Contact-Us-Email-Template.html';
-      let to = data.email;
-      let subject = 'MS Club SLIIT - Contact Us';
-      let emailBodyData = {
+      const emailTemplate = 'Contact-Us-Email-Template.html';
+      const to = data.email;
+      const subject = 'MS Club SLIIT - Contact Us';
+      const emailBodyData = {
         name: data.name,
         email: data.email,
         message: data.message,
-        date_time: moment(data.createdAt).format('LLL'),
+        dateTime: moment(data.createdAt).format('LLL'),
       };
 
       Email.sendEmailWithTemplate(emailTemplate, to, subject, emailBodyData)
@@ -70,7 +70,7 @@ export const getAllContacts = async (request: Request, response: Response, next:
  * @returns {IContact[]} Removed contact information
  */
 export const removeContact = async (request: Request, response: Response, next: NextFunction) => {
-  await ContactService.archiveContact(request.params.id)
+  await ContactService.archiveContact(request.params.contactId)
     .then((deletedContactData) => {
       request.handleResponse.successRespond(response)(deletedContactData);
     })
