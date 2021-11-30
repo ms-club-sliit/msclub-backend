@@ -3,7 +3,7 @@ import { IBoardMember } from "../interfaces";
 import BoardMemberModel from "../models/BoardMember.model";
 
 /**
- * @todo create @function insertBoardMember to add a new Board Member to the database
+ add a new Board Member to the database
  */
 export const insertBoardMember = async (
   BoardMemberData: DocumentDefinition<IBoardMember>
@@ -17,7 +17,7 @@ export const insertBoardMember = async (
     });
 };
 /**
- * @todo create @function getBoardMemberbyID to get the Board Memberby ID from the database
+ get the Board Memberby ID from the database
  * @param boardMemberId @type string
  */
 export const getBoardMemberbyID = async (boardMemberId: string) => {
@@ -30,7 +30,7 @@ export const getBoardMemberbyID = async (boardMemberId: string) => {
     });
 };
 /**
- * @todo create @function getAllBoardMembers to get all Board Memberbys from the database
+ get all Board Memberbys from the database
  */
 export const getAllBoardMembers = async () => {
   return await BoardMemberModel.find()
@@ -42,10 +42,11 @@ export const getAllBoardMembers = async () => {
     });
 };
 /**
- * @todo create @function updateBoardMemberDetails to update details of the member
+ update details of the member
  * @param boardMemberId @type string
  * @param updateData @type DocumentDefinition<IBoardMember>
  */
+
 export const updateBoardMemberDetails = async (
   boardMemberId: string,
   updateData: DocumentDefinition<IBoardMember>
@@ -53,17 +54,37 @@ export const updateBoardMemberDetails = async (
   return await BoardMemberModel.findById(boardMemberId)
     .then(async (boardMemberDetails) => {
       if (boardMemberDetails) {
-        boardMemberDetails.name = updateData.name;
-        boardMemberDetails.position = updateData.position;
-        boardMemberDetails.image = updateData.image;
-        boardMemberDetails.socialMedia.facebook =
-          updateData.socialMedia.facebook;
-        boardMemberDetails.socialMedia.instagram =
-          updateData.socialMedia.instagram;
-        boardMemberDetails.socialMedia.linkedIn =
-          updateData.socialMedia.linkedIn;
-        boardMemberDetails.socialMedia.twitter = updateData.socialMedia.twitter;
-        return await boardMemberDetails.save();
+        if (boardMemberDetails.deletedAt === null) {
+          if (updateData.name) {
+            boardMemberDetails.name = updateData.name;
+          }
+          if (updateData.position) {
+            boardMemberDetails.position = updateData.position;
+          }
+          if (updateData.image) {
+            boardMemberDetails.image = updateData.image;
+          }
+          if (updateData.socialMedia) {
+            if (updateData.socialMedia.facebook) {
+              boardMemberDetails.socialMedia.facebook =
+                updateData.socialMedia.facebook;
+            }
+            if (updateData.socialMedia.instagram) {
+              boardMemberDetails.socialMedia.instagram =
+                updateData.socialMedia.instagram;
+            }
+            if (updateData.socialMedia.linkedIn) {
+              boardMemberDetails.socialMedia.linkedIn =
+                updateData.socialMedia.linkedIn;
+            }
+            if (updateData.socialMedia.twitter) {
+              boardMemberDetails.socialMedia.twitter = updateData.socialMedia.twitter;
+            }
+          }
+          return await boardMemberDetails.save();
+        } else {
+          throw new Error("Board Member is not found");
+        }
       } else {
         return null;
       }
@@ -73,7 +94,7 @@ export const updateBoardMemberDetails = async (
     });
 };
 /**
- * @todo create @function deleteBoardMemberDetails to delete member
+ delete member
  * @param boardMemberId @type string
  */
 export const deleteBoardMemberDetails = async (boardMemberId: string) => {

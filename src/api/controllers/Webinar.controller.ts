@@ -2,9 +2,6 @@ import { Express, Request, Response, NextFunction } from "express";
 import WebinarService from "../services";
 import logger from "../../util/logger";
 /**
- * @todo implement a @function insertWebinar that calls
- * @function insertWebinar in the WebinarService
- *
  * @param {Request} request - Request from the frontend
  * @param {Response} response - Response that need to send to the client
  * @param {NextFunction} next - Next function
@@ -26,9 +23,6 @@ export const insertWebinar = async (
     });
 };
 /**
- * @todo implement a @function getWebinarById that calls
- * @function fetchWebinarById in the WebinarService
- *
  * @param {Request} request - Request from the frontend
  * @param {Response} response - Response that need to send to the client
  * @param {NextFunction} next - Next function
@@ -55,9 +49,6 @@ export const getWebinarById = async (
   }
 };
 /**
- * @todo implement a @function getWebinars that calls
- * @function fetchWebinars in the WebinarService
- *
  * @param {Request} request - Request from the frontend
  * @param {Response} response - Response that need to send to the client
  * @param {NextFunction} next - Next function
@@ -79,9 +70,6 @@ export const getWebinars = async (
     });
 };
 /**
- * @todo implement a @function getPastWebinars that calls
- * @function fetchPastWebinars in the WebinarService
- *
  * @param {Request} request - Request from the frontend
  * @param {Response} response - Response that need to send to the client
  * @param {NextFunction} next - Next function
@@ -103,9 +91,6 @@ export const getPastWebinars = async (
     });
 };
 /**
- * @todo implement a @function getUpcomingWebinar that calls
- * @function fetchUpcomingWebinar in the WebinarService
- *
  * @param {Request} request - Request from the frontend
  * @param {Response} response - Response that need to send to the client
  * @param {NextFunction} next - Next function
@@ -127,9 +112,6 @@ export const getUpcomingWebinar = async (
     });
 };
 /**
- * @todo implement a @function updateWebinar that calls
- * @function updateWebinar in the WebinarService
- *
  * @param {Request} request - Request from the frontend
  * @param {Response} response - Response that need to send to the client
  * @param {NextFunction} next - Next function
@@ -156,9 +138,6 @@ export const updateWebinar = async (
   }
 };
 /**
- * @todo implement a @function deleteWebinar that calls
- * @function removeWebinar in the WebinarService
- *
  * @param {Request} request - Request from the frontend
  * @param {Response} response - Response that need to send to the client
  * @param {NextFunction} next - Next function

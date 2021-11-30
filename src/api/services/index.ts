@@ -1,14 +1,14 @@
 /**
- * @todo import @methods from User Service
+import @methods from User Service
  */
 import { insertUser } from "./User.service";
-import { 
+import {
   insertContact,
   archiveContact,
-  fetchContactInfo
+  fetchContactInfo,
 } from "./Contact.service";
 /**
- * @todo import @methods from Event Service
+import @methods from Event Service
  */
 import {
   insertEvent,
@@ -20,7 +20,7 @@ import {
   deleteEvent,
 } from "./Event.service";
 /**
- * @todo import @methods from Webinar Service
+ import @methods from Webinar Service
  */
 import {
   insertWebinar,
@@ -32,7 +32,7 @@ import {
   removeWebinar,
 } from "./Webinar.service";
 /**
- * @todo import @methods from TopSpeaker Service
+import @methods from TopSpeaker Service
  */
 
 import {
@@ -44,11 +44,11 @@ import {
 } from "./TopSpeaker.service";
 
 /**
- * 
+ *
  * @todo import @methods from Application Service
  */
 /**
- * @todo import @methods from BoardMember Service
+ import @methods from BoardMember Service
  */
 import {
   insertBoardMember,
@@ -58,7 +58,7 @@ import {
   deleteBoardMemberDetails,
 } from "./BoardMember.service";
 /**
- * @todo import @methods from ExecutiveBoardMember Service
+ import @methods from ExecutiveBoardMember Service
  */
 import {
   insertExecutiveBoard,
@@ -92,30 +92,22 @@ export default {
   fetchUpcomingWebinar,
   updateWebinar,
   removeWebinar,
-  /**
-   * @todo export @methods from TopSpeaker Service
-   */
-
+  //TopSpeaker Service
   insertTopSpeaker,
   getTopSpeaker,
   getTopSpeakers,
   updateTopSpeaker,
   deleteTopSpeaker,
-
   /**
    * @todo export @methods from Application Service
    */
-  /**
-   * @todo export @methods from Event Service
-   */
+  // BoardMember Service
   insertBoardMember,
   getBoardMemberbyID,
   getAllBoardMembers,
   updateBoardMemberDetails,
   deleteBoardMemberDetails,
-  /**
-   * @todo export @methods from ExecutiveBoardMember Service
-   */
+  // ExecutiveBoardMember Service
   insertExecutiveBoard,
   getExecutiveBoardbyID,
   getExecutiveBoard,
