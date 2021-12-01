@@ -3,8 +3,9 @@ import handlebars from 'handlebars';
 import fs from 'fs';
 import logger from './logger';
 import { configuration } from '../config';
-import path from 'path';
 import moment from 'moment';
+import fetch from 'cross-fetch';
+import storage from '../config/storage.config';
 
 // HTML Configuration
 require.extensions['.html'] = (module: any, fileName: string) => {
@@ -26,33 +27,24 @@ let htmlToSend: string;
 
 class EmailService {
   static sendEmailWithTemplate(fileName: string, to: string, subject: string,  emailBodyData: any) {
-    return new Promise((resolve, reject) => {
-      let templatePath = this.getEmailTemplatePath(fileName);
-      if (templatePath) {
-        this.readTemplate(
-          templatePath,
-          (error: any, html: any) => {
-            if (error) {
-              logger.error(error.message);
-              return reject(error.message);
-            }
-            template = handlebars.compile(html);
-            htmlToSend = template(emailBodyData);
-  
-            this.retry(
-              5,
-              function () {
-                return EmailService.sendEmail(to, subject, htmlToSend)
-                  .then((responseData) => {
-                    return resolve(responseData);
-                  })
-                  .catch((error) => {
-                    return reject(error.message);
-                  });
-              },
-              'sendEmailWithTemplate->sendEmail'
-            );
-          }
+    return new Promise(async (resolve, reject) => {
+      let emailTemaplate = await this.getEmailTemplatePath(fileName);
+      if (emailTemaplate) {
+        template = handlebars.compile(emailTemaplate);
+        htmlToSend = template(emailBodyData);
+
+        this.retry(
+          5,
+          function () {
+            return EmailService.sendEmail(to, subject, htmlToSend)
+              .then((responseData) => {
+                return resolve(responseData);
+              })
+              .catch((error) => {
+                return reject(error.message);
+              });
+          },
+          'sendEmailWithTemplate->sendEmail'
         );
       } else {
         return reject('Email template not found');
@@ -60,27 +52,11 @@ class EmailService {
     });
   }
 
-  static getEmailTemplatePath = (fileName: string) => {
-    let emailTemplatePath = path.join(__dirname, '../', 'templates', fileName);
-    
-    if (!emailTemplatePath) {
-      return null;
-    }
+  static getEmailTemplatePath = async (fileName: string) => {
+    const emailBucketLink = process.env.EMAIL_STORAGE_BUCKET as string;
+    const templatePath = (await fetch(`${emailBucketLink}/${fileName}`)).text();
 
-    return emailTemplatePath;
-  }
-
-  static readTemplate = (templatePath: string, callback: any) => {
-    fs.readFile(
-      templatePath,
-      { encoding: 'utf-8', },
-      (error, html) => {
-        if (error) {
-          logger.error('Read template error: ' + error.message);
-        }
-        callback(null, html);
-      }
-    );
+    return templatePath;
   }
 
   static sendEmail = (to: string, subject: string, htmlTemplate: any) => {

@@ -1,6 +1,8 @@
 /node_modules
 /build
 yarn.lock
+ms-storage-server.json
+.env.*
 
 # Editor directories and files
 .idea

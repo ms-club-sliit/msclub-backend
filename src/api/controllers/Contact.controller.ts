@@ -23,7 +23,7 @@ export const createContact = async (request: Request, response: Response, next: 
         name: data.name,
         email: data.email,
         message: data.message,
-        dateTime: moment(data.createdAt).format('LLL'),
+        date_time: moment(data.createdAt).format('LLL'),
       };
 
       Email.sendEmailWithTemplate(emailTemplate, to, subject, emailBodyData)
