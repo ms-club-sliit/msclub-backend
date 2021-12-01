@@ -84,7 +84,7 @@ export const updateWebinar = async (
   return await WebinarModel.findById(webinarId)
     .then(async (webinarDetails) => {
       if (webinarDetails) {
-        if (!webinarDetails.deletedAt) {
+        if (webinarDetails.deletedAt) {
           if (webinarData.title) {
             webinarDetails.title = webinarData.title;
           }
@@ -131,7 +131,7 @@ export const updateWebinar = async (
 export const removeWebinar = async (webinarId: string) => {
   return await WebinarModel.findById(webinarId)
     .then(async (webinarDetails) => {
-      if (webinarDetails) {
+      if (webinarDetails?.deletedAt) {
         webinarDetails.deletedAt = new Date();
         return await webinarDetails.save();
       } else {

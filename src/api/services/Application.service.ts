@@ -58,7 +58,7 @@ export const fetchApplications = async () => {
 export const archiveApplication = async (applicationId: string) => {
   return await ApplicationModel.findById(applicationId)
     .then(async (application) => {
-      if (application) {
+      if (application?.deletedAt) {
         application.deletedAt = new Date();
         return await application.save();
       } else {

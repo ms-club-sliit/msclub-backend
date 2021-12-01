@@ -12,15 +12,20 @@ export const getBoardMemberbyID = async (
   response: Response,
   next: NextFunction
 ) => {
-  await BoardMemberService.getBoardMemberbyID(request.params.boardMemberId)
-    .then((data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+  const boardMemberId = request.params.boardMemberId;
+  if (boardMemberId) {
+    await BoardMemberService.getBoardMemberbyID(request.params.boardMemberId)
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)("Board Member ID not found");
+  }
 };
 /**
  * @param {Request} request - Request from the frontend
@@ -54,18 +59,23 @@ export const updateBoardMemberDetails = async (
   response: Response,
   next: NextFunction
 ) => {
-  await BoardMemberService.updateBoardMemberDetails(
-    request.params.boardMemberId,
-    request.body
-  )
-    .then((data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+  const boardMemberId = request.params.boardMemberId;
+  if (boardMemberId) {
+    await BoardMemberService.updateBoardMemberDetails(
+      request.params.boardMemberId,
+      request.body
+    )
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)("Board Member ID not found");
+  }
 };
 /**
  * @param {Request} request - Request from the frontend
@@ -78,15 +88,20 @@ export const deleteBoardMemberDetails = async (
   response: Response,
   next: NextFunction
 ) => {
-  await BoardMemberService.deleteBoardMemberDetails(
-    request.params.boardMemberId
-  )
-    .then((data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+  const boardMemberId = request.params.boardMemberId;
+  if (boardMemberId) {
+    await BoardMemberService.deleteBoardMemberDetails(
+      request.params.boardMemberId
+    )
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)("Board Member ID not found");
+  }
 };
