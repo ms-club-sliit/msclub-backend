@@ -2,7 +2,8 @@
 /build
 yarn.lock
 ms-storage-server.json
-.env.*
+.env.development
+.env.production
 
 # Editor directories and files
 .idea

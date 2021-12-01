@@ -5,13 +5,13 @@ import logger from './logger';
 import { configuration } from '../config';
 import moment from 'moment';
 import fetch from 'cross-fetch';
-import storage from '../config/storage.config';
 
 // HTML Configuration
 require.extensions['.html'] = (module: any, fileName: string) => {
   module.exports = fs.readFileSync(fileName, 'utf8');
 }
 
+// Node Mailer Configuration
 const transport = nodemailer.createTransport({
   host: configuration.email.host,
   port: configuration.email.port,
@@ -28,32 +28,37 @@ let htmlToSend: string;
 class EmailService {
   static sendEmailWithTemplate(fileName: string, to: string, subject: string,  emailBodyData: any) {
     return new Promise(async (resolve, reject) => {
-      let emailTemaplate = await this.getEmailTemplatePath(fileName);
-      if (emailTemaplate) {
-        template = handlebars.compile(emailTemaplate);
-        htmlToSend = template(emailBodyData);
-
-        this.retry(
-          5,
-          function () {
-            return EmailService.sendEmail(to, subject, htmlToSend)
-              .then((responseData) => {
-                return resolve(responseData);
-              })
-              .catch((error) => {
-                return reject(error.message);
-              });
-          },
-          'sendEmailWithTemplate->sendEmail'
-        );
-      } else {
-        return reject('Email template not found');
-      }
+      this.getEmailTemplatePath(fileName)
+        .then((emailTemplate) => {  
+          if (emailTemplate) {
+            template = handlebars.compile(emailTemplate);
+            htmlToSend = template(emailBodyData);
+    
+            this.retry(
+              5,
+              function () {
+                return EmailService.sendEmail(to, subject, htmlToSend)
+                  .then((responseData) => {
+                    return resolve(responseData);
+                  })
+                  .catch((error) => {
+                    return reject(error.message);
+                  });
+              },
+              'sendEmailWithTemplate->sendEmail'
+            );
+          } else {
+            return reject('Email template not found');
+          }
+        })
+        .catch((error) => {
+          logger.error(error.message);
+        });
     });
   }
 
   static getEmailTemplatePath = async (fileName: string) => {
-    const emailBucketLink = process.env.EMAIL_STORAGE_BUCKET as string;
+    const emailBucketLink = `${configuration.firebase.storageBucket}/${configuration.firebase.bucketName}/${configuration.firebase.emailTemplateBucket}`;
     const templatePath = (await fetch(`${emailBucketLink}/${fileName}`)).text();
 
     return templatePath;
@@ -64,6 +69,7 @@ class EmailService {
       transport.sendMail({
         from: configuration.email.auth.user,
         to: to,
+        replyTo: configuration.email.auth.user,
         subject: subject,
         html: htmlTemplate
       })
@@ -74,8 +80,8 @@ class EmailService {
         .catch((error) => {
           logger.error('Send Email Error: ' + error.message);
           return reject(error.message);
-        })
-    })
+        });
+    });
   }
 
   static retry = (maxRetries: number, retryFunction: any, retryFunctionName: string) => {

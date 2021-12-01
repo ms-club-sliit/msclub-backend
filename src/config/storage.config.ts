@@ -6,4 +6,6 @@ const storage = new Storage({
   projectId: 'ms-storage-server-fb22b'
 });
 
-export default storage;
+const StorageBucket = storage.bucket(process.env.BUCKET_NAME as string);
+
+export default StorageBucket;
