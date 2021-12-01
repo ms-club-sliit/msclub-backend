@@ -24,7 +24,7 @@ export const archiveContact = async (contactId: string) => {
   return await ContactModel.findById(contactId)
     .then(async (contactData) => {
       if (contactData) {
-        if (contactData.deletedAt) {
+        if (!contactData.deletedAt) {
           throw new Error('Contact Information Not Found');
         } else {
           contactData.deletedAt = new Date();

@@ -124,7 +124,7 @@ export const updateEvent = async (
 export const deleteEvent = async (eventId: string) => {
   return await EventModel.findById(eventId)
     .then(async (eventDetails) => {
-      if (eventDetails) {
+      if (eventDetails?.deletedAt) {
         eventDetails.deletedAt = new Date();
         return await eventDetails.save();
       } else {

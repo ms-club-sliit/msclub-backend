@@ -39,7 +39,7 @@ import { ITopSpeaker } from "../interfaces";
     response: Response,
     next: NextFunction
   ) => {
-    let topSpeakerId = request.params.topSpeakerId;
+    const topSpeakerId = request.params.topSpeakerId;
 
     if (topSpeakerId) {
       await TopSpeakerService.getTopSpeaker(request.params.topSpeakerId)
@@ -90,7 +90,7 @@ import { ITopSpeaker } from "../interfaces";
     next: NextFunction
   ) => {
 
-    let topSpeakerId = request.params.topSpeakerId;
+    const topSpeakerId = request.params.topSpeakerId;
 
     if (topSpeakerId) { 
       await TopSpeakerService.updateTopSpeaker(request.params.topSpeakerId, request.body)
@@ -116,7 +116,7 @@ import { ITopSpeaker } from "../interfaces";
     next: NextFunction
   ) => {
 
-    let topSpeakerId = request.params.topSpeakerId;
+    const topSpeakerId = request.params.topSpeakerId;
 
     if (topSpeakerId) {
       await TopSpeakerService.deleteTopSpeaker(request.params.topSpeakerId)

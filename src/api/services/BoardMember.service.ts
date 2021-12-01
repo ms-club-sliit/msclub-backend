@@ -54,7 +54,7 @@ export const updateBoardMemberDetails = async (
   return await BoardMemberModel.findById(boardMemberId)
     .then(async (boardMemberDetails) => {
       if (boardMemberDetails) {
-        if (boardMemberDetails.deletedAt === null) {
+        if (boardMemberDetails.deletedAt) {
           if (updateData.name) {
             boardMemberDetails.name = updateData.name;
           }
@@ -100,7 +100,7 @@ export const updateBoardMemberDetails = async (
 export const deleteBoardMemberDetails = async (boardMemberId: string) => {
   return await BoardMemberModel.findById(boardMemberId)
     .then(async (boardMemberDetails) => {
-      if (boardMemberDetails) {
+      if (boardMemberDetails?.deletedAt) {
         boardMemberDetails.deletedAt = new Date();
         return await boardMemberDetails.save();
       } else {
