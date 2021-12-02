@@ -18,7 +18,7 @@ const ApplicationSchema = new Schema<IApplication>(
     goal : { type: String, required: true},
     skillsAndTalents : [{ type: String, required: true}],
     pastWork : { type: String, required: false},
-    deletedAt : { type: Date, required: true},
+    deletedAt: { type: Date, required: false, default: null },
     status : { 
       type: String, 
       enum: ["PENDING", "REVIEWING", "INTERVIEW", "SELECTED", "REJECTED"], 
