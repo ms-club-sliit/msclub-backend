@@ -33,7 +33,7 @@ export const getWebinarById = async (
   response: Response,
   next: NextFunction
 ) => {
-  let webinarId = request.params.webinarId;
+  const webinarId = request.params.webinarId;
   if (webinarId) {
     await WebinarService.fetchWebinarById(request.params.webinarId)
       .then((data) => {
@@ -122,7 +122,7 @@ export const updateWebinar = async (
   response: Response,
   next: NextFunction
 ) => {
-  let webinarId = request.params.webinarId;
+  const webinarId = request.params.webinarId;
   if (webinarId) {
     await WebinarService.updateWebinar(request.params.webinarId, request.body)
       .then((data) => {
@@ -148,7 +148,7 @@ export const deleteWebinar = async (
   response: Response,
   next: NextFunction
 ) => {
-  let webinarId = request.params.webinarId;
+  const webinarId = request.params.webinarId;
   if (webinarId) {
     await WebinarService.removeWebinar(request.params.webinarId)
       .then((data) => {

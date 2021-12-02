@@ -35,7 +35,7 @@ export const getEvent = async (
   response: Response,
   next: NextFunction
 ) => {
-  let eventId = request.params.eventId;
+  const eventId = request.params.eventId;
   if (eventId) {
     await EventService.getEvent(request.params.eventId)
       .then((data) => {
@@ -47,7 +47,7 @@ export const getEvent = async (
         next();
       });
   } else {
-    request.handleResponse.errorRespond(response)('Event ID not found');
+    request.handleResponse.errorRespond(response)("Event ID not found");
   }
 };
 
@@ -128,15 +128,20 @@ export const updateEvent = async (
   response: Response,
   next: NextFunction
 ) => {
-  await EventService.updateEvent(request.params.eventId, request.body)
-    .then((data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+  const eventId = request.params.eventId;
+  if (eventId) {
+    await EventService.updateEvent(request.params.eventId, request.body)
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)("Event ID not found");
+  }
 };
 
 /**
@@ -150,13 +155,18 @@ export const deleteEvent = async (
   response: Response,
   next: NextFunction
 ) => {
-  await EventService.deleteEvent(request.params.eventId)
-    .then((data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+  const eventId = request.params.eventId;
+  if (eventId) {
+    await EventService.deleteEvent(request.params.eventId)
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)("Event ID not found");
+  }
 };

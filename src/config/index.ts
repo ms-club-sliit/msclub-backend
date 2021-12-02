@@ -11,31 +11,27 @@ if (environment === 'Development') {
       uri: process.env.MONGO_URI as string
     },
     auth: {
-      secret: 'msClubDevJwtSecret'
+      secret: process.env.JWT_SECRET as string,
     },
     email: {
-      host: 'smtp.gmail.com',
-      port: 465,
+      host: process.env.EMAIL_HOST as string,
+      port: process.env.EMAIL_PORT as string,
       secure: true,
       pool: true,
       secureConnection: true,
       auth: {
-        user: 'msclubofsliit@gmail.com',
-        pass: 'bbyfeykrgcayvrzx'
+        user: process.env.EMAIL_AUTH_USER as string,
+        pass: process.env.EMAIL_AUTH_PASSWORD as string,
       },
       tls: {
         rejectUnauthorized: false
       }
     },
     firebase: {
-      apiKey: process.env.FIREBASE_API_KEY as string,
-      authDomain: process.env.FIREBASE_AUTH_DOMAIN as string,
-      projectId: process.env.FIREBASE_PROJECT_ID as string,
-      storageBucket: process.env.FIREBASE_STORAGE_BUCKET as string,
-      messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID as string,
-      appId: process.env.FIREBASE_APP_ID as string,
-      measurementId: process.env.FIREBASE_MEASUREMENT_ID as string,
-      serviceAccount: process.env.FIREBASE_SERVICE_ACCOUNT as string,
+      storageBucket: process.env.STORAGE_BUCKET_URL as string,
+      bucketName: process.env.BUCKET_NAME as string,
+      applicationImageBucket: process.env.APPLICATION_IMAGES_BUCKET as string,
+      emailTemplateBucket: process.env.EMAIL_TEMPLATE_BUCKET as string,
     }
   };
 } else if (environment === 'Production') {
@@ -47,31 +43,27 @@ if (environment === 'Development') {
       uri: process.env.MONGO_URI as string
     },
     auth: {
-      secret: 'msClubProdJwtSecret'
+      secret: process.env.JWT_SECRET as string,
     },
     email: {
-      host: 'smtp.gmail.com',
-      port: 465,
+      host: process.env.EMAIL_HOST as string,
+      port: process.env.EMAIL_PORT as string,
       secure: true,
       pool: true,
       secureConnection: true,
       auth: {
-        user: 'msclubofsliit@gmail.com',
-        pass: 'bbyfeykrgcayvrzx'
+        user: process.env.EMAIL_AUTH_USER as string,
+        pass: process.env.EMAIL_AUTH_PASSWORD as string,
       },
       tls: {
         rejectUnauthorized: false
       }
     },
     firebase: {
-      apiKey: process.env.FIREBASE_API_KEY as string,
-      authDomain: process.env.FIREBASE_AUTH_DOMAIN as string,
-      projectId: process.env.FIREBASE_PROJECT_ID as string,
-      storageBucket: process.env.FIREBASE_STORAGE_BUCKET as string,
-      messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID as string,
-      appId: process.env.FIREBASE_APP_ID as string,
-      measurementId: process.env.FIREBASE_MEASUREMENT_ID as string,
-      serviceAccount: process.env.FIREBASE_SERVICE_ACCOUNT as string,
+      storageBucket: process.env.STORAGE_BUCKET_URL as string,
+      bucketName: process.env.BUCKET_NAME as string,
+      applicationImageBucket: process.env.APPLICATION_IMAGES_BUCKET as string,
+      emailTemplateBucket: process.env.EMAIL_TEMPLATE_BUCKET as string,
     }
   };
 }

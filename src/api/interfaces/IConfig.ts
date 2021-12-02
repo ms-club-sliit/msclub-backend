@@ -10,7 +10,7 @@ interface IConfig {
   },
   email: {
     host: string;
-    port: number;
+    port: string;
     secure: boolean;
     pool: boolean;
     secureConnection: boolean;
@@ -23,14 +23,10 @@ interface IConfig {
     }
   },
   firebase: {
-    apiKey: string;
-    authDomain: string;
-    projectId: string;
     storageBucket: string;
-    messagingSenderId: string;
-    appId: string;
-    measurementId: string;
-    serviceAccount: string;
+    emailTemplateBucket: string;
+    applicationImageBucket: string;
+    bucketName: string;
   }
 }
 

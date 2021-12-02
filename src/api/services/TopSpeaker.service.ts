@@ -118,7 +118,7 @@ delete a past event
 export const deleteTopSpeaker = async (topSpeakerId: string) => {
   return await TopSpeakerModel.findById(topSpeakerId)
     .then(async (topSpeakerDetails) => {
-      if (topSpeakerDetails) {
+      if (topSpeakerDetails?.deletedAt) {
         topSpeakerDetails.deletedAt = new Date();
         return await topSpeakerDetails.save();
       } else {

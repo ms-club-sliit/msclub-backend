@@ -33,17 +33,24 @@ export const getExecutiveBoardbyID = async (
   response: Response,
   next: NextFunction
 ) => {
-  await ExecutiveBoardService.getExecutiveBoardbyID(
-    request.params.executiveBoardId
-  )
-    .then((data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+  const executiveBoardId = request.params.executiveBoardId;
+  if (executiveBoardId) {
+    await ExecutiveBoardService.getExecutiveBoardbyID(
+      request.params.executiveBoardId
+    )
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)(
+      "Executive board ID not found"
+    );
+  }
 };
 /**
  * @param request
@@ -101,18 +108,25 @@ export const updateExecutiveBoardDetails = async (
   response: Response,
   next: NextFunction
 ) => {
-  await ExecutiveBoardService.updateExecutiveBoardDetails(
-    request.params.executiveBoardId,
-    request.body
-  )
-    .then((data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+  const executiveBoardId = request.params.executiveBoardId;
+  if (executiveBoardId) {
+    await ExecutiveBoardService.updateExecutiveBoardDetails(
+      request.params.executiveBoardId,
+      request.body
+    )
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)(
+      "Executive board ID not found"
+    );
+  }
 };
 /**
  * @param request
@@ -125,15 +139,22 @@ export const deleteExecutiveBoardDetails = async (
   response: Response,
   next: NextFunction
 ) => {
-  await ExecutiveBoardService.deleteExecutiveBoardDetails(
-    request.params.executiveBoardId
-  )
-    .then((data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+  const executiveBoardId = request.params.executiveBoardId;
+  if (executiveBoardId) {
+    await ExecutiveBoardService.deleteExecutiveBoardDetails(
+      request.params.executiveBoardId
+    )
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)(
+      "Executive board ID not found"
+    );
+  }
 };

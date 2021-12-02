@@ -105,7 +105,7 @@ export const updateExecutiveBoardDetails = async (
 export const deleteExecutiveBoardDetails = async (boardId: string) => {
   return await ExecutiveBoardModel.findById(boardId)
     .then(async (executiveBoardDetails) => {
-      if (executiveBoardDetails) {
+      if (executiveBoardDetails?.deletedAt) {
         executiveBoardDetails.deletedAt = new Date();
         return await executiveBoardDetails.save();
       } else {
