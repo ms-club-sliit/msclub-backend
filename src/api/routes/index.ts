@@ -68,5 +68,5 @@ export default function (app: Express) {
   app.post("/application/", controller.addApplication);
   app.get("/application/:applicationId/", controller.getApplicationById);
   app.get("/application/", controller.getApplications);
-  app.delete("/application/:applicationId", controller.setApplicationArchive);
+  app.put("/application/delete/:applicationId", controller.setApplicationArchive);
 }
