@@ -1,7 +1,7 @@
 import { createUser } from "./User.controller";
 
-import { 
-  createContact, 
+import {
+  createContact,
   getAllContacts,
   removeContact
 } from "./Contact.controller";
@@ -41,6 +41,12 @@ import {
 /**
  *import the @methods from ApplicationController
  */
+import {
+  addApplication,
+  getApplicationById,
+  getApplications,
+  setApplicationArchive,
+} from "./Application.controller";
 /**
  *import the @methods from BoardMemberController
  */
@@ -96,4 +102,8 @@ export default {
   getAllBoardMembers,
   updateBoardMemberDetails,
   deleteBoardMemberDetails,
+  addApplication,
+  getApplicationById,
+  getApplications,
+  setApplicationArchive,
 };
