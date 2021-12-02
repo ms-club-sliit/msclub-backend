@@ -47,6 +47,12 @@ import {
  *
  * @todo import @methods from Application Service
  */
+import {
+  addApplication,
+  fetchApplicationById,
+  fetchApplications,
+  archiveApplication,
+} from "./Application.service";
 /**
  import @methods from BoardMember Service
  */
@@ -101,6 +107,10 @@ export default {
   /**
    * @todo export @methods from Application Service
    */
+  addApplication,
+  fetchApplicationById,
+  fetchApplications,
+  archiveApplication,
   // BoardMember Service
   insertBoardMember,
   getBoardMemberbyID,
