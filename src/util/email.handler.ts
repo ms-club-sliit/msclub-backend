@@ -1,4 +1,3 @@
-import nodemailer from 'nodemailer';
 import handlebars from 'handlebars';
 import fs from 'fs';
 import logger from './logger';
@@ -12,6 +11,7 @@ require.extensions['.html'] = (module: any, fileName: string) => {
 }
 
 // Node Mailer Configuration
+const nodemailer = require('nodemailer');
 const transport = nodemailer.createTransport({
   host: configuration.email.host,
   port: configuration.email.port,
@@ -73,11 +73,11 @@ class EmailService {
         subject: subject,
         html: htmlTemplate
       })
-        .then((responseData) => {
+        .then((responseData: any) => {
           logger.info(`Email sent from ${responseData.envelope.from} to ${responseData.envelope.to}`);
           return resolve(responseData);
         })
-        .catch((error) => {
+        .catch((error: any) => {
           logger.error('Send Email Error: ' + error.message);
           return reject(error.message);
         });

@@ -11,17 +11,17 @@ if (environment === 'Development') {
       uri: process.env.MONGO_URI as string
     },
     auth: {
-      secret: 'msClubDevJwtSecret'
+      secret: process.env.JWT_SECRET as string,
     },
     email: {
-      host: 'smtp.gmail.com',
-      port: 465,
+      host: process.env.EMAIL_HOST as string,
+      port: process.env.EMAIL_PORT as string,
       secure: true,
       pool: true,
       secureConnection: true,
       auth: {
-        user: 'msclubofsliit@gmail.com',
-        pass: 'bbyfeykrgcayvrzx'
+        user: process.env.EMAIL_AUTH_USER as string,
+        pass: process.env.EMAIL_AUTH_PASSWORD as string,
       },
       tls: {
         rejectUnauthorized: false
@@ -43,17 +43,17 @@ if (environment === 'Development') {
       uri: process.env.MONGO_URI as string
     },
     auth: {
-      secret: 'msClubProdJwtSecret'
+      secret: process.env.JWT_SECRET as string,
     },
     email: {
-      host: 'smtp.gmail.com',
-      port: 465,
+      host: process.env.EMAIL_HOST as string,
+      port: process.env.EMAIL_PORT as string,
       secure: true,
       pool: true,
       secureConnection: true,
       auth: {
-        user: 'msclubofsliit@gmail.com',
-        pass: 'bbyfeykrgcayvrzx'
+        user: process.env.EMAIL_AUTH_USER as string,
+        pass: process.env.EMAIL_AUTH_PASSWORD as string,
       },
       tls: {
         rejectUnauthorized: false

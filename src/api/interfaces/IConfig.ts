@@ -10,7 +10,7 @@ interface IConfig {
   },
   email: {
     host: string;
-    port: number;
+    port: string;
     secure: boolean;
     pool: boolean;
     secureConnection: boolean;
