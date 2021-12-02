@@ -5,7 +5,7 @@ interface IApplication extends Document {
     name : string;
     email : string
     contactNumber : string;
-    currentAcademicYear : number;
+    currentAcademicYear : string;
     selfIntroduction : string;
     reasonForJoin : string;
     linkedIn : string;
