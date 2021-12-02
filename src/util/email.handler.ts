@@ -71,7 +71,8 @@ class EmailService {
         to: to,
         replyTo: configuration.email.auth.user,
         subject: subject,
-        html: htmlTemplate
+        html: htmlTemplate,
+        text: htmlTemplate,
       })
         .then((responseData: any) => {
           logger.info(`Email sent from ${responseData.envelope.from} to ${responseData.envelope.to}`);
