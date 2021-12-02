@@ -63,7 +63,10 @@ export default function (app: Express) {
   /**
    * @todo  implement the @routes for TopSpeakerController
    */
-  /**
-   * @todo  implement the @routes for ApplicationController
-   */
+
+  // Application endpoints
+  app.post("/application/", controller.addApplication);
+  app.get("/application/:applicationId/", controller.getApplicationById);
+  app.get("/application/", controller.getApplications);
+  app.delete("/application/:applicationId", controller.setApplicationArchive);
 }
