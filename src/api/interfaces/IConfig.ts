@@ -23,14 +23,10 @@ interface IConfig {
     }
   },
   firebase: {
-    apiKey: string;
-    authDomain: string;
-    projectId: string;
     storageBucket: string;
-    messagingSenderId: string;
-    appId: string;
-    measurementId: string;
-    serviceAccount: string;
+    emailTemplateBucket: string;
+    applicationImageBucket: string;
+    bucketName: string;
   }
 }
 

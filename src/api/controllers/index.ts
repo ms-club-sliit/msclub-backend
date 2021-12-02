@@ -3,7 +3,7 @@ import { createUser } from "./User.controller";
 import { 
   createContact, 
   getAllContacts,
-  removeContact 
+  removeContact
 } from "./Contact.controller";
 
 import {

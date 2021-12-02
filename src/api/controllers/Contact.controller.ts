@@ -1,10 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import ContactService from '../services';
-import Email from '../../util/email.handler';
-import { getImageURL } from '../../util/image.handler';
-import path from 'path';
+import EmailService from '../../util/email.handler';
 import moment from 'moment';
-import logger from '../../util/logger';
 
 /**
  * @param {Request} request - Request from the frontend
@@ -23,10 +20,10 @@ export const createContact = async (request: Request, response: Response, next: 
         name: data.name,
         email: data.email,
         message: data.message,
-        dateTime: moment(data.createdAt).format('LLL'),
+        date_time: moment(data.createdAt).format('LLL'),
       };
 
-      Email.sendEmailWithTemplate(emailTemplate, to, subject, emailBodyData)
+      EmailService.sendEmailWithTemplate(emailTemplate, to, subject, emailBodyData)
         .then((emailData) => {
           request.handleResponse.successRespond(response)({
             contactData: data,
