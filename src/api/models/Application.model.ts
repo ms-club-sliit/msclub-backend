@@ -16,7 +16,7 @@ const ApplicationSchema = new Schema<IApplication>(
     experiences : { type: String, required: true},
     challenges : { type: String, required: true},
     goal : { type: String, required: true},
-    skillsAndTalents : [{ type: String, required: true}],
+    //skillsAndTalents : [{ type: String, required: true}],
     pastWork : { type: String, required: false},
     deletedAt: { type: Date, required: false, default: null },
     status : { 
