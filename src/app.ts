@@ -1,5 +1,6 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import logger from './util/logger';
 import responseHandler from './util/response.handler';
 import routes from './api/routes';
@@ -13,6 +14,7 @@ const ENVIRONMENT = configuration.environment;
 const MONGO_URI = configuration.mongodb.uri;
  
 // Register Middleware Chain
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
