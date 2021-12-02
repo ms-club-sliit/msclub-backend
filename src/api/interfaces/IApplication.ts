@@ -14,7 +14,7 @@ interface IApplication extends Document {
     experiences : string;
     challenges : string;
     goal : string;
-    skillsAndTalents ?: string[];
+    skillsAndTalents : string[];
     pastWork ?: string;
     deletedAt ?: Date;
     status : string;
