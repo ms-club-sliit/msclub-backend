@@ -95,7 +95,7 @@ export const changeApplicationStatusIntoInterview = async (
           format: interviewData.format,
         };
 
-        await EmailService.sendEmailWithTemplate(
+        return await EmailService.sendEmailWithTemplate(
           emailTemplate,
           to,
           subject,
