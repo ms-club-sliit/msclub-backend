@@ -7,7 +7,7 @@ const ApplicationSchema = new Schema<IApplication>(
     name : { type: String, required: true},
     email : { type: String, required: true},
     contactNumber : { type: String, required: true},
-    currentAcademicYear : { type: Number, required: true},
+    currentAcademicYear : { type: String, required: true},
     selfIntroduction : { type: String, required: true},
     reasonForJoin : { type: String, required: true},
     linkedIn : { type: String, required: true},
