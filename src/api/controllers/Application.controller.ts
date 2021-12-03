@@ -15,7 +15,6 @@ export const addApplication = async (
   response: Response,
   next: NextFunction
 ) => {
-  console.log("called")
   await ApplicationService.addApplication(request.body)
     .then((data) => {
       // Send email
