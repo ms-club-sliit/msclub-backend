@@ -1,5 +1,6 @@
 import { DocumentDefinition, FilterQuery } from "mongoose";
-import { IApplication } from "../interfaces";
+import EmailService from "../../util/email.handler";
+import { IApplication, IInterview } from "../interfaces";
 import ApplicationModel from "../models/Application.model";
 
 /**
@@ -69,3 +70,59 @@ export const archiveApplication = async (applicationId: string) => {
       throw new Error(error.message);
     });
 };
+
+/**
+ * @todo create @function changeApplicationStatusIntoInterview to update the status into INTERVIEW of an application in the system
+ * @param applicationId @type string
+ */
+export const changeApplicationStatusIntoInterview = async (
+  applicationId: string,
+  interviewData: DocumentDefinition<IInterview>
+) => {
+  return await ApplicationModel.findById(applicationId)
+    .then(async (application) => {
+      if (application) {
+        // Send email
+        const emailTemplate = "Interview-Email-Template.html";
+        const to = application.email;
+        const subject = "Interview for the MS Club of SLIIT";
+        const emailBodyData = {
+          name: application.name,
+          email: application.email,
+          date: interviewData.date,
+          time: interviewData.time,
+          duration: interviewData.duration,
+          format: interviewData.format,
+        };
+
+        return await EmailService.sendEmailWithTemplate(
+          emailTemplate,
+          to,
+          subject,
+          emailBodyData
+        )
+          .then(async () => {
+            application.status = "INTERVIEW";
+            return await application.save();
+          })
+          .catch(() => {
+            return application;
+          });
+      } else {
+        return null;
+      }
+    })
+    .catch((error) => {
+      throw new Error(error.message);
+    });
+};
+
+/**
+ * @todo create @function changeApplicationStatusIntoSelected to update the status into SELECTED of an application in the system
+ * @param applicationId @type string
+ */
+
+/**
+ * @todo create @function changeApplicationStatusIntoRejected to update the status into REJECTED of an application in the system
+ * @param applicationId @type string
+ */

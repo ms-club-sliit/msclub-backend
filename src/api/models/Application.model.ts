@@ -21,7 +21,7 @@ const ApplicationSchema = new Schema<IApplication>(
     deletedAt: { type: Date, required: false, default: null },
     status : { 
       type: String, 
-      enum: ["PENDING", "REVIEWING", "INTERVIEW", "SELECTED", "REJECTED"], 
+      enum: ["PENDING", "INTERVIEW", "SELECTED", "REJECTED"], 
       required: false,
       default: "PENDING"
     },

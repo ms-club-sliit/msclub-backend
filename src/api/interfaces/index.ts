@@ -7,6 +7,7 @@ import { IWebinar } from './IWebinar';
 import { IExecutiveBoard } from './IExecutiveBoard';
 import { IBoardMember } from './IBoardMember';
 import { IApplication } from './IApplication';
+import {IInterview} from './IInterview';
 
 export {
   IUser,
@@ -18,4 +19,5 @@ export {
   IBoardMember,
   IApplication,
   ITopSpeaker,
+  IInterview
 };
