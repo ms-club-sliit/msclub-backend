@@ -52,6 +52,7 @@ import {
   fetchApplicationById,
   fetchApplications,
   archiveApplication,
+  changeApplicationStatusIntoInterview
 } from "./Application.service";
 /**
  import @methods from BoardMember Service
@@ -105,12 +106,13 @@ export default {
   updateTopSpeaker,
   deleteTopSpeaker,
   /**
-   * @todo export @methods from Application Service
+   * Application Service
    */
   addApplication,
   fetchApplicationById,
   fetchApplications,
   archiveApplication,
+  changeApplicationStatusIntoInterview,
   // BoardMember Service
   insertBoardMember,
   getBoardMemberbyID,

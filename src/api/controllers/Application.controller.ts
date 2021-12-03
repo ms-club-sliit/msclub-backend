@@ -15,6 +15,7 @@ export const addApplication = async (
   response: Response,
   next: NextFunction
 ) => {
+  console.log("called")
   await ApplicationService.addApplication(request.body)
     .then((data) => {
       // Send email
@@ -136,6 +137,27 @@ export const setApplicationArchive = async (
  * @param {NextFunction} next - Next function
  * @returns {IApplication} updated application document in the system
  */
+ export const changeApplicationStatusIntoInterview = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  const applicationId = request.params.applicationId;
+  if (applicationId) {
+    await ApplicationService.changeApplicationStatusIntoInterview(request.params.applicationId,request.body)
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)("applicationId not found");
+  }
+};
+
 
 /**
  * @todo implement a @function changeApplicationStatusIntoSelected that calls 

@@ -3,7 +3,7 @@ import { createUser } from "./User.controller";
 import {
   createContact,
   getAllContacts,
-  removeContact
+  removeContact,
 } from "./Contact.controller";
 
 import {
@@ -46,6 +46,7 @@ import {
   getApplicationById,
   getApplications,
   setApplicationArchive,
+  changeApplicationStatusIntoInterview,
 } from "./Application.controller";
 /**
  *import the @methods from BoardMemberController
@@ -69,10 +70,13 @@ import {
 } from "./ExecutiveBoard.controller";
 
 export default {
+  //User Controllers
   createUser,
+  //Contact Controllers
   createContact,
   getAllContacts,
   removeContact,
+  //Event Controllers
   insertEvent,
   getEvent,
   getEvents,
@@ -80,6 +84,7 @@ export default {
   getUpcomingEvent,
   updateEvent,
   deleteEvent,
+  //Webinar Controllers
   insertWebinar,
   getWebinarById,
   getWebinars,
@@ -87,23 +92,28 @@ export default {
   getUpcomingWebinar,
   updateWebinar,
   deleteWebinar,
+  //Executive board Controllers
   insertExecutiveBoard,
   getExecutiveBoardbyID,
   getExecutiveBoard,
   addBoardMember,
   updateExecutiveBoardDetails,
   deleteExecutiveBoardDetails,
+  //Top Speaker Controllers
   insertTopSpeaker,
   getTopSpeaker,
   getTopSpeakers,
   updateTopSpeaker,
   deleteTopSpeaker,
+  //Board Member Controllers
   getBoardMemberbyID,
   getAllBoardMembers,
   updateBoardMemberDetails,
   deleteBoardMemberDetails,
+  //Application Controllers
   addApplication,
   getApplicationById,
   getApplications,
   setApplicationArchive,
+  changeApplicationStatusIntoInterview,
 };
