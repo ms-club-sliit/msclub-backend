@@ -128,7 +128,7 @@ export const setApplicationArchive = async (
 };
 
 /**
- * @todo implement a @function changeApplicationStatusIntoInterview that calls 
+ * @function changeApplicationStatusIntoInterview that calls 
  * @function changeApplicationStatusIntoInterview in the ApplicationService 
  * 
  * @param {Request} request - Request from the frontend
@@ -159,7 +159,7 @@ export const changeApplicationStatusIntoInterview = async (
 
 
 /**
- * @todo implement a @function changeApplicationStatusIntoSelected that calls
+ * @function changeApplicationStatusIntoSelected that calls
  * @function changeApplicationStatusIntoSelected in the ApplicationService
  *
  * @param {Request} request - Request from the frontend
