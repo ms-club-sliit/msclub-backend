@@ -1,5 +1,6 @@
 import { createUser } from "./User.controller";
 
+
 import {
   createContact,
   getAllContacts,
@@ -47,6 +48,7 @@ import {
   getApplications,
   setApplicationArchive,
   changeApplicationStatusIntoInterview,
+  changeApplicationStatusIntoSelected,
 } from "./Application.controller";
 /**
  *import the @methods from BoardMemberController
@@ -116,4 +118,5 @@ export default {
   getApplications,
   setApplicationArchive,
   changeApplicationStatusIntoInterview,
+  changeApplicationStatusIntoSelected,
 };
