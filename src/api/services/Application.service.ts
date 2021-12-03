@@ -69,3 +69,18 @@ export const archiveApplication = async (applicationId: string) => {
       throw new Error(error.message);
     });
 };
+
+/**
+ * @todo create @function changeApplicationStatusIntoInterview to update the status into INTERVIEW of an application in the system
+ * @param applicationId @type string
+ */
+
+/**
+ * @todo create @function changeApplicationStatusIntoSelected to update the status into SELECTED of an application in the system
+ * @param applicationId @type string
+ */
+
+/**
+ * @todo create @function changeApplicationStatusIntoRejected to update the status into REJECTED of an application in the system
+ * @param applicationId @type string
+ */

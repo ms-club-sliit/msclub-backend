@@ -1,6 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from "express";
 import ApplicationService from "../services";
+import EmailService from "../../util/email.handler";
 import logger from "../../util/logger";
+import { IApplication } from "../interfaces";
 
 /**
  * @param {Request} request - Request from the frontend
@@ -9,19 +11,44 @@ import logger from "../../util/logger";
  * @returns {IApplication} - New application document
  */
 export const addApplication = async (
-    request: Request,
-    response: Response,
-    next: NextFunction
+  request: Request,
+  response: Response,
+  next: NextFunction
 ) => {
-    await ApplicationService.addApplication(request.body)
-        .then((data) => {
-            request.handleResponse.successRespond(response)(data);
-            next();
+  await ApplicationService.addApplication(request.body)
+    .then((data) => {
+      // Send email
+      const emailTemplate = "Application-Email-Template.html";
+      const to = data.email;
+      const subject = "MS Club SLIIT - Application Received";
+      const emailBodyData = {
+        name: data.name,
+        email: data.email,
+      };
+
+      EmailService.sendEmailWithTemplate(
+        emailTemplate,
+        to,
+        subject,
+        emailBodyData
+      )
+        .then((emailData) => {
+          request.handleResponse.successRespond(response)({
+            applicationData: data,
+            emailData: emailData,
+          });
         })
-        .catch((error: any) => {
-            request.handleResponse.errorRespond(response)(error.message);
-            next();
+        .catch((error) => {
+          request.handleResponse.errorRespond(response)({
+            message: error.message,
+            data: data,
+          });
         });
+    })
+    .catch((error: any) => {
+      request.handleResponse.errorRespond(response)(error.message);
+      next();
+    });
 };
 
 /**
@@ -31,24 +58,24 @@ export const addApplication = async (
  * @returns {IApplication} - Application document that relevent to the passed ID
  */
 export const getApplicationById = async (
-    request: Request,
-    response: Response,
-    next: NextFunction
+  request: Request,
+  response: Response,
+  next: NextFunction
 ) => {
-    const applicationId = request.params.applicationId;
-    if (applicationId) {
-        await ApplicationService.fetchApplicationById(request.params.applicationId)
-            .then((data) => {
-                request.handleResponse.successRespond(response)(data);
-                next();
-            })
-            .catch((error: any) => {
-                request.handleResponse.errorRespond(response)(error.message);
-                next();
-            });
-    } else {
-        request.handleResponse.errorRespond(response)("applicationId not found");
-    }
+  const applicationId = request.params.applicationId;
+  if (applicationId) {
+    await ApplicationService.fetchApplicationById(request.params.applicationId)
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)("applicationId not found");
+  }
 };
 
 /**
@@ -58,19 +85,19 @@ export const getApplicationById = async (
  * @returns {IApplication} - All application documents
  */
 export const getApplications = async (
-    request: Request,
-    response: Response,
-    next: NextFunction
+  request: Request,
+  response: Response,
+  next: NextFunction
 ) => {
-    await ApplicationService.fetchApplications()
-        .then((data) => {
-            request.handleResponse.successRespond(response)(data);
-            next();
-        })
-        .catch((error: any) => {
-            request.handleResponse.errorRespond(response)(error.message);
-            next();
-        });
+  await ApplicationService.fetchApplications()
+    .then((data) => {
+      request.handleResponse.successRespond(response)(data);
+      next();
+    })
+    .catch((error: any) => {
+      request.handleResponse.errorRespond(response)(error.message);
+      next();
+    });
 };
 
 /**
@@ -80,22 +107,52 @@ export const getApplications = async (
  * @returns {IApplication} - Updated application document
  */
 export const setApplicationArchive = async (
-    request: Request,
-    response: Response,
-    next: NextFunction
+  request: Request,
+  response: Response,
+  next: NextFunction
 ) => {
-    const applicationId = request.params.applicationId;
-    if (applicationId) {
-        await ApplicationService.archiveApplication(request.params.applicationId)
-            .then((data) => {
-                request.handleResponse.successRespond(response)(data);
-                next();
-            })
-            .catch((error: any) => {
-                request.handleResponse.errorRespond(response)(error.message);
-                next();
-            });
-    } else {
-        request.handleResponse.errorRespond(response)("applicationId not found");
-    }
+  const applicationId = request.params.applicationId;
+  if (applicationId) {
+    await ApplicationService.archiveApplication(request.params.applicationId)
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)("applicationId not found");
+  }
 };
+
+/**
+ * @todo implement a @function changeApplicationStatusIntoInterview that calls 
+ * @function changeApplicationStatusIntoInterview in the ApplicationService 
+ * 
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns {IApplication} updated application document in the system
+ */
+
+/**
+ * @todo implement a @function changeApplicationStatusIntoSelected that calls 
+ * @function changeApplicationStatusIntoSelected in the ApplicationService 
+ * 
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns {IApplication} updated application document in the system
+ */
+
+/**
+ * @todo implement a @function changeApplicationStatusIntoRejected that calls 
+ * @function changeApplicationStatusIntoRejected in the ApplicationService 
+ * 
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns {IApplication} updated application document in the system
+ */
