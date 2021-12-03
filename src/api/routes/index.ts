@@ -70,4 +70,5 @@ export default function (app: Express) {
   app.get("/application/", controller.getApplications);
   app.put("/application/delete/:applicationId", controller.setApplicationArchive);
   app.put("/application/interview/:applicationId", controller.changeApplicationStatusIntoInterview);
+  app.put("/application/selected/:applicationId", controller.changeApplicationStatusIntoSelected);
 }
