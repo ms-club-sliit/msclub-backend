@@ -72,7 +72,7 @@ export const archiveApplication = async (applicationId: string) => {
 };
 
 /**
- * @todo create @function changeApplicationStatusIntoInterview to update the status into INTERVIEW of an application in the system
+ * @function changeApplicationStatusIntoInterview to update the status into INTERVIEW of an application in the system
  * @param applicationId @type string
  */
 export const changeApplicationStatusIntoInterview = async (
@@ -118,11 +118,61 @@ export const changeApplicationStatusIntoInterview = async (
 };
 
 /**
- * @todo create @function changeApplicationStatusIntoSelected to update the status into SELECTED of an application in the system
+ * @function changeApplicationStatusIntoSelected to update the status into SELECTED of an application in the system
  * @param applicationId @type string
  */
+export const changeApplicationStatusIntoSelected = async (
+  applicationId: string,
+  interviewData: DocumentDefinition<IInterview>
+) => {
+  return await ApplicationModel.findById(applicationId)
+    .then(async (application) => {
+      if (application) {
+        // Send email
+        const emailTemplate = "Selected-Email-Template.html";
+        const to = application.email;
+        const subject = "Congratulations from MS Club Team !";
+        const emailBodyData = {
+          name: application.name,
+        };
+
+        return await EmailService.sendEmailWithTemplate(
+          emailTemplate,
+          to,
+          subject,
+          emailBodyData
+        )
+          .then(async () => {
+            application.status = "SELECTED";
+            return await application.save();
+          })
+          .catch(() => {
+            return application;
+          });
+      } else {
+        return null;
+      }
+    })
+    .catch((error) => {
+      throw new Error(error.message);
+    });
+};
 
 /**
  * @todo create @function changeApplicationStatusIntoRejected to update the status into REJECTED of an application in the system
  * @param applicationId @type string
  */
+export const changeApplicationStatusIntoRejected = async (
+  applicationId: string
+) => {
+  return await ApplicationModel.findById(applicationId)
+    .then(async (application) => {
+      if (application) {
+        application.status = "REJECTED";
+        return await application.save();
+      }
+    })
+    .catch((error) => {
+      throw new Error(error.message);
+    });
+};

@@ -47,6 +47,8 @@ import {
   getApplications,
   setApplicationArchive,
   changeApplicationStatusIntoInterview,
+  changeApplicationStatusIntoSelected,
+  changeApplicationStatusIntoRejected,
 } from "./Application.controller";
 /**
  *import the @methods from BoardMemberController
@@ -116,4 +118,6 @@ export default {
   getApplications,
   setApplicationArchive,
   changeApplicationStatusIntoInterview,
+  changeApplicationStatusIntoSelected,
+  changeApplicationStatusIntoRejected,
 };

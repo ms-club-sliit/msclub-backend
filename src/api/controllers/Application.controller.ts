@@ -128,22 +128,25 @@ export const setApplicationArchive = async (
 };
 
 /**
- * @todo implement a @function changeApplicationStatusIntoInterview that calls 
- * @function changeApplicationStatusIntoInterview in the ApplicationService 
- * 
+ * @function changeApplicationStatusIntoInterview that calls
+ * @function changeApplicationStatusIntoInterview in the ApplicationService
+ *
  * @param {Request} request - Request from the frontend
  * @param {Response} response - Response that need to send to the client
  * @param {NextFunction} next - Next function
  * @returns {IApplication} updated application document in the system
  */
- export const changeApplicationStatusIntoInterview = async (
+export const changeApplicationStatusIntoInterview = async (
   request: Request,
   response: Response,
   next: NextFunction
 ) => {
   const applicationId = request.params.applicationId;
   if (applicationId) {
-    await ApplicationService.changeApplicationStatusIntoInterview(request.params.applicationId,request.body)
+    await ApplicationService.changeApplicationStatusIntoInterview(
+      request.params.applicationId,
+      request.body
+    )
       .then((data) => {
         request.handleResponse.successRespond(response)(data);
         next();
@@ -157,23 +160,66 @@ export const setApplicationArchive = async (
   }
 };
 
-
 /**
- * @todo implement a @function changeApplicationStatusIntoSelected that calls 
- * @function changeApplicationStatusIntoSelected in the ApplicationService 
- * 
+ * @function changeApplicationStatusIntoSelected that calls
+ * @function changeApplicationStatusIntoSelected in the ApplicationService
+ *
  * @param {Request} request - Request from the frontend
  * @param {Response} response - Response that need to send to the client
  * @param {NextFunction} next - Next function
  * @returns {IApplication} updated application document in the system
  */
-
+export const changeApplicationStatusIntoSelected = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  const applicationId = request.params.applicationId;
+  if (applicationId) {
+    await ApplicationService.changeApplicationStatusIntoSelected(
+      request.params.applicationId,
+      request.body
+    )
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)("applicationId not found");
+  }
+};
 /**
- * @todo implement a @function changeApplicationStatusIntoRejected that calls 
- * @function changeApplicationStatusIntoRejected in the ApplicationService 
- * 
+ * @todo implement a @function changeApplicationStatusIntoRejected that calls
+ * @function changeApplicationStatusIntoRejected in the ApplicationService
+ *
  * @param {Request} request - Request from the frontend
  * @param {Response} response - Response that need to send to the client
  * @param {NextFunction} next - Next function
  * @returns {IApplication} updated application document in the system
  */
+export const changeApplicationStatusIntoRejected = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  const applicationId = request.params.applicationId;
+  if (applicationId) {
+    await ApplicationService.changeApplicationStatusIntoRejected(
+      request.params.applicationId
+    )
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)("applicationId not found");
+  }
+};

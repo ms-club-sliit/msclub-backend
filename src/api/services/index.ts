@@ -52,7 +52,9 @@ import {
   fetchApplicationById,
   fetchApplications,
   archiveApplication,
-  changeApplicationStatusIntoInterview
+  changeApplicationStatusIntoInterview,
+  changeApplicationStatusIntoSelected,
+  changeApplicationStatusIntoRejected,
 } from "./Application.service";
 /**
  import @methods from BoardMember Service
@@ -113,6 +115,8 @@ export default {
   fetchApplications,
   archiveApplication,
   changeApplicationStatusIntoInterview,
+  changeApplicationStatusIntoSelected,
+  changeApplicationStatusIntoRejected,
   // BoardMember Service
   insertBoardMember,
   getBoardMemberbyID,

@@ -6,12 +6,12 @@ const upload = multer();
 
 export default function (app: Express) {
   // User endpoints
-  app.post("/user/", upload.single('profileImage'), controller.createUser);
+  app.post("/user/", upload.single("profileImage"), controller.createUser);
 
   // Contact Us endpoints
-  app.post('/contact/', controller.createContact);
-  app.get('/contact/', controller.getAllContacts);
-  app.delete('/contact/:contactId', controller.removeContact);
+  app.post("/contact/", controller.createContact);
+  app.get("/contact/", controller.getAllContacts);
+  app.delete("/contact/:contactId", controller.removeContact);
 
   // Event endpoints
   app.post("/event/", controller.insertEvent);
@@ -68,6 +68,20 @@ export default function (app: Express) {
   app.post("/application/", controller.addApplication);
   app.get("/application/:applicationId/", controller.getApplicationById);
   app.get("/application/", controller.getApplications);
-  app.put("/application/delete/:applicationId", controller.setApplicationArchive);
-  app.put("/application/interview/:applicationId", controller.changeApplicationStatusIntoInterview);
+  app.put(
+    "/application/delete/:applicationId",
+    controller.setApplicationArchive
+  );
+  app.put(
+    "/application/interview/:applicationId",
+    controller.changeApplicationStatusIntoInterview
+  );
+  app.put(
+    "/application/selected/:applicationId",
+    controller.changeApplicationStatusIntoSelected
+  );
+  app.put(
+    "/application/rejected/:applicationId",
+    controller.changeApplicationStatusIntoRejected
+  );
 }
