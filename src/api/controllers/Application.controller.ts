@@ -209,8 +209,7 @@ export const changeApplicationStatusIntoRejected = async (
   const applicationId = request.params.applicationId;
   if (applicationId) {
     await ApplicationService.changeApplicationStatusIntoRejected(
-      request.params.applicationId,
-      request.body
+      request.params.applicationId
     )
       .then((data) => {
         request.handleResponse.successRespond(response)(data);
