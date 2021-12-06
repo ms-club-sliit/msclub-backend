@@ -163,13 +163,13 @@ export const changeApplicationStatusIntoSelected = async (
  * @param applicationId @type string
  */
 export const changeApplicationStatusIntoRejected = async (
-  applicationId: string,
-  interviewData: DocumentDefinition<IInterview>
+  applicationId: string
 ) => {
   return await ApplicationModel.findById(applicationId)
     .then(async (application) => {
       if (application) {
         application.status = "REJECTED";
+        return await application.save();
       }
     })
     .catch((error) => {
