@@ -11,8 +11,8 @@ interface IApplication extends Document {
     linkedIn : string;
     gitHub : string;
     blog ?: string;
-    experiences : string;
-    challenges : string;
+    experiences ?: string;
+    challenges ?: string;
     goal : string;
     skillsAndTalents : string[];
     pastWork ?: string;
