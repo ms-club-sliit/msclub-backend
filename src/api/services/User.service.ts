@@ -77,6 +77,9 @@ export const updateData = async (
           if (updateData.userName) {
             userDetails.userName = updateData.userName;
           }
+          if (updateData.password) {
+            userDetails.password = updateData.password;
+          }
           if (updateData.profileImageUrl) {
             userDetails.profileImageUrl = updateData.profileImageUrl;
           }
