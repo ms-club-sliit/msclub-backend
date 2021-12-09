@@ -1,5 +1,6 @@
 import handlebars from "handlebars";
 import fs from "fs";
+const mg = require("nodemailer-mailgun-transport")
 import logger from "./logger";
 import { configuration } from "../config";
 import moment from "moment";
@@ -12,17 +13,16 @@ require.extensions[".html"] = (module: any, fileName: string) => {
   module.exports = fs.readFileSync(fileName, "utf8");
 };
 
+const mailgunAuth = {
+  auth: {
+    api_key: process.env.MAILGUN_API,
+    domain: process.env.MAILGUN_DOMAIN
+  }
+}
+
 // Node Mailer Configuration
 const nodemailer = require("nodemailer");
-const transport = nodemailer.createTransport({
-  host: configuration.email.host,
-  port: configuration.email.port,
-  secure: configuration.email.secure,
-  auth: {
-    user: configuration.email.auth.user,
-    pass: configuration.email.auth.pass,
-  },
-});
+const transport = nodemailer.createTransport(mg(mailgunAuth));
 
 let template: HandlebarsTemplateDelegate;
 let htmlToSend: string;
