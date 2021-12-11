@@ -9,17 +9,11 @@ interface IUser extends Document {
   userName?: string;
   password?: string;
   profileImageUrl?: string;
-  type: permissionLevel;
+  permissionLevel: string;
   authToken?: string;
   deletedAt?: Date;
   deletedBy?: Schema.Types.ObjectId;
   generateAuthToken(): string;
 } 
 
-enum permissionLevel {
-  rootAdmin = "ROOT ADMIN",
-  admin = "ADMIN",
-  editor = "EDITOR",
-  viewer = "VIEWER"
-}
 export type { IUser };

@@ -43,7 +43,7 @@ const UserSchema = new Schema<IUser>({
   userName: { type: String, required: false, default: null, unique: true },
   password: { type: String, required: false },
   profileImageUrl: { type: String, required: false, default: null },
-  type: { type: String, required: true },
+  permissionLevel: { type: String, enum: ["ROOT_ADMIN", "ADMIN", "EDITOR", "VIEWER"], required: true, default: "EDITOR" },
   authToken: { type: String, required: false },
   deletedAt: { type: Date, required: false, default: null },
   deletedBy: { type: Schema.Types.ObjectId, required: false, default: null },

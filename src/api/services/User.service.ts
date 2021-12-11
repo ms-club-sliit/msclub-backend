@@ -68,8 +68,8 @@ export const updateData = async (
           if (updateData.profileImageUrl) {
             userDetails.profileImageUrl = updateData.profileImageUrl;
           }
-          if (updateData.type) {
-            userDetails.type = updateData.type;
+          if (updateData.permissionLevel) {
+            userDetails.permissionLevel = updateData.permissionLevel;
           }
           
           return await userDetails.save();
