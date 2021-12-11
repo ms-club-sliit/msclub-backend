@@ -4,84 +4,66 @@ import middleware from "../middleware";
 import multer from "multer";
 const upload = multer();
 
+// prettier-ignore
 export default function (app: Express) {
   // User endpoints
   app.post("/user/", upload.single("profileImage"), controller.createUser);
+  app.post("/user/login/", controller.login);
 
   // Contact Us endpoints
+  app.get("/contact/", middleware.authenticate, controller.getAllContacts);
+  app.delete("/contact/:contactId", middleware.authenticate, controller.removeContact);
   app.post("/contact/", controller.createContact);
-  app.get("/contact/", controller.getAllContacts);
-  app.delete("/contact/:contactId", controller.removeContact);
 
   // Event endpoints
-  app.post("/event/", controller.insertEvent);
+  app.post("/event/", middleware.authenticate, controller.insertEvent);
+  app.put("/event/:eventId", middleware.authenticate, controller.updateEvent);
+  app.put("/event/delete/:eventId", middleware.authenticate, controller.deleteEvent);
   app.get("/event/", controller.getEvents);
   app.get("/event/:eventId/", controller.getEvent);
   app.get("/pastevent/", controller.getPastEvents);
   app.get("/upcomingevent/", controller.getUpcomingEvent);
-  app.put("/event/:eventId", controller.updateEvent);
-  app.put("/event/delete/:eventId", controller.deleteEvent);
 
   // Webinar endpoints
-  app.post("/webinar/", controller.insertWebinar);
+  app.post("/webinar/", middleware.authenticate, controller.insertWebinar);
+  app.put("/webinar/:webinarId", middleware.authenticate, controller.updateWebinar);
+  app.put("/webinar/delete/:webinarId", middleware.authenticate, controller.deleteWebinar);
   app.get("/webinar/", controller.getWebinars);
   app.get("/webinar/:webinarId/", controller.getWebinarById);
   app.get("/pastwebinar/", controller.getPastWebinars);
   app.get("/upcomingwebinar/", controller.getUpcomingWebinar);
-  app.put("/webinar/:webinarId", controller.updateWebinar);
-  app.put("/webinar/delete/:webinarId", controller.deleteWebinar);
 
   // Top Speaker endpoints
-  app.post("/topspeaker/", controller.insertTopSpeaker);
+  app.post("/topspeaker/", middleware.authenticate, controller.insertTopSpeaker);
+  app.put("/topspeaker/:topSpeakerId", middleware.authenticate, controller.updateTopSpeaker);
+  app.put("/topspeaker/delete/:topSpeakerId", middleware.authenticate, controller.deleteTopSpeaker);
   app.get("/topspeaker/:topSpeakerId/", controller.getTopSpeaker);
   app.get("/topspeaker/", controller.getTopSpeakers);
-  app.put("/topspeaker/:topSpeakerId", controller.updateTopSpeaker);
-  app.put("/topspeaker/delete/:topSpeakerId", controller.deleteTopSpeaker);
-
+  
   // BoardMember endpoints
+  app.put("/boardmember/:boardMemberId", middleware.authenticate, controller.updateBoardMemberDetails);
+  app.put("/boardmember/delete/:boardMemberId", middleware.authenticate, controller.deleteBoardMemberDetails);
   app.get("/boardmember/:boardMemberId/", controller.getBoardMemberbyID);
   app.get("/boardmember/", controller.getAllBoardMembers);
-  app.put("/boardmember/:boardMemberId", controller.updateBoardMemberDetails);
-  app.put(
-    "/boardmember/delete/:boardMemberId",
-    controller.deleteBoardMemberDetails
-  );
 
   // ExecutiveBoard endpoints
-  app.post("/executive/", controller.insertExecutiveBoard);
+  app.post("/executive/", middleware.authenticate, controller.insertExecutiveBoard);
+  app.put("/boardmember/:executiveBoardId", middleware.authenticate, controller.addBoardMember);
+  app.put("/executive/:executiveBoardId", middleware.authenticate, controller.updateExecutiveBoardDetails);
+  app.put("/executive/delete/:executiveBoardId/", middleware.authenticate, controller.deleteExecutiveBoardDetails);
   app.get("/executive/:executiveBoardId/", controller.getExecutiveBoardbyID);
   app.get("/executive/", controller.getExecutiveBoard);
-  app.put("/boardmember/:executiveBoardId", controller.addBoardMember);
-  app.put(
-    "/executive/:executiveBoardId",
-    controller.updateExecutiveBoardDetails
-  );
-  app.put(
-    "/executive/delete/:executiveBoardId/",
-    controller.deleteExecutiveBoardDetails
-  );
-  /**
-   * @todo  implement the @routes for TopSpeakerController
-   */
-
+  
   // Application endpoints
   app.post("/application/", controller.addApplication);
-  app.get("/application/:applicationId/", controller.getApplicationById);
-  app.get("/application/", controller.getApplications);
-  app.put(
-    "/application/delete/:applicationId",
-    controller.setApplicationArchive
-  );
-  app.put(
-    "/application/interview/:applicationId",
-    controller.changeApplicationStatusIntoInterview
-  );
-  app.put(
-    "/application/selected/:applicationId",
-    controller.changeApplicationStatusIntoSelected
-  );
-  app.put(
-    "/application/rejected/:applicationId",
-    controller.changeApplicationStatusIntoRejected
-  );
+  app.get("/application/:applicationId/", middleware.authenticate, controller.getApplicationById);
+  app.get("/application/", middleware.authenticate, controller.getApplications);
+  app.put("/application/delete/:applicationId", middleware.authenticate, controller.setApplicationArchive);
+  app.put("/application/interview/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoInterview);
+  app.put("/application/selected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoSelected);
+  app.put("/application/rejected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoRejected);
+
+  /**
+   * @todo  implement the @routes for TopSpeakerController
+   */  
 }

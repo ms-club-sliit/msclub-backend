@@ -1,15 +1,11 @@
-/**
-import @methods from User Service
- */
-import { insertUser } from "./User.service";
+import { insertUser, authenticateUser } from "./User.service";
+
 import {
   insertContact,
   archiveContact,
   fetchContactInfo,
 } from "./Contact.service";
-/**
-import @methods from Event Service
- */
+
 import {
   insertEvent,
   getEvent,
@@ -19,9 +15,7 @@ import {
   updateEvent,
   deleteEvent,
 } from "./Event.service";
-/**
- import @methods from Webinar Service
- */
+
 import {
   insertWebinar,
   fetchWebinarById,
@@ -31,9 +25,6 @@ import {
   updateWebinar,
   removeWebinar,
 } from "./Webinar.service";
-/**
-import @methods from TopSpeaker Service
- */
 
 import {
   insertTopSpeaker,
@@ -43,10 +34,6 @@ import {
   deleteTopSpeaker,
 } from "./TopSpeaker.service";
 
-/**
- *
- * @todo import @methods from Application Service
- */
 import {
   addApplication,
   fetchApplicationById,
@@ -56,9 +43,7 @@ import {
   changeApplicationStatusIntoSelected,
   changeApplicationStatusIntoRejected,
 } from "./Application.service";
-/**
- import @methods from BoardMember Service
- */
+
 import {
   insertBoardMember,
   getBoardMemberbyID,
@@ -66,9 +51,7 @@ import {
   updateBoardMemberDetails,
   deleteBoardMemberDetails,
 } from "./BoardMember.service";
-/**
- import @methods from ExecutiveBoardMember Service
- */
+
 import {
   insertExecutiveBoard,
   getExecutiveBoardbyID,
@@ -81,6 +64,7 @@ import {
 export default {
   // User services
   insertUser,
+  authenticateUser,
   // Contact services
   insertContact,
   fetchContactInfo,
@@ -101,15 +85,13 @@ export default {
   fetchUpcomingWebinar,
   updateWebinar,
   removeWebinar,
-  //TopSpeaker Service
+  // TopSpeaker Service
   insertTopSpeaker,
   getTopSpeaker,
   getTopSpeakers,
   updateTopSpeaker,
   deleteTopSpeaker,
-  /**
-   * Application Service
-   */
+  // Application Service
   addApplication,
   fetchApplicationById,
   fetchApplications,
