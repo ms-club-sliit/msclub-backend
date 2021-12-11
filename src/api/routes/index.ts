@@ -15,10 +15,12 @@ export default function (app: Express) {
   app.delete("/contact/:contactId", middleware.authenticate, controller.removeContact);
   app.post("/contact/", controller.createContact);
 
-  // Event endpoints
-  app.post("/event/", middleware.authenticate, controller.insertEvent);
-  app.put("/event/:eventId", middleware.authenticate, controller.updateEvent);
-  app.put("/event/delete/:eventId", middleware.authenticate, controller.deleteEvent);
+  // Event endpoints - Private
+  app.post("/admin/event/", middleware.authenticate, controller.insertEvent);
+  app.put("/admin/event/:eventId", middleware.authenticate, controller.updateEvent);
+  app.put("/admin/event/delete/:eventId", middleware.authenticate, controller.deleteEvent);
+  app.get("/admin/event/", middleware.authenticate,controller.eventsForAdmin);
+  // Event endpoints - Public
   app.get("/event/", controller.getEvents);
   app.get("/event/:eventId/", controller.getEvent);
   app.get("/pastevent/", controller.getPastEvents);

@@ -1,5 +1,5 @@
-import { DocumentDefinition, FilterQuery } from "mongoose";
-import { IEvent } from "../interfaces";
+import { DocumentDefinition, FilterQuery, Schema } from "mongoose";
+import { IEvent, IUpdatedBy } from "../interfaces";
 import EventModel from "../models/Event.model";
 
 /**
@@ -77,12 +77,13 @@ export const getUpcomingEvent = async () => {
  */
 export const updateEvent = async (
   eventId: string,
-  eventData: DocumentDefinition<IEvent>
+  eventData: DocumentDefinition<IEvent>,
+  updatedBy: Schema.Types.ObjectId
 ) => {
   return await EventModel.findById(eventId)
     .then(async (eventDetails) => {
       if (eventDetails) {
-        if (eventDetails.deletedAt) {
+        if (!eventDetails.deletedAt) {
           if (eventData.title) {
             eventDetails.title = eventData.title;
           }
@@ -104,6 +105,13 @@ export const updateEvent = async (
           if (eventData.eventType) {
             eventDetails.eventType = eventData.eventType;
           }
+
+          const updateUserInfo: IUpdatedBy = {
+            user: updatedBy,
+            updatedAt: new Date(),
+          };
+
+          eventDetails.updatedBy.push(updateUserInfo);
           return await eventDetails.save();
         } else {
           throw new Error("Event is not found");
@@ -121,15 +129,41 @@ export const updateEvent = async (
  delete an event
  * @param eventId @type string
  */
-export const deleteEvent = async (eventId: string) => {
+export const deleteEvent = async (
+  eventId: string,
+  deletedBy: Schema.Types.ObjectId
+) => {
   return await EventModel.findById(eventId)
     .then(async (eventDetails) => {
-      if (eventDetails?.deletedAt) {
+      if (eventDetails && eventDetails.deletedAt === null) {
         eventDetails.deletedAt = new Date();
+        eventDetails.deletedBy = deletedBy;
         return await eventDetails.save();
       } else {
-        return null;
+        return "Event not found";
       }
+    })
+    .catch((error) => {
+      throw new Error(error.message);
+    });
+};
+
+export const getAllEventsForAdmin = async () => {
+  return await EventModel.find()
+    .populate({
+      path: "createdBy",
+      select: "firstName lastName email permissionLevel profileImage",
+    })
+    .populate({
+      path: "updatedBy",
+      populate: {
+        path: "user",
+        select: "firstName lastName email permissionLevel profileImage",
+      },
+      select: "updatedAt",
+    })
+    .then((events) => {
+      return events;
     })
     .catch((error) => {
       throw new Error(error.message);
