@@ -6,12 +6,7 @@ import validator from 'validator';
 
 const UserSchema = new Schema<IUser>({
   firstName: { type: String, required: true },
-  middleName: { type: String, required: false },
   lastName: { type: String, required: true },
-  addressLine01: { type: String, required: true },
-  addressLine02: { type: String, required: true },
-  city: { type: String, required: true },
-  province: { type: String, required: true },
   phoneNumber01: { 
     type: String, 
     required: [true, 'Phone number 1 is required'],
@@ -48,14 +43,7 @@ const UserSchema = new Schema<IUser>({
   userName: { type: String, required: false, default: null, unique: true },
   password: { type: String, required: false },
   profileImageUrl: { type: String, required: false, default: null },
-  description: { type: String, required: false },
-  socialMedia: [
-    {
-      name: { type: String, required: true },
-      publicURL: { type: String, required: true },
-    },
-  ],
-  tags: [{ type: String, required: false }],
+  type: { type: String, required: true },
   authToken: { type: String, required: false },
   deletedAt: { type: Date, required: false, default: null },
   deletedBy: { type: Schema.Types.ObjectId, required: false, default: null },
