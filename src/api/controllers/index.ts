@@ -1,4 +1,4 @@
-import { createUser } from "./User.controller";
+import { createUser, login } from "./User.controller";
 
 import {
   createContact,
@@ -26,10 +26,6 @@ import {
   deleteWebinar,
 } from "./Webinar.controller";
 
-/**
- *import the @methods from TopSpeakerController
- */
-
 import {
   insertTopSpeaker,
   getTopSpeaker,
@@ -38,9 +34,6 @@ import {
   deleteTopSpeaker,
 } from "./TopSpeaker.controller";
 
-/**
- *import the @methods from ApplicationController
- */
 import {
   addApplication,
   getApplicationById,
@@ -50,18 +43,14 @@ import {
   changeApplicationStatusIntoSelected,
   changeApplicationStatusIntoRejected,
 } from "./Application.controller";
-/**
- *import the @methods from BoardMemberController
- */
+
 import {
   getBoardMemberbyID,
   getAllBoardMembers,
   updateBoardMemberDetails,
   deleteBoardMemberDetails,
 } from "./BoardMember.controller";
-/**
- *import the @methods from ExecutiveBoardMemberController
- */
+
 import {
   insertExecutiveBoard,
   getExecutiveBoardbyID,
@@ -74,6 +63,7 @@ import {
 export default {
   //User Controllers
   createUser,
+  login,
   //Contact Controllers
   createContact,
   getAllContacts,

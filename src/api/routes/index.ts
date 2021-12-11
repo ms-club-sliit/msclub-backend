@@ -7,6 +7,7 @@ const upload = multer();
 export default function (app: Express) {
   // User endpoints
   app.post("/user/", upload.single("profileImage"), controller.createUser);
+  app.post("/user/login/", controller.login);
 
   // Contact Us endpoints
   app.post("/contact/", controller.createContact);
