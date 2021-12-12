@@ -1,13 +1,15 @@
-import { DocumentDefinition } from 'mongoose';
-import { IUser } from '../interfaces';
-import UserModel from '../models/User.model';
-import bcrypt from 'bcrypt';
+import { DocumentDefinition } from "mongoose";
+import { IUser, IUserRequest } from "../interfaces";
+import UserModel from "../models/User.model";
+import bcrypt from "bcrypt";
 
 /**
  * @param {IUser} userData
  * @returns {Document} User document
  */
-export const insertUser = async (userData: DocumentDefinition<IUser>) => {
+export const insertUser = async (
+  userData: DocumentDefinition<IUserRequest>
+) => {
   return await UserModel.create(userData)
     .then(async (user) => {
       await user.generateAuthToken();
@@ -16,7 +18,15 @@ export const insertUser = async (userData: DocumentDefinition<IUser>) => {
     .catch((error) => {
       throw new Error(error.message);
     });
-}
+};
+
+export const authenticateUser = async (userName: string, password: string) => {
+  try {
+    return await UserModel.findByUsernamePassword(userName, password);
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
 
 /**
  *get all users
@@ -30,6 +40,7 @@ export const insertUser = async (userData: DocumentDefinition<IUser>) => {
       throw new Error(error.message);
     });
 };
+
 
 /**
  * update user
@@ -65,8 +76,8 @@ export const updateData = async (
           if (updateData.password) {
             userDetails.password = updateData.password;
           }
-          if (updateData.profileImageUrl) {
-            userDetails.profileImageUrl = updateData.profileImageUrl;
+          if (updateData.profileImage) {
+            userDetails.profileImage = updateData.profileImage;
           }
           if (updateData.permissionLevel) {
             userDetails.permissionLevel = updateData.permissionLevel;
