@@ -65,3 +65,18 @@ export const updateUser = async (
  * @todo create @function deleteUser to delete the user
  * @param userId @type string
  */
+
+export const deleteUser = async (userId: string) => {
+  return await UserModel.findById(userId)
+    .then(async (user) => {
+      if (user?.deletedAt) {
+        user.deletedAt = new Date();
+        return await user.save();
+      } else {
+        return null;
+      }
+    })
+    .catch((error) => {
+      throw new Error(error.message);
+    });
+};
