@@ -48,6 +48,19 @@ export const getUsers = async () => {
  * @param updateData @type DocumentDefinition<IUser>
  */
 
+export const updateUser = async (
+  userId: string,
+  updateData: DocumentDefinition<IUserRequest>
+) => {
+  return await UserModel.findById(userId).then(async (user) => {
+    if (user) {
+      await user.updateOne(updateData);
+      return user;
+    }
+    throw new Error('User not found');
+  });
+};
+
 /**
  * @todo create @function deleteUser to delete the user
  * @param userId @type string
