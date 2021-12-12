@@ -3,6 +3,7 @@ import {
   authenticateUser,
   getUsers,
   updateUser,
+  deleteUser,
 } from './User.service';
 
 import {
@@ -72,6 +73,7 @@ export default {
   authenticateUser,
   getUsers,
   updateUser,
+  deleteUser,
   // Contact services
   insertContact,
   fetchContactInfo,
