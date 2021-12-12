@@ -7,7 +7,14 @@ import EventModel from "../models/Event.model";
  */
 export const insertEvent = async (eventData: DocumentDefinition<IEvent>) => {
   return await EventModel.create(eventData)
-    .then((event) => {
+    .then(async (event) => {
+      let initialUpdatedBy: IUpdatedBy = {
+        user: event.createdBy,
+        updatedAt: new Date(),
+      };
+
+      event.updatedBy.push(initialUpdatedBy);
+      await event.save();
       return event;
     })
     .catch((error) => {
