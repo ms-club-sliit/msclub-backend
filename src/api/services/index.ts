@@ -1,4 +1,9 @@
-import { insertUser, authenticateUser, getUsers } from './User.service';
+import {
+  insertUser,
+  authenticateUser,
+  getUsers,
+  updateUser,
+} from './User.service';
 
 import {
   insertContact,
@@ -66,6 +71,7 @@ export default {
   insertUser,
   authenticateUser,
   getUsers,
+  updateUser,
   // Contact services
   insertContact,
   fetchContactInfo,
