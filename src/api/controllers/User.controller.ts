@@ -1,8 +1,8 @@
-import { Express, Request, Response, NextFunction } from "express";
-import UserService from "../services";
-import logger from "../../util/logger";
-import ImageService from "../../util/image.handler";
-import { IUserRequest } from "../interfaces";
+import { Express, Request, Response, NextFunction } from 'express';
+import UserService from '../services';
+import logger from '../../util/logger';
+import ImageService from '../../util/image.handler';
+import { IUserRequest } from '../interfaces';
 
 /**
  * @param {Request} request - Request from the frontend
@@ -15,7 +15,7 @@ export const createUser = async (
   response: Response,
   next: NextFunction
 ) => {
-  const bucketDirectoryName = "profile-images";
+  const bucketDirectoryName = 'profile-images';
 
   const profileImagePath = await ImageService.uploadImage(
     request.file,
@@ -76,9 +76,9 @@ export const login = async (
         next();
       });
   } else {
-    logger.error("Username or Password is missing");
+    logger.error('Username or Password is missing');
     request.handleResponse.errorRespond(response)(
-      "Username or Password is missing"
+      'Username or Password is missing'
     );
     next();
   }
@@ -93,6 +93,23 @@ export const login = async (
  * @param {NextFunction} next - Next function
  * @returns {IUser[]} All user documents in the system
  */
+
+export const getAllUsers = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  await UserService.getUsers()
+    .then((data) => {
+      request.handleResponse.successRespond(response)(data);
+      next();
+    })
+    .catch((error) => {
+      logger.error(error.message);
+      request.handleResponse.errorRespond(response)(error.message);
+      next();
+    });
+};
 
 /**
  * @todo implement a @function updateUser that calls
