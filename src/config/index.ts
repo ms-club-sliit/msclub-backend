@@ -1,11 +1,12 @@
 import { IConfig } from "../api/interfaces";
 let configs: IConfig;
+const environment = process.env.NODE_ENV?.trim() as string;
 
-if (process.env.NODE_ENV === "Development") {
+if (environment == "Development") {
   configs = {
     ip: process.env.IP || "localhost",
     port: (process.env.port as string) || "8087",
-    environment: process.env.NODE_ENV as string,
+    environment: process.env.DEV_ENVIRONMENT as string,
     mongodb: {
       uri: process.env.DEV_MONGO_URI as string,
     },
@@ -33,11 +34,13 @@ if (process.env.NODE_ENV === "Development") {
       emailTemplateBucket: process.env.EMAIL_TEMPLATE_BUCKET as string,
     },
   };
-} else if (process.env.NODE_ENV === "Production") {
+}
+
+if (environment == "Production") {
   configs = {
     ip: process.env.IP || "localhost",
     port: (process.env.PORT as string) || "8087",
-    environment: process.env.NODE_ENV as string,
+    environment: process.env.PROD_ENVIRONMENT as string,
     mongodb: {
       uri: process.env.PROD_MONGO_URI as string,
     },

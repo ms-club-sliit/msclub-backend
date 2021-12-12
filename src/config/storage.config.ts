@@ -7,6 +7,8 @@ const storage = new Storage({
   projectId: "ms-storage-server-fb22b",
 });
 
-const StorageBucket = storage.bucket(configs.firebase.bucketName);
+const bucketName = configs.firebase.bucketName;
+
+const StorageBucket = storage.bucket(bucketName);
 
 export default StorageBucket;
