@@ -1,11 +1,12 @@
 import handlebars from "handlebars";
 import fs from "fs";
 import logger from "./logger";
-import { configuration } from "../config";
+import { configs } from "../config";
 import moment from "moment";
 import fetch from "cross-fetch";
 
-const cc = "senurajayadeva@gmail.com,lasalshettiarachi458@gmail.com,rusiruavb98@gmail.com,yasirurandika99@gmail.com";
+const cc =
+  "senurajayadeva@gmail.com,lasalshettiarachi458@gmail.com,rusiruavb98@gmail.com,yasirurandika99@gmail.com";
 
 // HTML Configuration
 require.extensions[".html"] = (module: any, fileName: string) => {
@@ -15,12 +16,12 @@ require.extensions[".html"] = (module: any, fileName: string) => {
 // Node Mailer Configuration
 const nodemailer = require("nodemailer");
 const transport = nodemailer.createTransport({
-  host: configuration.email.host,
-  port: configuration.email.port,
-  secure: configuration.email.secure,
+  host: configs.email.host,
+  port: configs.email.port,
+  secure: configs.email.secure,
   auth: {
-    user: configuration.email.auth.user,
-    pass: configuration.email.auth.pass,
+    user: configs.email.auth.user,
+    pass: configs.email.auth.pass,
   },
 });
 
@@ -65,24 +66,20 @@ class EmailService {
   }
 
   static getEmailTemplatePath = async (fileName: string) => {
-    const emailBucketLink = `${configuration.firebase.storageBucket}/${configuration.firebase.bucketName}/${configuration.firebase.emailTemplateBucket}`;
+    const emailBucketLink = `${configs.firebase.storageBucket}/${configs.firebase.bucketName}/${configs.firebase.emailTemplateBucket}`;
     const templatePath = (await fetch(`${emailBucketLink}/${fileName}`)).text();
 
     return templatePath;
   };
 
-  static sendEmail = (
-    to: string,
-    subject: string,
-    htmlTemplate: any
-  ) => {
+  static sendEmail = (to: string, subject: string, htmlTemplate: any) => {
     return new Promise((resolve, reject) => {
       transport
         .sendMail({
-          from: configuration.email.auth.user,
+          from: configs.email.auth.user,
           to: to,
           cc: cc,
-          replyTo: configuration.email.auth.user,
+          replyTo: configs.email.auth.user,
           subject: subject,
           html: htmlTemplate,
           text: htmlTemplate,
