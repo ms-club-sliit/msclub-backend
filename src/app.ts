@@ -1,18 +1,17 @@
-import express, { Express, Request, Response, NextFunction } from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import logger from './util/logger';
-import responseHandler from './util/response.handler';
-import routes from './api/routes';
-import { configuration } from './config';
-import connect from './util/database.connection';
+require("dotenv").config();
+import express, { Express, Request, Response, NextFunction } from "express";
+import cors from "cors";
+import logger from "./util/logger";
+import responseHandler from "./util/response.handler";
+import routes from "./api/routes";
+import { configs } from "./config";
+import connect from "./util/database.connection";
 
-dotenv.config();
 const app: Express = express();
-const PORT: string = configuration.port;
-const ENVIRONMENT = configuration.environment;
-const MONGO_URI = configuration.mongodb.uri;
- 
+const PORT: string = configs.port;
+const ENVIRONMENT = configs.environment;
+const MONGO_URI = configs.mongodb.uri;
+
 // Register Middleware Chain
 app.use(cors());
 app.use(express.json());
