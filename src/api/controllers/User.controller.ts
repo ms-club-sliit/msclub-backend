@@ -167,3 +167,25 @@ export const updateUser = async (
  * @param {NextFunction} next - Next function
  * @returns {IUser} Deleted user document
  */
+
+export const removeUser = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  const userId = request.params.id;
+  if (userId) {
+    await UserService.deleteUser(userId)
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)('User ID is missing');
+    next();
+  }
+};
