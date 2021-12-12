@@ -1,11 +1,14 @@
-import { Storage } from '@google-cloud/storage';
-import path from 'path';
+import { Storage } from "@google-cloud/storage";
+import path from "path";
+import { configs } from ".";
 
 const storage = new Storage({
-  keyFilename: path.join(__dirname, '../config/ms-storage-server.json'),
-  projectId: 'ms-storage-server-fb22b'
+  keyFilename: path.join(__dirname, "../config/ms-storage-server.json"),
+  projectId: "ms-storage-server-fb22b",
 });
 
-const StorageBucket = storage.bucket(process.env.BUCKET_NAME as string);
+const bucketName = configs.firebase.bucketName;
+
+const StorageBucket = storage.bucket(bucketName);
 
 export default StorageBucket;
