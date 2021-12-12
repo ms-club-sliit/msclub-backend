@@ -121,6 +121,43 @@ export const getAllUsers = async (
  * @returns {IUser} Updated user document
  */
 
+export const updateUser = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  const bucketDirectoryName = 'profile-images';
+
+  const profileImagePath = await ImageService.uploadImage(
+    request.file,
+    bucketDirectoryName
+  );
+
+  const userInfo: IUserRequest = {
+    firstName: request.body.firstName as string,
+    lastName: request.body.lastName as string,
+    phoneNumber01: request.body.phoneNumber01 as string,
+    phoneNumber02: request.body.phoneNumber02 as string,
+    email: request.body.email as string,
+    userName: request.body.userName as string,
+    password: request.body.password as string,
+    profileImage: profileImagePath as string,
+    permissionLevel: request.body.permissionLevel as string,
+  };
+
+  await UserService.updateUser(request.params.id, userInfo)
+    .then((data) => {
+      logger.info(`User with ID ${data._id} updated`);
+      request.handleResponse.successRespond(response)(data);
+      next();
+    })
+    .catch((error: any) => {
+      logger.error(error.message);
+      request.handleResponse.errorRespond(response)(error.message);
+      next();
+    });
+};
+
 /**
  * @todo implement a @function removeUser that calls
  * @function deleteUser in the UserService
