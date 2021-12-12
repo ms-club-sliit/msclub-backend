@@ -5,7 +5,7 @@ const environment = process.env.NODE_ENV?.trim() as string;
 if (environment == "Development") {
   configs = {
     ip: process.env.IP || "localhost",
-    port: (process.env.port as string) || "8087",
+    port: (process.env.PORT as string) || "8087",
     environment: process.env.DEV_ENVIRONMENT as string,
     mongodb: {
       uri: process.env.DEV_MONGO_URI as string,
