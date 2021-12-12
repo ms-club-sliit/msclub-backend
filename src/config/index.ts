@@ -1,6 +1,6 @@
 import { IConfig } from "../api/interfaces";
 let configs: IConfig;
-const environment = process.env.NODE_ENV?.trim() as string;
+const environment = (process.env.NODE_ENV?.trim() as string) || "Production";
 
 if (environment == "Development") {
   configs = {
