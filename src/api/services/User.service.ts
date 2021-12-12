@@ -1,7 +1,7 @@
-import { DocumentDefinition } from "mongoose";
-import { IUser, IUserRequest } from "../interfaces";
-import UserModel from "../models/User.model";
-import bcrypt from "bcrypt";
+import { DocumentDefinition } from 'mongoose';
+import { IUser, IUserRequest } from '../interfaces';
+import UserModel from '../models/User.model';
+import bcrypt from 'bcrypt';
 
 /**
  * @param {IUser} userData
@@ -29,8 +29,18 @@ export const authenticateUser = async (userName: string, password: string) => {
 };
 
 /**
- * @todo create @function getUsers to fetch all the users in the system
+ * fetch all the users in the system
  */
+
+export const getUsers = async () => {
+  return await UserModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
+    .then((user) => {
+      return user;
+    })
+    .catch((error) => {
+      throw new Error(error.message);
+    });
+};
 
 /**
  * @todo create @function updateUser to update a user in the system

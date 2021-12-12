@@ -1,10 +1,10 @@
-import { insertUser, authenticateUser } from "./User.service";
+import { insertUser, authenticateUser, getUsers } from './User.service';
 
 import {
   insertContact,
   archiveContact,
   fetchContactInfo,
-} from "./Contact.service";
+} from './Contact.service';
 
 import {
   insertEvent,
@@ -14,7 +14,7 @@ import {
   getUpcomingEvent,
   updateEvent,
   deleteEvent,
-} from "./Event.service";
+} from './Event.service';
 
 import {
   insertWebinar,
@@ -24,7 +24,7 @@ import {
   fetchUpcomingWebinar,
   updateWebinar,
   removeWebinar,
-} from "./Webinar.service";
+} from './Webinar.service';
 
 import {
   insertTopSpeaker,
@@ -32,7 +32,7 @@ import {
   getTopSpeakers,
   updateTopSpeaker,
   deleteTopSpeaker,
-} from "./TopSpeaker.service";
+} from './TopSpeaker.service';
 
 import {
   addApplication,
@@ -42,7 +42,7 @@ import {
   changeApplicationStatusIntoInterview,
   changeApplicationStatusIntoSelected,
   changeApplicationStatusIntoRejected,
-} from "./Application.service";
+} from './Application.service';
 
 import {
   insertBoardMember,
@@ -50,7 +50,7 @@ import {
   getAllBoardMembers,
   updateBoardMemberDetails,
   deleteBoardMemberDetails,
-} from "./BoardMember.service";
+} from './BoardMember.service';
 
 import {
   insertExecutiveBoard,
@@ -59,12 +59,13 @@ import {
   addBoardMember,
   updateExecutiveBoardDetails,
   deleteExecutiveBoardDetails,
-} from "./ExecutiveBoard.service";
+} from './ExecutiveBoard.service';
 
 export default {
   // User services
   insertUser,
   authenticateUser,
+  getUsers,
   // Contact services
   insertContact,
   fetchContactInfo,
