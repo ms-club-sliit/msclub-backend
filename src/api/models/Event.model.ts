@@ -9,6 +9,7 @@ const EventSchema = new Schema<IEvent>(
     dateTime: { type: Date, required: true },
     tags: [{ type: String, required: false }],
     link: { type: String, required: false },
+    registrationLink: { type: String, required: false },
     eventType: { type: String, enum: ["PAST", "UPCOMING"], required: true },
     deletedAt: { type: Date, required: false, default: null },
     createdBy: { type: Schema.Types.ObjectId, required: true, ref: "users" },

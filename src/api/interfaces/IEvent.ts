@@ -11,6 +11,7 @@ interface IEvent extends Document {
   dateTime: Date;
   tags?: string[];
   link?: string;
+  registrationLink?: string;
   eventType: string;
   createdAt: Date;
   updatedAt: Date;

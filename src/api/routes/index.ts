@@ -65,7 +65,4 @@ export default function (app: Express) {
   app.put("/application/selected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoSelected);
   app.put("/application/rejected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoRejected);
 
-  /**
-   * @todo  implement the @routes for TopSpeakerController
-   */  
 }
