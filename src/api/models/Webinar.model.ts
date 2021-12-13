@@ -10,6 +10,7 @@ const WebinarSchema = new Schema<IWebinar>(
     time: { type: Date, required: true },
     tags: [{ type: String, required: false }],
     link: { type: String, required: true },
+    registrationLink: { type: String, required: false },
     webinarType: { type: String, enum: ["PAST", "UPCOMING"], required: true },
     deletedAt: { type: Date, required: false, default: null },
   },

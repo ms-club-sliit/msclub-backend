@@ -95,6 +95,9 @@ export const updateEvent = async (
           if (eventData.link) {
             eventDetails.link = eventData.link;
           }
+          if (eventData.registrationLink) {
+            eventDetails.registrationLink = eventData.registrationLink;
+          }
           if (eventData.tags) {
             eventDetails.tags = eventData.tags;
           }
