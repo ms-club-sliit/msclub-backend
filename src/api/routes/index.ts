@@ -16,7 +16,7 @@ export default function (app: Express) {
   app.post("/contact/", controller.createContact);
 
   // Event endpoints - Private
-  app.post("/admin/event/", middleware.authenticate, controller.insertEvent);
+  app.post("/admin/event/",middleware.authenticate, upload.single('eventFlyer'), controller.insertEvent);
   app.put("/admin/event/:eventId", middleware.authenticate, controller.updateEvent);
   app.put("/admin/event/delete/:eventId", middleware.authenticate, controller.deleteEvent);
   app.get("/admin/event/", middleware.authenticate,controller.eventsForAdmin);

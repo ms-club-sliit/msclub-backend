@@ -2,6 +2,7 @@ import { Express, Request, Response, NextFunction } from "express";
 import EventService from "../services";
 import logger from "../../util/logger";
 import { IEvent } from "../interfaces";
+import ImageService from "../../util/image.handler";
 
 /**
  * @param {Request} request - Request from the frontend
@@ -14,8 +15,15 @@ export const insertEvent = async (
   response: Response,
   next: NextFunction
 ) => {
+  const bucketDirectoryName = "event-flyers";
+
+  const eventFlyerPath = await ImageService.uploadImage(
+    request.file,
+    bucketDirectoryName
+  );
   request.body.createdBy =
     request.user && request.user._id ? request.user._id : null;
+  request.body.imageUrl = eventFlyerPath;
   await EventService.insertEvent(request.body)
     .then((data) => {
       request.handleResponse.successRespond(response)(data);
