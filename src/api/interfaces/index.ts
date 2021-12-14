@@ -2,7 +2,7 @@ import { IUser, IUserModel, IUserRequest } from "./IUser";
 import { ITopSpeaker } from "./ITopSpeaker";
 import { IContact } from "./IContact";
 import { IConfig } from "./IConfig";
-import { IEvent } from "./IEvent";
+import { IEvent, IUpdatedBy } from "./IEvent";
 import { IWebinar } from "./IWebinar";
 import { IExecutiveBoard } from "./IExecutiveBoard";
 import { IBoardMember } from "./IBoardMember";
@@ -16,6 +16,7 @@ export {
   IContact,
   IConfig,
   IEvent,
+  IUpdatedBy,
   IWebinar,
   IExecutiveBoard,
   IBoardMember,
