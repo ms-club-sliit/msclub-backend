@@ -208,3 +208,19 @@ export const eventsForAdmin = async (
       next();
     });
 };
+
+export const deletedEventsForAdmin = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  await EventService.getDeletedEventsForAdmin()
+    .then((data: any) => {
+      request.handleResponse.successRespond(response)(data);
+      next();
+    })
+    .catch((error: any) => {
+      request.handleResponse.errorRespond(response)(error.message);
+      next();
+    });
+};

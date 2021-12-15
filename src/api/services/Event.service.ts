@@ -159,7 +159,29 @@ export const deleteEvent = async (
 };
 
 export const getAllEventsForAdmin = async () => {
-  return await EventModel.find()
+  return await EventModel.find({ deletedAt: null })
+    .populate({
+      path: "createdBy",
+      select: "firstName lastName email permissionLevel profileImage",
+    })
+    .populate({
+      path: "updatedBy",
+      populate: {
+        path: "user",
+        select: "firstName lastName email permissionLevel profileImage",
+      },
+      select: "updatedAt",
+    })
+    .then((events) => {
+      return events;
+    })
+    .catch((error) => {
+      throw new Error(error.message);
+    });
+};
+
+export const getDeletedEventsForAdmin = async () => {
+  return await EventModel.find({ deletedAt: { $ne: null } })
     .populate({
       path: "createdBy",
       select: "firstName lastName email permissionLevel profileImage",

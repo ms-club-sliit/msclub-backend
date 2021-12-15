@@ -20,6 +20,7 @@ export default function (app: Express) {
   app.put("/admin/event/:eventId", middleware.authenticate, upload.single('eventFlyer'), controller.updateEvent);
   app.put("/admin/event/delete/:eventId", middleware.authenticate, controller.deleteEvent);
   app.get("/admin/event/", middleware.authenticate,controller.eventsForAdmin);
+  app.get("/admin/event/delete/", middleware.authenticate,controller.deletedEventsForAdmin);
   // Event endpoints - Public
   app.get("/event/", controller.getEvents);
   app.get("/event/:eventId/", controller.getEvent);
