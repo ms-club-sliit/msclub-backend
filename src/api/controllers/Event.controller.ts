@@ -139,6 +139,15 @@ export const updateEvent = async (
   response: Response,
   next: NextFunction
 ) => {
+  if (request.file) {
+    const bucketDirectoryName = "event-flyers";
+
+    const eventFlyerPath = await ImageService.uploadImage(
+      request.file,
+      bucketDirectoryName
+    );
+    request.body.imageUrl = eventFlyerPath;
+  }
   const eventId = request.params.eventId;
   const updatedBy = request.user && request.user._id ? request.user._id : null;
   if (eventId) {

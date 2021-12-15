@@ -15,7 +15,7 @@ interface IEvent extends Document {
   eventType: string;
   createdAt: Date;
   updatedAt: Date;
-  deletedAt?: Date;
+  deletedAt?: null | Date | string;
   createdBy: Schema.Types.ObjectId;
   updatedBy: IUpdatedBy[];
   deletedBy?: Schema.Types.ObjectId;
