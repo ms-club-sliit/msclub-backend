@@ -14,6 +14,8 @@ import {
   getUpcomingEvent,
   updateEvent,
   deleteEvent,
+  eventsForAdmin,
+  deletedEventsForAdmin,
 } from "./Event.controller";
 
 import {
@@ -76,6 +78,8 @@ export default {
   getUpcomingEvent,
   updateEvent,
   deleteEvent,
+  eventsForAdmin,
+  deletedEventsForAdmin,
   //Webinar Controllers
   insertWebinar,
   getWebinarById,

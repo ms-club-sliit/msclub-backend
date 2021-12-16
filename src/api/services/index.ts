@@ -14,6 +14,8 @@ import {
   getUpcomingEvent,
   updateEvent,
   deleteEvent,
+  getAllEventsForAdmin,
+  getDeletedEventsForAdmin,
 } from "./Event.service";
 
 import {
@@ -77,6 +79,8 @@ export default {
   getUpcomingEvent,
   updateEvent,
   deleteEvent,
+  getAllEventsForAdmin,
+  getDeletedEventsForAdmin,
   // Webinar services
   insertWebinar,
   fetchWebinarById,

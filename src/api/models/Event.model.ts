@@ -12,6 +12,19 @@ const EventSchema = new Schema<IEvent>(
     registrationLink: { type: String, required: false },
     eventType: { type: String, enum: ["PAST", "UPCOMING"], required: true },
     deletedAt: { type: Date, required: false, default: null },
+    createdBy: { type: Schema.Types.ObjectId, required: true, ref: "users" },
+    updatedBy: [
+      {
+        user: { type: Schema.Types.ObjectId, required: false, ref: "users" },
+        updatedAt: { type: Date, required: false },
+      },
+    ],
+    deletedBy: {
+      type: Schema.Types.ObjectId,
+      required: false,
+      default: null,
+      ref: "users",
+    },
   },
   { timestamps: true }
 );
