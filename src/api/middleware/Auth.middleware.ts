@@ -20,7 +20,7 @@ export const authenticate = async (
   next: NextFunction
 ) => {
   try {
-    const secret = process.env.DEV_JWT_SECRET as string;
+    const secret = process.env.JWT_SECRET as string;
 
     if (secret) {
       const authToken = request.header("Authorization") as string;

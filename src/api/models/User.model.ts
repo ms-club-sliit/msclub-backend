@@ -78,7 +78,7 @@ UserSchema.pre("save", async function (next) {
 
 UserSchema.methods.generateAuthToken = async function () {
   let user = this as IUser;
-  const secret = process.env.DEV_JWT_SECRET as string;
+  const secret = process.env.JWT_SECRET as string;
 
   const authToken = jwt.sign({ _id: user._id }, secret);
   user.authToken = authToken;

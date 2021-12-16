@@ -28,6 +28,9 @@ if (environment == "Development") {
       },
     },
     firebase: {
+      projectId: process.env.STORAGE_PROJECT_ID as string,
+      clientEmail: process.env.STORAGE_CLIENT_EMAIL as string,
+      privateKey: process.env.STORAGE_PRIVATE_KEY as string,
       storageBucket: process.env.STORAGE_BUCKET_URL as string,
       bucketName: process.env.BUCKET_NAME as string,
       applicationImageBucket: process.env.APPLICATION_IMAGES_BUCKET as string,
@@ -62,6 +65,9 @@ if (environment == "Production") {
       },
     },
     firebase: {
+      projectId: process.env.PROJECT_ID as string,
+      clientEmail: process.env.STORAGE_CLIENT_EMAIL as string,
+      privateKey: process.env.STORAGE_PRIVATE_KEY as string,
       storageBucket: process.env.STORAGE_BUCKET_URL as string,
       bucketName: process.env.BUCKET_NAME as string,
       applicationImageBucket: process.env.APPLICATION_IMAGES_BUCKET as string,
