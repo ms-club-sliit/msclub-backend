@@ -1,10 +1,12 @@
 import { Storage } from "@google-cloud/storage";
-import path from "path";
 import { configs } from ".";
 
 const storage = new Storage({
-  keyFilename: path.join(__dirname, "../config/ms-storage-server.json"),
-  projectId: "ms-storage-server-fb22b",
+  credentials: {
+    client_email: configs.firebase.clientEmail,
+    private_key: configs.firebase.privateKey.replace(/\\n/gm, "\n"),
+  },
+  projectId: configs.firebase.projectId,
 });
 
 const bucketName = configs.firebase.bucketName;
