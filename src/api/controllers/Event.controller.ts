@@ -139,6 +139,15 @@ export const updateEvent = async (
   response: Response,
   next: NextFunction
 ) => {
+  if (request.file) {
+    const bucketDirectoryName = "event-flyers";
+
+    const eventFlyerPath = await ImageService.uploadImage(
+      request.file,
+      bucketDirectoryName
+    );
+    request.body.imageUrl = eventFlyerPath;
+  }
   const eventId = request.params.eventId;
   const updatedBy = request.user && request.user._id ? request.user._id : null;
   if (eventId) {
@@ -190,6 +199,22 @@ export const eventsForAdmin = async (
   next: NextFunction
 ) => {
   await EventService.getAllEventsForAdmin()
+    .then((data: any) => {
+      request.handleResponse.successRespond(response)(data);
+      next();
+    })
+    .catch((error: any) => {
+      request.handleResponse.errorRespond(response)(error.message);
+      next();
+    });
+};
+
+export const deletedEventsForAdmin = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  await EventService.getDeletedEventsForAdmin()
     .then((data: any) => {
       request.handleResponse.successRespond(response)(data);
       next();
