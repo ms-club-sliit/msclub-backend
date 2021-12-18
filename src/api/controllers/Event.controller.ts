@@ -1,6 +1,8 @@
 import { Express, Request, Response, NextFunction } from "express";
 import EventService from "../services";
 import logger from "../../util/logger";
+import { IEvent } from "../interfaces";
+import ImageService from "../../util/image.handler";
 
 /**
  * @param {Request} request - Request from the frontend
@@ -13,6 +15,15 @@ export const insertEvent = async (
   response: Response,
   next: NextFunction
 ) => {
+  const bucketDirectoryName = "event-flyers";
+
+  const eventFlyerPath = await ImageService.uploadImage(
+    request.file,
+    bucketDirectoryName
+  );
+  request.body.createdBy =
+    request.user && request.user._id ? request.user._id : null;
+  request.body.imageUrl = eventFlyerPath;
   await EventService.insertEvent(request.body)
     .then((data) => {
       request.handleResponse.successRespond(response)(data);
@@ -128,9 +139,19 @@ export const updateEvent = async (
   response: Response,
   next: NextFunction
 ) => {
+  if (request.file) {
+    const bucketDirectoryName = "event-flyers";
+
+    const eventFlyerPath = await ImageService.uploadImage(
+      request.file,
+      bucketDirectoryName
+    );
+    request.body.imageUrl = eventFlyerPath;
+  }
   const eventId = request.params.eventId;
+  const updatedBy = request.user && request.user._id ? request.user._id : null;
   if (eventId) {
-    await EventService.updateEvent(request.params.eventId, request.body)
+    await EventService.updateEvent(eventId, request.body, updatedBy)
       .then((data) => {
         request.handleResponse.successRespond(response)(data);
         next();
@@ -156,8 +177,9 @@ export const deleteEvent = async (
   next: NextFunction
 ) => {
   const eventId = request.params.eventId;
+  const deletedBy = request.user && request.user._id ? request.user._id : null;
   if (eventId) {
-    await EventService.deleteEvent(request.params.eventId)
+    await EventService.deleteEvent(eventId, deletedBy)
       .then((data) => {
         request.handleResponse.successRespond(response)(data);
         next();
@@ -169,4 +191,36 @@ export const deleteEvent = async (
   } else {
     request.handleResponse.errorRespond(response)("Event ID not found");
   }
+};
+
+export const eventsForAdmin = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  await EventService.getAllEventsForAdmin()
+    .then((data: any) => {
+      request.handleResponse.successRespond(response)(data);
+      next();
+    })
+    .catch((error: any) => {
+      request.handleResponse.errorRespond(response)(error.message);
+      next();
+    });
+};
+
+export const deletedEventsForAdmin = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  await EventService.getDeletedEventsForAdmin()
+    .then((data: any) => {
+      request.handleResponse.successRespond(response)(data);
+      next();
+    })
+    .catch((error: any) => {
+      request.handleResponse.errorRespond(response)(error.message);
+      next();
+    });
 };

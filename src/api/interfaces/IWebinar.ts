@@ -8,6 +8,7 @@ interface IWebinar extends Document {
     time: Date;
     tags?: string[];
     link?: string;
+    registrationLink?: string;
     webinarType: string;
     deletedAt?: Date;
 };

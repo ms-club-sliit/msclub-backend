@@ -112,6 +112,11 @@ export const updateWebinar = async (
           if (webinarData.link) {
             webinarDetails.link = webinarData.link;
           }
+
+          if (webinarData.registrationLink) {
+            webinarDetails.registrationLink = webinarData.registrationLink;
+          }
+
           return await webinarDetails.save();
         } else {
           throw new Error("Webinar is not found");

@@ -4,10 +4,10 @@ interface IConfig {
   environment: string;
   mongodb: {
     uri: string;
-  },
+  };
   auth: {
     secret: string;
-  },
+  };
   email: {
     host: string;
     port: string;
@@ -17,17 +17,20 @@ interface IConfig {
     auth: {
       user: string;
       pass: string;
-    }
+    };
     tls: {
       rejectUnauthorized: boolean;
-    }
-  },
+    };
+  };
   firebase: {
+    projectId: string;
+    clientEmail: string;
+    privateKey: string;
     storageBucket: string;
     emailTemplateBucket: string;
     applicationImageBucket: string;
     bucketName: string;
-  }
+  };
 }
 
 export type { IConfig };
