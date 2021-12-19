@@ -1,4 +1,4 @@
-import { createUser, login } from "./User.controller";
+import { createUser, login, getAuthUser } from "./User.controller";
 
 import {
   createContact,
@@ -66,6 +66,7 @@ export default {
   //User Controllers
   createUser,
   login,
+  getAuthUser,
   //Contact Controllers
   createContact,
   getAllContacts,

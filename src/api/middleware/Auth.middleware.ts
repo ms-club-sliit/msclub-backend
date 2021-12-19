@@ -31,7 +31,11 @@ export const authenticate = async (
       });
 
       if (!user) {
-        throw new Error("User not found in the system");
+        let useNotFoundResponse = JSON.stringify({
+          status: 401,
+          message: "User not found in the system",
+        });
+        throw new Error(useNotFoundResponse);
       }
 
       request.authToken = authToken;
