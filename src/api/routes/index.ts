@@ -22,16 +22,21 @@ export default function (app: Express) {
   app.put("/admin/event/delete/:eventId", middleware.authenticate, controller.deleteEvent);
   app.get("/admin/event/", middleware.authenticate,controller.eventsForAdmin);
   app.get("/admin/event/delete/", middleware.authenticate,controller.deletedEventsForAdmin);
+  
   // Event endpoints - Public
   app.get("/event/", controller.getEvents);
   app.get("/event/:eventId/", controller.getEvent);
   app.get("/pastevent/", controller.getPastEvents);
   app.get("/upcomingevent/", controller.getUpcomingEvent);
 
+  // Webinar endpoints - Private
+  app.post("/admin/webinar/", middleware.authenticate,upload.single('webinarFlyer'), controller.insertWebinar);
+  app.put("/admin/webinar/:webinarId", middleware.authenticate,upload.single('webinarFlyer'), controller.updateWebinar);
+  app.put("/admin/webinar/delete/:webinarId", middleware.authenticate, controller.deleteWebinar);
+  app.get("/admin/webinar/", middleware.authenticate,controller.webinarsForAdmin);
+  app.get("/admin/webinar/delete/", middleware.authenticate,controller.deletedWebinarsForAdmin);
+
   // Webinar endpoints
-  app.post("/webinar/", middleware.authenticate, controller.insertWebinar);
-  app.put("/webinar/:webinarId", middleware.authenticate, controller.updateWebinar);
-  app.put("/webinar/delete/:webinarId", middleware.authenticate, controller.deleteWebinar);
   app.get("/webinar/", controller.getWebinars);
   app.get("/webinar/:webinarId/", controller.getWebinarById);
   app.get("/pastwebinar/", controller.getPastWebinars);
