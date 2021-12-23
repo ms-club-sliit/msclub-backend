@@ -1,5 +1,5 @@
-import { DocumentDefinition, FilterQuery } from "mongoose";
-import { IWebinar } from "../interfaces";
+import { DocumentDefinition, FilterQuery, Schema } from "mongoose";
+import { IWebinar, IUpdatedBy } from "../interfaces";
 import WebinarModel from "../models/Webinar.model";
 /**
  * Save a webinar in the database
@@ -10,7 +10,13 @@ export const insertWebinar = async (
   webinarData: DocumentDefinition<IWebinar>
 ) => {
   return await WebinarModel.create(webinarData)
-    .then((webinar) => {
+    .then(async (webinar) => {
+      let initialUpdatedBy: IUpdatedBy = {
+        user: webinar.createdBy,
+        updatedAt: new Date(),
+      };
+      webinar.updatedBy.push(initialUpdatedBy);
+      await webinar.save();
       return webinar;
     })
     .catch((error) => {
@@ -36,7 +42,9 @@ export const fetchWebinarById = async (webinarId: string) => {
  * @returns {IWebinar} All webinar documents in the database
  */
 export const fetchWebinars = async () => {
-  return await WebinarModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
+  return await WebinarModel.aggregate([
+    { $match: { deletedAt: { $eq: null } } },
+  ])
     .then((webinars) => {
       return webinars;
     })
@@ -79,7 +87,8 @@ export const fetchUpcomingWebinar = async () => {
  */
 export const updateWebinar = async (
   webinarId: string,
-  webinarData: DocumentDefinition<IWebinar>
+  webinarData: DocumentDefinition<IWebinar>,
+  updatedBy: Schema.Types.ObjectId
 ) => {
   return await WebinarModel.findById(webinarId)
     .then(async (webinarDetails) => {
@@ -117,6 +126,11 @@ export const updateWebinar = async (
             webinarDetails.registrationLink = webinarData.registrationLink;
           }
 
+          const updateUserInfo: IUpdatedBy = {
+            user: updatedBy,
+            updatedAt: new Date(),
+          };
+          webinarDetails.updatedBy.push(updateUserInfo);
           return await webinarDetails.save();
         } else {
           throw new Error("Webinar is not found");
@@ -133,15 +147,63 @@ export const updateWebinar = async (
  * Delete a webinar in the database
  * @param webinarId @type string
  */
-export const removeWebinar = async (webinarId: string) => {
+export const removeWebinar = async (
+  webinarId: string,
+  deletedBy: Schema.Types.ObjectId
+) => {
   return await WebinarModel.findById(webinarId)
     .then(async (webinarDetails) => {
-      if (webinarDetails?.deletedAt) {
+      if (webinarDetails && webinarDetails.deletedAt === null) {
         webinarDetails.deletedAt = new Date();
+        webinarDetails.deletedBy = deletedBy;
         return await webinarDetails.save();
       } else {
-        return null;
+        return "Webinar not found";
       }
+    })
+    .catch((error) => {
+      throw new Error(error.message);
+    });
+};
+
+export const getAllWebinarsForAdmin = async () => {
+  return await WebinarModel.find({ deletedAt: null })
+    .populate({
+      path: "createdBy",
+      select: "firstName lastName email permissionLevel profileImage",
+    })
+    .populate({
+      path: "updatedBy",
+      populate: {
+        path: "user",
+        select: "firstName lastName email permissionLevel profileImage",
+      },
+      select: "updatedAt",
+    })
+    .then((webinars) => {
+      return webinars;
+    })
+    .catch((error) => {
+      throw new Error(error.message);
+    });
+};
+
+export const getDeletedWebinarsForAdmin = async () => {
+  return await WebinarModel.find({ deletedAt: { $ne: null } })
+    .populate({
+      path: "createdBy",
+      select: "firstName lastName email permissionLevel profileImage",
+    })
+    .populate({
+      path: "updatedBy",
+      populate: {
+        path: "user",
+        select: "firstName lastName email permissionLevel profileImage",
+      },
+      select: "updatedAt",
+    })
+    .then((webinars) => {
+      return webinars;
     })
     .catch((error) => {
       throw new Error(error.message);

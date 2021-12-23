@@ -26,6 +26,8 @@ import {
   fetchUpcomingWebinar,
   updateWebinar,
   removeWebinar,
+  getAllWebinarsForAdmin,
+  getDeletedWebinarsForAdmin
 } from "./Webinar.service";
 
 import {
@@ -89,6 +91,8 @@ export default {
   fetchUpcomingWebinar,
   updateWebinar,
   removeWebinar,
+  getAllWebinarsForAdmin,
+  getDeletedWebinarsForAdmin,
   // TopSpeaker Service
   insertTopSpeaker,
   getTopSpeaker,

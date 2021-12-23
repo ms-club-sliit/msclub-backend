@@ -26,6 +26,8 @@ import {
   getUpcomingWebinar,
   updateWebinar,
   deleteWebinar,
+  webinarsForAdmin,
+  deletedWebinarsForAdmin
 } from "./Webinar.controller";
 
 import {
@@ -89,6 +91,8 @@ export default {
   getUpcomingWebinar,
   updateWebinar,
   deleteWebinar,
+  webinarsForAdmin,
+  deletedWebinarsForAdmin,
   //Executive board Controllers
   insertExecutiveBoard,
   getExecutiveBoardbyID,
