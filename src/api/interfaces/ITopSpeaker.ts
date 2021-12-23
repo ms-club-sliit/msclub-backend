@@ -1,4 +1,9 @@
-import { Document } from 'mongoose';
+import { Document,Schema } from 'mongoose';
+
+interface IUpdatedBy {
+  user: Schema.Types.ObjectId;
+  updatedAt: Date;
+}
 
 interface ITopSpeaker extends Document {
   imageUrl?: string;
@@ -6,6 +11,9 @@ interface ITopSpeaker extends Document {
   description: string;
   socialMediaURLs: ITopSpeakerMedia;
   deletedAt?: Date;
+  createdBy: Schema.Types.ObjectId;
+  updatedBy: IUpdatedBy[];
+  deletedBy?: Schema.Types.ObjectId;
 }
 
 interface ITopSpeakerMedia {
