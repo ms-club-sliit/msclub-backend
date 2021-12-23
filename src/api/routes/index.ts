@@ -9,6 +9,7 @@ export default function (app: Express) {
   // User endpoints
   app.post("/user/", upload.single("profileImage"), controller.createUser);
   app.post("/user/login/", controller.login);
+  app.get("/user/auth/", middleware.authenticate, controller.getAuthUser);
 
   // Contact Us endpoints
   app.get("/contact/", middleware.authenticate, controller.getAllContacts);

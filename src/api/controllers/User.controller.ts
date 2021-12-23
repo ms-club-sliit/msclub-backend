@@ -71,8 +71,13 @@ export const login = async (
         request.handleResponse.successRespond(response)(authResponseData);
       })
       .catch((error) => {
-        logger.error(error.message);
-        request.handleResponse.errorRespond(response)(error.message);
+        let errorResponseData = {
+          errorTime: new Date(),
+          message: error.message,
+        };
+
+        logger.error(JSON.stringify(errorResponseData));
+        request.handleResponse.errorRespond(response)(errorResponseData);
         next();
       });
   } else {
@@ -82,6 +87,27 @@ export const login = async (
     );
     next();
   }
+};
+
+/**
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns {IUser} Authenticated user document
+ */
+export const getAuthUser = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  let userInfo = {
+    userName: request.user.userName,
+    permissionLevel: request.user.permissionLevel,
+    authToken: request.user.authToken,
+    imagePath: request.user.profileImage,
+  };
+
+  request.handleResponse.successRespond(response)(userInfo);
 };
 
 /**
