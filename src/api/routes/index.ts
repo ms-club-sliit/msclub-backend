@@ -41,11 +41,15 @@ export default function (app: Express) {
   app.get("/webinar/:webinarId/", controller.getWebinarById);
   app.get("/pastwebinar/", controller.getPastWebinars);
   app.get("/upcomingwebinar/", controller.getUpcomingWebinar);
+    
+  // Top Speaker endpoints - Private
+  app.post("/admin/topspeaker/", middleware.authenticate,upload.single('webinarFlyer'), controller.insertTopSpeaker);
+  app.put("/admin/topspeaker/:topSpeakerId", middleware.authenticate,upload.single('webinarFlyer'), controller.updateTopSpeaker);
+  app.put("/admin/topspeaker/delete/:topSpeakerId", middleware.authenticate, controller.deleteTopSpeaker);
+  app.get("/admin/topspeaker/", middleware.authenticate,controller.webinarsForAdmin);
+  app.get("/admin/topspeaker/delete/", middleware.authenticate,controller.deletedWebinarsForAdmin);
 
-  // Top Speaker endpoints
-  app.post("/topspeaker/", middleware.authenticate, controller.insertTopSpeaker);
-  app.put("/topspeaker/:topSpeakerId", middleware.authenticate, controller.updateTopSpeaker);
-  app.put("/topspeaker/delete/:topSpeakerId", middleware.authenticate, controller.deleteTopSpeaker);
+  // Top Speaker endpoints - Public
   app.get("/topspeaker/:topSpeakerId/", controller.getTopSpeaker);
   app.get("/topspeaker/", controller.getTopSpeakers);
   

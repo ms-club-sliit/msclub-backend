@@ -36,6 +36,8 @@ import {
   getTopSpeakers,
   updateTopSpeaker,
   deleteTopSpeaker,
+  getAllTopSpeakersForAdmin,
+  getDeletedTopSpeakersForAdmin
 } from "./TopSpeaker.service";
 
 import {
@@ -99,6 +101,8 @@ export default {
   getTopSpeakers,
   updateTopSpeaker,
   deleteTopSpeaker,
+  getAllTopSpeakersForAdmin,
+  getDeletedTopSpeakersForAdmin,
   // Application Service
   addApplication,
   fetchApplicationById,

@@ -4,6 +4,7 @@ interface IUpdatedBy {
   user: Schema.Types.ObjectId;
   updatedAt: Date;
 }
+
 interface IEvent extends Document {
   title: string;
   description: string;

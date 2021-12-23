@@ -36,6 +36,8 @@ import {
   getTopSpeakers,
   updateTopSpeaker,
   deleteTopSpeaker,
+  getAllTopSpeakersForAdmin,
+  getDeletedTopSpeakersForAdmin
 } from "./TopSpeaker.controller";
 
 import {
@@ -106,6 +108,8 @@ export default {
   getTopSpeakers,
   updateTopSpeaker,
   deleteTopSpeaker,
+  getAllTopSpeakersForAdmin,
+  getDeletedTopSpeakersForAdmin,
   //Board Member Controllers
   getBoardMemberbyID,
   getAllBoardMembers,
