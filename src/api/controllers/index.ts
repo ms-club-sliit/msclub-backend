@@ -1,10 +1,16 @@
-import { createUser, login, getAuthUser } from "./User.controller";
-
 import {
-  createContact,
-  getAllContacts,
-  removeContact,
-} from "./Contact.controller";
+  createUser,
+  login,
+  getAuthUser,
+  getAllUsers,
+  updateUser,
+  removeUser,
+  removeUserPermenently,
+  recoverUser,
+  getRemovedUsers,
+} from "./User.controller";
+
+import { createContact, getAllContacts, removeContact } from "./Contact.controller";
 
 import {
   insertEvent,
@@ -27,7 +33,7 @@ import {
   updateWebinar,
   deleteWebinar,
   webinarsForAdmin,
-  deletedWebinarsForAdmin
+  deletedWebinarsForAdmin,
 } from "./Webinar.controller";
 
 import {
@@ -69,6 +75,12 @@ export default {
   createUser,
   login,
   getAuthUser,
+  getAllUsers,
+  updateUser,
+  removeUser,
+  removeUserPermenently,
+  recoverUser,
+  getRemovedUsers,
   //Contact Controllers
   createContact,
   getAllContacts,
