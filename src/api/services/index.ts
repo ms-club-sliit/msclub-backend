@@ -1,10 +1,15 @@
-import { insertUser, authenticateUser } from "./User.service";
-
 import {
-  insertContact,
-  archiveContact,
-  fetchContactInfo,
-} from "./Contact.service";
+  insertUser,
+  authenticateUser,
+  getUsers,
+  updateUser,
+  deleteUser,
+  deleteUserPermenently,
+  recoverUser,
+  fetchDeletedUsers,
+} from "./User.service";
+
+import { insertContact, archiveContact, fetchContactInfo } from "./Contact.service";
 
 import {
   insertEvent,
@@ -27,7 +32,7 @@ import {
   updateWebinar,
   removeWebinar,
   getAllWebinarsForAdmin,
-  getDeletedWebinarsForAdmin
+  getDeletedWebinarsForAdmin,
 } from "./Webinar.service";
 
 import {
@@ -71,6 +76,12 @@ export default {
   // User services
   insertUser,
   authenticateUser,
+  getUsers,
+  updateUser,
+  deleteUser,
+  deleteUserPermenently,
+  recoverUser,
+  fetchDeletedUsers,
   // Contact services
   insertContact,
   fetchContactInfo,

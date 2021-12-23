@@ -1,4 +1,4 @@
-import { DocumentDefinition } from "mongoose";
+import { DocumentDefinition, Schema } from "mongoose";
 import { IUser, IUserRequest } from "../interfaces";
 import UserModel from "../models/User.model";
 import bcrypt from "bcrypt";
@@ -7,9 +7,7 @@ import bcrypt from "bcrypt";
  * @param {IUser} userData
  * @returns {Document} User document
  */
-export const insertUser = async (
-  userData: DocumentDefinition<IUserRequest>
-) => {
+export const insertUser = async (userData: DocumentDefinition<IUserRequest>) => {
   return await UserModel.create(userData)
     .then(async (user) => {
       await user.generateAuthToken();
@@ -31,8 +29,8 @@ export const authenticateUser = async (userName: string, password: string) => {
 /**
  *get all users
  */
- export const getUsers = async () => {
-  return await UserModel.find()
+export const getUsers = async () => {
+  return await UserModel.find({ deletedAt: null })
     .then((users) => {
       return users;
     })
@@ -41,20 +39,16 @@ export const authenticateUser = async (userName: string, password: string) => {
     });
 };
 
-
 /**
  * update user
  * @param userId @type string
  * @param updateData @type DocumentDefinition<IUser>
  */
-export const updateData = async (
-  userId: string,
-  updateData: DocumentDefinition<IUser>
-) => {
+export const updateUser = async (userId: string, updateData: DocumentDefinition<IUser>) => {
   return await UserModel.findById(userId)
     .then(async (userDetails) => {
       if (userDetails) {
-        if (userDetails.deletedAt) {
+        if (userDetails.deletedAt === null) {
           if (updateData.firstName) {
             userDetails.firstName = updateData.firstName;
           }
@@ -82,13 +76,13 @@ export const updateData = async (
           if (updateData.permissionLevel) {
             userDetails.permissionLevel = updateData.permissionLevel;
           }
-          
+
           return await userDetails.save();
         } else {
           throw new Error("User is not found");
         }
       } else {
-        return null;
+        throw new Error("User already removed");
       }
     })
     .catch((error) => {
@@ -100,14 +94,19 @@ export const updateData = async (
  * delete user
  * @param userId @type string
  */
-export const deleteUser = async (userId: string) => {
+export const deleteUser = async (userId: string, deletedBy: Schema.Types.ObjectId) => {
   return await UserModel.findById(userId)
     .then(async (userDetails) => {
-      if (userDetails?.deletedAt) {
+      if (userDetails && userDetails.deletedAt === null) {
         userDetails.deletedAt = new Date();
+        userDetails.deletedBy = deletedBy;
         return await userDetails.save();
       } else {
-        return null;
+        const errorInfo = {
+          time: new Date(),
+          message: "User already removed",
+        };
+        throw new Error(JSON.stringify(errorInfo));
       }
     })
     .catch((error) => {
@@ -115,3 +114,41 @@ export const deleteUser = async (userId: string) => {
     });
 };
 
+export const recoverUser = async (userId: string) => {
+  return await UserModel.findById(userId)
+    .then(async (user) => {
+      if (user) {
+        user.deletedAt = null;
+        user.deletedBy = null;
+
+        return await user.save();
+      }
+    })
+    .catch((error) => {
+      const errorInfo = {
+        time: new Date(),
+        message: error.message,
+      };
+      throw new Error(JSON.stringify(errorInfo));
+    });
+};
+
+export const fetchDeletedUsers = async () => {
+  return await UserModel.find({ deletedAt: { $ne: null } })
+    .then((users) => {
+      return users;
+    })
+    .catch((error) => {
+      throw new Error(error.message);
+    });
+};
+
+export const deleteUserPermenently = async (userId: string) => {
+  return await UserModel.findByIdAndDelete(userId)
+    .then((user) => {
+      return user;
+    })
+    .catch((error) => {
+      throw new Error(error.message);
+    });
+};
