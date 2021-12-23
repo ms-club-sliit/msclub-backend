@@ -1,5 +1,5 @@
-import { DocumentDefinition } from "mongoose";
-import { ITopSpeaker } from "../interfaces";
+import { DocumentDefinition, FilterQuery, Schema } from "mongoose";
+import { ITopSpeaker, IUpdatedBy } from "../interfaces";
 import TopSpeakerModel from "../models/TopSpeaker.model";
 /**
  save a speaker in the database
@@ -8,7 +8,13 @@ export const insertTopSpeaker = async (
   topSpeakerData: DocumentDefinition<ITopSpeaker>
 ) => {
   return await TopSpeakerModel.create(topSpeakerData)
-    .then((topSpeaker) => {
+    .then(async (topSpeaker) => {
+      let initialUpdatedBy: IUpdatedBy = {
+        user: topSpeaker.createdBy,
+        updatedAt: new Date(),
+      };
+      topSpeaker.updatedBy.push(initialUpdatedBy);
+      await topSpeaker.save();
       return topSpeaker;
     })
     .catch((error) => {
@@ -56,7 +62,8 @@ export const getTopSpeakers = async () => {
  */
 export const updateTopSpeaker = async (
   topSpeakerId: string,
-  updateData: DocumentDefinition<ITopSpeaker>
+  updateData: DocumentDefinition<ITopSpeaker>,
+  updatedBy: Schema.Types.ObjectId
 ) => {
   return await TopSpeakerModel.findById(topSpeakerId)
     .then(async (topSpeakerDetails) => {
@@ -101,6 +108,12 @@ export const updateTopSpeaker = async (
             updateData.socialMediaURLs.web;
         }
 
+        const updateUserInfo: IUpdatedBy = {
+          user: updatedBy,
+          updatedAt: new Date(),
+        };
+
+        topSpeakerDetails.updatedBy.push(updateUserInfo);
         return await topSpeakerDetails.save();
       } else {
         return null;
@@ -115,15 +128,69 @@ export const updateTopSpeaker = async (
 delete a past event
  * @param topSpeakerId @type string
  */
-export const deleteTopSpeaker = async (topSpeakerId: string) => {
+export const deleteTopSpeaker = async (
+  topSpeakerId: string,
+  deletedBy: Schema.Types.ObjectId
+) => {
   return await TopSpeakerModel.findById(topSpeakerId)
     .then(async (topSpeakerDetails) => {
-      if (topSpeakerDetails?.deletedAt) {
+      if (topSpeakerDetails && topSpeakerDetails.deletedAt === null) {
         topSpeakerDetails.deletedAt = new Date();
+        topSpeakerDetails.deletedBy = deletedBy;
         return await topSpeakerDetails.save();
       } else {
         return null;
       }
+    })
+    .catch((error) => {
+      throw new Error(error.message);
+    });
+};
+
+/**
+Get all top speakers - admin
+ */
+export const getAllTopSpeakersForAdmin = async () => {
+  return await TopSpeakerModel.find({ deletedAt: null })
+    .populate({
+      path: "createdBy",
+      select: "firstName lastName email permissionLevel profileImage",
+    })
+    .populate({
+      path: "updatedBy",
+      populate: {
+        path: "user",
+        select: "firstName lastName email permissionLevel profileImage",
+      },
+      select: "updatedAt",
+    })
+    .then((topSpeakers) => {
+      return topSpeakers;
+    })
+    .catch((error) => {
+      throw new Error(error.message);
+    });
+};
+
+/**
+Get all deleted top speakers - admin
+ */
+export const getDeletedTopSpeakersForAdmin = async () => {
+  return await TopSpeakerModel.find({ deletedAt: { $ne: null } })
+    .populate({
+      path: "createdBy",
+      select: "firstName lastName email permissionLevel profileImage",
+    })
+    .populate({
+      path: "updatedBy",
+      populate: {
+        path: "user",
+        select: "firstName lastName email permissionLevel profileImage",
+      },
+      select: "updatedAt",
+    })
+    .then((topSpeakers) => {
+      return topSpeakers;
     })
     .catch((error) => {
       throw new Error(error.message);

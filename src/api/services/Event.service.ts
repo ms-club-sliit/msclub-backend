@@ -158,6 +158,9 @@ export const deleteEvent = async (
     });
 };
 
+/**
+Get all events - admin
+ */
 export const getAllEventsForAdmin = async () => {
   return await EventModel.find({ deletedAt: null })
     .populate({
@@ -180,6 +183,9 @@ export const getAllEventsForAdmin = async () => {
     });
 };
 
+/**
+Get deleted events - admin
+ */
 export const getDeletedEventsForAdmin = async () => {
   return await EventModel.find({ deletedAt: { $ne: null } })
     .populate({
