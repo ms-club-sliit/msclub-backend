@@ -6,9 +6,7 @@ import WebinarModel from "../models/Webinar.model";
  * @param {IWebinar} webinarData
  * @returns {IWebinar} New webinar document
  */
-export const insertWebinar = async (
-  webinarData: DocumentDefinition<IWebinar>
-) => {
+export const insertWebinar = async (webinarData: DocumentDefinition<IWebinar>) => {
   return await WebinarModel.create(webinarData)
     .then(async (webinar) => {
       let initialUpdatedBy: IUpdatedBy = {
@@ -23,10 +21,11 @@ export const insertWebinar = async (
       throw new Error(error.message);
     });
 };
+
 /**
  * Fetch a webinar in the database
  * @param webinarId @type string
- * @returns {IWebinar} Webinar document for relevent ID
+ * @returns {IWebinar} Webinar document for relevant ID
  */
 export const fetchWebinarById = async (webinarId: string) => {
   return await WebinarModel.findById(webinarId)
@@ -37,14 +36,13 @@ export const fetchWebinarById = async (webinarId: string) => {
       throw new Error(error.message);
     });
 };
+
 /**
  * Fetch all the webinars in the database
  * @returns {IWebinar} All webinar documents in the database
  */
 export const fetchWebinars = async () => {
-  return await WebinarModel.aggregate([
-    { $match: { deletedAt: { $eq: null } } },
-  ])
+  return await WebinarModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
     .then((webinars) => {
       return webinars;
     })
@@ -52,6 +50,7 @@ export const fetchWebinars = async () => {
       throw new Error(error.message);
     });
 };
+
 /**
  * Fetch all the past webinars in the database
  * @returns {IWebinar} All the past webinar documents in the database
@@ -65,6 +64,7 @@ export const fetchPastWebinars = async () => {
       throw new Error(error.message);
     });
 };
+
 /**
  * Fetch an upcoming webinars in the database
  * @returns {IWebinar} All the upcoming webinar documents in the database
@@ -80,6 +80,7 @@ export const fetchUpcomingWebinar = async () => {
       throw new Error(error.message);
     });
 };
+
 /**
  * Update a webinar in the database
  * @param webinarId @type string
@@ -143,14 +144,12 @@ export const updateWebinar = async (
       throw new Error(error.message);
     });
 };
+
 /**
  * Delete a webinar in the database
  * @param webinarId @type string
  */
-export const removeWebinar = async (
-  webinarId: string,
-  deletedBy: Schema.Types.ObjectId
-) => {
+export const removeWebinar = async (webinarId: string, deletedBy: Schema.Types.ObjectId) => {
   return await WebinarModel.findById(webinarId)
     .then(async (webinarDetails) => {
       if (webinarDetails && webinarDetails.deletedAt === null) {

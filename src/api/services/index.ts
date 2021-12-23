@@ -21,6 +21,8 @@ import {
   deleteEvent,
   getAllEventsForAdmin,
   getDeletedEventsForAdmin,
+  recoverDeletedEvent,
+  deleteEventPermanently,
 } from "./Event.service";
 
 import {
@@ -42,7 +44,7 @@ import {
   updateTopSpeaker,
   deleteTopSpeaker,
   getAllTopSpeakersForAdmin,
-  getDeletedTopSpeakersForAdmin
+  getDeletedTopSpeakersForAdmin,
 } from "./TopSpeaker.service";
 
 import {
@@ -96,6 +98,8 @@ export default {
   deleteEvent,
   getAllEventsForAdmin,
   getDeletedEventsForAdmin,
+  recoverDeletedEvent,
+  deleteEventPermanently,
   // Webinar services
   insertWebinar,
   fetchWebinarById,
