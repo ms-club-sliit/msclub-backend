@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
-import ContactService from '../services';
-import EmailService from '../../util/email.handler';
-import moment from 'moment';
+import { Request, Response, NextFunction } from "express";
+import ContactService from "../services";
+import EmailService from "../../util/email.handler";
+import moment from "moment";
 
 /**
  * @param {Request} request - Request from the frontend
@@ -12,15 +12,15 @@ import moment from 'moment';
 export const createContact = async (request: Request, response: Response, next: NextFunction) => {
   await ContactService.insertContact(request.body)
     .then((data) => {
-      // Send email 
-      const emailTemplate = 'Contact-Us-Email-Template.html';
+      // Send email
+      const emailTemplate = "Contact-Us-Email-Template.html";
       const to = data.email;
-      const subject = 'MS Club SLIIT - Contact Us';
+      const subject = "MS Club SLIIT - Contact Us";
       const emailBodyData = {
         name: data.name,
         email: data.email,
         message: data.message,
-        date_time: moment(data.createdAt).format('LLL'),
+        date_time: moment(data.createdAt).format("LLL"),
       };
 
       EmailService.sendEmailWithTemplate(emailTemplate, to, subject, emailBodyData)
@@ -41,7 +41,7 @@ export const createContact = async (request: Request, response: Response, next: 
       request.handleResponse.errorRespond(response)(error.message);
       next();
     });
-}
+};
 
 /**
  * @param {Request} request - Request from the frontend
@@ -58,7 +58,7 @@ export const getAllContacts = async (request: Request, response: Response, next:
       request.handleResponse.errorRespond(response)(error.message);
       next();
     });
-}
+};
 
 /**
  * @param {Request} request - Request from the frontend
@@ -75,4 +75,4 @@ export const removeContact = async (request: Request, response: Response, next: 
       request.handleResponse.errorRespond(response)(error.message);
       next();
     });
-}
+};
