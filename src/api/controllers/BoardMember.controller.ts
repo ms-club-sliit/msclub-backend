@@ -9,11 +9,7 @@ import ImageService from "../../util/image.handler";
  * @param {NextFunction} next - Next function
  * @returns boardMember
  */
-export const getBoardMemberbyID = async (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
+export const getBoardMemberbyID = async (request: Request, response: Response, next: NextFunction) => {
   const boardMemberId = request.params.boardMemberId;
   if (boardMemberId) {
     await BoardMemberService.getBoardMemberbyID(request.params.boardMemberId)
@@ -35,11 +31,7 @@ export const getBoardMemberbyID = async (
  * @param {NextFunction} next - Next function
  * @returns boardMember[]
  */
-export const getAllBoardMembers = async (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
+export const getAllBoardMembers = async (request: Request, response: Response, next: NextFunction) => {
   await BoardMemberService.getAllBoardMembers()
     .then((data) => {
       request.handleResponse.successRespond(response)(data);
@@ -97,11 +89,7 @@ export const updateBoardMemberDetails = async (
  * @param {NextFunction} next - Next function
  * @returns updated boardMember
  */
-export const deleteBoardMemberDetails = async (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
+export const deleteBoardMemberDetails = async (request: Request, response: Response, next: NextFunction) => {
   const boardMemberId = request.params.boardMemberId;
   const deletedBy = request.user && request.user._id ? request.user._id : null;
 

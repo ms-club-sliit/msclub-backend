@@ -10,11 +10,7 @@ import { IApplication } from "../interfaces";
  * @param {NextFunction} next - Next function
  * @returns {IApplication} - New application document
  */
-export const addApplication = async (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
+export const addApplication = async (request: Request, response: Response, next: NextFunction) => {
   await ApplicationService.addApplication(request.body)
     .then((data) => {
       // Send email
@@ -32,12 +28,7 @@ export const addApplication = async (
         skillsAndTalents: data.skillsAndTalents
       };
 
-      EmailService.sendEmailWithTemplate(
-        emailTemplate,
-        to,
-        subject,
-        emailBodyData
-      )
+      EmailService.sendEmailWithTemplate(emailTemplate, to, subject, emailBodyData)
         .then((emailData) => {
           request.handleResponse.successRespond(response)({
             applicationData: data,
@@ -63,11 +54,7 @@ export const addApplication = async (
  * @param {NextFunction} next - Next function
  * @returns {IApplication} - Application document that relevent to the passed ID
  */
-export const getApplicationById = async (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
+export const getApplicationById = async (request: Request, response: Response, next: NextFunction) => {
   const applicationId = request.params.applicationId;
   if (applicationId) {
     await ApplicationService.fetchApplicationById(request.params.applicationId)
@@ -90,11 +77,7 @@ export const getApplicationById = async (
  * @param {NextFunction} next - Next function
  * @returns {IApplication} - All application documents
  */
-export const getApplications = async (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
+export const getApplications = async (request: Request, response: Response, next: NextFunction) => {
   await ApplicationService.fetchApplications()
     .then((data) => {
       request.handleResponse.successRespond(response)(data);
@@ -112,11 +95,7 @@ export const getApplications = async (
  * @param {NextFunction} next - Next function
  * @returns {IApplication} - Updated application document
  */
-export const setApplicationArchive = async (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
+export const setApplicationArchive = async (request: Request, response: Response, next: NextFunction) => {
   const applicationId = request.params.applicationId;
   if (applicationId) {
     await ApplicationService.archiveApplication(request.params.applicationId)
@@ -149,10 +128,7 @@ export const changeApplicationStatusIntoInterview = async (
 ) => {
   const applicationId = request.params.applicationId;
   if (applicationId) {
-    await ApplicationService.changeApplicationStatusIntoInterview(
-      request.params.applicationId,
-      request.body
-    )
+    await ApplicationService.changeApplicationStatusIntoInterview(request.params.applicationId, request.body)
       .then((data) => {
         request.handleResponse.successRespond(response)(data);
         next();
@@ -175,17 +151,10 @@ export const changeApplicationStatusIntoInterview = async (
  * @param {NextFunction} next - Next function
  * @returns {IApplication} updated application document in the system
  */
-export const changeApplicationStatusIntoSelected = async (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
+export const changeApplicationStatusIntoSelected = async (request: Request, response: Response, next: NextFunction) => {
   const applicationId = request.params.applicationId;
   if (applicationId) {
-    await ApplicationService.changeApplicationStatusIntoSelected(
-      request.params.applicationId,
-      request.body
-    )
+    await ApplicationService.changeApplicationStatusIntoSelected(request.params.applicationId, request.body)
       .then((data) => {
         request.handleResponse.successRespond(response)(data);
         next();
@@ -207,16 +176,10 @@ export const changeApplicationStatusIntoSelected = async (
  * @param {NextFunction} next - Next function
  * @returns {IApplication} updated application document in the system
  */
-export const changeApplicationStatusIntoRejected = async (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
+export const changeApplicationStatusIntoRejected = async (request: Request, response: Response, next: NextFunction) => {
   const applicationId = request.params.applicationId;
   if (applicationId) {
-    await ApplicationService.changeApplicationStatusIntoRejected(
-      request.params.applicationId
-    )
+    await ApplicationService.changeApplicationStatusIntoRejected(request.params.applicationId)
       .then((data) => {
         request.handleResponse.successRespond(response)(data);
         next();

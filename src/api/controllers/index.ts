@@ -22,6 +22,8 @@ import {
   deleteEvent,
   eventsForAdmin,
   deletedEventsForAdmin,
+  deleteEventPermanently,
+  recoverRemovedEvent,
 } from "./Event.controller";
 
 import {
@@ -43,7 +45,7 @@ import {
   updateTopSpeaker,
   deleteTopSpeaker,
   getAllTopSpeakersForAdmin,
-  getDeletedTopSpeakersForAdmin
+  getDeletedTopSpeakersForAdmin,
 } from "./TopSpeaker.controller";
 
 import {
@@ -97,6 +99,8 @@ export default {
   deleteEvent,
   eventsForAdmin,
   deletedEventsForAdmin,
+  deleteEventPermanently,
+  recoverRemovedEvent,
   //Webinar Controllers
   insertWebinar,
   getWebinarById,

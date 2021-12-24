@@ -24,10 +24,12 @@ export default function (app: Express) {
 
   // Event endpoints - Private
   app.post("/admin/event/",middleware.authenticate, upload.single('eventFlyer'), controller.insertEvent);
-  app.put("/admin/event/:eventId", middleware.authenticate, upload.single('eventFlyer'), controller.updateEvent);
-  app.put("/admin/event/delete/:eventId", middleware.authenticate, controller.deleteEvent);
   app.get("/admin/event/", middleware.authenticate,controller.eventsForAdmin);
   app.get("/admin/event/delete/", middleware.authenticate,controller.deletedEventsForAdmin);
+  app.put("/admin/event/:eventId", middleware.authenticate, upload.single('eventFlyer'), controller.updateEvent);
+  app.put("/admin/event/delete/:eventId", middleware.authenticate, controller.deleteEvent);
+  app.put("/admin/event/recover/", middleware.authenticate, controller.recoverRemovedEvent);
+  app.delete("/admin/event/delete", middleware.authenticate, controller.deleteEventPermanently);
   
   // Event endpoints - Public
   app.get("/event/", controller.getEvents);
