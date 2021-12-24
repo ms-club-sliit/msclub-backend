@@ -1,11 +1,19 @@
-import { Document } from "mongoose";
+import { Document, Schema } from "mongoose";
+
+interface IUpdatedBy {
+  user: Schema.Types.ObjectId;
+  updatedAt: Date;
+}
 
 interface IBoardMember extends Document {
   name: string;
   position: string;
-  image?: string;
+  imageUrl?: string;
   socialMedia: ISocialMedia;
   deletedAt?: Date;
+  createdBy: Schema.Types.ObjectId;
+  updatedBy: IUpdatedBy[];
+  deletedBy?: Schema.Types.ObjectId;
 }
 
 interface ISocialMedia {

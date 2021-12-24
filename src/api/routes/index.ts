@@ -51,8 +51,8 @@ export default function (app: Express) {
   app.get("/upcomingwebinar/", controller.getUpcomingWebinar);
     
   // Top Speaker endpoints - Private
-  app.post("/admin/topspeaker/", middleware.authenticate,upload.single('webinarFlyer'), controller.insertTopSpeaker);
-  app.put("/admin/topspeaker/:topSpeakerId", middleware.authenticate,upload.single('webinarFlyer'), controller.updateTopSpeaker);
+  app.post("/admin/topspeaker/", middleware.authenticate,upload.single('topSpeakerFlyer'), controller.insertTopSpeaker);
+  app.put("/admin/topspeaker/:topSpeakerId", middleware.authenticate,upload.single('topSpeakerFlyer'), controller.updateTopSpeaker);
   app.put("/admin/topspeaker/delete/:topSpeakerId", middleware.authenticate, controller.deleteTopSpeaker);
   app.get("/admin/topspeaker/", middleware.authenticate,controller.webinarsForAdmin);
   app.get("/admin/topspeaker/delete/", middleware.authenticate,controller.deletedWebinarsForAdmin);
@@ -61,26 +61,32 @@ export default function (app: Express) {
   app.get("/topspeaker/:topSpeakerId/", controller.getTopSpeaker);
   app.get("/topspeaker/", controller.getTopSpeakers);
   
-  // BoardMember endpoints
-  app.put("/boardmember/:boardMemberId", middleware.authenticate, controller.updateBoardMemberDetails);
-  app.put("/boardmember/delete/:boardMemberId", middleware.authenticate, controller.deleteBoardMemberDetails);
+  // BoardMember endpoints - Private
+  app.put("/admin/boardmember/:boardMemberId", middleware.authenticate,upload.single('boardMemberFlyer'), controller.updateBoardMemberDetails);
+  app.put("/admin/boardmember/delete/:boardMemberId", middleware.authenticate, controller.deleteBoardMemberDetails);
+
+   // BoardMember endpoints - Public
   app.get("/boardmember/:boardMemberId/", controller.getBoardMemberbyID);
   app.get("/boardmember/", controller.getAllBoardMembers);
 
-  // ExecutiveBoard endpoints
-  app.post("/executive/", middleware.authenticate, controller.insertExecutiveBoard);
-  app.put("/boardmember/:executiveBoardId", middleware.authenticate, controller.addBoardMember);
-  app.put("/executive/:executiveBoardId", middleware.authenticate, controller.updateExecutiveBoardDetails);
-  app.put("/executive/delete/:executiveBoardId/", middleware.authenticate, controller.deleteExecutiveBoardDetails);
+  // ExecutiveBoard endpoints - Private
+  app.post("/admin/executive/", middleware.authenticate, controller.insertExecutiveBoard);
+  app.put("/admin/boardmember/:executiveBoardId", middleware.authenticate,upload.single('boardMemberFlyer'), controller.addBoardMember);
+  app.put("/admin/executive/:executiveBoardId", middleware.authenticate, controller.updateExecutiveBoardDetails);
+  app.put("/admin/executive/delete/:executiveBoardId/", middleware.authenticate, controller.deleteExecutiveBoardDetails);
+
+  // ExecutiveBoard endpoints - Public
   app.get("/executive/:executiveBoardId/", controller.getExecutiveBoardbyID);
   app.get("/executive/", controller.getExecutiveBoard);
   
-  // Application endpoints
+  // Application endpoints - Private
+  app.get("/admin/application/:applicationId/", middleware.authenticate, controller.getApplicationById);
+  app.get("/admin/application/", middleware.authenticate, controller.getApplications);
+  app.put("/admin/application/delete/:applicationId", middleware.authenticate, controller.setApplicationArchive);
+  app.put("/admin/application/interview/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoInterview);
+  app.put("/admin/application/selected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoSelected);
+  app.put("/admin/application/rejected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoRejected);
+
+  // Application endpoints - Public
   app.post("/application/", controller.addApplication);
-  app.get("/application/:applicationId/", middleware.authenticate, controller.getApplicationById);
-  app.get("/application/", middleware.authenticate, controller.getApplications);
-  app.put("/application/delete/:applicationId", middleware.authenticate, controller.setApplicationArchive);
-  app.put("/application/interview/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoInterview);
-  app.put("/application/selected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoSelected);
-  app.put("/application/rejected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoRejected);
 }

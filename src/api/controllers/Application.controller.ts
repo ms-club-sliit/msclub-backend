@@ -18,8 +18,14 @@ export const addApplication = async (request: Request, response: Response, next:
       const to = data.email;
       const subject = "MS Club SLIIT - Application Received";
       const emailBodyData = {
+        studentId: data.studentId,
         name: data.name,
         email: data.email,
+        contactNumber: data.contactNumber,
+        currentAcademicYear: data.currentAcademicYear,
+        linkedIn : data.linkedIn,
+        gitHub: data.gitHub,
+        skillsAndTalents: data.skillsAndTalents
       };
 
       EmailService.sendEmailWithTemplate(emailTemplate, to, subject, emailBodyData)
