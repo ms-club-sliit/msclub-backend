@@ -1,6 +1,8 @@
 import { Express, Request, Response, NextFunction } from "express";
 import ExecutiveBoardService from "../services";
 import logger from "../../util/logger";
+import ImageService from "../../util/image.handler";
+
 /**
  * @param request
  * @param response
@@ -12,6 +14,8 @@ export const insertExecutiveBoard = async (
   response: Response,
   next: NextFunction
 ) => {
+  request.body.createdBy =
+  request.user && request.user._id ? request.user._id : null;
   await ExecutiveBoardService.insertExecutiveBoard(request.body)
     .then((data) => {
       request.handleResponse.successRespond(response)(data);
@@ -84,9 +88,18 @@ export const addBoardMember = async (
   response: Response,
   next: NextFunction
 ) => {
+  const bucketDirectoryName = "boardmember-flyers";
+
+  const boardMemberFlyerPath = await ImageService.uploadImage(
+    request.file,
+    bucketDirectoryName
+  );
+  request.body.imageUrl = boardMemberFlyerPath;
+  const updatedBy = request.user && request.user._id ? request.user._id : null;
   await ExecutiveBoardService.addBoardMember(
     request.params.executiveBoardId,
-    request.body
+    request.body,
+    updatedBy
   )
     .then((data) => {
       request.handleResponse.successRespond(response)(data);
@@ -109,10 +122,13 @@ export const updateExecutiveBoardDetails = async (
   next: NextFunction
 ) => {
   const executiveBoardId = request.params.executiveBoardId;
+  const updatedBy = request.user && request.user._id ? request.user._id : null;
+
   if (executiveBoardId) {
     await ExecutiveBoardService.updateExecutiveBoardDetails(
       request.params.executiveBoardId,
-      request.body
+      request.body,
+      updatedBy
     )
       .then((data) => {
         request.handleResponse.successRespond(response)(data);
@@ -140,9 +156,12 @@ export const deleteExecutiveBoardDetails = async (
   next: NextFunction
 ) => {
   const executiveBoardId = request.params.executiveBoardId;
+  const deletedBy = request.user && request.user._id ? request.user._id : null;
+
   if (executiveBoardId) {
     await ExecutiveBoardService.deleteExecutiveBoardDetails(
-      request.params.executiveBoardId
+      request.params.executiveBoardId,
+      deletedBy
     )
       .then((data) => {
         request.handleResponse.successRespond(response)(data);

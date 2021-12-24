@@ -1,5 +1,5 @@
-import { DocumentDefinition, FilterQuery } from "mongoose";
-import { IBoardMember } from "../interfaces";
+import { DocumentDefinition, FilterQuery, Schema } from "mongoose";
+import { IBoardMember, IUpdatedBy } from "../interfaces";
 import BoardMemberModel from "../models/BoardMember.model";
 
 /**
@@ -10,6 +10,12 @@ export const insertBoardMember = async (
 ) => {
   return await BoardMemberModel.create(BoardMemberData)
     .then(async (boardMember) => {
+      let initialUpdatedBy: IUpdatedBy = {
+        user: boardMember.createdBy,
+        updatedAt: new Date(),
+      };
+      boardMember.updatedBy.push(initialUpdatedBy);
+      await boardMember.save();
       return boardMember;
     })
     .catch((error) => {
@@ -49,7 +55,8 @@ export const getAllBoardMembers = async () => {
 
 export const updateBoardMemberDetails = async (
   boardMemberId: string,
-  updateData: DocumentDefinition<IBoardMember>
+  updateData: DocumentDefinition<IBoardMember>,
+  updatedBy: Schema.Types.ObjectId
 ) => {
   return await BoardMemberModel.findById(boardMemberId)
     .then(async (boardMemberDetails) => {
@@ -61,8 +68,8 @@ export const updateBoardMemberDetails = async (
           if (updateData.position) {
             boardMemberDetails.position = updateData.position;
           }
-          if (updateData.image) {
-            boardMemberDetails.image = updateData.image;
+          if (updateData.imageUrl) {
+            boardMemberDetails.imageUrl = updateData.imageUrl;
           }
           if (updateData.socialMedia) {
             if (updateData.socialMedia.facebook) {
@@ -78,9 +85,16 @@ export const updateBoardMemberDetails = async (
                 updateData.socialMedia.linkedIn;
             }
             if (updateData.socialMedia.twitter) {
-              boardMemberDetails.socialMedia.twitter = updateData.socialMedia.twitter;
+              boardMemberDetails.socialMedia.twitter =
+                updateData.socialMedia.twitter;
             }
           }
+          const updateUserInfo: IUpdatedBy = {
+            user: updatedBy,
+            updatedAt: new Date(),
+          };
+
+          boardMemberDetails.updatedBy.push(updateUserInfo);
           return await boardMemberDetails.save();
         } else {
           throw new Error("Board Member is not found");
@@ -93,15 +107,20 @@ export const updateBoardMemberDetails = async (
       throw new Error(error.message);
     });
 };
+
 /**
  delete member
  * @param boardMemberId @type string
  */
-export const deleteBoardMemberDetails = async (boardMemberId: string) => {
+export const deleteBoardMemberDetails = async (
+  boardMemberId: string,
+  deletedBy: Schema.Types.ObjectId
+) => {
   return await BoardMemberModel.findById(boardMemberId)
     .then(async (boardMemberDetails) => {
-      if (boardMemberDetails?.deletedAt) {
+      if (boardMemberDetails && boardMemberDetails.deletedAt === null) {
         boardMemberDetails.deletedAt = new Date();
+        boardMemberDetails.deletedBy = deletedBy;
         return await boardMemberDetails.save();
       } else {
         return null;
