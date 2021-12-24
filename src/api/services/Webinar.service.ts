@@ -111,10 +111,6 @@ export const updateWebinar = async (
             webinarDetails.dateTime = webinarData.dateTime;
           }
 
-          if (webinarData.time) {
-            webinarDetails.time = webinarData.time;
-          }
-
           if (webinarData.tags) {
             webinarDetails.tags = webinarData.tags;
           }

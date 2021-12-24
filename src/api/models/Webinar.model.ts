@@ -7,7 +7,6 @@ const WebinarSchema = new Schema<IWebinar>(
     description: { type: String, required: true },
     imageUrl: { type: String, required: true },
     dateTime: { type: Date, required: true },
-    time: { type: Date, required: true },
     tags: [{ type: String, required: false }],
     link: { type: String, required: true },
     registrationLink: { type: String, required: false },

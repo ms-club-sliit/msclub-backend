@@ -10,7 +10,6 @@ interface IWebinar extends Document {
   description: string;
   imageUrl: string;
   dateTime: Date;
-  time: Date;
   tags?: string[];
   link?: string;
   registrationLink?: string;
