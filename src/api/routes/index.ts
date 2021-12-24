@@ -89,4 +89,10 @@ export default function (app: Express) {
 
   // Application endpoints - Public
   app.post("/application/", controller.addApplication);
+
+  // Organization endpoints - Private
+  app.post("/admin/organization/", middleware.authenticate, upload.single('organizationLogo'), controller.insertOrganization);
+  app.get("/admin/organization/info", middleware.authenticate, controller.getOrganization);
+  app.get("/admin/organization/", middleware.authenticate, controller.getOrganizationForAdmin);
+  app.put("/admin/organization/", middleware.authenticate, upload.single('organizationLogo'), controller.updateOrganization);
 }

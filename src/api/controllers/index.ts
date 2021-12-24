@@ -74,6 +74,13 @@ import {
   deleteExecutiveBoardDetails,
 } from "./ExecutiveBoard.controller";
 
+import {
+  insertOrganization,
+  getOrganization,
+  getOrganizationForAdmin,
+  updateOrganization,
+} from "./Organization.controller";
+
 export default {
   //User Controllers
   createUser,
@@ -139,4 +146,9 @@ export default {
   changeApplicationStatusIntoInterview,
   changeApplicationStatusIntoSelected,
   changeApplicationStatusIntoRejected,
+  // Organization Controllers
+  insertOrganization,
+  getOrganization,
+  getOrganizationForAdmin,
+  updateOrganization,
 };

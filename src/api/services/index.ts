@@ -74,6 +74,13 @@ import {
   deleteExecutiveBoardDetails,
 } from "./ExecutiveBoard.service";
 
+import {
+  createOrganization,
+  getOrganizationInfo,
+  getOrganizationInfoForAdmin,
+  updateOrganizationInfo,
+} from "./Organization.service";
+
 export default {
   // User services
   insertUser,
@@ -139,4 +146,9 @@ export default {
   addBoardMember,
   updateExecutiveBoardDetails,
   deleteExecutiveBoardDetails,
+  // Organization Service
+  createOrganization,
+  getOrganizationInfo,
+  getOrganizationInfoForAdmin,
+  updateOrganizationInfo,
 };

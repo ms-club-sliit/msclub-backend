@@ -14,11 +14,7 @@ import UserModel from "../models/User.model";
  * the user in the system. If the authentication success, then only necessary
  * method will execute.
  */
-export const authenticate = async (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
+export const authenticate = async (request: Request, response: Response, next: NextFunction) => {
   try {
     const secret = process.env.JWT_SECRET as string;
 
@@ -41,7 +37,7 @@ export const authenticate = async (
       request.authToken = authToken;
       request.user = user;
 
-      logger.info("Token Verified");
+      logger.info(`Authentication Token for ID ${user._id} is Accepted`);
       next();
     } else {
       throw new Error("Token Secret is not found");

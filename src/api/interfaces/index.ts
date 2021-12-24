@@ -8,6 +8,7 @@ import { IExecutiveBoard } from "./IExecutiveBoard";
 import { IBoardMember } from "./IBoardMember";
 import { IApplication } from "./IApplication";
 import { IInterview } from "./IInterview";
+import { IOrganization } from "./IOrganization";
 
 export {
   IUser,
@@ -23,4 +24,5 @@ export {
   IApplication,
   ITopSpeaker,
   IInterview,
+  IOrganization,
 };
