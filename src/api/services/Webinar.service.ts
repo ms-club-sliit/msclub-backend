@@ -91,10 +91,11 @@ export const updateWebinar = async (
   webinarData: DocumentDefinition<IWebinar>,
   updatedBy: Schema.Types.ObjectId
 ) => {
+  
   return await WebinarModel.findById(webinarId)
     .then(async (webinarDetails) => {
       if (webinarDetails) {
-        if (webinarDetails.deletedAt) {
+        if (!webinarDetails.deletedAt) {
           if (webinarData.title) {
             webinarDetails.title = webinarData.title;
           }

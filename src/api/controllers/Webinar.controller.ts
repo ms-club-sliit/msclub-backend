@@ -144,9 +144,9 @@ export const updateWebinar = async (
 
   const webinarId = request.params.webinarId;
   const updatedBy = request.user && request.user._id ? request.user._id : null;
-  
+
   if (webinarId) {
-    await WebinarService.updateWebinar(request.params.webinarId, request.body,updatedBy)
+    await WebinarService.updateWebinar(webinarId, request.body,updatedBy)
       .then((data) => {
         request.handleResponse.successRespond(response)(data);
         next();
