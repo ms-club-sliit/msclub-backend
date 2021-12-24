@@ -1,17 +1,15 @@
 import { Express, Request, Response, NextFunction } from "express";
 import BoardMemberService from "../services";
 import logger from "../../util/logger";
+import ImageService from "../../util/image.handler";
+
 /**
  * @param {Request} request - Request from the frontend
  * @param {Response} response - Response that need to send to the client
  * @param {NextFunction} next - Next function
  * @returns boardMember
  */
-export const getBoardMemberbyID = async (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
+export const getBoardMemberbyID = async (request: Request, response: Response, next: NextFunction) => {
   const boardMemberId = request.params.boardMemberId;
   if (boardMemberId) {
     await BoardMemberService.getBoardMemberbyID(request.params.boardMemberId)
@@ -33,11 +31,7 @@ export const getBoardMemberbyID = async (
  * @param {NextFunction} next - Next function
  * @returns boardMember[]
  */
-export const getAllBoardMembers = async (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
+export const getAllBoardMembers = async (request: Request, response: Response, next: NextFunction) => {
   await BoardMemberService.getAllBoardMembers()
     .then((data) => {
       request.handleResponse.successRespond(response)(data);
@@ -59,11 +53,23 @@ export const updateBoardMemberDetails = async (
   response: Response,
   next: NextFunction
 ) => {
+  if (request.file) {
+    const bucketDirectoryName = "boardmember-flyers";
+
+    const boardMemberFlyerPath = await ImageService.uploadImage(
+      request.file,
+      bucketDirectoryName
+    );
+    request.body.imageUrl = boardMemberFlyerPath;
+  }
   const boardMemberId = request.params.boardMemberId;
+  const updatedBy = request.user && request.user._id ? request.user._id : null;
+
   if (boardMemberId) {
     await BoardMemberService.updateBoardMemberDetails(
       request.params.boardMemberId,
-      request.body
+      request.body,
+      updatedBy
     )
       .then((data) => {
         request.handleResponse.successRespond(response)(data);
@@ -83,15 +89,14 @@ export const updateBoardMemberDetails = async (
  * @param {NextFunction} next - Next function
  * @returns updated boardMember
  */
-export const deleteBoardMemberDetails = async (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
+export const deleteBoardMemberDetails = async (request: Request, response: Response, next: NextFunction) => {
   const boardMemberId = request.params.boardMemberId;
+  const deletedBy = request.user && request.user._id ? request.user._id : null;
+
   if (boardMemberId) {
     await BoardMemberService.deleteBoardMemberDetails(
-      request.params.boardMemberId
+      request.params.boardMemberId,
+      deletedBy
     )
       .then((data) => {
         request.handleResponse.successRespond(response)(data);

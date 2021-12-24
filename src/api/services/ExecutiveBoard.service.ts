@@ -1,6 +1,5 @@
-import { DocumentDefinition, FilterQuery } from "mongoose";
-import { IExecutiveBoard } from "../interfaces";
-import { IBoardMember } from "../interfaces";
+import { DocumentDefinition, FilterQuery,Schema } from "mongoose";
+import {IExecutiveBoard, IBoardMember,IUpdatedBy } from "../interfaces";
 import ExecutiveBoardModel from "../models/ExecutiveBoard.model";
 import BoardMemberModel from "../models/BoardMember.model";
 import { insertBoardMember } from "../services/BoardMember.service";
@@ -13,6 +12,13 @@ export const insertExecutiveBoard = async (
 ) => {
   return await ExecutiveBoardModel.create(executiveBoardData)
     .then(async (executiveBoard) => {
+
+      let initialUpdatedBy: IUpdatedBy = {
+        user: executiveBoard.createdBy,
+        updatedAt: new Date(),
+      };
+      executiveBoard.updatedBy.push(initialUpdatedBy);
+      await executiveBoard.save();
       return executiveBoard;
     })
     .catch((error) => {
@@ -56,7 +62,8 @@ export const getExecutiveBoard = async () => {
  */
 export const addBoardMember = async (
   executiveBoardId: string,
-  insertData: DocumentDefinition<IBoardMember>
+  insertData: DocumentDefinition<IBoardMember>,
+  updatedBy: Schema.Types.ObjectId
 ) => {
   return await insertBoardMember(insertData)
     .then(async (createdBoardMember: IBoardMember) => {
@@ -65,6 +72,11 @@ export const addBoardMember = async (
       );
       if (executiveBoard) {
         executiveBoard.board.unshift(createdBoardMember);
+        const updateUserInfo: IUpdatedBy = {
+          user: updatedBy,
+          updatedAt: new Date(),
+        };
+        executiveBoard.updatedBy.push(updateUserInfo);
         return await executiveBoard.save();
       } else {
         return null;
@@ -82,12 +94,19 @@ export const addBoardMember = async (
  */
 export const updateExecutiveBoardDetails = async (
   boardId: string,
-  updateData: DocumentDefinition<IExecutiveBoard>
+  updateData: DocumentDefinition<IExecutiveBoard>,
+  updatedBy: Schema.Types.ObjectId
 ) => {
   return await ExecutiveBoardModel.findById(boardId)
     .then(async (executiveBoardDetails) => {
       if (executiveBoardDetails) {
         executiveBoardDetails.year = updateData.year;
+        const updateUserInfo: IUpdatedBy = {
+          user: updatedBy,
+          updatedAt: new Date(),
+        };
+
+        executiveBoardDetails.updatedBy.push(updateUserInfo);
         return await executiveBoardDetails.save();
       } else {
         return null;
@@ -102,11 +121,12 @@ export const updateExecutiveBoardDetails = async (
  * @param boardId @type string
  * @param boardMemberId @type string
  */
-export const deleteExecutiveBoardDetails = async (boardId: string) => {
+export const deleteExecutiveBoardDetails = async (boardId: string,deletedBy: Schema.Types.ObjectId) => {
   return await ExecutiveBoardModel.findById(boardId)
     .then(async (executiveBoardDetails) => {
-      if (executiveBoardDetails?.deletedAt) {
+      if (executiveBoardDetails && executiveBoardDetails.deletedAt === null) {
         executiveBoardDetails.deletedAt = new Date();
+        executiveBoardDetails.deletedBy = deletedBy;
         return await executiveBoardDetails.save();
       } else {
         return null;

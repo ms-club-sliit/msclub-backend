@@ -24,8 +24,8 @@ interface IUserDocument extends Document {
   profileImage?: any;
   authToken?: string;
   permissionLevel: string;
-  deletedAt?: Date;
-  deletedBy?: Schema.Types.ObjectId;
+  deletedAt?: Date | null;
+  deletedBy?: Schema.Types.ObjectId | null;
 }
 
 // Object level functions for the schema

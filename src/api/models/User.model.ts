@@ -86,20 +86,14 @@ UserSchema.methods.generateAuthToken = async function () {
   return authToken;
 };
 
-UserSchema.statics.findByUsernamePassword = async (
-  userName: string,
-  password: string
-): Promise<IUser> => {
+UserSchema.statics.findByUsernamePassword = async (userName: string, password: string): Promise<IUser> => {
   const user = await UserModel.findOne({ userName: userName });
 
   if (!user) {
     throw new Error("User not found");
   }
 
-  const isPasswordMatch = await bcrypt.compare(
-    password,
-    user.password as string
-  );
+  const isPasswordMatch = await bcrypt.compare(password, user.password as string);
 
   if (!isPasswordMatch) {
     throw new Error("Password is incorrect");

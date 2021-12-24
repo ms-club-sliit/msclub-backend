@@ -1,6 +1,7 @@
 import { DocumentDefinition, FilterQuery, Schema } from "mongoose";
 import { IEvent, IUpdatedBy } from "../interfaces";
 import EventModel from "../models/Event.model";
+import UserModel from "../models/User.model";
 
 /**
  save an event in the database
@@ -139,10 +140,7 @@ export const updateEvent = async (
  delete an event
  * @param eventId @type string
  */
-export const deleteEvent = async (
-  eventId: string,
-  deletedBy: Schema.Types.ObjectId
-) => {
+export const deleteEvent = async (eventId: string, deletedBy: Schema.Types.ObjectId) => {
   return await EventModel.findById(eventId)
     .then(async (eventDetails) => {
       if (eventDetails && eventDetails.deletedAt === null) {
@@ -158,6 +156,9 @@ export const deleteEvent = async (
     });
 };
 
+/**
+Get all events - admin
+ */
 export const getAllEventsForAdmin = async () => {
   return await EventModel.find({ deletedAt: null })
     .populate({
@@ -180,6 +181,9 @@ export const getAllEventsForAdmin = async () => {
     });
 };
 
+/**
+Get deleted events - admin
+ */
 export const getDeletedEventsForAdmin = async () => {
   return await EventModel.find({ deletedAt: { $ne: null } })
     .populate({
@@ -200,4 +204,33 @@ export const getDeletedEventsForAdmin = async () => {
     .catch((error) => {
       throw new Error(error.message);
     });
+};
+
+// Recover deleted events
+export const recoverDeletedEvent = async (eventId: string) => {
+  if (eventId) {
+    return UserModel.findById(eventId)
+      .then(async (event) => {
+        if (event) {
+          event.deletedAt = null;
+          event.deletedBy = null;
+
+          return event.save();
+        }
+      })
+      .catch((error) => {
+        throw new Error(error.message);
+      });
+  } else {
+    throw new Error("Event ID not Passed");
+  }
+};
+
+// Delete event permanently
+export const deleteEventPermanently = async (eventId: string) => {
+  if (eventId) {
+    return UserModel.findByIdAndDelete(eventId);
+  } else {
+    throw new Error("Event ID not Passed");
+  }
 };

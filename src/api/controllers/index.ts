@@ -1,10 +1,16 @@
-import { createUser, login } from "./User.controller";
-
 import {
-  createContact,
-  getAllContacts,
-  removeContact,
-} from "./Contact.controller";
+  createUser,
+  login,
+  getAuthUser,
+  getAllUsers,
+  updateUser,
+  removeUser,
+  removeUserPermenently,
+  recoverUser,
+  getRemovedUsers,
+} from "./User.controller";
+
+import { createContact, getAllContacts, removeContact } from "./Contact.controller";
 
 import {
   insertEvent,
@@ -16,6 +22,8 @@ import {
   deleteEvent,
   eventsForAdmin,
   deletedEventsForAdmin,
+  deleteEventPermanently,
+  recoverRemovedEvent,
 } from "./Event.controller";
 
 import {
@@ -26,6 +34,8 @@ import {
   getUpcomingWebinar,
   updateWebinar,
   deleteWebinar,
+  webinarsForAdmin,
+  deletedWebinarsForAdmin,
 } from "./Webinar.controller";
 
 import {
@@ -34,6 +44,8 @@ import {
   getTopSpeakers,
   updateTopSpeaker,
   deleteTopSpeaker,
+  getAllTopSpeakersForAdmin,
+  getDeletedTopSpeakersForAdmin,
 } from "./TopSpeaker.controller";
 
 import {
@@ -66,6 +78,13 @@ export default {
   //User Controllers
   createUser,
   login,
+  getAuthUser,
+  getAllUsers,
+  updateUser,
+  removeUser,
+  removeUserPermenently,
+  recoverUser,
+  getRemovedUsers,
   //Contact Controllers
   createContact,
   getAllContacts,
@@ -80,6 +99,8 @@ export default {
   deleteEvent,
   eventsForAdmin,
   deletedEventsForAdmin,
+  deleteEventPermanently,
+  recoverRemovedEvent,
   //Webinar Controllers
   insertWebinar,
   getWebinarById,
@@ -88,6 +109,8 @@ export default {
   getUpcomingWebinar,
   updateWebinar,
   deleteWebinar,
+  webinarsForAdmin,
+  deletedWebinarsForAdmin,
   //Executive board Controllers
   insertExecutiveBoard,
   getExecutiveBoardbyID,
@@ -101,6 +124,8 @@ export default {
   getTopSpeakers,
   updateTopSpeaker,
   deleteTopSpeaker,
+  getAllTopSpeakersForAdmin,
+  getDeletedTopSpeakersForAdmin,
   //Board Member Controllers
   getBoardMemberbyID,
   getAllBoardMembers,

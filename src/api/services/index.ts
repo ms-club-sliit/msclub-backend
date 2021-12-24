@@ -1,10 +1,15 @@
-import { insertUser, authenticateUser } from "./User.service";
-
 import {
-  insertContact,
-  archiveContact,
-  fetchContactInfo,
-} from "./Contact.service";
+  insertUser,
+  authenticateUser,
+  getUsers,
+  updateUser,
+  deleteUser,
+  deleteUserPermenently,
+  recoverUser,
+  fetchDeletedUsers,
+} from "./User.service";
+
+import { insertContact, archiveContact, fetchContactInfo } from "./Contact.service";
 
 import {
   insertEvent,
@@ -16,6 +21,8 @@ import {
   deleteEvent,
   getAllEventsForAdmin,
   getDeletedEventsForAdmin,
+  recoverDeletedEvent,
+  deleteEventPermanently,
 } from "./Event.service";
 
 import {
@@ -26,6 +33,8 @@ import {
   fetchUpcomingWebinar,
   updateWebinar,
   removeWebinar,
+  getAllWebinarsForAdmin,
+  getDeletedWebinarsForAdmin,
 } from "./Webinar.service";
 
 import {
@@ -34,6 +43,8 @@ import {
   getTopSpeakers,
   updateTopSpeaker,
   deleteTopSpeaker,
+  getAllTopSpeakersForAdmin,
+  getDeletedTopSpeakersForAdmin,
 } from "./TopSpeaker.service";
 
 import {
@@ -67,6 +78,12 @@ export default {
   // User services
   insertUser,
   authenticateUser,
+  getUsers,
+  updateUser,
+  deleteUser,
+  deleteUserPermenently,
+  recoverUser,
+  fetchDeletedUsers,
   // Contact services
   insertContact,
   fetchContactInfo,
@@ -81,6 +98,8 @@ export default {
   deleteEvent,
   getAllEventsForAdmin,
   getDeletedEventsForAdmin,
+  recoverDeletedEvent,
+  deleteEventPermanently,
   // Webinar services
   insertWebinar,
   fetchWebinarById,
@@ -89,12 +108,16 @@ export default {
   fetchUpcomingWebinar,
   updateWebinar,
   removeWebinar,
+  getAllWebinarsForAdmin,
+  getDeletedWebinarsForAdmin,
   // TopSpeaker Service
   insertTopSpeaker,
   getTopSpeaker,
   getTopSpeakers,
   updateTopSpeaker,
   deleteTopSpeaker,
+  getAllTopSpeakersForAdmin,
+  getDeletedTopSpeakersForAdmin,
   // Application Service
   addApplication,
   fetchApplicationById,
