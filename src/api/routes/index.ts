@@ -10,6 +10,12 @@ export default function (app: Express) {
   app.post("/user/", upload.single("profileImage"), controller.createUser);
   app.post("/user/login/", controller.login);
   app.get("/user/auth/", middleware.authenticate, controller.getAuthUser);
+  app.get("/user/all", middleware.authenticate, controller.getAllUsers);
+  app.get("/user/remove/", middleware.authenticate, controller.getRemovedUsers);
+  app.put("/user/", middleware.authenticate, controller.updateUser);
+  app.put("/user/remove/", middleware.authenticate, controller.removeUser);
+  app.put("/user/recover/", middleware.authenticate, controller.recoverUser);
+  app.delete("/user/remove/", middleware.authenticate, controller.removeUserPermenently);
 
   // Contact Us endpoints
   app.get("/contact/", middleware.authenticate, controller.getAllContacts);
