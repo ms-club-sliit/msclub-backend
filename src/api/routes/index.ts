@@ -88,7 +88,12 @@ export default function (app: Express) {
   app.put("/admin/application/interview/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoInterview);
   app.put("/admin/application/selected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoSelected);
   app.put("/admin/application/rejected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoRejected);
+  app.get("/admin/application/pending/",  controller.fetchPendingApplications)
+  app.get("/admin/application/selected/", middleware.authenticate, controller.fetchSelectedApplications)
+  app.get("/admin/application/interview/", middleware.authenticate, controller.fetchInterviewApplications)
+  app.get("/admin/application/rejected/", middleware.authenticate, controller.fetchRejectedApplications)
 
   // Application endpoints - Public
   app.post("/application/", controller.addApplication);
+  
 }
