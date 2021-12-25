@@ -181,7 +181,7 @@ export const changeApplicationStatusIntoRejected = async (
 /**
  * @todo create @function fetchPendingApplications to filter PENDING applications in the system
  */
- export const fetchPendingApplications = async () =>{
+export const fetchPendingApplications = async () =>{
   return await ApplicationModel.aggregate([
     {$match: {status: {$eq: "PENDING"} } },
     {$match: {deletedAt : {$eq: null} } },
