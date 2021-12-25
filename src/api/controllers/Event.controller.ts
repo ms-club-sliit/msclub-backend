@@ -119,6 +119,7 @@ export const updateEvent = async (request: Request, response: Response, next: Ne
   }
   const eventId = request.params.eventId;
   const updatedBy = request.user && request.user._id ? request.user._id : null;
+
   if (eventId) {
     await EventService.updateEvent(eventId, request.body, updatedBy)
       .then((data) => {

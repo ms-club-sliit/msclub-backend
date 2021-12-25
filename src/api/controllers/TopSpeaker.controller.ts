@@ -49,7 +49,7 @@ export const getTopSpeaker = async (
   next: NextFunction
 ) => {
   const topSpeakerId = request.params.topSpeakerId;
-
+  
   if (topSpeakerId) {
     await TopSpeakerService.getTopSpeaker(request.params.topSpeakerId).then(
       (data) => {

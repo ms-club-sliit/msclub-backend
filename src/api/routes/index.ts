@@ -17,9 +17,11 @@ export default function (app: Express) {
   app.put("/user/recover/", middleware.authenticate, controller.recoverUser);
   app.delete("/user/remove/", middleware.authenticate, controller.removeUserPermenently);
 
-  // Contact Us endpoints
-  app.get("/contact/", middleware.authenticate, controller.getAllContacts);
-  app.delete("/contact/:contactId", middleware.authenticate, controller.removeContact);
+  // Contact Us endpoints - Private
+  app.get("/admin/contact/", middleware.authenticate, controller.getAllContacts);
+  app.delete("/admin/contact/:contactId", middleware.authenticate, controller.removeContact);
+
+    // Contact Us endpoints - Public
   app.post("/contact/", controller.createContact);
 
   // Event endpoints - Private
@@ -54,8 +56,8 @@ export default function (app: Express) {
   app.post("/admin/topspeaker/", middleware.authenticate,upload.single('topSpeakerFlyer'), controller.insertTopSpeaker);
   app.put("/admin/topspeaker/:topSpeakerId", middleware.authenticate,upload.single('topSpeakerFlyer'), controller.updateTopSpeaker);
   app.put("/admin/topspeaker/delete/:topSpeakerId", middleware.authenticate, controller.deleteTopSpeaker);
-  app.get("/admin/topspeaker/", middleware.authenticate,controller.webinarsForAdmin);
-  app.get("/admin/topspeaker/delete/", middleware.authenticate,controller.deletedWebinarsForAdmin);
+  app.get("/admin/topspeaker/", middleware.authenticate,controller.getAllTopSpeakersForAdmin);
+  app.get("/admin/topspeaker/delete/", middleware.authenticate,controller.getDeletedTopSpeakersForAdmin);
 
   // Top Speaker endpoints - Public
   app.get("/topspeaker/:topSpeakerId/", controller.getTopSpeaker);
@@ -71,7 +73,7 @@ export default function (app: Express) {
 
   // ExecutiveBoard endpoints - Private
   app.post("/admin/executive/", middleware.authenticate, controller.insertExecutiveBoard);
-  app.put("/admin/boardmember/:executiveBoardId", middleware.authenticate,upload.single('boardMemberFlyer'), controller.addBoardMember);
+  app.put("/admin/executive/boardmember/:executiveBoardId", middleware.authenticate,upload.single('boardMemberFlyer'), controller.addBoardMember);
   app.put("/admin/executive/:executiveBoardId", middleware.authenticate, controller.updateExecutiveBoardDetails);
   app.put("/admin/executive/delete/:executiveBoardId/", middleware.authenticate, controller.deleteExecutiveBoardDetails);
 
