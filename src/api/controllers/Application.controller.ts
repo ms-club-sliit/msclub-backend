@@ -192,3 +192,23 @@ export const changeApplicationStatusIntoRejected = async (request: Request, resp
     request.handleResponse.errorRespond(response)("applicationId not found");
   }
 };
+
+/**
+ * @todo implement a @function fetchPendingApplications that calls
+ * @function fetchPendingApplications in the ApplicationService
+ */
+
+/**
+ * @todo implement a @function fetchInterviewApplications that calls
+ * @function fetchInterviewApplications in the ApplicationService
+ */
+
+/**
+ * @todo implement a @function fetchSelectedApplications that calls
+ * @function fetchSelectedApplications in the ApplicationService
+ */
+
+/**
+ * @todo implement a @function fetchRejectedApplications that calls
+ * @function fetchRejectedApplications in the ApplicationService
+ */

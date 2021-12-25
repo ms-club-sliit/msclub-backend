@@ -176,3 +176,20 @@ export const changeApplicationStatusIntoRejected = async (
       throw new Error(error.message);
     });
 };
+
+
+/**
+ * @todo create @function fetchPendingApplications to filter PENDING applications in the system
+ */
+
+/**
+ * @todo create @function fetchInterviewApplications to filter INTERVIEW applications in the system
+ */
+
+/**
+ * @todo create @function fetchSelectedApplications to filter SELECTED applications in the system
+ */
+
+/**
+ * @todo create @function fetchRejectedApplications to filter REJECTED applications in the system
+ */
