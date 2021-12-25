@@ -55,6 +55,11 @@ import {
   changeApplicationStatusIntoInterview,
   changeApplicationStatusIntoSelected,
   changeApplicationStatusIntoRejected,
+  fetchPendingApplications,
+  fetchInterviewApplications,
+  fetchSelectedApplications,
+  fetchRejectedApplications,
+
 } from "./Application.service";
 
 import {
@@ -126,6 +131,10 @@ export default {
   changeApplicationStatusIntoInterview,
   changeApplicationStatusIntoSelected,
   changeApplicationStatusIntoRejected,
+  fetchPendingApplications,
+  fetchInterviewApplications,
+  fetchSelectedApplications,
+  fetchRejectedApplications,
   // BoardMember Service
   insertBoardMember,
   getBoardMemberbyID,
