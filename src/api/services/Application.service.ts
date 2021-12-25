@@ -176,3 +176,61 @@ export const changeApplicationStatusIntoRejected = async (
       throw new Error(error.message);
     });
 };
+
+
+/**
+ * @todo create @function fetchPendingApplications to filter PENDING applications in the system
+ */
+ export const fetchPendingApplications = async () =>{
+  return await ApplicationModel.aggregate([
+    {$match: {status: {$eq: "PENDING"} } },
+    {$match: {deletedAt : {$eq: null} } },
+  ])
+    .then((applications) => {
+      return applications;
+    }).catch((err) => {
+      throw new Error(err.message);
+    });
+};
+/**
+ * @todo create @function fetchInterviewApplications to filter INTERVIEW applications in the system
+ */
+export const fetchInterviewApplications = async () =>{
+  return await ApplicationModel.aggregate([
+    {$match : {status: {$eq: "INTERVIEW"} } },
+    {$match: {deletedAt : {$eq: null} } },
+  ])
+  .then((applications) => {
+    return applications;
+  }).catch((err) => {
+    throw new Error(err.message);
+  });
+};
+/**
+ * @todo create @function fetchSelectedApplications to filter SELECTED applications in the system
+ */
+export const fetchSelectedApplications = async () =>{
+  return await ApplicationModel.aggregate([
+    {$match : {status: {$eq: "SELECTED"} } },
+    {$match: {deletedAt : {$eq: null} } },
+  ])
+  .then((applications) => {
+    return applications;
+  }).catch((err) => {
+    throw new Error(err.message);
+  });
+};
+/**
+ * @todo create @function fetchRejectedApplications to filter REJECTED applications in the system
+ */
+export const fetchRejectedApplications = async () =>{
+  return await ApplicationModel.aggregate([
+    {$match: {status: {$eq: "REJECTED"} } },
+    {$match: {deletedAt : {$eq: null} } },
+  ])
+  .then((applications) => {
+    return applications;
+  }).catch((err) => {
+    throw new Error(err.message);
+  });
+}
