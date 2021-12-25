@@ -29,7 +29,7 @@ export const insertTopSpeaker = async (
 export const getTopSpeaker = async (topSpeakerId: string) => {
   return await TopSpeakerModel.findById(topSpeakerId)
     .then((topSpeaker) => {
-      if (topSpeaker && topSpeaker.deletedAt) {
+      if (topSpeaker && topSpeaker.deletedAt == null) {
         return topSpeaker;
       } else {
         throw new Error("Speaker is not found");

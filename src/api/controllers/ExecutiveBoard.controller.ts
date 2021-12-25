@@ -15,7 +15,7 @@ export const insertExecutiveBoard = async (
   next: NextFunction
 ) => {
   request.body.createdBy =
-  request.user && request.user._id ? request.user._id : null;
+    request.user && request.user._id ? request.user._id : null;
   await ExecutiveBoardService.insertExecutiveBoard(request.body)
     .then((data) => {
       request.handleResponse.successRespond(response)(data);
@@ -88,27 +88,37 @@ export const addBoardMember = async (
   response: Response,
   next: NextFunction
 ) => {
-  const bucketDirectoryName = "boardmember-flyers";
+  if (request.file) {
+    const bucketDirectoryName = "boardmember-flyers";
 
-  const boardMemberFlyerPath = await ImageService.uploadImage(
-    request.file,
-    bucketDirectoryName
-  );
-  request.body.imageUrl = boardMemberFlyerPath;
+    const boardMemberFlyerPath = await ImageService.uploadImage(
+      request.file,
+      bucketDirectoryName
+    );
+    request.body.imageUrl = boardMemberFlyerPath;
+  }
+  request.body.createdBy = request.user && request.user._id ? request.user._id : null;
+  const executiveBoardId = request.params.executiveBoardId;
   const updatedBy = request.user && request.user._id ? request.user._id : null;
-  await ExecutiveBoardService.addBoardMember(
-    request.params.executiveBoardId,
-    request.body,
-    updatedBy
-  )
-    .then((data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+  if (executiveBoardId) {
+    await ExecutiveBoardService.addBoardMember(
+      request.params.executiveBoardId,
+      request.body,
+      updatedBy
+    )
+      .then((data) => {
+        request.handleResponse.successRespond(response)(data);
+        next();
+      })
+      .catch((error: any) => {
+        request.handleResponse.errorRespond(response)(error.message);
+        next();
+      });
+  } else {
+    request.handleResponse.errorRespond(response)(
+      "Executive Board Id not found"
+    );
+  }
 };
 /**
  * @param request
