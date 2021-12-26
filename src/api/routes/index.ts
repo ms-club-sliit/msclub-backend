@@ -82,12 +82,12 @@ export default function (app: Express) {
   app.get("/executive/", controller.getExecutiveBoard);
   
   // Application endpoints - Private
+  app.get("/admin/applications/pending/",middleware.authenticate,  controller.fetchPendingApplications);
+  app.get("/admin/applications/selected/", middleware.authenticate, controller.fetchSelectedApplications);
+  app.get("/admin/applications/interview/", middleware.authenticate, controller.fetchInterviewApplications);
+  app.get("/admin/applications/rejected/", middleware.authenticate, controller.fetchRejectedApplications);
   app.get("/admin/application/:applicationId/", middleware.authenticate, controller.getApplicationById);
   app.get("/admin/application/", middleware.authenticate, controller.getApplications);
-  app.get("/admin/application/pending/",middleware.authenticate,  controller.fetchPendingApplications);
-  app.get("/admin/application/selected/", middleware.authenticate, controller.fetchSelectedApplications);
-  app.get("/admin/application/interview/", middleware.authenticate, controller.fetchInterviewApplications);
-  app.get("/admin/application/rejected/", middleware.authenticate, controller.fetchRejectedApplications);
   app.put("/admin/application/delete/:applicationId", middleware.authenticate, controller.setApplicationArchive);
   app.put("/admin/application/interview/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoInterview);
   app.put("/admin/application/selected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoSelected);
