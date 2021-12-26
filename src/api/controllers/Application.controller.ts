@@ -205,7 +205,7 @@ export const changeApplicationStatusIntoRejected = async (request: Request, resp
  */
 export const fetchPendingApplications = async (request: Request, response:Response, next: NextFunction) =>{
   await ApplicationService.fetchPendingApplications()
-    .then((data) => {
+    .then((data: any) => {
       request.handleResponse.successRespond(response)(data);
       next();
     })
