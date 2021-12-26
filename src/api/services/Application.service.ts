@@ -234,3 +234,4 @@ export const fetchRejectedApplications = async () =>{
     throw new Error(err.message);
   });
 }
+
