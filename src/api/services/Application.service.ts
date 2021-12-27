@@ -183,8 +183,7 @@ export const changeApplicationStatusIntoRejected = async (
  */
 export const fetchPendingApplications = async () =>{
   return await ApplicationModel.aggregate([
-    {$match: {status: {$eq: "PENDING"} } },
-    {$match: {deletedAt : {$eq: null} } },
+    {$match : {status: {$eq: "PENDING"}, deletedAt : {$eq: null} } },
   ])
     .then((applications) => {
       return applications;
@@ -197,8 +196,7 @@ export const fetchPendingApplications = async () =>{
  */
 export const fetchInterviewApplications = async () =>{
   return await ApplicationModel.aggregate([
-    {$match : {status: {$eq: "INTERVIEW"} } },
-    {$match: {deletedAt : {$eq: null} } },
+    {$match : {status: {$eq: "INTERVIEW"}, deletedAt : {$eq: null} } },
   ])
   .then((applications) => {
     return applications;
@@ -211,8 +209,7 @@ export const fetchInterviewApplications = async () =>{
  */
 export const fetchSelectedApplications = async () =>{
   return await ApplicationModel.aggregate([
-    {$match : {status: {$eq: "SELECTED"} } },
-    {$match: {deletedAt : {$eq: null} } },
+    {$match : {status: {$eq: "SELECTED"}, deletedAt : {$eq: null} } },
   ])
   .then((applications) => {
     return applications;
@@ -225,11 +222,10 @@ export const fetchSelectedApplications = async () =>{
  */
 export const fetchRejectedApplications = async () =>{
   return await ApplicationModel.aggregate([
-    {$match: {status: {$eq: "REJECTED"} } },
-    {$match: {deletedAt : {$eq: null} } },
+    {$match : {status: {$eq: "REJECTED"}, deletedAt : {$eq: null} } },
   ])
   .then((applications) => {
-    return applications;
+    return applications; 
   }).catch((err) => {
     throw new Error(err.message);
   });
