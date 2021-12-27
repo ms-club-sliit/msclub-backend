@@ -56,6 +56,10 @@ import {
   changeApplicationStatusIntoInterview,
   changeApplicationStatusIntoSelected,
   changeApplicationStatusIntoRejected,
+  fetchPendingApplications,
+  fetchSelectedApplications,
+  fetchInterviewApplications,
+  fetchRejectedApplications
 } from "./Application.controller";
 
 import {
@@ -139,4 +143,8 @@ export default {
   changeApplicationStatusIntoInterview,
   changeApplicationStatusIntoSelected,
   changeApplicationStatusIntoRejected,
+  fetchPendingApplications,
+  fetchSelectedApplications,
+  fetchInterviewApplications,
+  fetchRejectedApplications
 };
