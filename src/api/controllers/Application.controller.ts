@@ -195,7 +195,6 @@ export const changeApplicationStatusIntoRejected = async (request: Request, resp
 };
 
 /**
-<<<<<<< HEAD
  * @function fetchPendingApplications that calls
  * @function fetchPendingApplications in the ApplicationService
  *
@@ -277,23 +276,3 @@ export const fetchRejectedApplications = async (request: Request, response:Respo
       next();
     });
 }
-=======
- * @todo implement a @function fetchPendingApplications that calls
- * @function fetchPendingApplications in the ApplicationService
- */
-
-/**
- * @todo implement a @function fetchInterviewApplications that calls
- * @function fetchInterviewApplications in the ApplicationService
- */
-
-/**
- * @todo implement a @function fetchSelectedApplications that calls
- * @function fetchSelectedApplications in the ApplicationService
- */
-
-/**
- * @todo implement a @function fetchRejectedApplications that calls
- * @function fetchRejectedApplications in the ApplicationService
- */
->>>>>>> 640219138e16528bace572a7e5ee11ddfec73b19
