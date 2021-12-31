@@ -3,6 +3,7 @@ import ApplicationService from "../services";
 import EmailService from "../../util/email.handler";
 import logger from "../../util/logger";
 import { IApplication } from "../interfaces";
+import { request } from "http";
 
 /**
  * @param {Request} request - Request from the frontend
@@ -192,3 +193,86 @@ export const changeApplicationStatusIntoRejected = async (request: Request, resp
     request.handleResponse.errorRespond(response)("applicationId not found");
   }
 };
+
+/**
+ * @function fetchPendingApplications that calls
+ * @function fetchPendingApplications in the ApplicationService
+ *
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns {IApplication} fetched pending applications 
+ */
+export const fetchPendingApplications = async (request: Request, response:Response, next: NextFunction) =>{
+  await ApplicationService.fetchPendingApplications()
+    .then((data: any) => {
+      request.handleResponse.successRespond(response)(data);
+      next();
+    })
+    .catch((error: any) => {
+      request.handleResponse.errorRespond(response)(error.message);
+      next();
+    });
+}
+/**
+ * @function fetchSelectedApplications that calls
+ * @function fetchSelectedApplications in the ApplicationService
+ *
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns {IApplication} fetched selected applications 
+ */
+export const fetchSelectedApplications = async (request: Request, response:Response, next: NextFunction) =>{
+  await ApplicationService.fetchSelectedApplications()
+    .then((data) => {
+      request.handleResponse.successRespond(response)(data);
+      next();
+    })
+    .catch((error: any) => {
+      request.handleResponse.errorRespond(response)(error.message);
+      next();
+    });
+}
+/**
+ * @function fetchInterviewApplications that calls
+ * @function fetchInterviewApplications in the ApplicationService
+ *
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns {IApplication} fetched interview applications 
+ */
+export const fetchInterviewApplications = async (request: Request, response:Response, next: NextFunction) =>{
+  await ApplicationService.fetchInterviewApplications()
+    .then((data) => {
+      request.handleResponse.successRespond(response)(data);
+      next();
+    })
+    .catch((error: any) => {
+      request.handleResponse.errorRespond(response)(error.message);
+      next();
+    });
+}
+
+/**
+ * @function fetchRejectedApplications that calls
+ * @function fetchRejectedApplications in the ApplicationService
+ *
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns {IApplication} fetched rejected applications 
+ */
+
+export const fetchRejectedApplications = async (request: Request, response:Response, next: NextFunction) =>{
+  await ApplicationService.fetchRejectedApplications()
+    .then((data) => {
+      request.handleResponse.successRespond(response)(data);
+      next();
+    })
+    .catch((error: any) => {
+      request.handleResponse.errorRespond(response)(error.message);
+      next();
+    });
+}

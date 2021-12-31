@@ -61,7 +61,7 @@ export const updateBoardMemberDetails = async (
   return await BoardMemberModel.findById(boardMemberId)
     .then(async (boardMemberDetails) => {
       if (boardMemberDetails) {
-        if (boardMemberDetails.deletedAt) {
+        if (!boardMemberDetails.deletedAt) {
           if (updateData.name) {
             boardMemberDetails.name = updateData.name;
           }

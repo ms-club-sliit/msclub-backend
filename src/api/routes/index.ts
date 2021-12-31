@@ -56,8 +56,8 @@ export default function (app: Express) {
   app.post("/admin/topspeaker/", middleware.authenticate,upload.single('topSpeakerFlyer'), controller.insertTopSpeaker);
   app.put("/admin/topspeaker/:topSpeakerId", middleware.authenticate,upload.single('topSpeakerFlyer'), controller.updateTopSpeaker);
   app.put("/admin/topspeaker/delete/:topSpeakerId", middleware.authenticate, controller.deleteTopSpeaker);
-  app.get("/admin/topspeaker/", middleware.authenticate,controller.webinarsForAdmin);
-  app.get("/admin/topspeaker/delete/", middleware.authenticate,controller.deletedWebinarsForAdmin);
+  app.get("/admin/topspeaker/", middleware.authenticate,controller.getAllTopSpeakersForAdmin);
+  app.get("/admin/topspeaker/delete/", middleware.authenticate,controller.getDeletedTopSpeakersForAdmin);
 
   // Top Speaker endpoints - Public
   app.get("/topspeaker/:topSpeakerId/", controller.getTopSpeaker);
@@ -73,7 +73,7 @@ export default function (app: Express) {
 
   // ExecutiveBoard endpoints - Private
   app.post("/admin/executive/", middleware.authenticate, controller.insertExecutiveBoard);
-  app.put("/admin/boardmember/:executiveBoardId", middleware.authenticate,upload.single('boardMemberFlyer'), controller.addBoardMember);
+  app.put("/admin/executive/boardmember/:executiveBoardId", middleware.authenticate,upload.single('boardMemberFlyer'), controller.addBoardMember);
   app.put("/admin/executive/:executiveBoardId", middleware.authenticate, controller.updateExecutiveBoardDetails);
   app.put("/admin/executive/delete/:executiveBoardId/", middleware.authenticate, controller.deleteExecutiveBoardDetails);
 
@@ -82,12 +82,18 @@ export default function (app: Express) {
   app.get("/executive/", controller.getExecutiveBoard);
   
   // Application endpoints - Private
+  app.get("/admin/applications/pending/",middleware.authenticate,  controller.fetchPendingApplications);
+  app.get("/admin/applications/selected/", middleware.authenticate, controller.fetchSelectedApplications);
+  app.get("/admin/applications/interview/", middleware.authenticate, controller.fetchInterviewApplications);
+  app.get("/admin/applications/rejected/", middleware.authenticate, controller.fetchRejectedApplications);
   app.get("/admin/application/:applicationId/", middleware.authenticate, controller.getApplicationById);
   app.get("/admin/application/", middleware.authenticate, controller.getApplications);
   app.put("/admin/application/delete/:applicationId", middleware.authenticate, controller.setApplicationArchive);
   app.put("/admin/application/interview/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoInterview);
   app.put("/admin/application/selected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoSelected);
   app.put("/admin/application/rejected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoRejected);
+  //@todo create @routes fetchPendingApplications,fetchInterviewApplications,fetchSelectedApplications,fetchRejectedApplications to filter INTERVIEW applications in the system
+
 
   // Application endpoints - Public
   app.post("/application/", controller.addApplication);

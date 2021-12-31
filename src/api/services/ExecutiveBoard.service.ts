@@ -43,7 +43,7 @@ export const getExecutiveBoardbyID = async (executiveBoardId: string) => {
 get all the executive boards from the database (the details of the existing board members should be populated)
  */
 export const getExecutiveBoard = async () => {
-  return await ExecutiveBoardModel.find()
+  return await ExecutiveBoardModel.find({ deletedAt: null })
     .populate({
       path: "board",
       match: { deletedAt: null },

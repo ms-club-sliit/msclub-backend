@@ -56,6 +56,10 @@ import {
   changeApplicationStatusIntoInterview,
   changeApplicationStatusIntoSelected,
   changeApplicationStatusIntoRejected,
+  fetchPendingApplications,
+  fetchSelectedApplications,
+  fetchInterviewApplications,
+  fetchRejectedApplications,
 } from "./Application.controller";
 
 import {
@@ -151,4 +155,9 @@ export default {
   getOrganization,
   getOrganizationForAdmin,
   updateOrganization,
+  // Application Controllers
+  fetchPendingApplications,
+  fetchSelectedApplications,
+  fetchInterviewApplications,
+  fetchRejectedApplications,
 };
