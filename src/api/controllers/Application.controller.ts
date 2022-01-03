@@ -64,7 +64,7 @@ export const getApplicationById = async (
 ) => {
   const applicationId = request.params.applicationId;
   if (applicationId) {
-    await ApplicationService.fetchApplicationById(request.params.applicationId)
+    await ApplicationService.fetchApplicationById(applicationId)
       .then((data) => {
         request.handleResponse.successRespond(response)(data);
         next();
@@ -113,7 +113,7 @@ export const setApplicationArchive = async (
 ) => {
   const applicationId = request.params.applicationId;
   if (applicationId) {
-    await ApplicationService.archiveApplication(request.params.applicationId)
+    await ApplicationService.archiveApplication(applicationId)
       .then((data) => {
         request.handleResponse.successRespond(response)(data);
         next();
@@ -144,7 +144,7 @@ export const changeApplicationStatusIntoInterview = async (
   const applicationId = request.params.applicationId;
   if (applicationId) {
     await ApplicationService.changeApplicationStatusIntoInterview(
-      request.params.applicationId,
+      applicationId,
       request.body
     )
       .then((data) => {
@@ -177,7 +177,7 @@ export const changeApplicationStatusIntoSelected = async (
   const applicationId = request.params.applicationId;
   if (applicationId) {
     await ApplicationService.changeApplicationStatusIntoSelected(
-      request.params.applicationId,
+      applicationId,
       request.body
     )
       .then((data) => {
@@ -209,7 +209,7 @@ export const changeApplicationStatusIntoRejected = async (
   const applicationId = request.params.applicationId;
   if (applicationId) {
     await ApplicationService.changeApplicationStatusIntoRejected(
-      request.params.applicationId
+      applicationId
     )
       .then((data) => {
         request.handleResponse.successRespond(response)(data);
