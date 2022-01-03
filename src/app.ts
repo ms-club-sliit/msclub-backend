@@ -7,7 +7,7 @@ import routes from "./api/routes";
 import { configs } from "./config";
 import connect from "./util/database.connection";
 
-const app: Express = express();
+export const app: Express = express();
 const PORT: string = configs.port;
 const ENVIRONMENT = configs.environment;
 const MONGO_URI = configs.mongodb.uri;

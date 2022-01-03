@@ -85,7 +85,7 @@ export const changeApplicationStatusIntoInterview = async (
         // Send email
         const emailTemplate = "Interview-Email-Template.html";
         const to = application.email;
-        const subject = "Interview for the MS Club of SLIIT";
+        const subject = "MS Club of SLIIT - Interview";
         const emailBodyData = {
           name: application.name,
           email: application.email,
@@ -176,3 +176,58 @@ export const changeApplicationStatusIntoRejected = async (
       throw new Error(error.message);
     });
 };
+
+
+/**
+ * @todo create @function fetchPendingApplications to filter PENDING applications in the system
+ */
+export const fetchPendingApplications = async () =>{
+  return await ApplicationModel.aggregate([
+    {$match : {status: {$eq: "PENDING"}, deletedAt : {$eq: null} } },
+  ])
+    .then((applications) => {
+      return applications;
+    }).catch((err) => {
+      throw new Error(err.message);
+    });
+};
+/**
+ * @todo create @function fetchInterviewApplications to filter INTERVIEW applications in the system
+ */
+export const fetchInterviewApplications = async () =>{
+  return await ApplicationModel.aggregate([
+    {$match : {status: {$eq: "INTERVIEW"}, deletedAt : {$eq: null} } },
+  ])
+  .then((applications) => {
+    return applications;
+  }).catch((err) => {
+    throw new Error(err.message);
+  });
+};
+/**
+ * @todo create @function fetchSelectedApplications to filter SELECTED applications in the system
+ */
+export const fetchSelectedApplications = async () =>{
+  return await ApplicationModel.aggregate([
+    {$match : {status: {$eq: "SELECTED"}, deletedAt : {$eq: null} } },
+  ])
+  .then((applications) => {
+    return applications;
+  }).catch((err) => {
+    throw new Error(err.message);
+  });
+};
+/**
+ * @todo create @function fetchRejectedApplications to filter REJECTED applications in the system
+ */
+export const fetchRejectedApplications = async () =>{
+  return await ApplicationModel.aggregate([
+    {$match : {status: {$eq: "REJECTED"}, deletedAt : {$eq: null} } },
+  ])
+  .then((applications) => {
+    return applications; 
+  }).catch((err) => {
+    throw new Error(err.message);
+  });
+}
+
