@@ -5,9 +5,6 @@ import { configs } from "../config";
 import moment from "moment";
 import fetch from "cross-fetch";
 
-const cc =
-  "msclubofsliit@gmail.com,senurajayadeva@gmail.com,Lasalshettiarachchi458@gmail.com,rusiruavb98@gmail.com,yasirurandika99@gmail.com";
-
 // HTML Configuration
 require.extensions[".html"] = (module: any, fileName: string) => {
   module.exports = fs.readFileSync(fileName, "utf8");
@@ -65,14 +62,11 @@ class EmailService {
 
   static sendEmail = (to: string, subject: string, htmlTemplate: any) => {
     return new Promise((resolve, reject) => {
-      
-      sgMail.setApiKey(
-        process.env.SENFGRID_API_KEY
-      );
+      sgMail.setApiKey(process.env.SENFGRID_API_KEY);
       const msg = {
         to: to, // Change to your recipient
         from: process.env.EMAIL_SENFGRID_USER, // Change to your verified sender
-        cc:cc,
+        cc: "msclubofsliit@gmail.com",
         subject: subject,
         text: htmlTemplate,
         html: htmlTemplate,
@@ -80,9 +74,7 @@ class EmailService {
       sgMail
         .send(msg)
         .then((responseData: any) => {
-          logger.info(
-            `Email sent ${responseData}`
-          );
+          logger.info(`Email sent ${responseData}`);
           return resolve(responseData);
         })
         .catch((error: any) => {
