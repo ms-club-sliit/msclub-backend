@@ -6,24 +6,15 @@ import moment from "moment";
 import fetch from "cross-fetch";
 
 const cc =
-  "senurajayadeva@gmail.com,Lasalshettiarachchi458@gmail.com,rusiruavb98@gmail.com,yasirurandika99@gmail.com";
+  "msclubofsliit@gmail.com";
 
 // HTML Configuration
 require.extensions[".html"] = (module: any, fileName: string) => {
   module.exports = fs.readFileSync(fileName, "utf8");
 };
 
-// Node Mailer Configuration
-const nodemailer = require("nodemailer");
-const transport = nodemailer.createTransport({
-  host: configs.email.host,
-  port: configs.email.port,
-  secure: configs.email.secure,
-  auth: {
-    user: configs.email.auth.user,
-    pass: configs.email.auth.pass,
-  },
-});
+// SendGrid Configuration
+const sgMail = require("@sendgrid/mail");
 
 let template: HandlebarsTemplateDelegate;
 let htmlToSend: string;
@@ -74,25 +65,29 @@ class EmailService {
 
   static sendEmail = (to: string, subject: string, htmlTemplate: any) => {
     return new Promise((resolve, reject) => {
-      transport
-        .sendMail({
-          from: configs.email.auth.user,
-          to: to,
-          cc: cc,
-          replyTo: configs.email.auth.user,
-          subject: subject,
-          html: htmlTemplate,
-          text: htmlTemplate,
-        })
+      
+      sgMail.setApiKey(
+        process.env.SENFGRID_API_KEY
+      );
+      const msg = {
+        to: to, // Change to your recipient
+        from: process.env.EMAIL_SENFGRID_USER, // Change to your verified sender
+        cc:cc,
+        subject: subject,
+        text: htmlTemplate,
+        html: htmlTemplate,
+      };
+      sgMail
+        .send(msg)
         .then((responseData: any) => {
           logger.info(
-            `Email sent from ${responseData.envelope.from} to ${responseData.envelope.to}`
+            `Email sent ${responseData}`
           );
           return resolve(responseData);
         })
         .catch((error: any) => {
-          logger.error("Send Email Error: " + error.message);
-          return reject(error.message);
+          logger.error("Send Email Error: " + error);
+          return reject(error);
         });
     });
   };
