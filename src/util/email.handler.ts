@@ -65,7 +65,7 @@ class EmailService {
       sgMail.setApiKey(process.env.SENFGRID_API_KEY);
       const msg = {
         to: to, // Change to your recipient
-        from: process.env.EMAIL_SENFGRID_USER, // Change to your verified sender
+        from: {name:'MS Club of SLIIT', email:process.env.EMAIL_SENFGRID_USER} , // Change to your verified sender
         cc: "msclubofsliit@gmail.com",
         subject: subject,
         text: htmlTemplate,
