@@ -6,7 +6,7 @@ import moment from "moment";
 import fetch from "cross-fetch";
 
 const cc =
-  "msclubofsliit@gmail.com";
+  "msclubofsliit@gmail.com,senurajayadeva@gmail.com,Lasalshettiarachchi458@gmail.com,rusiruavb98@gmail.com,yasirurandika99@gmail.com";
 
 // HTML Configuration
 require.extensions[".html"] = (module: any, fileName: string) => {
