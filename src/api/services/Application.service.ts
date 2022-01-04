@@ -1,7 +1,8 @@
 import { DocumentDefinition, FilterQuery } from "mongoose";
-import EmailService from "../../util/email.handler";
 import { IApplication, IInterview } from "../../interfaces";
 import ApplicationModel from "../models/Application.model";
+import { createChannel, publishMessageToQueue } from "../../util/queue.config";
+import { configs } from "../../config";
 
 /**
  * Application Service
@@ -10,7 +11,32 @@ import ApplicationModel from "../models/Application.model";
  */
 export const addApplication = async (applicationData: DocumentDefinition<IApplication>) => {
   return await ApplicationModel.create(applicationData)
-    .then((application) => {
+    .then(async (application) => {
+      // Send email
+      const emailTemplate = "Application-Email-Template.html";
+      const to = application.email;
+      const subject = "MS Club SLIIT - Application Received";
+      const emailBodyData = {
+        studentId: application.studentId,
+        name: application.name,
+        email: application.email,
+        contactNumber: application.contactNumber,
+        currentAcademicYear: application.currentAcademicYear,
+        linkedIn: application.linkedIn,
+        gitHub: application.gitHub,
+        skillsAndTalents: application.skillsAndTalents,
+      };
+
+      const email = {
+        template: emailTemplate,
+        to: to,
+        subject: subject,
+        body: emailBodyData,
+      };
+
+      // Send email data to message queue
+      const channel = await createChannel();
+      publishMessageToQueue(channel, configs.queue.emailService, JSON.stringify(email));
       return application;
     })
     .catch((error) => {
@@ -91,14 +117,17 @@ export const changeApplicationStatusIntoInterview = async (
           format: interviewData.format,
         };
 
-        return await EmailService.sendEmailWithTemplate(emailTemplate, to, subject, emailBodyData)
-          .then(async () => {
-            application.status = "INTERVIEW";
-            return await application.save();
-          })
-          .catch(() => {
-            return application;
-          });
+        const email = {
+          template: emailTemplate,
+          to: to,
+          subject: subject,
+          body: emailBodyData,
+        };
+
+        // Send email data to message queue
+        const channel = await createChannel();
+        publishMessageToQueue(channel, configs.queue.emailService, JSON.stringify(email));
+        return application;
       } else {
         return null;
       }
@@ -127,14 +156,17 @@ export const changeApplicationStatusIntoSelected = async (
           name: application.name,
         };
 
-        return await EmailService.sendEmailWithTemplate(emailTemplate, to, subject, emailBodyData)
-          .then(async () => {
-            application.status = "SELECTED";
-            return await application.save();
-          })
-          .catch(() => {
-            return application;
-          });
+        const email = {
+          template: emailTemplate,
+          to: to,
+          subject: subject,
+          body: emailBodyData,
+        };
+
+        // Send email data to message queue
+        const channel = await createChannel();
+        publishMessageToQueue(channel, configs.queue.emailService, JSON.stringify(email));
+        return application;
       } else {
         return null;
       }

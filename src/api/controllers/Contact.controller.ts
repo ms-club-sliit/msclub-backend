@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import ContactService from "../services";
-import EmailService from "../../util/email.handler";
-import moment from "moment";
 
 /**
  * @param {Request} request - Request from the frontend
@@ -12,30 +10,8 @@ import moment from "moment";
 export const createContact = async (request: Request, response: Response, next: NextFunction) => {
   await ContactService.insertContact(request.body)
     .then((data) => {
-      // Send email
-      const emailTemplate = "Contact-Us-Email-Template.html";
-      const to = data.email;
-      const subject = "MS Club SLIIT - Contact Us";
-      const emailBodyData = {
-        name: data.name,
-        email: data.email,
-        message: data.message,
-        date_time: moment(data.createdAt).format("LLL"),
-      };
-
-      EmailService.sendEmailWithTemplate(emailTemplate, to, subject, emailBodyData)
-        .then((emailData) => {
-          request.handleResponse.successRespond(response)({
-            contactData: data,
-            emailData: emailData,
-          });
-        })
-        .catch((error) => {
-          request.handleResponse.errorRespond(response)({
-            message: error.message,
-            data: data,
-          });
-        });
+      request.handleResponse.successRespond(response)(data);
+      next();
     })
     .catch((error: any) => {
       request.handleResponse.errorRespond(response)(error.message);

@@ -1,6 +1,9 @@
 import { DocumentDefinition } from "mongoose";
 import { IContact } from "../../interfaces";
+import { createChannel, publishMessageToQueue } from "../../util/queue.config";
 import ContactModel from "../models/Contact.model";
+import moment from "moment";
+import { configs } from "../../config";
 
 /**
  * @param {IContact} contactData
@@ -8,7 +11,28 @@ import ContactModel from "../models/Contact.model";
  */
 export const insertContact = async (contactData: DocumentDefinition<IContact>) => {
   return await ContactModel.create(contactData)
-    .then((data) => {
+    .then(async (data) => {
+      // Send email
+      const emailTemplate = "Contact-Us-Email-Template.html";
+      const to = data.email;
+      const subject = "MS Club SLIIT - Contact Us";
+      const emailBodyData = {
+        name: data.name,
+        email: data.email,
+        message: data.message,
+        date_time: moment(data.createdAt).format("LLL"),
+      };
+
+      const email = {
+        template: emailTemplate,
+        to: to,
+        subject: subject,
+        body: emailBodyData,
+      };
+
+      // Send email data to message queue
+      const channel = await createChannel();
+      publishMessageToQueue(channel, configs.queue.emailService, JSON.stringify(email));
       return data;
     })
     .catch((error) => {

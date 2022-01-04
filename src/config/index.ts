@@ -41,7 +41,7 @@ if (environment == "Development") {
       emailTemplateBucket: process.env.EMAIL_TEMPLATE_BUCKET as string,
     },
     queue: {
-      messageBrokerURL: process.env.MESSAGE_BROKER_URL as string,
+      messageBrokerURL: process.env.DEV_MESSAGE_BROKER_URL as string,
       exchangeName: process.env.EXCHANGE_NAME as string,
       emailService: process.env.EMAIL_SERVICE_NAME as string,
       emailQueue: process.env.EMAIL_QUEUE_NAME as string,
@@ -88,7 +88,7 @@ if (environment == "Production") {
       emailTemplateBucket: process.env.EMAIL_TEMPLATE_BUCKET as string,
     },
     queue: {
-      messageBrokerURL: process.env.MESSAGE_BROKER_URL as string,
+      messageBrokerURL: process.env.PROD_MESSAGE_BROKER_URL as string,
       exchangeName: process.env.EXCHANGE_NAME as string,
       emailService: process.env.EMAIL_SERVICE_NAME as string,
       emailQueue: process.env.EMAIL_QUEUE_NAME as string,

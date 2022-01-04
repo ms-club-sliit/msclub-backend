@@ -4,6 +4,8 @@ import logger from "./logger";
 import { configs } from "../config";
 import moment from "moment";
 import fetch from "cross-fetch";
+import { Channel } from "amqplib";
+import { subscribeMessages } from "./queue.config";
 
 const cc =
   "senurajayadeva@gmail.com,Lasalshettiarachchi458@gmail.com,rusiruavbpersonal98@gmail.com,yasirurandika99@gmail.com";
@@ -20,15 +22,28 @@ let template: HandlebarsTemplateDelegate;
 let htmlToSend: string;
 
 class EmailService {
-  static sendEmailWithTemplate(fileName: string, to: string, subject: string, emailBodyData: any) {
+  channel: Channel;
+
+  constructor(channel: Channel) {
+    this.channel = channel;
+    subscribeMessages(this.channel, this);
+  }
+
+  sendEmailWithTemplate(data: any) {
+    console.log(data);
+    let fileName = data.email.template;
+    let to = data.email.to;
+    let subject = data.email.subject;
+    let emailBodyData = data.email.body;
+
     return new Promise(async (resolve, reject) => {
-      this.getEmailTemplatePath(fileName)
+      EmailService.getEmailTemplatePath(fileName)
         .then((emailTemplate) => {
           if (emailTemplate) {
             template = handlebars.compile(emailTemplate);
             htmlToSend = template(emailBodyData);
 
-            this.retry(
+            EmailService.retry(
               5, // Retry count
               function () {
                 return EmailService.sendEmail(to, subject, htmlToSend)

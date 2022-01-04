@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import ApplicationService from "../services";
-import EmailService from "../../util/email.handler";
-import logger from "../../util/logger";
-import { IApplication } from "../../interfaces";
-import { request } from "http";
+import { createChannel, publishMessageToQueue } from "../../util/queue.config";
+import { configs } from "../../config";
 
 /**
  * @param {Request} request - Request from the frontend
@@ -13,34 +11,9 @@ import { request } from "http";
  */
 export const addApplication = async (request: Request, response: Response, next: NextFunction) => {
   await ApplicationService.addApplication(request.body)
-    .then((data) => {
-      // Send email
-      const emailTemplate = "Application-Email-Template.html";
-      const to = data.email;
-      const subject = "MS Club SLIIT - Application Received";
-      const emailBodyData = {
-        studentId: data.studentId,
-        name: data.name,
-        email: data.email,
-        contactNumber: data.contactNumber,
-        currentAcademicYear: data.currentAcademicYear,
-        linkedIn: data.linkedIn,
-        gitHub: data.gitHub,
-        skillsAndTalents: data.skillsAndTalents,
-      };
-
-      EmailService.sendEmailWithTemplate(emailTemplate, to, subject, emailBodyData)
-        .then(() => {
-          request.handleResponse.successRespond(response)({
-            applicationData: data,
-          });
-        })
-        .catch((error) => {
-          request.handleResponse.errorRespond(response)({
-            message: error.message,
-            data: data,
-          });
-        });
+    .then(async (data) => {
+      request.handleResponse.successRespond(response)(data);
+      next();
     })
     .catch((error: any) => {
       request.handleResponse.errorRespond(response)(error.message);
