@@ -6,7 +6,7 @@ import moment from "moment";
 import fetch from "cross-fetch";
 
 const cc =
-  "senurajayadeva@gmail.com,Lasalshettiarachchi458@gmail.com,rusiruavb98@gmail.com,yasirurandika99@gmail.com";
+  "senurajayadeva@gmail.com,Lasalshettiarachchi458@gmail.com,rusiruavbpersonal98@gmail.com,yasirurandika99@gmail.com";
 
 // HTML Configuration
 require.extensions[".html"] = (module: any, fileName: string) => {
@@ -29,12 +29,7 @@ let template: HandlebarsTemplateDelegate;
 let htmlToSend: string;
 
 class EmailService {
-  static sendEmailWithTemplate(
-    fileName: string,
-    to: string,
-    subject: string,
-    emailBodyData: any
-  ) {
+  static sendEmailWithTemplate(fileName: string, to: string, subject: string, emailBodyData: any) {
     return new Promise(async (resolve, reject) => {
       this.getEmailTemplatePath(fileName)
         .then((emailTemplate) => {
@@ -85,9 +80,7 @@ class EmailService {
           text: htmlTemplate,
         })
         .then((responseData: any) => {
-          logger.info(
-            `Email sent from ${responseData.envelope.from} to ${responseData.envelope.to}`
-          );
+          logger.info(`Email sent from ${responseData.envelope.from} to ${responseData.envelope.to}`);
           return resolve(responseData);
         })
         .catch((error: any) => {
@@ -97,18 +90,12 @@ class EmailService {
     });
   };
 
-  static retry = (
-    maxRetries: number,
-    retryFunction: any,
-    retryFunctionName: string
-  ) => {
+  static retry = (maxRetries: number, retryFunction: any, retryFunctionName: string) => {
     logger.info("## RETRY COUNT: " + maxRetries);
 
     return retryFunction().catch((error: any) => {
       if (maxRetries <= 0) {
-        const RetryFailedDateAndTime = moment()
-          .utcOffset("+05.30")
-          .format("MMMM Do YYYY, h:mm:ss a");
+        const RetryFailedDateAndTime = moment().utcOffset("+05.30").format("MMMM Do YYYY, h:mm:ss a");
         logger.error(RetryFailedDateAndTime);
         /**
          * @todo - to send Email to the system admin about the failure

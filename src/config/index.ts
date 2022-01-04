@@ -36,6 +36,12 @@ if (environment == "Development") {
       applicationImageBucket: process.env.APPLICATION_IMAGES_BUCKET as string,
       emailTemplateBucket: process.env.EMAIL_TEMPLATE_BUCKET as string,
     },
+    queue: {
+      messageBrokerURL: process.env.MESSAGE_BROKER_URL as string,
+      exchangeName: process.env.EXCHANGE_NAME as string,
+      emailService: process.env.EMAIL_SERVICE_NAME as string,
+      emailQueue: process.env.EMAIL_QUEUE_NAME as string,
+    },
   };
 }
 
@@ -72,6 +78,12 @@ if (environment == "Production") {
       bucketName: process.env.BUCKET_NAME as string,
       applicationImageBucket: process.env.APPLICATION_IMAGES_BUCKET as string,
       emailTemplateBucket: process.env.EMAIL_TEMPLATE_BUCKET as string,
+    },
+    queue: {
+      messageBrokerURL: process.env.MESSAGE_BROKER_URL as string,
+      exchangeName: process.env.EXCHANGE_NAME as string,
+      emailService: process.env.EMAIL_SERVICE_NAME as string,
+      emailQueue: process.env.EMAIL_QUEUE_NAME as string,
     },
   };
 }

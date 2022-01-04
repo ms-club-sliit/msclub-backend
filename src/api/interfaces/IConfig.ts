@@ -31,6 +31,12 @@ interface IConfig {
     applicationImageBucket: string;
     bucketName: string;
   };
+  queue: {
+    messageBrokerURL: string;
+    exchangeName: string;
+    emailQueue: string;
+    emailService: string;
+  };
 }
 
 export type { IConfig };
