@@ -26,6 +26,10 @@ if (environment == "Development") {
       tls: {
         rejectUnauthorized: false,
       },
+      sendGrid: {
+        user: process.env.EMAIL_SENDGRID_USER as string,
+        apiKey: process.env.SENDGRID_API_KEY as string,
+      },
     },
     firebase: {
       projectId: process.env.STORAGE_PROJECT_ID as string,
@@ -68,6 +72,10 @@ if (environment == "Production") {
       },
       tls: {
         rejectUnauthorized: false,
+      },
+      sendGrid: {
+        user: process.env.EMAIL_SENDGRID_USER as string,
+        apiKey: process.env.SENDGRID_API_KEY as string,
       },
     },
     firebase: {

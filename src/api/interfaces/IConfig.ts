@@ -21,6 +21,10 @@ interface IConfig {
     tls: {
       rejectUnauthorized: boolean;
     };
+    sendGrid: {
+      user: string;
+      apiKey: string;
+    };
   };
   firebase: {
     projectId: string;

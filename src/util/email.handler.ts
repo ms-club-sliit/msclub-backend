@@ -29,7 +29,7 @@ class EmailService {
             htmlToSend = template(emailBodyData);
 
             this.retry(
-              5,
+              5, // Retry count
               function () {
                 return EmailService.sendEmail(to, subject, htmlToSend)
                   .then((responseData) => {
@@ -60,10 +60,10 @@ class EmailService {
 
   static sendEmail = (to: string, subject: string, htmlTemplate: any) => {
     return new Promise((resolve, reject) => {
-      sgMail.setApiKey(process.env.SENFGRID_API_KEY);
+      sgMail.setApiKey(configs.email.sendGrid.apiKey);
       const msg = {
         to: to, // Change to your recipient
-        from: { name: "MS Club of SLIIT", email: process.env.EMAIL_SENFGRID_USER }, // Change to your verified sender
+        from: { name: "MS Club of SLIIT", email: configs.email.sendGrid.user }, // Change to your verified sender
         cc: "msclubofsliit@gmail.com",
         subject: subject,
         text: htmlTemplate,
