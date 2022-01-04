@@ -85,7 +85,7 @@ export const changeApplicationStatusIntoInterview = async (
         // Send email
         const emailTemplate = "Interview-Email-Template.html";
         const to = application.email;
-        const subject = "Interview for the MS Club of SLIIT";
+        const subject = "MS Club of SLIIT - Interview";
         const emailBodyData = {
           name: application.name,
           email: application.email,
