@@ -1,12 +1,10 @@
 import { DocumentDefinition, FilterQuery, Schema } from "mongoose";
-import { ITopSpeaker, IUpdatedBy } from "../interfaces";
+import { ITopSpeaker, IUpdatedBy } from "../../interfaces";
 import TopSpeakerModel from "../models/TopSpeaker.model";
 /**
  save a speaker in the database
  */
-export const insertTopSpeaker = async (
-  topSpeakerData: DocumentDefinition<ITopSpeaker>
-) => {
+export const insertTopSpeaker = async (topSpeakerData: DocumentDefinition<ITopSpeaker>) => {
   return await TopSpeakerModel.create(topSpeakerData)
     .then(async (topSpeaker) => {
       let initialUpdatedBy: IUpdatedBy = {
@@ -44,9 +42,7 @@ export const getTopSpeaker = async (topSpeakerId: string) => {
  fetch all the TopSpeakers in the system
  */
 export const getTopSpeakers = async () => {
-  return await TopSpeakerModel.aggregate([
-    { $match: { deletedAt: { $eq: null } } },
-  ])
+  return await TopSpeakerModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
     .then((topSpeakers) => {
       return topSpeakers;
     })
@@ -81,31 +77,23 @@ export const updateTopSpeaker = async (
         }
 
         if (updateData.socialMediaURLs && updateData.socialMediaURLs.facebook) {
-          topSpeakerDetails.socialMediaURLs.facebook =
-            updateData.socialMediaURLs.facebook;
+          topSpeakerDetails.socialMediaURLs.facebook = updateData.socialMediaURLs.facebook;
         }
 
-        if (
-          updateData.socialMediaURLs &&
-          updateData.socialMediaURLs.instagram
-        ) {
-          topSpeakerDetails.socialMediaURLs.instagram =
-            updateData.socialMediaURLs.instagram;
+        if (updateData.socialMediaURLs && updateData.socialMediaURLs.instagram) {
+          topSpeakerDetails.socialMediaURLs.instagram = updateData.socialMediaURLs.instagram;
         }
 
         if (updateData.socialMediaURLs && updateData.socialMediaURLs.linkedIn) {
-          topSpeakerDetails.socialMediaURLs.linkedIn =
-            updateData.socialMediaURLs.linkedIn;
+          topSpeakerDetails.socialMediaURLs.linkedIn = updateData.socialMediaURLs.linkedIn;
         }
 
         if (updateData.socialMediaURLs && updateData.socialMediaURLs.twitter) {
-          topSpeakerDetails.socialMediaURLs.twitter =
-            updateData.socialMediaURLs.twitter;
+          topSpeakerDetails.socialMediaURLs.twitter = updateData.socialMediaURLs.twitter;
         }
 
         if (updateData.socialMediaURLs && updateData.socialMediaURLs.web) {
-          topSpeakerDetails.socialMediaURLs.web =
-            updateData.socialMediaURLs.web;
+          topSpeakerDetails.socialMediaURLs.web = updateData.socialMediaURLs.web;
         }
 
         const updateUserInfo: IUpdatedBy = {
@@ -128,10 +116,7 @@ export const updateTopSpeaker = async (
 delete a past event
  * @param topSpeakerId @type string
  */
-export const deleteTopSpeaker = async (
-  topSpeakerId: string,
-  deletedBy: Schema.Types.ObjectId
-) => {
+export const deleteTopSpeaker = async (topSpeakerId: string, deletedBy: Schema.Types.ObjectId) => {
   return await TopSpeakerModel.findById(topSpeakerId)
     .then(async (topSpeakerDetails) => {
       if (topSpeakerDetails && topSpeakerDetails.deletedAt === null) {

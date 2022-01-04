@@ -1,6 +1,6 @@
 import { DocumentDefinition, FilterQuery } from "mongoose";
 import EmailService from "../../util/email.handler";
-import { IApplication, IInterview } from "../interfaces";
+import { IApplication, IInterview } from "../../interfaces";
 import ApplicationModel from "../models/Application.model";
 
 /**
@@ -8,9 +8,7 @@ import ApplicationModel from "../models/Application.model";
  * @param {IApplication} application
  * @returns {Promise<IApplication>}
  */
-export const addApplication = async (
-  applicationData: DocumentDefinition<IApplication>
-) => {
+export const addApplication = async (applicationData: DocumentDefinition<IApplication>) => {
   return await ApplicationModel.create(applicationData)
     .then((application) => {
       return application;
@@ -41,9 +39,7 @@ export const fetchApplicationById = async (applicationId: string) => {
  * @returns {Promise<IApplication>}
  */
 export const fetchApplications = async () => {
-  return await ApplicationModel.aggregate([
-    { $match: { deletedAt: { $eq: null } } },
-  ])
+  return await ApplicationModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
     .then((applications) => {
       return applications;
     })
@@ -95,12 +91,7 @@ export const changeApplicationStatusIntoInterview = async (
           format: interviewData.format,
         };
 
-        return await EmailService.sendEmailWithTemplate(
-          emailTemplate,
-          to,
-          subject,
-          emailBodyData
-        )
+        return await EmailService.sendEmailWithTemplate(emailTemplate, to, subject, emailBodyData)
           .then(async () => {
             application.status = "INTERVIEW";
             return await application.save();
@@ -136,12 +127,7 @@ export const changeApplicationStatusIntoSelected = async (
           name: application.name,
         };
 
-        return await EmailService.sendEmailWithTemplate(
-          emailTemplate,
-          to,
-          subject,
-          emailBodyData
-        )
+        return await EmailService.sendEmailWithTemplate(emailTemplate, to, subject, emailBodyData)
           .then(async () => {
             application.status = "SELECTED";
             return await application.save();
@@ -162,9 +148,7 @@ export const changeApplicationStatusIntoSelected = async (
  * @todo create @function changeApplicationStatusIntoRejected to update the status into REJECTED of an application in the system
  * @param applicationId @type string
  */
-export const changeApplicationStatusIntoRejected = async (
-  applicationId: string
-) => {
+export const changeApplicationStatusIntoRejected = async (applicationId: string) => {
   return await ApplicationModel.findById(applicationId)
     .then(async (application) => {
       if (application) {
@@ -177,57 +161,51 @@ export const changeApplicationStatusIntoRejected = async (
     });
 };
 
-
 /**
  * @todo create @function fetchPendingApplications to filter PENDING applications in the system
  */
-export const fetchPendingApplications = async () =>{
-  return await ApplicationModel.aggregate([
-    {$match : {status: {$eq: "PENDING"}, deletedAt : {$eq: null} } },
-  ])
+export const fetchPendingApplications = async () => {
+  return await ApplicationModel.aggregate([{ $match: { status: { $eq: "PENDING" }, deletedAt: { $eq: null } } }])
     .then((applications) => {
       return applications;
-    }).catch((err) => {
+    })
+    .catch((err) => {
       throw new Error(err.message);
     });
 };
 /**
  * @todo create @function fetchInterviewApplications to filter INTERVIEW applications in the system
  */
-export const fetchInterviewApplications = async () =>{
-  return await ApplicationModel.aggregate([
-    {$match : {status: {$eq: "INTERVIEW"}, deletedAt : {$eq: null} } },
-  ])
-  .then((applications) => {
-    return applications;
-  }).catch((err) => {
-    throw new Error(err.message);
-  });
+export const fetchInterviewApplications = async () => {
+  return await ApplicationModel.aggregate([{ $match: { status: { $eq: "INTERVIEW" }, deletedAt: { $eq: null } } }])
+    .then((applications) => {
+      return applications;
+    })
+    .catch((err) => {
+      throw new Error(err.message);
+    });
 };
 /**
  * @todo create @function fetchSelectedApplications to filter SELECTED applications in the system
  */
-export const fetchSelectedApplications = async () =>{
-  return await ApplicationModel.aggregate([
-    {$match : {status: {$eq: "SELECTED"}, deletedAt : {$eq: null} } },
-  ])
-  .then((applications) => {
-    return applications;
-  }).catch((err) => {
-    throw new Error(err.message);
-  });
+export const fetchSelectedApplications = async () => {
+  return await ApplicationModel.aggregate([{ $match: { status: { $eq: "SELECTED" }, deletedAt: { $eq: null } } }])
+    .then((applications) => {
+      return applications;
+    })
+    .catch((err) => {
+      throw new Error(err.message);
+    });
 };
 /**
  * @todo create @function fetchRejectedApplications to filter REJECTED applications in the system
  */
-export const fetchRejectedApplications = async () =>{
-  return await ApplicationModel.aggregate([
-    {$match : {status: {$eq: "REJECTED"}, deletedAt : {$eq: null} } },
-  ])
-  .then((applications) => {
-    return applications; 
-  }).catch((err) => {
-    throw new Error(err.message);
-  });
-}
-
+export const fetchRejectedApplications = async () => {
+  return await ApplicationModel.aggregate([{ $match: { status: { $eq: "REJECTED" }, deletedAt: { $eq: null } } }])
+    .then((applications) => {
+      return applications;
+    })
+    .catch((err) => {
+      throw new Error(err.message);
+    });
+};

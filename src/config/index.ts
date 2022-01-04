@@ -1,4 +1,4 @@
-import { IConfig } from "../api/interfaces";
+import { IConfig } from "../interfaces";
 let configs: IConfig;
 const environment = process.env.NODE_ENV?.trim() as string;
 

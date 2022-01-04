@@ -1,5 +1,5 @@
-import { DocumentDefinition, FilterQuery,Schema } from "mongoose";
-import {IExecutiveBoard, IBoardMember,IUpdatedBy } from "../interfaces";
+import { DocumentDefinition, FilterQuery, Schema } from "mongoose";
+import { IExecutiveBoard, IBoardMember, IUpdatedBy } from "../../interfaces";
 import ExecutiveBoardModel from "../models/ExecutiveBoard.model";
 import BoardMemberModel from "../models/BoardMember.model";
 import { insertBoardMember } from "../services/BoardMember.service";
@@ -7,12 +7,9 @@ import { insertBoardMember } from "../services/BoardMember.service";
 /**
  add a new executive board to the database
  */
-export const insertExecutiveBoard = async (
-  executiveBoardData: DocumentDefinition<IExecutiveBoard>
-) => {
+export const insertExecutiveBoard = async (executiveBoardData: DocumentDefinition<IExecutiveBoard>) => {
   return await ExecutiveBoardModel.create(executiveBoardData)
     .then(async (executiveBoard) => {
-
       let initialUpdatedBy: IUpdatedBy = {
         user: executiveBoard.createdBy,
         updatedAt: new Date(),
@@ -67,9 +64,7 @@ export const addBoardMember = async (
 ) => {
   return await insertBoardMember(insertData)
     .then(async (createdBoardMember: IBoardMember) => {
-      const executiveBoard = await ExecutiveBoardModel.findById(
-        executiveBoardId
-      );
+      const executiveBoard = await ExecutiveBoardModel.findById(executiveBoardId);
       if (executiveBoard) {
         executiveBoard.board.unshift(createdBoardMember);
         const updateUserInfo: IUpdatedBy = {
@@ -121,7 +116,7 @@ export const updateExecutiveBoardDetails = async (
  * @param boardId @type string
  * @param boardMemberId @type string
  */
-export const deleteExecutiveBoardDetails = async (boardId: string,deletedBy: Schema.Types.ObjectId) => {
+export const deleteExecutiveBoardDetails = async (boardId: string, deletedBy: Schema.Types.ObjectId) => {
   return await ExecutiveBoardModel.findById(boardId)
     .then(async (executiveBoardDetails) => {
       if (executiveBoardDetails && executiveBoardDetails.deletedAt === null) {

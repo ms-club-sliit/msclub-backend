@@ -1,7 +1,7 @@
 import { Express, Request, Response, NextFunction } from "express";
 import EventService from "../services";
 import logger from "../../util/logger";
-import { IEvent } from "../interfaces";
+import { IEvent } from "../../interfaces";
 import ImageService from "../../util/image.handler";
 
 /**

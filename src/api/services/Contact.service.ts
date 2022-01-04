@@ -1,6 +1,6 @@
-import { DocumentDefinition } from 'mongoose';
-import { IContact } from '../interfaces';
-import ContactModel from '../models/Contact.model';
+import { DocumentDefinition } from "mongoose";
+import { IContact } from "../../interfaces";
+import ContactModel from "../models/Contact.model";
 
 /**
  * @param {IContact} contactData
@@ -14,7 +14,7 @@ export const insertContact = async (contactData: DocumentDefinition<IContact>) =
     .catch((error) => {
       throw new Error(error.message);
     });
-}
+};
 
 /**
  * @param {string} contactId
@@ -26,26 +26,24 @@ export const archiveContact = async (contactId: string) => {
       if (contactData && contactData.deletedAt === null) {
         contactData.deletedAt = new Date();
         return await contactData.save();
-      }  else {
+      } else {
         return "Contact not found";
       }
     })
     .catch((error) => {
       throw new Error(error.message);
     });
-}
+};
 
 /**
  * @returns {IContact[]} All available contacts
  */
 export const fetchContactInfo = async () => {
-  return await ContactModel.aggregate([
-    { $match: { deletedAt: { $eq: null }}}
-  ])
+  return await ContactModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
     .then((contacts) => {
       return contacts;
     })
     .catch((error) => {
       throw new Error(error.message);
     });
-}
+};

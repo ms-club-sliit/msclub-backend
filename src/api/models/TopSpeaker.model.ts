@@ -1,5 +1,5 @@
-import mongoose, { Schema } from 'mongoose';
-import { ITopSpeaker } from '../interfaces';
+import mongoose, { Schema } from "mongoose";
+import { ITopSpeaker } from "../../interfaces";
 
 const TopSpeakerSchema = new Schema<ITopSpeaker>(
   {
@@ -31,9 +31,6 @@ const TopSpeakerSchema = new Schema<ITopSpeaker>(
   { timestamps: true }
 );
 
-const TopSpeakerModel = mongoose.model<ITopSpeaker>(
-  'topSpeaker',
-  TopSpeakerSchema
-);
+const TopSpeakerModel = mongoose.model<ITopSpeaker>("topSpeaker", TopSpeakerSchema);
 
 export default TopSpeakerModel;

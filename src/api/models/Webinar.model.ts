@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { IWebinar } from "../interfaces";
+import { IWebinar } from "../../interfaces";
 
 const WebinarSchema = new Schema<IWebinar>(
   {

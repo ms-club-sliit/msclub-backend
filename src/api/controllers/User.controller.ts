@@ -2,7 +2,7 @@ import { Express, Request, Response, NextFunction } from "express";
 import UserService from "../services";
 import logger from "../../util/logger";
 import ImageService from "../../util/image.handler";
-import { IUserRequest } from "../interfaces";
+import { IUserRequest } from "../../interfaces";
 
 /**
  * @param {Request} request - Request from the frontend

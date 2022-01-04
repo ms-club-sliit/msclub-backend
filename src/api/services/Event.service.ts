@@ -1,5 +1,5 @@
 import { DocumentDefinition, FilterQuery, Schema } from "mongoose";
-import { IEvent, IUpdatedBy } from "../interfaces";
+import { IEvent, IUpdatedBy } from "../../interfaces";
 import EventModel from "../models/Event.model";
 import UserModel from "../models/User.model";
 

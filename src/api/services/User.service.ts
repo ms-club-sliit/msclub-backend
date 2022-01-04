@@ -1,5 +1,5 @@
 import { DocumentDefinition, Schema } from "mongoose";
-import { IUser, IUserRequest } from "../interfaces";
+import { IUser, IUserRequest } from "../../interfaces";
 import UserModel from "../models/User.model";
 import bcrypt from "bcrypt";
 

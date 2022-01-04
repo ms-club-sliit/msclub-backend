@@ -1,13 +1,11 @@
 import { DocumentDefinition, FilterQuery, Schema } from "mongoose";
-import { IBoardMember, IUpdatedBy } from "../interfaces";
+import { IBoardMember, IUpdatedBy } from "../../interfaces";
 import BoardMemberModel from "../models/BoardMember.model";
 
 /**
  add a new Board Member to the database
  */
-export const insertBoardMember = async (
-  BoardMemberData: DocumentDefinition<IBoardMember>
-) => {
+export const insertBoardMember = async (BoardMemberData: DocumentDefinition<IBoardMember>) => {
   return await BoardMemberModel.create(BoardMemberData)
     .then(async (boardMember) => {
       let initialUpdatedBy: IUpdatedBy = {
@@ -73,20 +71,16 @@ export const updateBoardMemberDetails = async (
           }
           if (updateData.socialMedia) {
             if (updateData.socialMedia.facebook) {
-              boardMemberDetails.socialMedia.facebook =
-                updateData.socialMedia.facebook;
+              boardMemberDetails.socialMedia.facebook = updateData.socialMedia.facebook;
             }
             if (updateData.socialMedia.instagram) {
-              boardMemberDetails.socialMedia.instagram =
-                updateData.socialMedia.instagram;
+              boardMemberDetails.socialMedia.instagram = updateData.socialMedia.instagram;
             }
             if (updateData.socialMedia.linkedIn) {
-              boardMemberDetails.socialMedia.linkedIn =
-                updateData.socialMedia.linkedIn;
+              boardMemberDetails.socialMedia.linkedIn = updateData.socialMedia.linkedIn;
             }
             if (updateData.socialMedia.twitter) {
-              boardMemberDetails.socialMedia.twitter =
-                updateData.socialMedia.twitter;
+              boardMemberDetails.socialMedia.twitter = updateData.socialMedia.twitter;
             }
           }
           const updateUserInfo: IUpdatedBy = {
@@ -112,10 +106,7 @@ export const updateBoardMemberDetails = async (
  delete member
  * @param boardMemberId @type string
  */
-export const deleteBoardMemberDetails = async (
-  boardMemberId: string,
-  deletedBy: Schema.Types.ObjectId
-) => {
+export const deleteBoardMemberDetails = async (boardMemberId: string, deletedBy: Schema.Types.ObjectId) => {
   return await BoardMemberModel.findById(boardMemberId)
     .then(async (boardMemberDetails) => {
       if (boardMemberDetails && boardMemberDetails.deletedAt === null) {

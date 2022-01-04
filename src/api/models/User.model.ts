@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import { IUserModel, IUser } from "../interfaces";
+import { IUserModel, IUser } from "../../interfaces";
 import validator from "validator";
 
 const UserSchema = new Schema<IUser>(

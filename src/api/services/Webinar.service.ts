@@ -1,5 +1,5 @@
 import { DocumentDefinition, FilterQuery, Schema } from "mongoose";
-import { IWebinar, IUpdatedBy } from "../interfaces";
+import { IWebinar, IUpdatedBy } from "../../interfaces";
 import WebinarModel from "../models/Webinar.model";
 /**
  * Save a webinar in the database
@@ -91,7 +91,6 @@ export const updateWebinar = async (
   webinarData: DocumentDefinition<IWebinar>,
   updatedBy: Schema.Types.ObjectId
 ) => {
-  
   return await WebinarModel.findById(webinarId)
     .then(async (webinarDetails) => {
       if (webinarDetails) {

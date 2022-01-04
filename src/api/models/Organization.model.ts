@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { IOrganization } from "../interfaces";
+import { IOrganization } from "../../interfaces";
 
 const OrganizationSchema = new Schema<IOrganization>(
   {

@@ -1,6 +1,6 @@
 import OrganizationModel from "../models/Organization.model";
 import { DocumentDefinition, FilterQuery, Schema } from "mongoose";
-import { IOrganization, IUpdatedBy } from "../interfaces";
+import { IOrganization, IUpdatedBy } from "../../interfaces";
 
 // Insert the organization information
 export const createOrganization = async (

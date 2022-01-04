@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { IExecutiveBoard } from "../interfaces/IExecutiveBoard";
+import { IExecutiveBoard } from "../../interfaces/IExecutiveBoard";
 
 const ExecutiveBoardSchema = new Schema<IExecutiveBoard>({
   year: { type: String, required: true },
@@ -20,9 +20,6 @@ const ExecutiveBoardSchema = new Schema<IExecutiveBoard>({
   },
 });
 
-const ExecutiveBoardModel = mongoose.model<IExecutiveBoard>(
-  "ececutiveboard",
-  ExecutiveBoardSchema
-);
+const ExecutiveBoardModel = mongoose.model<IExecutiveBoard>("ececutiveboard", ExecutiveBoardSchema);
 
 export default ExecutiveBoardModel;
