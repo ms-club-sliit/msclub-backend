@@ -2,7 +2,6 @@ import { DocumentDefinition } from "mongoose";
 import { IContact } from "../../interfaces";
 import ContactModel from "../models/Contact.model";
 import moment from "moment";
-import { configs } from "../../config";
 import { request } from "express";
 
 /**
@@ -32,7 +31,7 @@ export const insertContact = async (contactData: DocumentDefinition<IContact>) =
 
 			// Send email data to message queue
 			const channel = request.channel;
-			request.queue.publishMessage(channel, configs.queue.emailService, JSON.stringify(email));
+			request.queue.publishMessage(channel, JSON.stringify(email));
 			return data;
 		})
 		.catch((error) => {

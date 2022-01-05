@@ -5,7 +5,7 @@ import { configs } from "../config";
 import moment from "moment";
 import fetch from "cross-fetch";
 import { Channel } from "amqplib";
-import { subscribeMessages } from "./queue.config";
+import messageQueue from "./queue.config";
 import sgMail from "@sendgrid/mail";
 
 // HTML Configuration
@@ -21,14 +21,14 @@ class EmailService {
 
 	constructor(channel: Channel) {
 		this.channel = channel;
-		subscribeMessages(this.channel, this);
+		messageQueue.subscribeMessages(this.channel, this);
 	}
 
 	sendEmailWithTemplate(data: any) {
-		const fileName = data.email.template;
-		const to = data.email.to;
-		const subject = data.email.subject;
-		const emailBodyData = data.email.body;
+		const fileName = data.template;
+		const to = data.to;
+		const subject = data.subject;
+		const emailBodyData = data.body;
 
 		return new Promise((resolve, reject) => {
 			EmailService.getEmailTemplatePath(fileName)
@@ -81,7 +81,7 @@ class EmailService {
 			sgMail
 				.send(msg)
 				.then((responseData: any) => {
-					logger.info(`Email sent ${responseData}`);
+					logger.info(`Email sent to ${to}`);
 					return resolve(responseData);
 				})
 				.catch((error: any) => {

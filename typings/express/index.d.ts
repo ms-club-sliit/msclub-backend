@@ -25,7 +25,7 @@ declare global {
 				 *
 				 * request.queue.publishMessage(channel, bindingKey, message);
 				 */
-				publishMessage(channel: Channel, bindingKey: string, message: any): Promise<void>;
+				publishMessage(channel: Channel, message: any): void;
 
 				/**
 				 * Consume the messages that are published to the message queue. The function will take 3 parameters.

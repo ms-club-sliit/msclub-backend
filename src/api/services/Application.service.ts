@@ -1,15 +1,14 @@
 import { DocumentDefinition } from "mongoose";
 import { IApplication, IInterview } from "../../interfaces";
 import ApplicationModel from "../models/Application.model";
-import { configs } from "../../config";
-import { request } from "express";
+import { Request } from "express";
 
 /**
  * Application Service
  * @param {IApplication} application
  * @returns {Promise<IApplication>}
  */
-export const addApplication = async (applicationData: DocumentDefinition<IApplication>) => {
+export const addApplication = async (request: Request, applicationData: DocumentDefinition<IApplication>) => {
 	return await ApplicationModel.create(applicationData)
 		.then(async (application) => {
 			// Send email
@@ -36,7 +35,7 @@ export const addApplication = async (applicationData: DocumentDefinition<IApplic
 
 			// Send email data to message queue
 			const channel = request.channel;
-			request.queue.publishMessage(channel, configs.queue.emailService, JSON.stringify(email));
+			request.queue.publishMessage(channel, JSON.stringify(email));
 			return application;
 		})
 		.catch((error) => {
@@ -98,6 +97,7 @@ export const archiveApplication = async (applicationId: string) => {
  * @param applicationId @type string
  */
 export const changeApplicationStatusIntoInterview = async (
+	request: Request,
 	applicationId: string,
 	interviewData: DocumentDefinition<IInterview>
 ) => {
@@ -126,7 +126,7 @@ export const changeApplicationStatusIntoInterview = async (
 
 				// Send email data to message queue
 				const channel = request.channel;
-				request.queue.publishMessage(channel, configs.queue.emailService, JSON.stringify(email));
+				request.queue.publishMessage(channel, JSON.stringify(email));
 				return application;
 			} else {
 				return null;
@@ -141,7 +141,7 @@ export const changeApplicationStatusIntoInterview = async (
  * @function changeApplicationStatusIntoSelected to update the status into SELECTED of an application in the system
  * @param applicationId @type string
  */
-export const changeApplicationStatusIntoSelected = async (applicationId: string) => {
+export const changeApplicationStatusIntoSelected = async (request: Request, applicationId: string) => {
 	return await ApplicationModel.findById(applicationId)
 		.then(async (application) => {
 			if (application) {
@@ -162,7 +162,7 @@ export const changeApplicationStatusIntoSelected = async (applicationId: string)
 
 				// Send email data to message queue
 				const channel = request.channel;
-				request.queue.publishMessage(channel, configs.queue.emailService, JSON.stringify(email));
+				request.queue.publishMessage(channel, JSON.stringify(email));
 				return application;
 			} else {
 				return null;

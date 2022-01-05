@@ -8,7 +8,7 @@ import ApplicationService from "../services";
  * @returns {IApplication} - New application document
  */
 export const addApplication = async (request: Request, response: Response, next: NextFunction) => {
-	await ApplicationService.addApplication(request.body)
+	await ApplicationService.addApplication(request, request.body)
 		.then(async (data) => {
 			request.handleResponse.successRespond(response)(data);
 			next();
@@ -99,7 +99,7 @@ export const changeApplicationStatusIntoInterview = async (
 ) => {
 	const { applicationId } = request.params;
 	if (applicationId) {
-		await ApplicationService.changeApplicationStatusIntoInterview(applicationId, request.body)
+		await ApplicationService.changeApplicationStatusIntoInterview(request, applicationId, request.body)
 			.then((data) => {
 				request.handleResponse.successRespond(response)(data);
 				next();
@@ -125,7 +125,7 @@ export const changeApplicationStatusIntoInterview = async (
 export const changeApplicationStatusIntoSelected = async (request: Request, response: Response, next: NextFunction) => {
 	const { applicationId } = request.params;
 	if (applicationId) {
-		await ApplicationService.changeApplicationStatusIntoSelected(applicationId)
+		await ApplicationService.changeApplicationStatusIntoSelected(request, applicationId)
 			.then((data) => {
 				request.handleResponse.successRespond(response)(data);
 				next();
