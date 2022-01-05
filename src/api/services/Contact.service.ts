@@ -1,9 +1,9 @@
 import { DocumentDefinition } from "mongoose";
 import { IContact } from "../../interfaces";
-import { createChannel, publishMessageToQueue } from "../../util/queue.config";
 import ContactModel from "../models/Contact.model";
 import moment from "moment";
 import { configs } from "../../config";
+import { request } from "express";
 
 /**
  * @param {IContact} contactData
@@ -31,8 +31,8 @@ export const insertContact = async (contactData: DocumentDefinition<IContact>) =
       };
 
       // Send email data to message queue
-      const channel = await createChannel();
-      publishMessageToQueue(channel, configs.queue.emailService, JSON.stringify(email));
+      const channel = request.channel;
+      request.queue.publishMessage(channel, configs.queue.emailService, JSON.stringify(email));
       return data;
     })
     .catch((error) => {

@@ -1,8 +1,8 @@
 import { DocumentDefinition, FilterQuery } from "mongoose";
 import { IApplication, IInterview } from "../../interfaces";
 import ApplicationModel from "../models/Application.model";
-import { createChannel, publishMessageToQueue } from "../../util/queue.config";
 import { configs } from "../../config";
+import { request } from "express";
 
 /**
  * Application Service
@@ -35,8 +35,9 @@ export const addApplication = async (applicationData: DocumentDefinition<IApplic
       };
 
       // Send email data to message queue
-      const channel = await createChannel();
-      publishMessageToQueue(channel, configs.queue.emailService, JSON.stringify(email));
+      const channel = request.channel;
+      console.log(channel);
+      request.queue.publishMessage(channel, configs.queue.emailService, JSON.stringify(email));
       return application;
     })
     .catch((error) => {
@@ -125,8 +126,8 @@ export const changeApplicationStatusIntoInterview = async (
         };
 
         // Send email data to message queue
-        const channel = await createChannel();
-        publishMessageToQueue(channel, configs.queue.emailService, JSON.stringify(email));
+        const channel = request.channel;
+        request.queue.publishMessage(channel, configs.queue.emailService, JSON.stringify(email));
         return application;
       } else {
         return null;
@@ -164,8 +165,8 @@ export const changeApplicationStatusIntoSelected = async (
         };
 
         // Send email data to message queue
-        const channel = await createChannel();
-        publishMessageToQueue(channel, configs.queue.emailService, JSON.stringify(email));
+        const channel = request.channel;
+        request.queue.publishMessage(channel, configs.queue.emailService, JSON.stringify(email));
         return application;
       } else {
         return null;

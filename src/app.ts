@@ -6,8 +6,13 @@ import responseHandler from "./util/response.handler";
 import routes from "./api/routes";
 import { configs } from "./config";
 import connect from "./util/database.connection";
+import amqp from "amqplib";
+import { createChannel } from "./util/queue.config";
 
 export const app: Express = express();
+const channel = createChannel().then((channelData) => {
+  return channelData;
+});
 const PORT: string = configs.port;
 const ENVIRONMENT = configs.environment;
 const MONGO_URI = configs.mongodb.uri;
@@ -21,6 +26,36 @@ app.use(express.urlencoded({ extended: true }));
 app.use((req: Request, res: Response, next: NextFunction) => {
   req.handleResponse = responseHandler;
   next();
+});
+
+// Create and Inject the message queue
+app.use((req: Request, res: Response, next: NextFunction) => {
+  try {
+    // Create the channel
+    amqp
+      .connect(configs.queue.messageBrokerURL)
+      .then((connection) => {
+        connection
+          .createChannel()
+          .then((channel) => {
+            channel.assertExchange(configs.queue.exchangeName, "direct", { durable: false });
+
+            // Add channel as request property
+            console.log("Test", req.channel);
+            req.channel = channel;
+            next();
+          })
+          .catch((channelError) => {
+            logger.error(`Channel Error: ${channelError.message}`);
+          });
+      })
+      .catch((connectionError: any) => {
+        logger.error(`Connection Error: ${connectionError.message}`);
+      });
+  } catch (error: any) {
+    console.log("Error");
+    logger.error(error.message);
+  }
 });
 
 // Root API Call

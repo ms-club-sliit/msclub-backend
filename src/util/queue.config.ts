@@ -15,7 +15,7 @@ const createChannel = async () => {
 };
 
 // Publish the messages
-const publishMessageToQueue = async (channel: Channel, bindingKey: string, message: any) => {
+const publishMessage = async (channel: Channel, bindingKey: string, message: any) => {
   try {
     await channel.publish(configs.queue.exchangeName, bindingKey, Buffer.from(JSON.stringify(message)));
   } catch (error) {
@@ -24,7 +24,7 @@ const publishMessageToQueue = async (channel: Channel, bindingKey: string, messa
 };
 
 // Subscribe to messages
-const subscribeMessages = async (channel: Channel, service: EmailService) => {
+const subscribeMessages = async (channel: Channel, service: any) => {
   const serviceQueue = await channel.assertQueue(configs.queue.emailQueue);
   channel.bindQueue(serviceQueue.queue, configs.queue.exchangeName, configs.queue.emailService);
   channel.consume(serviceQueue.queue, (data) => {
@@ -36,4 +36,4 @@ const subscribeMessages = async (channel: Channel, service: EmailService) => {
   });
 };
 
-export { createChannel, publishMessageToQueue, subscribeMessages };
+export { createChannel, publishMessage, subscribeMessages };

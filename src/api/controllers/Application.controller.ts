@@ -1,7 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import ApplicationService from "../services";
-import { createChannel, publishMessageToQueue } from "../../util/queue.config";
-import { configs } from "../../config";
 
 /**
  * @param {Request} request - Request from the frontend
@@ -10,15 +8,15 @@ import { configs } from "../../config";
  * @returns {IApplication} - New application document
  */
 export const addApplication = async (request: Request, response: Response, next: NextFunction) => {
-  await ApplicationService.addApplication(request.body)
-    .then(async (data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+	await ApplicationService.addApplication(request.body)
+		.then(async (data) => {
+			request.handleResponse.successRespond(response)(data);
+			next();
+		})
+		.catch((error: any) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
 };
 
 /**
@@ -28,20 +26,20 @@ export const addApplication = async (request: Request, response: Response, next:
  * @returns {IApplication} - Application document that relevent to the passed ID
  */
 export const getApplicationById = async (request: Request, response: Response, next: NextFunction) => {
-  const applicationId = request.params.applicationId;
-  if (applicationId) {
-    await ApplicationService.fetchApplicationById(applicationId)
-      .then((data) => {
-        request.handleResponse.successRespond(response)(data);
-        next();
-      })
-      .catch((error: any) => {
-        request.handleResponse.errorRespond(response)(error.message);
-        next();
-      });
-  } else {
-    request.handleResponse.errorRespond(response)("applicationId not found");
-  }
+	const { applicationId } = request.params;
+	if (applicationId) {
+		await ApplicationService.fetchApplicationById(applicationId)
+			.then((data) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error: any) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
+	} else {
+		request.handleResponse.errorRespond(response)("applicationId not found");
+	}
 };
 
 /**
@@ -51,15 +49,15 @@ export const getApplicationById = async (request: Request, response: Response, n
  * @returns {IApplication} - All application documents
  */
 export const getApplications = async (request: Request, response: Response, next: NextFunction) => {
-  await ApplicationService.fetchApplications()
-    .then((data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+	await ApplicationService.fetchApplications()
+		.then((data) => {
+			request.handleResponse.successRespond(response)(data);
+			next();
+		})
+		.catch((error: any) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
 };
 
 /**
@@ -69,20 +67,20 @@ export const getApplications = async (request: Request, response: Response, next
  * @returns {IApplication} - Updated application document
  */
 export const setApplicationArchive = async (request: Request, response: Response, next: NextFunction) => {
-  const applicationId = request.params.applicationId;
-  if (applicationId) {
-    await ApplicationService.archiveApplication(applicationId)
-      .then((data) => {
-        request.handleResponse.successRespond(response)(data);
-        next();
-      })
-      .catch((error: any) => {
-        request.handleResponse.errorRespond(response)(error.message);
-        next();
-      });
-  } else {
-    request.handleResponse.errorRespond(response)("applicationId not found");
-  }
+	const { applicationId } = request.params;
+	if (applicationId) {
+		await ApplicationService.archiveApplication(applicationId)
+			.then((data) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error: any) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
+	} else {
+		request.handleResponse.errorRespond(response)("applicationId not found");
+	}
 };
 
 /**
@@ -95,24 +93,24 @@ export const setApplicationArchive = async (request: Request, response: Response
  * @returns {IApplication} updated application document in the system
  */
 export const changeApplicationStatusIntoInterview = async (
-  request: Request,
-  response: Response,
-  next: NextFunction
+	request: Request,
+	response: Response,
+	next: NextFunction
 ) => {
-  const applicationId = request.params.applicationId;
-  if (applicationId) {
-    await ApplicationService.changeApplicationStatusIntoInterview(applicationId, request.body)
-      .then((data) => {
-        request.handleResponse.successRespond(response)(data);
-        next();
-      })
-      .catch((error: any) => {
-        request.handleResponse.errorRespond(response)(error.message);
-        next();
-      });
-  } else {
-    request.handleResponse.errorRespond(response)("applicationId not found");
-  }
+	const { applicationId } = request.params;
+	if (applicationId) {
+		await ApplicationService.changeApplicationStatusIntoInterview(applicationId, request.body)
+			.then((data) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error: any) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
+	} else {
+		request.handleResponse.errorRespond(response)("applicationId not found");
+	}
 };
 
 /**
@@ -125,20 +123,20 @@ export const changeApplicationStatusIntoInterview = async (
  * @returns {IApplication} updated application document in the system
  */
 export const changeApplicationStatusIntoSelected = async (request: Request, response: Response, next: NextFunction) => {
-  const applicationId = request.params.applicationId;
-  if (applicationId) {
-    await ApplicationService.changeApplicationStatusIntoSelected(applicationId, request.body)
-      .then((data) => {
-        request.handleResponse.successRespond(response)(data);
-        next();
-      })
-      .catch((error: any) => {
-        request.handleResponse.errorRespond(response)(error.message);
-        next();
-      });
-  } else {
-    request.handleResponse.errorRespond(response)("applicationId not found");
-  }
+	const { applicationId } = request.params;
+	if (applicationId) {
+		await ApplicationService.changeApplicationStatusIntoSelected(applicationId, request.body)
+			.then((data) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error: any) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
+	} else {
+		request.handleResponse.errorRespond(response)("applicationId not found");
+	}
 };
 /**
  * @todo implement a @function changeApplicationStatusIntoRejected that calls
@@ -150,20 +148,20 @@ export const changeApplicationStatusIntoSelected = async (request: Request, resp
  * @returns {IApplication} updated application document in the system
  */
 export const changeApplicationStatusIntoRejected = async (request: Request, response: Response, next: NextFunction) => {
-  const applicationId = request.params.applicationId;
-  if (applicationId) {
-    await ApplicationService.changeApplicationStatusIntoRejected(applicationId)
-      .then((data) => {
-        request.handleResponse.successRespond(response)(data);
-        next();
-      })
-      .catch((error: any) => {
-        request.handleResponse.errorRespond(response)(error.message);
-        next();
-      });
-  } else {
-    request.handleResponse.errorRespond(response)("applicationId not found");
-  }
+	const { applicationId } = request.params;
+	if (applicationId) {
+		await ApplicationService.changeApplicationStatusIntoRejected(applicationId)
+			.then((data) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error: any) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
+	} else {
+		request.handleResponse.errorRespond(response)("applicationId not found");
+	}
 };
 
 /**
@@ -176,15 +174,15 @@ export const changeApplicationStatusIntoRejected = async (request: Request, resp
  * @returns {IApplication} fetched pending applications
  */
 export const fetchPendingApplications = async (request: Request, response: Response, next: NextFunction) => {
-  await ApplicationService.fetchPendingApplications()
-    .then((data: any) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+	await ApplicationService.fetchPendingApplications()
+		.then((data: any) => {
+			request.handleResponse.successRespond(response)(data);
+			next();
+		})
+		.catch((error: any) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
 };
 /**
  * @function fetchSelectedApplications that calls
@@ -196,15 +194,15 @@ export const fetchPendingApplications = async (request: Request, response: Respo
  * @returns {IApplication} fetched selected applications
  */
 export const fetchSelectedApplications = async (request: Request, response: Response, next: NextFunction) => {
-  await ApplicationService.fetchSelectedApplications()
-    .then((data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+	await ApplicationService.fetchSelectedApplications()
+		.then((data) => {
+			request.handleResponse.successRespond(response)(data);
+			next();
+		})
+		.catch((error: any) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
 };
 /**
  * @function fetchInterviewApplications that calls
@@ -216,15 +214,15 @@ export const fetchSelectedApplications = async (request: Request, response: Resp
  * @returns {IApplication} fetched interview applications
  */
 export const fetchInterviewApplications = async (request: Request, response: Response, next: NextFunction) => {
-  await ApplicationService.fetchInterviewApplications()
-    .then((data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+	await ApplicationService.fetchInterviewApplications()
+		.then((data) => {
+			request.handleResponse.successRespond(response)(data);
+			next();
+		})
+		.catch((error: any) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
 };
 
 /**
@@ -238,13 +236,13 @@ export const fetchInterviewApplications = async (request: Request, response: Res
  */
 
 export const fetchRejectedApplications = async (request: Request, response: Response, next: NextFunction) => {
-  await ApplicationService.fetchRejectedApplications()
-    .then((data) => {
-      request.handleResponse.successRespond(response)(data);
-      next();
-    })
-    .catch((error: any) => {
-      request.handleResponse.errorRespond(response)(error.message);
-      next();
-    });
+	await ApplicationService.fetchRejectedApplications()
+		.then((data) => {
+			request.handleResponse.successRespond(response)(data);
+			next();
+		})
+		.catch((error: any) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
 };
