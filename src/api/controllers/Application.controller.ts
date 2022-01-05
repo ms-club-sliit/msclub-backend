@@ -125,7 +125,7 @@ export const changeApplicationStatusIntoInterview = async (
 export const changeApplicationStatusIntoSelected = async (request: Request, response: Response, next: NextFunction) => {
 	const { applicationId } = request.params;
 	if (applicationId) {
-		await ApplicationService.changeApplicationStatusIntoSelected(applicationId, request.body)
+		await ApplicationService.changeApplicationStatusIntoSelected(applicationId)
 			.then((data) => {
 				request.handleResponse.successRespond(response)(data);
 				next();

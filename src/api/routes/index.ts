@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable indent */
 import { Express } from "express";
 import controller from "../controllers";
 import middleware from "../middleware";
@@ -25,10 +27,10 @@ export default function (app: Express) {
   app.post("/contact/", controller.createContact);
 
   // Event endpoints - Private
-  app.post("/admin/event/",middleware.authenticate, upload.single('eventFlyer'), controller.insertEvent);
+  app.post("/admin/event/",middleware.authenticate, upload.single("eventFlyer"), controller.insertEvent);
   app.get("/admin/event/", middleware.authenticate,controller.eventsForAdmin);
   app.get("/admin/event/delete/", middleware.authenticate,controller.deletedEventsForAdmin);
-  app.put("/admin/event/:eventId", middleware.authenticate, upload.single('eventFlyer'), controller.updateEvent);
+  app.put("/admin/event/:eventId", middleware.authenticate, upload.single("eventFlyer"), controller.updateEvent);
   app.put("/admin/event/delete/:eventId", middleware.authenticate, controller.deleteEvent);
   app.put("/admin/event/recover/", middleware.authenticate, controller.recoverRemovedEvent);
   app.delete("/admin/event/delete", middleware.authenticate, controller.deleteEventPermanently);
@@ -40,8 +42,8 @@ export default function (app: Express) {
   app.get("/upcomingevent/", controller.getUpcomingEvent);
 
   // Webinar endpoints - Private
-  app.post("/admin/webinar/", middleware.authenticate,upload.single('webinarFlyer'), controller.insertWebinar);
-  app.put("/admin/webinar/:webinarId", middleware.authenticate,upload.single('webinarFlyer'), controller.updateWebinar);
+  app.post("/admin/webinar/", middleware.authenticate,upload.single("webinarFlyer"), controller.insertWebinar);
+  app.put("/admin/webinar/:webinarId", middleware.authenticate,upload.single("webinarFlyer"), controller.updateWebinar);
   app.put("/admin/webinar/delete/:webinarId", middleware.authenticate, controller.deleteWebinar);
   app.get("/admin/webinar/", middleware.authenticate,controller.webinarsForAdmin);
   app.get("/admin/webinar/delete/", middleware.authenticate,controller.deletedWebinarsForAdmin);
@@ -53,8 +55,8 @@ export default function (app: Express) {
   app.get("/upcomingwebinar/", controller.getUpcomingWebinar);
     
   // Top Speaker endpoints - Private
-  app.post("/admin/topspeaker/", middleware.authenticate,upload.single('topSpeakerFlyer'), controller.insertTopSpeaker);
-  app.put("/admin/topspeaker/:topSpeakerId", middleware.authenticate,upload.single('topSpeakerFlyer'), controller.updateTopSpeaker);
+  app.post("/admin/topspeaker/", middleware.authenticate,upload.single("topSpeakerFlyer"), controller.insertTopSpeaker);
+  app.put("/admin/topspeaker/:topSpeakerId", middleware.authenticate,upload.single("topSpeakerFlyer"), controller.updateTopSpeaker);
   app.put("/admin/topspeaker/delete/:topSpeakerId", middleware.authenticate, controller.deleteTopSpeaker);
   app.get("/admin/topspeaker/", middleware.authenticate,controller.getAllTopSpeakersForAdmin);
   app.get("/admin/topspeaker/delete/", middleware.authenticate,controller.getDeletedTopSpeakersForAdmin);
@@ -64,7 +66,7 @@ export default function (app: Express) {
   app.get("/topspeaker/", controller.getTopSpeakers);
   
   // BoardMember endpoints - Private
-  app.put("/admin/boardmember/:boardMemberId", middleware.authenticate,upload.single('boardMemberFlyer'), controller.updateBoardMemberDetails);
+  app.put("/admin/boardmember/:boardMemberId", middleware.authenticate,upload.single("boardMemberFlyer"), controller.updateBoardMemberDetails);
   app.put("/admin/boardmember/delete/:boardMemberId", middleware.authenticate, controller.deleteBoardMemberDetails);
 
    // BoardMember endpoints - Public
@@ -73,7 +75,7 @@ export default function (app: Express) {
 
   // ExecutiveBoard endpoints - Private
   app.post("/admin/executive/", middleware.authenticate, controller.insertExecutiveBoard);
-  app.put("/admin/executive/boardmember/:executiveBoardId", middleware.authenticate,upload.single('boardMemberFlyer'), controller.addBoardMember);
+  app.put("/admin/executive/boardmember/:executiveBoardId", middleware.authenticate,upload.single("boardMemberFlyer"), controller.addBoardMember);
   app.put("/admin/executive/:executiveBoardId", middleware.authenticate, controller.updateExecutiveBoardDetails);
   app.put("/admin/executive/delete/:executiveBoardId/", middleware.authenticate, controller.deleteExecutiveBoardDetails);
 
@@ -99,8 +101,8 @@ export default function (app: Express) {
   app.post("/application/", controller.addApplication);
 
   // Organization endpoints - Private
-  app.post("/admin/organization/", middleware.authenticate, upload.single('organizationLogo'), controller.insertOrganization);
+  app.post("/admin/organization/", middleware.authenticate, upload.single("organizationLogo"), controller.insertOrganization);
   app.get("/admin/organization/info", middleware.authenticate, controller.getOrganization);
   app.get("/admin/organization/", middleware.authenticate, controller.getOrganizationForAdmin);
-  app.put("/admin/organization/", middleware.authenticate, upload.single('organizationLogo'), controller.updateOrganization);
+  app.put("/admin/organization/", middleware.authenticate, upload.single("organizationLogo"), controller.updateOrganization);
 }

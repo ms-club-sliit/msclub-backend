@@ -1,14 +1,14 @@
-# This workflow will do a clean install of node dependencies, 
-# cache/restore them, build the source code and run tests across 
+# This workflow will do a clean install of node dependencies,
+# cache/restore them, build the source code and run tests across
 # different versions of node
 
 name: Node Build CI
 
 on:
   push:
-    branches: [ master, development ]
+    branches: [master, development]
   pull_request:
-    branches: [ master, development ]
+    branches: [master, development]
 
 jobs:
   build:
@@ -16,14 +16,14 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x]
-    
+
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm install
-    - run: npm ci
-    - run: npm run build
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: npm install
+      - run: npm ci
+      - run: npm run build

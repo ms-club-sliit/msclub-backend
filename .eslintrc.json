@@ -11,12 +11,11 @@
 	"plugins": ["@typescript-eslint"],
 	"rules": {
 		"indent": ["error", "tab"],
-		"linebreak-style": ["error", "windows"],
 		"quotes": ["error", "double"],
 		"semi": ["error", "always"],
 		"@typescript-eslint/no-explicit-any": "off",
 		"no-const-assign": "error",
-		"max-len": ["warn", { "code": 120, "ignoreUrls": true, "ignoreRegExpLiterals": true }],
+		"max-len": ["error", { "code": 180, "ignoreUrls": true, "ignoreRegExpLiterals": true }],
 		"no-unused-vars": "error",
 		"no-console": "error",
 		"no-duplicate-imports": ["error", { "includeExports": true }],
