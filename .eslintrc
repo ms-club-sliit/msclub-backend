@@ -1,0 +1,24 @@
+{
+	"env": {
+		"es2021": true,
+		"node": true
+	},
+	"extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"sourceType": "module"
+	},
+	"plugins": ["@typescript-eslint"],
+	"rules": {
+		"indent": ["error", "tab"],
+		"quotes": ["error", "double"],
+		"semi": ["error", "always"],
+		"@typescript-eslint/no-explicit-any": "off",
+		"no-const-assign": "error",
+		"max-len": ["error", { "code": 180, "ignoreUrls": true, "ignoreRegExpLiterals": true }],
+		"no-unused-vars": "error",
+		"no-console": "error",
+		"no-duplicate-imports": ["error", { "includeExports": true }],
+		"default-case": "error"
+	}
+}
