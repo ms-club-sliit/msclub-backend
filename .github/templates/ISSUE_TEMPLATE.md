@@ -1,5 +1,6 @@
 ## Issue/ Feature Request :bricks:
-⚠️ *You must fill all the required fields to place you issue correctly.*
+
+⚠️ _You must fill all the required fields to place you issue correctly._
 | Fields | Description | Requirement |
 | ------ | ----------- | ------------------ |
 | Name | Name of the feature/ issue. | ✔️ |

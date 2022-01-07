@@ -8,19 +8,21 @@ import { IExecutiveBoard } from "./IExecutiveBoard";
 import { IBoardMember } from "./IBoardMember";
 import { IApplication } from "./IApplication";
 import { IInterview } from "./IInterview";
+import { IOrganization } from "./IOrganization";
 
 export {
-  IUser,
-  IUserModel,
-  IUserRequest,
-  IContact,
-  IConfig,
-  IEvent,
-  IUpdatedBy,
-  IWebinar,
-  IExecutiveBoard,
-  IBoardMember,
-  IApplication,
-  ITopSpeaker,
-  IInterview,
+	IUser,
+	IUserModel,
+	IUserRequest,
+	IContact,
+	IConfig,
+	IEvent,
+	IUpdatedBy,
+	IWebinar,
+	IExecutiveBoard,
+	IBoardMember,
+	IApplication,
+	ITopSpeaker,
+	IInterview,
+	IOrganization,
 };
