@@ -59,6 +59,7 @@ import {
 	fetchInterviewApplications,
 	fetchSelectedApplications,
 	fetchRejectedApplications,
+	getDeletedApplicationsForAdmin,
 } from "./Application.service";
 
 import {
@@ -141,6 +142,7 @@ export default {
 	fetchInterviewApplications,
 	fetchSelectedApplications,
 	fetchRejectedApplications,
+	getDeletedApplicationsForAdmin,
 	// BoardMember Service
 	insertBoardMember,
 	getBoardMemberbyID,
