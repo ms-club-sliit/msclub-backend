@@ -244,7 +244,7 @@ export const fetchRejectedApplications = async () => {
 Get deleted applications - admin
  */
 export const getDeletedApplicationsForAdmin = async () => {
-	return await ApplicationModel.aggregate([{ $match: { deletedAt: { $nq: null } } }])
+	return await ApplicationModel.aggregate([{ $match: { deletedAt: { $ne: null } } }])
 		.then((applications) => {
 			return applications;
 		})

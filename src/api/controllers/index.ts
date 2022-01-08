@@ -151,15 +151,14 @@ export default {
 	changeApplicationStatusIntoInterview,
 	changeApplicationStatusIntoSelected,
 	changeApplicationStatusIntoRejected,
-	// Organization Controllers
-	insertOrganization,
-	getOrganization,
-	getOrganizationForAdmin,
-	updateOrganization,
-	// Application Controllers
 	fetchPendingApplications,
 	fetchSelectedApplications,
 	fetchInterviewApplications,
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
+	// Organization Controllers
+	insertOrganization,
+	getOrganization,
+	getOrganizationForAdmin,
+	updateOrganization,
 };

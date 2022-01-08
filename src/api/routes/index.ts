@@ -88,12 +88,14 @@ export default function (app: Express) {
   app.get("/admin/applications/selected/", middleware.authenticate, controller.fetchSelectedApplications);
   app.get("/admin/applications/interview/", middleware.authenticate, controller.fetchInterviewApplications);
   app.get("/admin/applications/rejected/", middleware.authenticate, controller.fetchRejectedApplications);
+  app.get("/admin/applications/deleted/", middleware.authenticate, controller.getDeletedApplicationsForAdmin);
   app.get("/admin/application/:applicationId/", middleware.authenticate, controller.getApplicationById);
   app.get("/admin/application/", middleware.authenticate, controller.getApplications);
   app.put("/admin/application/delete/:applicationId", middleware.authenticate, controller.setApplicationArchive);
   app.put("/admin/application/interview/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoInterview);
   app.put("/admin/application/selected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoSelected);
   app.put("/admin/application/rejected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoRejected);
+  
   //@todo create @routes fetchPendingApplications,fetchInterviewApplications,fetchSelectedApplications,fetchRejectedApplications to filter INTERVIEW applications in the system
 
 
