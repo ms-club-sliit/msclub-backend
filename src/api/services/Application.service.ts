@@ -127,7 +127,8 @@ export const changeApplicationStatusIntoInterview = async (
 				// Send email data to message queue
 				const channel = request.channel;
 				request.queue.publishMessage(channel, JSON.stringify(email));
-				return application;
+				application.status = "INTERVIEW";
+				return await application.save();
 			} else {
 				return null;
 			}
@@ -163,7 +164,8 @@ export const changeApplicationStatusIntoSelected = async (request: Request, appl
 				// Send email data to message queue
 				const channel = request.channel;
 				request.queue.publishMessage(channel, JSON.stringify(email));
-				return application;
+				application.status = "SELECTED";
+				return await application.save();
 			} else {
 				return null;
 			}
