@@ -60,6 +60,7 @@ import {
 	fetchSelectedApplications,
 	fetchInterviewApplications,
 	fetchRejectedApplications,
+	getDeletedApplicationsForAdmin,
 } from "./Application.controller";
 
 import {
@@ -160,4 +161,5 @@ export default {
 	fetchSelectedApplications,
 	fetchInterviewApplications,
 	fetchRejectedApplications,
+	getDeletedApplicationsForAdmin,
 };
