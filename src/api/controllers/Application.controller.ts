@@ -246,3 +246,15 @@ export const fetchRejectedApplications = async (request: Request, response: Resp
 			next();
 		});
 };
+
+export const getDeletedApplicationsForAdmin = async (request: Request, response: Response, next: NextFunction) => {
+	await ApplicationService.getDeletedApplicationsForAdmin()
+		.then((data: any) => {
+			request.handleResponse.successRespond(response)(data);
+			next();
+		})
+		.catch((error: any) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
+};

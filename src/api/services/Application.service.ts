@@ -80,11 +80,11 @@ export const fetchApplications = async () => {
 export const archiveApplication = async (applicationId: string) => {
 	return await ApplicationModel.findById(applicationId)
 		.then(async (application) => {
-			if (application?.deletedAt) {
+			if (application && application.deletedAt === null) {
 				application.deletedAt = new Date();
 				return await application.save();
 			} else {
-				return null;
+				return "Application not found";
 			}
 		})
 		.catch((error) => {
@@ -232,6 +232,19 @@ export const fetchSelectedApplications = async () => {
  */
 export const fetchRejectedApplications = async () => {
 	return await ApplicationModel.aggregate([{ $match: { status: { $eq: "REJECTED" }, deletedAt: { $eq: null } } }])
+		.then((applications) => {
+			return applications;
+		})
+		.catch((err) => {
+			throw new Error(err.message);
+		});
+};
+
+/**
+Get deleted applications - admin
+ */
+export const getDeletedApplicationsForAdmin = async () => {
+	return await ApplicationModel.aggregate([{ $match: { deletedAt: { $ne: null } } }])
 		.then((applications) => {
 			return applications;
 		})
