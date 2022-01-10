@@ -4,7 +4,7 @@
 	"description": "MS Club Web Site Server",
 	"main": "app.js",
 	"scripts": {
-		"start": "node build/app.js",
+		"start": "NODE_ENV=Production node build/app.js",
 		"dev:server": "cross-env NODE_ENV=Development nodemon src/app.ts",
 		"prod:server": "cross-env NODE_ENV=Production nodemon src/app.ts",
 		"build": "tsc -p .",
