@@ -79,7 +79,7 @@ if (environment == "Production") {
 			},
 		},
 		firebase: {
-			projectId: process.env.PROJECT_ID as string,
+			projectId: process.env.STORAGE_PROJECT_ID as string,
 			clientEmail: process.env.STORAGE_CLIENT_EMAIL as string,
 			privateKey: process.env.STORAGE_PRIVATE_KEY as string,
 			storageBucket: process.env.STORAGE_BUCKET_URL as string,
