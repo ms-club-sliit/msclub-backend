@@ -2,6 +2,9 @@ import { DocumentDefinition } from "mongoose";
 import { IApplication, IInterview } from "../../interfaces";
 import ApplicationModel from "../models/Application.model";
 import { Request } from "express";
+import axios from "axios";
+import moment from "moment";
+import console from "console";
 
 /**
  * Application Service
@@ -111,9 +114,8 @@ export const changeApplicationStatusIntoInterview = async (
 				const emailBodyData = {
 					name: application.name,
 					email: application.email,
-					date: interviewData.date,
-					time: interviewData.time,
-					duration: interviewData.duration,
+					date: moment.utc(interviewData.startDateTime).format("LL"),
+					time: moment.utc(interviewData.startDateTime).format("LTS"),
 					format: interviewData.format,
 				};
 
@@ -124,11 +126,30 @@ export const changeApplicationStatusIntoInterview = async (
 					body: emailBodyData,
 				};
 
+				const applicantMail = `${application.studentId.toLowerCase()}@my.sliit.lk`;
+				const emailList = interviewData.attendees;
+				emailList.push(applicantMail);
+				const interviewScheduleDetails = {
+					studentName: application.name,
+					startDateTime: interviewData.startDateTime,
+					endDateTime: interviewData.endDateTime,
+					emailList: emailList,
+				};
+
 				// Send email data to message queue
 				const channel = request.channel;
 				request.queue.publishMessage(channel, JSON.stringify(email));
 				application.status = "INTERVIEW";
-				return await application.save();
+				return await application.save().then((application) => {
+					return axios
+						.post(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/schedule`, interviewScheduleDetails)
+						.then(() => {
+							return application;
+						})
+						.catch((error) => {
+							return application;
+						});
+				});
 			} else {
 				return null;
 			}
