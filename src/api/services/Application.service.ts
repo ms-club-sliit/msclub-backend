@@ -4,7 +4,6 @@ import ApplicationModel from "../models/Application.model";
 import { Request } from "express";
 import axios from "axios";
 import moment from "moment";
-import console from "console";
 
 /**
  * Application Service
