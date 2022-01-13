@@ -1,10 +1,10 @@
 import { Document } from "mongoose";
 
 interface IInterview extends Document {
-	date: string;
-	time: string;
-	duration: string;
 	format: string;
+	startDateTime:Date;
+	endDateTime:Date;
+	attendees:any;
 }
 
 export type { IInterview };
