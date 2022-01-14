@@ -14,10 +14,10 @@ interface IWebinar extends Document {
 	link?: string;
 	registrationLink?: string;
 	webinarType: string;
-	deletedAt?: Date;
+	deletedAt?: Date | null;
 	createdBy: Schema.Types.ObjectId;
 	updatedBy: IUpdatedBy[];
-	deletedBy?: Schema.Types.ObjectId;
+	deletedBy?: Schema.Types.ObjectId | null;
 }
 
 export type { IWebinar };

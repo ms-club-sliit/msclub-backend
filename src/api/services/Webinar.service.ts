@@ -204,3 +204,24 @@ export const getDeletedWebinarsForAdmin = async () => {
 			throw new Error(error.message);
 		});
 };
+
+/**
+ * Recover Deleted webinar
+ * @param webinarId @type string
+ */
+export const recoverDeletedWebinar = async (webinarId: string) => {
+	return await WebinarModel.findById(webinarId)
+		.then(async (webinarDetails) => {
+			if (webinarDetails && webinarDetails.deletedAt !== null) {
+				webinarDetails.deletedAt = null;
+				webinarDetails.deletedBy = null;
+
+				return await webinarDetails.save();
+			} else {
+				return "Webinar not found";
+			}
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
