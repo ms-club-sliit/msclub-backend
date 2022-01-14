@@ -212,11 +212,15 @@ export const getDeletedWebinarsForAdmin = async () => {
 export const recoverDeletedWebinar = async (webinarId: string) => {
 	return await WebinarModel.findById(webinarId)
 		.then(async (webinarDetails) => {
-			if (webinarDetails && webinarDetails.deletedAt !== null) {
-				webinarDetails.deletedAt = null;
-				webinarDetails.deletedBy = null;
+			if (webinarDetails) {
+				if (webinarDetails.deletedAt !== null) {
+					webinarDetails.deletedAt = null;
+					webinarDetails.deletedBy = null;
 
-				return await webinarDetails.save();
+					return await webinarDetails.save();
+				} else {
+					return "Webinar is already recovered";
+				}
 			} else {
 				return "Webinar not found";
 			}
