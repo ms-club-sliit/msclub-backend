@@ -12,7 +12,7 @@ const connect = async () => {
 	}
 
 	try {
-		Mongoose.connect(databaseConnectionString);
+		await Mongoose.connect(databaseConnectionString);
 		database = Mongoose.connection;
 
 		database.once("open", async () => {
