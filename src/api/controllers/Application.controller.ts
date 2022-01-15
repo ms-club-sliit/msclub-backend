@@ -263,7 +263,8 @@ export const getDeletedApplicationsForAdmin = async (request: Request, response:
  * recoverRemovedApplication
  */
 export const recoverRemovedApplication = async (request: Request, response: Response, next: NextFunction) => {
-	await ApplicationService.recoverDeletedApplication(request.body.applicationId)
+	const id = request.params.applicationId;
+	await ApplicationService.recoverDeletedApplication(id)
 		.then((data: any) => {
 			request.handleResponse.successRespond(response)(data);
 			next();

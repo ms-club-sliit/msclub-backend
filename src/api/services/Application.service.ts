@@ -288,7 +288,7 @@ export const recoverDeletedApplication = async (applicationId: string) => {
 
 						return application.save();
 					} else {
-						return "This application is not deleted!";
+						return { message: "This application is not deleted!", dateTime: new Date() };
 					}
 				}
 			})
