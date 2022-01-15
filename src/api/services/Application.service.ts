@@ -274,3 +274,28 @@ export const getDeletedApplicationsForAdmin = async () => {
 			throw new Error(err.message);
 		});
 };
+
+/*
+Recover deleted applications
+*/
+export const recoverDeletedApplication = async (applicationId: string) => {
+	if (applicationId) {
+		return await ApplicationModel.findById(applicationId)
+			.then(async (application) => {
+				if (application) {
+					if (application.deletedAt !== null) {
+						application.deletedAt = null;
+
+						return application.save();
+					} else {
+						return "This application is not deleted!";
+					}
+				}
+			})
+			.catch((error) => {
+				throw new Error(error.message);
+			});
+	} else {
+		throw new Error("Application ID not Passed");
+	}
+};

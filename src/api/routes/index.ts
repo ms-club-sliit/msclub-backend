@@ -35,6 +35,7 @@ export default function (app: Express) {
   app.put("/admin/event/recover/", middleware.authenticate, controller.recoverRemovedEvent);
   app.delete("/admin/event/delete", middleware.authenticate, controller.deleteEventPermanently);
   
+  
   // Event endpoints - Public
   app.get("/event/", controller.getEvents);
   app.get("/event/:eventId/", controller.getEvent);
@@ -95,6 +96,7 @@ export default function (app: Express) {
   app.put("/admin/application/interview/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoInterview);
   app.put("/admin/application/selected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoSelected);
   app.put("/admin/application/rejected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoRejected);
+  app.put("/admin/application/recover/", middleware.authenticate, controller.recoverRemovedApplication);
   
   //@todo create @routes fetchPendingApplications,fetchInterviewApplications,fetchSelectedApplications,fetchRejectedApplications to filter INTERVIEW applications in the system
 

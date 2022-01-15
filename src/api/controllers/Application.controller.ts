@@ -258,3 +258,18 @@ export const getDeletedApplicationsForAdmin = async (request: Request, response:
 			next();
 		});
 };
+
+/**
+ * recoverRemovedApplication
+ */
+export const recoverRemovedApplication = async (request: Request, response: Response, next: NextFunction) => {
+	await ApplicationService.recoverDeletedApplication(request.body.applicationId)
+		.then((data: any) => {
+			request.handleResponse.successRespond(response)(data);
+			next();
+		})
+		.catch((error: any) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
+};
