@@ -286,10 +286,12 @@ export const recoverDeletedApplication = async (applicationId: string) => {
 					if (application.deletedAt !== null) {
 						application.deletedAt = null;
 
-						return application.save();
+						return await application.save();
 					} else {
 						return { message: "This application is not deleted!", dateTime: new Date() };
 					}
+				} else {
+					throw new Error("Application is not found");
 				}
 			})
 			.catch((error) => {
