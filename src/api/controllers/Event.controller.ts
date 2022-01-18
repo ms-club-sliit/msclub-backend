@@ -182,7 +182,8 @@ export const deletedEventsForAdmin = async (request: Request, response: Response
 };
 
 export const recoverRemovedEvent = async (request: Request, response: Response, next: NextFunction) => {
-	await EventService.recoverDeletedEvent(request.body.eventId)
+	const id = request.params.eventId;
+	await EventService.recoverDeletedEvent(id)
 		.then((data) => {
 			request.handleResponse.successRespond(response)(data);
 			next();

@@ -4,7 +4,8 @@
 	"description": "MS Club Web Site Server",
 	"main": "app.js",
 	"scripts": {
-		"start": "node build/app.js",
+		"start": "NODE_ENV=Development node build/app.js",
+		"local:server": "cross-env NODE_ENV=Local nodemon src/app.ts",
 		"dev:server": "cross-env NODE_ENV=Development nodemon src/app.ts",
 		"prod:server": "cross-env NODE_ENV=Production nodemon src/app.ts",
 		"build": "tsc -p .",
@@ -23,6 +24,7 @@
 	"author": "MS CLUB SLIIT",
 	"license": "ISC",
 	"dependencies": {
+		"@google-cloud/storage": "^5.16.1",
 		"@sendgrid/mail": "^7.6.0",
 		"@types/bcrypt": "^5.0.0",
 		"@types/bcryptjs": "^2.4.2",
@@ -62,7 +64,6 @@
 		"validator": "^13.7.0"
 	},
 	"devDependencies": {
-		"@google-cloud/storage": "^5.16.0",
 		"@types/amqplib": "^0.8.2",
 		"@types/express": "^4.17.13",
 		"@types/node": "^16.11.9",

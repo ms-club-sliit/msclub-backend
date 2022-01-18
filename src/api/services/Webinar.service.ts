@@ -123,6 +123,10 @@ export const updateWebinar = async (
 						webinarDetails.registrationLink = webinarData.registrationLink;
 					}
 
+					if (webinarData.webinarType) {
+						webinarDetails.webinarType = webinarData.webinarType;
+					}
+
 					const updateUserInfo: IUpdatedBy = {
 						user: updatedBy,
 						updatedAt: new Date(),
