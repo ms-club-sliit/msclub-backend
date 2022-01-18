@@ -48,6 +48,7 @@ export default function (app: Express) {
   app.put("/admin/webinar/delete/:webinarId", middleware.authenticate, controller.deleteWebinar);
   app.get("/admin/webinar/", middleware.authenticate,controller.webinarsForAdmin);
   app.get("/admin/webinar/delete/", middleware.authenticate,controller.deletedWebinarsForAdmin);
+  app.put("/admin/webinar/recover/", middleware.authenticate, controller.recoverRemovedWebinar);
 
   // Webinar endpoints
   app.get("/webinar/", controller.getWebinars);

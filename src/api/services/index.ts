@@ -35,6 +35,7 @@ import {
 	removeWebinar,
 	getAllWebinarsForAdmin,
 	getDeletedWebinarsForAdmin,
+	recoverDeletedWebinar,
 } from "./Webinar.service";
 
 import {
@@ -123,6 +124,7 @@ export default {
 	removeWebinar,
 	getAllWebinarsForAdmin,
 	getDeletedWebinarsForAdmin,
+	recoverDeletedWebinar,
 	// TopSpeaker Service
 	insertTopSpeaker,
 	getTopSpeaker,
