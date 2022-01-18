@@ -133,6 +133,26 @@ export const deleteTopSpeaker = async (topSpeakerId: string, deletedBy: Schema.T
 };
 
 /**
+recover a past event
+ * @param topSpeakerId @type string
+ */
+export const recoverDeletedTopSpeaker = async (topSpeakerId: string) => {
+	return await TopSpeakerModel.findById(topSpeakerId)
+		.then(async (topSpeakerDetails) => {
+			if (topSpeakerDetails && topSpeakerDetails.deletedAt) {
+				topSpeakerDetails.deletedAt = null as any;
+				topSpeakerDetails.deletedBy = null as any;
+				return await topSpeakerDetails.save();
+			} else {
+				return null;
+			}
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
+
+/**
 Get all top speakers - admin
  */
 export const getAllTopSpeakersForAdmin = async () => {

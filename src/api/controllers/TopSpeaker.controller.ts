@@ -113,6 +113,26 @@ export const deleteTopSpeaker = async (request: Request, response: Response, nex
 	}
 };
 
+/**
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns { ITopSpeaker } - Recovered top speaker details
+ */
+
+export const recoverDeletedTopSpeaker = async (request: Request, response: Response, next: NextFunction) => {
+	const topSpeakerId = request.params.topSpeakerId;
+
+	if (topSpeakerId) {
+		await TopSpeakerService.recoverDeletedTopSpeaker(request.params.topSpeakerId).then((data) => {
+			request.handleResponse.successRespond(response)(data);
+			next();
+		});
+	} else {
+		request.handleResponse.errorRespond(response)("Top Speaker ID not found");
+	}
+};
+
 export const getAllTopSpeakersForAdmin = async (request: Request, response: Response, next: NextFunction) => {
 	await TopSpeakerService.getAllTopSpeakersForAdmin()
 		.then((data: any) => {
