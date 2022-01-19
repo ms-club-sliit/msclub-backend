@@ -140,11 +140,16 @@ export const recoverDeletedTopSpeaker = async (topSpeakerId: string) => {
 	return await TopSpeakerModel.findById(topSpeakerId)
 		.then(async (topSpeakerDetails) => {
 			if (topSpeakerDetails && topSpeakerDetails.deletedAt) {
-				topSpeakerDetails.deletedAt = null as any;
-				topSpeakerDetails.deletedBy = null as any;
+				topSpeakerDetails.deletedAt = undefined;
+				topSpeakerDetails.deletedBy = undefined;
 				return await topSpeakerDetails.save();
 			} else {
-				return null;
+				const errorData = {
+					message: "Top speaker information not found",
+					dateTime: new Date()
+				 };
+				 
+				 throw new Error(JSON.stringify(errorData));
 			}
 		})
 		.catch((error) => {
