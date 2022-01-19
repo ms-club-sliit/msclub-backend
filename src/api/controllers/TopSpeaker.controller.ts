@@ -129,8 +129,8 @@ export const recoverDeletedTopSpeaker = async (request: Request, response: Respo
 			next();
 		});
 	} else {
-		request.handleResponse.errorRespond(response)("Top Speaker ID not found");
-		next();
+		request.handleResponse.errorRespond(response)({ message: "Top Speaker ID not found", dateTime: new Date() });
+    	next();
 	}
 };
 
