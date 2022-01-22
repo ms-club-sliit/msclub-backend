@@ -175,3 +175,15 @@ export const deletedWebinarsForAdmin = async (request: Request, response: Respon
 			next();
 		});
 };
+
+export const recoverRemovedWebinar = async (request: Request, response: Response, next: NextFunction) => {
+	await WebinarService.recoverDeletedWebinar(request.body.webinarId)
+		.then((data: any) => {
+			request.handleResponse.successRespond(response)(data);
+			next();
+		})
+		.catch((error: any) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
+};

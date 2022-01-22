@@ -36,6 +36,7 @@ import {
 	deleteWebinar,
 	webinarsForAdmin,
 	deletedWebinarsForAdmin,
+	recoverRemovedWebinar,
 } from "./Webinar.controller";
 
 import {
@@ -62,6 +63,7 @@ import {
 	fetchInterviewApplications,
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
+	recoverRemovedApplication,
 } from "./Application.controller";
 
 import {
@@ -124,6 +126,7 @@ export default {
 	deleteWebinar,
 	webinarsForAdmin,
 	deletedWebinarsForAdmin,
+	recoverRemovedWebinar,
 	//Executive board Controllers
 	insertExecutiveBoard,
 	getExecutiveBoardbyID,
@@ -158,6 +161,7 @@ export default {
 	fetchInterviewApplications,
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
+	recoverRemovedApplication,
 	// Organization Controllers
 	insertOrganization,
 	getOrganization,

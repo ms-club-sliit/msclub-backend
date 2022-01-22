@@ -16,7 +16,7 @@ interface IApplication extends Document {
 	goal: string;
 	skillsAndTalents: string[];
 	pastWork?: string;
-	deletedAt?: Date;
+	deletedAt?: Date | null;
 	status: string;
 }
 

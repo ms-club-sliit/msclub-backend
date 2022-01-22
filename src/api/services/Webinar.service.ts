@@ -123,6 +123,10 @@ export const updateWebinar = async (
 						webinarDetails.registrationLink = webinarData.registrationLink;
 					}
 
+					if (webinarData.webinarType) {
+						webinarDetails.webinarType = webinarData.webinarType;
+					}
+
 					const updateUserInfo: IUpdatedBy = {
 						user: updatedBy,
 						updatedAt: new Date(),
@@ -199,6 +203,31 @@ export const getDeletedWebinarsForAdmin = async () => {
 		})
 		.then((webinars) => {
 			return webinars;
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
+
+/**
+ * Recover Deleted webinar
+ * @param webinarId @type string
+ */
+export const recoverDeletedWebinar = async (webinarId: string) => {
+	return await WebinarModel.findById(webinarId)
+		.then(async (webinarDetails) => {
+			if (webinarDetails) {
+				if (webinarDetails.deletedAt !== null) {
+					webinarDetails.deletedAt = null;
+					webinarDetails.deletedBy = null;
+
+					return await webinarDetails.save();
+				} else {
+					return "Webinar is already recovered";
+				}
+			} else {
+				return "Webinar not found";
+			}
 		})
 		.catch((error) => {
 			throw new Error(error.message);

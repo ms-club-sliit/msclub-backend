@@ -35,6 +35,7 @@ import {
 	removeWebinar,
 	getAllWebinarsForAdmin,
 	getDeletedWebinarsForAdmin,
+	recoverDeletedWebinar,
 } from "./Webinar.service";
 
 import {
@@ -61,6 +62,7 @@ import {
 	fetchSelectedApplications,
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
+	recoverDeletedApplication,
 } from "./Application.service";
 
 import {
@@ -123,6 +125,7 @@ export default {
 	removeWebinar,
 	getAllWebinarsForAdmin,
 	getDeletedWebinarsForAdmin,
+	recoverDeletedWebinar,
 	// TopSpeaker Service
 	insertTopSpeaker,
 	getTopSpeaker,
@@ -145,6 +148,7 @@ export default {
 	fetchSelectedApplications,
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
+	recoverDeletedApplication,
 	// BoardMember Service
 	insertBoardMember,
 	getBoardMemberbyID,

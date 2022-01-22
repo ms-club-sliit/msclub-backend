@@ -145,8 +145,8 @@ export const changeApplicationStatusIntoInterview = async (
 						.then(() => {
 							return application;
 						})
-						.catch((error: any) => {
-							throw new Error(error);
+						.catch((error) => {
+							throw new Error(error.message);
 						});
 				});
 			} else {
@@ -273,4 +273,31 @@ export const getDeletedApplicationsForAdmin = async () => {
 		.catch((err) => {
 			throw new Error(err.message);
 		});
+};
+
+/*
+Recover deleted applications
+*/
+export const recoverDeletedApplication = async (applicationId: string) => {
+	if (applicationId) {
+		return await ApplicationModel.findById(applicationId)
+			.then(async (application) => {
+				if (application) {
+					if (application.deletedAt !== null) {
+						application.deletedAt = null;
+
+						return await application.save();
+					} else {
+						return { message: "This application is not deleted!", dateTime: new Date() };
+					}
+				} else {
+					throw new Error("Application is not found");
+				}
+			})
+			.catch((error) => {
+				throw new Error(error.message);
+			});
+	} else {
+		throw new Error("Application ID not Passed");
+	}
 };
