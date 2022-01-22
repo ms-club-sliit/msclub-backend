@@ -145,8 +145,8 @@ export const changeApplicationStatusIntoInterview = async (
 						.then(() => {
 							return application;
 						})
-						.catch((error) => {
-							return application;
+						.catch((error: any) => {
+							throw new Error(error);
 						});
 				});
 			} else {

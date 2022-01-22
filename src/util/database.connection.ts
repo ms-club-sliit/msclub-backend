@@ -11,20 +11,14 @@ const connect = async () => {
 		return;
 	}
 
-	try {
-		Mongoose.connect(databaseConnectionString);
-		database = Mongoose.connection;
-
-		database.once("open", async () => {
+	Mongoose.connect(databaseConnectionString)
+		.then((connection) => {
+			database = connection.connection;
 			logger.info("Database Synced");
+		})
+		.catch((error: any) => {
+			logger.error("Error connecting to database: ", error.message);
 		});
-
-		database.on("error", () => {
-			logger.error("Error connecting to database");
-		});
-	} catch (error: any) {
-		logger.error(error.message);
-	}
 };
 
 export default connect;
