@@ -133,6 +133,31 @@ export const deleteTopSpeaker = async (topSpeakerId: string, deletedBy: Schema.T
 };
 
 /**
+recover a past event
+ * @param topSpeakerId @type string
+ */
+export const recoverDeletedTopSpeaker = async (topSpeakerId: string) => {
+	return await TopSpeakerModel.findById(topSpeakerId)
+		.then(async (topSpeakerDetails) => {
+			if (topSpeakerDetails && topSpeakerDetails.deletedAt) {
+				topSpeakerDetails.deletedAt = undefined;
+				topSpeakerDetails.deletedBy = undefined;
+				return await topSpeakerDetails.save();
+			} else {
+				const errorData = {
+					message: "Top speaker information not found",
+					dateTime: new Date()
+				 };
+				 
+				 throw new Error(JSON.stringify(errorData));
+			}
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
+
+/**
 Get all top speakers - admin
  */
 export const getAllTopSpeakersForAdmin = async () => {

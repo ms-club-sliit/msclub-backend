@@ -62,6 +62,7 @@ export default function (app: Express) {
   app.put("/admin/topspeaker/delete/:topSpeakerId", middleware.authenticate, controller.deleteTopSpeaker);
   app.get("/admin/topspeaker/", middleware.authenticate,controller.getAllTopSpeakersForAdmin);
   app.get("/admin/topspeaker/delete/", middleware.authenticate,controller.getDeletedTopSpeakersForAdmin);
+  app.put("/admin/topspeaker/recover/", middleware.authenticate, controller.recoverDeletedTopSpeaker);
 
   // Top Speaker endpoints - Public
   app.get("/topspeaker/:topSpeakerId/", controller.getTopSpeaker);
