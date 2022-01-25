@@ -146,7 +146,7 @@ export const changeApplicationStatusIntoInterview = async (
 							return application;
 						})
 						.catch((error) => {
-							return error;
+							throw new Error(error.message);
 						});
 				});
 			} else {
