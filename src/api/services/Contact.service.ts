@@ -75,7 +75,7 @@ export const fetchContactInfo = async () => {
 Get deleted inquiries - admin
  */
 export const getArchivedContacts = async () => {
-	return await ContactModel.find({ deletedAt: { $ne: null } })
+	return await ContactModel.aggregate([{ $match: { deletedAt: { $ne: null } } }])
 		.then((contacts) => {
 			return contacts;
 		})
