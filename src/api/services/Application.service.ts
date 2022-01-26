@@ -67,6 +67,7 @@ export const fetchApplicationById = async (applicationId: string) => {
  */
 export const fetchApplications = async () => {
 	return await ApplicationModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
+		.sort({ createdAt: -1 })
 		.then((applications) => {
 			return applications;
 		})
@@ -218,6 +219,7 @@ export const changeApplicationStatusIntoRejected = async (applicationId: string)
  */
 export const fetchPendingApplications = async () => {
 	return await ApplicationModel.aggregate([{ $match: { status: { $eq: "PENDING" }, deletedAt: { $eq: null } } }])
+		.sort({ createdAt: -1 })
 		.then((applications) => {
 			return applications;
 		})
@@ -230,6 +232,7 @@ export const fetchPendingApplications = async () => {
  */
 export const fetchInterviewApplications = async () => {
 	return await ApplicationModel.aggregate([{ $match: { status: { $eq: "INTERVIEW" }, deletedAt: { $eq: null } } }])
+		.sort({ createdAt: -1 })
 		.then((applications) => {
 			return applications;
 		})
@@ -242,6 +245,7 @@ export const fetchInterviewApplications = async () => {
  */
 export const fetchSelectedApplications = async () => {
 	return await ApplicationModel.aggregate([{ $match: { status: { $eq: "SELECTED" }, deletedAt: { $eq: null } } }])
+		.sort({ createdAt: -1 })
 		.then((applications) => {
 			return applications;
 		})
@@ -254,6 +258,7 @@ export const fetchSelectedApplications = async () => {
  */
 export const fetchRejectedApplications = async () => {
 	return await ApplicationModel.aggregate([{ $match: { status: { $eq: "REJECTED" }, deletedAt: { $eq: null } } }])
+		.sort({ createdAt: -1 })
 		.then((applications) => {
 			return applications;
 		})
@@ -267,6 +272,7 @@ Get deleted applications - admin
  */
 export const getDeletedApplicationsForAdmin = async () => {
 	return await ApplicationModel.aggregate([{ $match: { deletedAt: { $ne: null } } }])
+		.sort({ createdAt: -1 })
 		.then((applications) => {
 			return applications;
 		})
