@@ -63,6 +63,7 @@ export const archiveContact = async (contactId: string) => {
  */
 export const fetchContactInfo = async () => {
 	return await ContactModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
+		.sort({ createdAt: -1 })
 		.then((contacts) => {
 			return contacts;
 		})
