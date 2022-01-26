@@ -43,6 +43,7 @@ export const fetchWebinarById = async (webinarId: string) => {
  */
 export const fetchWebinars = async () => {
 	return await WebinarModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
+		.sort({ dateTime: -1 })
 		.then((webinars) => {
 			return webinars;
 		})
@@ -57,6 +58,7 @@ export const fetchWebinars = async () => {
  */
 export const fetchPastWebinars = async () => {
 	return await WebinarModel.find({ webinarType: "PAST" })
+		.sort({ dateTime: -1 })
 		.then((webinars) => {
 			return webinars;
 		})
@@ -179,6 +181,7 @@ export const getAllWebinarsForAdmin = async () => {
 			},
 			select: "updatedAt",
 		})
+		.sort({ dateTime: -1 })
 		.then((webinars) => {
 			return webinars;
 		})
@@ -201,6 +204,7 @@ export const getDeletedWebinarsForAdmin = async () => {
 			},
 			select: "updatedAt",
 		})
+		.sort({ dateTime: -1 })
 		.then((webinars) => {
 			return webinars;
 		})
