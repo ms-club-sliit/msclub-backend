@@ -10,7 +10,7 @@ import {
 	getRemovedUsers,
 } from "./User.controller";
 
-import { createContact, getAllContacts, removeContact } from "./Contact.controller";
+import { createContact, getAllContacts, removeContact, removedContacts } from "./Contact.controller";
 
 import {
 	insertEvent,
@@ -104,6 +104,7 @@ export default {
 	createContact,
 	getAllContacts,
 	removeContact,
+	removedContacts,
 	//Event Controllers
 	insertEvent,
 	getEvent,

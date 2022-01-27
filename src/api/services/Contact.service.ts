@@ -71,3 +71,16 @@ export const fetchContactInfo = async () => {
 			throw new Error(error.message);
 		});
 };
+
+/**
+Get deleted inquiries - admin
+ */
+export const getArchivedContacts = async () => {
+	return await ContactModel.aggregate([{ $match: { deletedAt: { $ne: null } } }])
+		.then((contacts) => {
+			return contacts;
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
