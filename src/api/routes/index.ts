@@ -23,6 +23,7 @@ export default function (app: Express) {
   app.get("/admin/contact/", middleware.authenticate, controller.getAllContacts);
   app.delete("/admin/contact/:contactId", middleware.authenticate, controller.removeContact);
   app.get("/admin/contact/delete", middleware.authenticate, controller.removedContacts);
+  app.put("/admin/contact/delete/:contactId", middleware.authenticate, controller.removeContact);
 
     // Contact Us endpoints - Public
   app.post("/contact/", controller.createContact);
