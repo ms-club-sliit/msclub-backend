@@ -146,10 +146,10 @@ export const recoverDeletedTopSpeaker = async (topSpeakerId: string) => {
 			} else {
 				const errorData = {
 					message: "Top speaker information not found",
-					dateTime: new Date()
-				 };
-				 
-				 throw new Error(JSON.stringify(errorData));
+					dateTime: new Date(),
+				};
+
+				throw new Error(JSON.stringify(errorData));
 			}
 		})
 		.catch((error) => {
