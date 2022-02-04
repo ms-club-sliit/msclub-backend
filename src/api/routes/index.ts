@@ -14,7 +14,8 @@ export default function (app: Express) {
   app.get("/user/auth/", middleware.authenticate, controller.getAuthUser);
   app.get("/user/all", middleware.authenticate, controller.getAllUsers);
   app.get("/user/remove/", middleware.authenticate, controller.getRemovedUsers);
-  app.put("/user/", middleware.authenticate, controller.updateUser);
+  app.put("/user/", middleware.authenticate, upload.single("profileImage"), controller.updateUser);
+  app.put("/user/admin/edituser", middleware.authenticate, upload.single("profileImage"), controller.adminUpdateUser);
   app.put("/user/remove/", middleware.authenticate, controller.removeUser);
   app.put("/user/recover/", middleware.authenticate, controller.recoverUser);
   app.delete("/user/remove/", middleware.authenticate, controller.removeUserPermenently);
