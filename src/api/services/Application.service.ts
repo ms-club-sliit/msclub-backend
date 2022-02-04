@@ -67,6 +67,7 @@ export const fetchApplicationById = async (applicationId: string) => {
  */
 export const fetchApplications = async () => {
 	return await ApplicationModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
+		.sort({ createdAt: -1 })
 		.then((applications) => {
 			return applications;
 		})
@@ -145,8 +146,8 @@ export const changeApplicationStatusIntoInterview = async (
 						.then(() => {
 							return application;
 						})
-						.catch((error: any) => {
-							throw new Error(error);
+						.catch((error) => {
+							throw new Error(error.message);
 						});
 				});
 			} else {
@@ -218,6 +219,7 @@ export const changeApplicationStatusIntoRejected = async (applicationId: string)
  */
 export const fetchPendingApplications = async () => {
 	return await ApplicationModel.aggregate([{ $match: { status: { $eq: "PENDING" }, deletedAt: { $eq: null } } }])
+		.sort({ createdAt: -1 })
 		.then((applications) => {
 			return applications;
 		})
@@ -230,6 +232,7 @@ export const fetchPendingApplications = async () => {
  */
 export const fetchInterviewApplications = async () => {
 	return await ApplicationModel.aggregate([{ $match: { status: { $eq: "INTERVIEW" }, deletedAt: { $eq: null } } }])
+		.sort({ createdAt: -1 })
 		.then((applications) => {
 			return applications;
 		})
@@ -242,6 +245,7 @@ export const fetchInterviewApplications = async () => {
  */
 export const fetchSelectedApplications = async () => {
 	return await ApplicationModel.aggregate([{ $match: { status: { $eq: "SELECTED" }, deletedAt: { $eq: null } } }])
+		.sort({ createdAt: -1 })
 		.then((applications) => {
 			return applications;
 		})
@@ -254,6 +258,7 @@ export const fetchSelectedApplications = async () => {
  */
 export const fetchRejectedApplications = async () => {
 	return await ApplicationModel.aggregate([{ $match: { status: { $eq: "REJECTED" }, deletedAt: { $eq: null } } }])
+		.sort({ createdAt: -1 })
 		.then((applications) => {
 			return applications;
 		})
@@ -267,10 +272,38 @@ Get deleted applications - admin
  */
 export const getDeletedApplicationsForAdmin = async () => {
 	return await ApplicationModel.aggregate([{ $match: { deletedAt: { $ne: null } } }])
+		.sort({ createdAt: -1 })
 		.then((applications) => {
 			return applications;
 		})
 		.catch((err) => {
 			throw new Error(err.message);
 		});
+};
+
+/*
+Recover deleted applications
+*/
+export const recoverDeletedApplication = async (applicationId: string) => {
+	if (applicationId) {
+		return await ApplicationModel.findById(applicationId)
+			.then(async (application) => {
+				if (application) {
+					if (application.deletedAt !== null) {
+						application.deletedAt = null;
+
+						return await application.save();
+					} else {
+						return { message: "This application is not deleted!", dateTime: new Date() };
+					}
+				} else {
+					throw new Error("Application is not found");
+				}
+			})
+			.catch((error) => {
+				throw new Error(error.message);
+			});
+	} else {
+		throw new Error("Application ID not Passed");
+	}
 };

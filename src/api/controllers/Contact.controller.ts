@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { IContact } from "../../interfaces";
 import ContactService from "../services";
 
 /**
@@ -46,6 +47,17 @@ export const removeContact = async (request: Request, response: Response, next: 
 	await ContactService.archiveContact(request.params.contactId)
 		.then((deletedContactData) => {
 			request.handleResponse.successRespond(response)(deletedContactData);
+		})
+		.catch((error) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
+};
+
+export const removedContacts = async (request: Request, response: Response, next: NextFunction) => {
+	await ContactService.getArchivedContacts()
+		.then((data: IContact[]) => {
+			request.handleResponse.successRespond(response)(data);
 		})
 		.catch((error) => {
 			request.handleResponse.errorRespond(response)(error.message);

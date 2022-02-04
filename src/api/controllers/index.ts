@@ -11,7 +11,7 @@ import {
 	getRemovedUsers,
 } from "./User.controller";
 
-import { createContact, getAllContacts, removeContact } from "./Contact.controller";
+import { createContact, getAllContacts, removeContact, removedContacts } from "./Contact.controller";
 
 import {
 	insertEvent,
@@ -37,6 +37,7 @@ import {
 	deleteWebinar,
 	webinarsForAdmin,
 	deletedWebinarsForAdmin,
+	recoverRemovedWebinar,
 } from "./Webinar.controller";
 
 import {
@@ -45,6 +46,7 @@ import {
 	getTopSpeakers,
 	updateTopSpeaker,
 	deleteTopSpeaker,
+	recoverDeletedTopSpeaker,
 	getAllTopSpeakersForAdmin,
 	getDeletedTopSpeakersForAdmin,
 } from "./TopSpeaker.controller";
@@ -62,6 +64,7 @@ import {
 	fetchInterviewApplications,
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
+	recoverRemovedApplication,
 } from "./Application.controller";
 
 import {
@@ -103,6 +106,7 @@ export default {
 	createContact,
 	getAllContacts,
 	removeContact,
+	removedContacts,
 	//Event Controllers
 	insertEvent,
 	getEvent,
@@ -125,6 +129,7 @@ export default {
 	deleteWebinar,
 	webinarsForAdmin,
 	deletedWebinarsForAdmin,
+	recoverRemovedWebinar,
 	//Executive board Controllers
 	insertExecutiveBoard,
 	getExecutiveBoardbyID,
@@ -138,6 +143,7 @@ export default {
 	getTopSpeakers,
 	updateTopSpeaker,
 	deleteTopSpeaker,
+	recoverDeletedTopSpeaker,
 	getAllTopSpeakersForAdmin,
 	getDeletedTopSpeakersForAdmin,
 	//Board Member Controllers
@@ -158,6 +164,7 @@ export default {
 	fetchInterviewApplications,
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
+	recoverRemovedApplication,
 	// Organization Controllers
 	insertOrganization,
 	getOrganization,

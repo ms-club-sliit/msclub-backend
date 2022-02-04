@@ -22,7 +22,8 @@ export default function (app: Express) {
 
   // Contact Us endpoints - Private
   app.get("/admin/contact/", middleware.authenticate, controller.getAllContacts);
-  app.delete("/admin/contact/:contactId", middleware.authenticate, controller.removeContact);
+  app.get("/admin/contact/delete", middleware.authenticate, controller.removedContacts);
+  app.put("/admin/contact/delete/:contactId", middleware.authenticate, controller.removeContact);
 
     // Contact Us endpoints - Public
   app.post("/contact/", controller.createContact);
@@ -33,8 +34,9 @@ export default function (app: Express) {
   app.get("/admin/event/delete/", middleware.authenticate,controller.deletedEventsForAdmin);
   app.put("/admin/event/:eventId", middleware.authenticate, upload.single("eventFlyer"), controller.updateEvent);
   app.put("/admin/event/delete/:eventId", middleware.authenticate, controller.deleteEvent);
-  app.put("/admin/event/recover/", middleware.authenticate, controller.recoverRemovedEvent);
+  app.put("/admin/event/recover/:eventId", middleware.authenticate, controller.recoverRemovedEvent);
   app.delete("/admin/event/delete", middleware.authenticate, controller.deleteEventPermanently);
+  
   
   // Event endpoints - Public
   app.get("/event/", controller.getEvents);
@@ -48,6 +50,7 @@ export default function (app: Express) {
   app.put("/admin/webinar/delete/:webinarId", middleware.authenticate, controller.deleteWebinar);
   app.get("/admin/webinar/", middleware.authenticate,controller.webinarsForAdmin);
   app.get("/admin/webinar/delete/", middleware.authenticate,controller.deletedWebinarsForAdmin);
+  app.put("/admin/webinar/recover/", middleware.authenticate, controller.recoverRemovedWebinar);
 
   // Webinar endpoints
   app.get("/webinar/", controller.getWebinars);
@@ -61,6 +64,7 @@ export default function (app: Express) {
   app.put("/admin/topspeaker/delete/:topSpeakerId", middleware.authenticate, controller.deleteTopSpeaker);
   app.get("/admin/topspeaker/", middleware.authenticate,controller.getAllTopSpeakersForAdmin);
   app.get("/admin/topspeaker/delete/", middleware.authenticate,controller.getDeletedTopSpeakersForAdmin);
+  app.put("/admin/topspeaker/recover/", middleware.authenticate, controller.recoverDeletedTopSpeaker);
 
   // Top Speaker endpoints - Public
   app.get("/topspeaker/:topSpeakerId/", controller.getTopSpeaker);
@@ -96,6 +100,7 @@ export default function (app: Express) {
   app.put("/admin/application/interview/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoInterview);
   app.put("/admin/application/selected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoSelected);
   app.put("/admin/application/rejected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoRejected);
+  app.put("/admin/application/recover/:applicationId", middleware.authenticate, controller.recoverRemovedApplication);
   
   //@todo create @routes fetchPendingApplications,fetchInterviewApplications,fetchSelectedApplications,fetchRejectedApplications to filter INTERVIEW applications in the system
 

@@ -4,7 +4,8 @@
 	"description": "MS Club Web Site Server",
 	"main": "app.js",
 	"scripts": {
-		"start": "NODE_ENV=Production node build/app.js",
+		"start": "NODE_ENV=Development node build/app.js",
+		"local:server": "cross-env NODE_ENV=Local nodemon src/app.ts",
 		"dev:server": "cross-env NODE_ENV=Development nodemon src/app.ts",
 		"prod:server": "cross-env NODE_ENV=Production nodemon src/app.ts",
 		"build": "tsc -p .",
@@ -38,6 +39,7 @@
 		"@types/sharp": "^0.29.4",
 		"@types/uuid": "^8.3.3",
 		"@types/validator": "^13.7.0",
+		"@types/whatwg-url": "^8.2.1",
 		"amqplib": "^0.8.0",
 		"axios": "^0.24.0",
 		"bcryptjs": "^2.4.3",

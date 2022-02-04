@@ -10,7 +10,7 @@ import {
 	fetchDeletedUsers,
 } from "./User.service";
 
-import { insertContact, archiveContact, fetchContactInfo } from "./Contact.service";
+import { insertContact, archiveContact, fetchContactInfo, getArchivedContacts } from "./Contact.service";
 
 import {
 	insertEvent,
@@ -36,6 +36,7 @@ import {
 	removeWebinar,
 	getAllWebinarsForAdmin,
 	getDeletedWebinarsForAdmin,
+	recoverDeletedWebinar,
 } from "./Webinar.service";
 
 import {
@@ -44,6 +45,7 @@ import {
 	getTopSpeakers,
 	updateTopSpeaker,
 	deleteTopSpeaker,
+	recoverDeletedTopSpeaker,
 	getAllTopSpeakersForAdmin,
 	getDeletedTopSpeakersForAdmin,
 } from "./TopSpeaker.service";
@@ -61,6 +63,7 @@ import {
 	fetchSelectedApplications,
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
+	recoverDeletedApplication,
 } from "./Application.service";
 
 import {
@@ -102,6 +105,7 @@ export default {
 	insertContact,
 	fetchContactInfo,
 	archiveContact,
+	getArchivedContacts,
 	// Event services
 	insertEvent,
 	getEvent,
@@ -124,12 +128,14 @@ export default {
 	removeWebinar,
 	getAllWebinarsForAdmin,
 	getDeletedWebinarsForAdmin,
+	recoverDeletedWebinar,
 	// TopSpeaker Service
 	insertTopSpeaker,
 	getTopSpeaker,
 	getTopSpeakers,
 	updateTopSpeaker,
 	deleteTopSpeaker,
+	recoverDeletedTopSpeaker,
 	getAllTopSpeakersForAdmin,
 	getDeletedTopSpeakersForAdmin,
 	// Application Service
@@ -145,6 +151,7 @@ export default {
 	fetchSelectedApplications,
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
+	recoverDeletedApplication,
 	// BoardMember Service
 	insertBoardMember,
 	getBoardMemberbyID,
