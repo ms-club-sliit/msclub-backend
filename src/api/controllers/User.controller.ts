@@ -137,6 +137,27 @@ export const updateUser = async (request: Request, response: Response, next: Nex
 };
 
 /**
+ * @todo implement a @function adminUpdateUser that calls
+ * @function adminUpdateUser in the UserService
+ *
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns {IUser} Updated user document
+ */
+export const adminUpdateUser = async (request: Request, response: Response, next: NextFunction) => {
+	await UserService.adminUpdateUser(request.body)
+		.then((user) => {
+			request.handleResponse.successRespond(response)(user);
+			next();
+		})
+		.catch((error) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
+};
+
+/**
  * @todo implement a @function removeUser that calls
  * @function deleteUser in the UserService
  *
