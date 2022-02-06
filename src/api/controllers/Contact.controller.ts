@@ -9,7 +9,7 @@ import ContactService from "../services";
  * @returns {IContact} Contact document
  */
 export const createContact = async (request: Request, response: Response, next: NextFunction) => {
-	await ContactService.insertContact(request.body)
+	await ContactService.insertContact(request, request.body)
 		.then((data) => {
 			request.handleResponse.successRespond(response)(data);
 			next();
