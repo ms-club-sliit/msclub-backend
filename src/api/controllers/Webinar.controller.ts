@@ -191,5 +191,5 @@ export const recoverRemovedWebinar = async (request: Request, response: Response
 /**
  delete an webinar in the system
  *@todo implement the @function deleteWebinarPermanently
- * @param eventId @type string
+ * @param webinarId @type string
  */
