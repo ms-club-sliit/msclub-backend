@@ -237,3 +237,9 @@ export const recoverDeletedWebinar = async (webinarId: string) => {
 			throw new Error(error.message);
 		});
 };
+
+/**
+ delete an webinar in the system
+ *@todo implement the @function deleteWebinarPermanently
+ * @param eventId @type string
+ */

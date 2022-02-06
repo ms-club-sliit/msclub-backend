@@ -187,3 +187,9 @@ export const recoverRemovedWebinar = async (request: Request, response: Response
 			next();
 		});
 };
+
+/**
+ delete an webinar in the system
+ *@todo implement the @function deleteWebinarPermanently
+ * @param eventId @type string
+ */
