@@ -4,7 +4,7 @@
 	"description": "MS Club Web Site Server",
 	"main": "app.js",
 	"scripts": {
-		"start": "NODE_ENV=Development node build/app.js",
+		"start": "NODE_ENV=Production node build/app.js",
 		"local:server": "cross-env NODE_ENV=Local nodemon src/app.ts",
 		"dev:server": "cross-env NODE_ENV=Development nodemon src/app.ts",
 		"prod:server": "cross-env NODE_ENV=Production nodemon src/app.ts",
@@ -62,7 +62,8 @@
 		"pino": "^7.4.0",
 		"pino-pretty": "^7.2.0",
 		"sharp": "^0.29.3",
-		"validator": "^13.7.0"
+		"validator": "^13.7.0",
+		"yup": "^0.32.11"
 	},
 	"devDependencies": {
 		"@types/amqplib": "^0.8.2",

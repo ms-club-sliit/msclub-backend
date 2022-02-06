@@ -2,6 +2,7 @@
 /* eslint-disable indent */
 import { Express } from "express";
 import controller from "../controllers";
+import Schema from "../validations";
 import middleware from "../middleware";
 import multer from "multer";
 const upload = multer();
@@ -107,7 +108,7 @@ export default function (app: Express) {
 
 
   // Application endpoints - Public
-  app.post("/application/", controller.addApplication);
+  app.post("/application/", middleware.validateRequest(Schema.applicationSchema),controller.addApplication);
 
   // Organization endpoints - Private
   app.post("/admin/organization/", middleware.authenticate, upload.single("organizationLogo"), controller.insertOrganization);
