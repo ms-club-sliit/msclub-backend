@@ -37,6 +37,7 @@ import {
 	getAllWebinarsForAdmin,
 	getDeletedWebinarsForAdmin,
 	recoverDeletedWebinar,
+	deleteWebinarPermanently,
 	//@todo import deleteWebinarPermanently method
 } from "./Webinar.service";
 
@@ -130,6 +131,7 @@ export default {
 	getAllWebinarsForAdmin,
 	getDeletedWebinarsForAdmin,
 	recoverDeletedWebinar,
+	deleteWebinarPermanently,
 	//@todo export deleteWebinarPermanently method
 	// TopSpeaker Service
 	insertTopSpeaker,

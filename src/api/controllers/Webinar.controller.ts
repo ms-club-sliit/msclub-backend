@@ -193,3 +193,14 @@ export const recoverRemovedWebinar = async (request: Request, response: Response
  *@todo implement the @function deleteWebinarPermanently
  * @param eventId @type string
  */
+export const deleteWebinarPermanently = async (request: Request, response: Response, next: NextFunction) => {
+	await WebinarService.deleteWebinarPermanently(request.body.webinarId)
+		.then((data: any) => {
+			request.handleResponse.successRespond(response)(data);
+			next();
+		})
+		.catch((error: any) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
+};

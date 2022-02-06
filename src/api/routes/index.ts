@@ -51,7 +51,7 @@ export default function (app: Express) {
   app.get("/admin/webinar/", middleware.authenticate,controller.webinarsForAdmin);
   app.get("/admin/webinar/delete/", middleware.authenticate,controller.deletedWebinarsForAdmin);
   app.put("/admin/webinar/recover/", middleware.authenticate, controller.recoverRemovedWebinar);
-  //@todo add route for deleteWebinarPermanently method => use /admin/webinar/delete/ as the route => HTTP request type "delete"
+  app.delete("/admin/webinar/delete", middleware.authenticate, controller.deleteWebinarPermanently);
 
   // Webinar endpoints
   app.get("/webinar/", controller.getWebinars);

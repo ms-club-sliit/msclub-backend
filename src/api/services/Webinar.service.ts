@@ -241,5 +241,19 @@ export const recoverDeletedWebinar = async (webinarId: string) => {
 /**
  delete an webinar in the system
  *@todo implement the @function deleteWebinarPermanently
- * @param eventId @type string
+ * @param webinarId @type string
  */
+
+export const deleteWebinarPermanently = async (webinarId: string) => {
+	if (webinarId) {
+		return WebinarModel.findByIdAndDelete(webinarId)
+			.then((webinar) => {
+				return webinar;
+			})
+			.catch((error) => {
+				throw new Error(error.message);
+			});
+	} else {
+		throw new Error("Webinar ID not Passed");
+	}
+};
