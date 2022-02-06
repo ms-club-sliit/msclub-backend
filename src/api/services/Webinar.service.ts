@@ -43,6 +43,7 @@ export const fetchWebinarById = async (webinarId: string) => {
  */
 export const fetchWebinars = async () => {
 	return await WebinarModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
+		.sort({ dateTime: -1 })
 		.then((webinars) => {
 			return webinars;
 		})
@@ -57,6 +58,7 @@ export const fetchWebinars = async () => {
  */
 export const fetchPastWebinars = async () => {
 	return await WebinarModel.find({ webinarType: "PAST" })
+		.sort({ dateTime: -1 })
 		.then((webinars) => {
 			return webinars;
 		})
@@ -123,6 +125,10 @@ export const updateWebinar = async (
 						webinarDetails.registrationLink = webinarData.registrationLink;
 					}
 
+					if (webinarData.webinarType) {
+						webinarDetails.webinarType = webinarData.webinarType;
+					}
+
 					const updateUserInfo: IUpdatedBy = {
 						user: updatedBy,
 						updatedAt: new Date(),
@@ -175,6 +181,7 @@ export const getAllWebinarsForAdmin = async () => {
 			},
 			select: "updatedAt",
 		})
+		.sort({ dateTime: -1 })
 		.then((webinars) => {
 			return webinars;
 		})
@@ -197,6 +204,7 @@ export const getDeletedWebinarsForAdmin = async () => {
 			},
 			select: "updatedAt",
 		})
+		.sort({ dateTime: -1 })
 		.then((webinars) => {
 			return webinars;
 		})
@@ -204,3 +212,34 @@ export const getDeletedWebinarsForAdmin = async () => {
 			throw new Error(error.message);
 		});
 };
+
+/**
+ * Recover Deleted webinar
+ * @param webinarId @type string
+ */
+export const recoverDeletedWebinar = async (webinarId: string) => {
+	return await WebinarModel.findById(webinarId)
+		.then(async (webinarDetails) => {
+			if (webinarDetails) {
+				if (webinarDetails.deletedAt !== null) {
+					webinarDetails.deletedAt = null;
+					webinarDetails.deletedBy = null;
+
+					return await webinarDetails.save();
+				} else {
+					return "Webinar is already recovered";
+				}
+			} else {
+				return "Webinar not found";
+			}
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
+
+/**
+ delete an webinar in the system
+ *@todo implement the @function deleteWebinarPermanently
+ * @param eventId @type string
+ */

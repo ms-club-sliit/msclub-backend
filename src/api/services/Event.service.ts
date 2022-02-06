@@ -42,6 +42,7 @@ export const getEvent = async (eventId: string) => {
  */
 export const getEvents = async () => {
 	return await EventModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
+		.sort({ createdAt: -1 })
 		.then((events) => {
 			return events;
 		})
@@ -55,6 +56,7 @@ export const getEvents = async () => {
  */
 export const getPastEvents = async () => {
 	return await EventModel.find({ eventType: "PAST" })
+		.sort({ createdAt: -1 })
 		.then((events) => {
 			return events;
 		})
@@ -173,6 +175,7 @@ export const getAllEventsForAdmin = async () => {
 			},
 			select: "updatedAt",
 		})
+		.sort({ createdAt: -1 })
 		.then((events) => {
 			return events;
 		})
@@ -198,6 +201,7 @@ export const getDeletedEventsForAdmin = async () => {
 			},
 			select: "updatedAt",
 		})
+		.sort({ createdAt: -1 })
 		.then((events) => {
 			return events;
 		})

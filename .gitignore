@@ -2,6 +2,7 @@
 /build
 yarn.lock
 ms-storage-server.json
+ms-storage-server-local.json
 .env.development
 .env.production
 .env

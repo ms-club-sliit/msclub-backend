@@ -3,13 +3,14 @@ import {
 	authenticateUser,
 	getUsers,
 	updateUser,
+	adminUpdateUser,
 	deleteUser,
 	deleteUserPermenently,
 	recoverUser,
 	fetchDeletedUsers,
 } from "./User.service";
 
-import { insertContact, archiveContact, fetchContactInfo } from "./Contact.service";
+import { insertContact, archiveContact, fetchContactInfo, getArchivedContacts } from "./Contact.service";
 
 import {
 	insertEvent,
@@ -35,6 +36,8 @@ import {
 	removeWebinar,
 	getAllWebinarsForAdmin,
 	getDeletedWebinarsForAdmin,
+	recoverDeletedWebinar,
+	//@todo import deleteWebinarPermanently method
 } from "./Webinar.service";
 
 import {
@@ -43,6 +46,7 @@ import {
 	getTopSpeakers,
 	updateTopSpeaker,
 	deleteTopSpeaker,
+	recoverDeletedTopSpeaker,
 	getAllTopSpeakersForAdmin,
 	getDeletedTopSpeakersForAdmin,
 } from "./TopSpeaker.service";
@@ -60,6 +64,7 @@ import {
 	fetchSelectedApplications,
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
+	recoverDeletedApplication,
 } from "./Application.service";
 
 import {
@@ -92,6 +97,7 @@ export default {
 	authenticateUser,
 	getUsers,
 	updateUser,
+	adminUpdateUser,
 	deleteUser,
 	deleteUserPermenently,
 	recoverUser,
@@ -100,6 +106,7 @@ export default {
 	insertContact,
 	fetchContactInfo,
 	archiveContact,
+	getArchivedContacts,
 	// Event services
 	insertEvent,
 	getEvent,
@@ -122,12 +129,15 @@ export default {
 	removeWebinar,
 	getAllWebinarsForAdmin,
 	getDeletedWebinarsForAdmin,
+	recoverDeletedWebinar,
+	//@todo export deleteWebinarPermanently method
 	// TopSpeaker Service
 	insertTopSpeaker,
 	getTopSpeaker,
 	getTopSpeakers,
 	updateTopSpeaker,
 	deleteTopSpeaker,
+	recoverDeletedTopSpeaker,
 	getAllTopSpeakersForAdmin,
 	getDeletedTopSpeakersForAdmin,
 	// Application Service
@@ -143,6 +153,7 @@ export default {
 	fetchSelectedApplications,
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
+	recoverDeletedApplication,
 	// BoardMember Service
 	insertBoardMember,
 	getBoardMemberbyID,
