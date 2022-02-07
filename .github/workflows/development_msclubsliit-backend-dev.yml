@@ -22,30 +22,6 @@ jobs:
           node-version: "14.x"
 
       - name: npm install, build, and test
-        env:
-          APPLICATION_IMAGES_BUCKET: ${{ secrets.APPLICATION_IMAGES_BUCKET }}
-          BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
-          DEV_ENVIRONMENT: ${{ secrets.DEV_ENVIRONMENT }}
-          DEV_MESSAGE_BROKER_URL: ${{ secrets.DEV_MESSAGE_BROKER_URL }}
-          DEV_MONGO_URI: ${{ secrets.DEV_MONGO_URI }}
-          EMAIL_AUTH_PASSWORD: ${{ secrets.EMAIL_AUTH_PASSWORD }}
-          EMAIL_AUTH_USER: ${{ secrets.EMAIL_AUTH_USER }}
-          EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
-          EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
-          EMAIL_QUEUE_NAM: ${{ secrets.EMAIL_QUEUE_NAM }}
-          EMAIL_SENFGRID_USER: ${{ secrets.EMAIL_SENFGRID_USER }}
-          EMAIL_SERVICE_NAME: ${{ secrets.EMAIL_SERVICE_NAME }}
-          EMAIL_TEMPLATE_BUCKET: ${{ secrets.EMAIL_TEMPLATE_BUCKET }}
-          EXCHANGE_NAME: ${{ secrets.EXCHANGE_NAME }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          MS_MEETING_MANAGER_API: ${{ secrets.MS_MEETING_MANAGER_API }}
-          NODE_ENV: ${{ secrets.NODE_ENV }}
-          PROD_MESSAGE_BROKER_URL: ${{ secrets.PROD_MESSAGE_BROKER_URL }}
-          SENFGRID_API_KEY: ${{ secrets.SENFGRID_API_KEY }}
-          STORAGE_BUCKET_URL: ${{ secrets.STORAGE_BUCKET_URL }}
-          STORAGE_CLIENT_EMAIL: ${{ secrets.STORAGE_CLIENT_EMAIL }}
-          STORAGE_PRIVATE_KEY: ${{ secrets.STORAGE_PRIVATE_KEY }}
-          STORAGE_PROJECT_ID: ${{ secrets.STORAGE_PROJECT_ID }}
         run: |
           npm install
           npm run build --if-present
