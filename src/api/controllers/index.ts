@@ -39,7 +39,6 @@ import {
 	deletedWebinarsForAdmin,
 	recoverRemovedWebinar,
 	deleteWebinarPermanently,
-	//@todo import deleteWebinarPermanently method
 } from "./Webinar.controller";
 
 import {
@@ -133,7 +132,6 @@ export default {
 	deletedWebinarsForAdmin,
 	recoverRemovedWebinar,
 	deleteWebinarPermanently,
-	//@todo export deleteWebinarPermanently method
 	//Executive board Controllers
 	insertExecutiveBoard,
 	getExecutiveBoardbyID,

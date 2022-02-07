@@ -20,4 +20,4 @@ interface IWebinar extends Document {
 	deletedBy?: Schema.Types.ObjectId | null;
 }
 
-export type { IWebinar, IUpdatedBy };
+export type { IWebinar };

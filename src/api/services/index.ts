@@ -38,7 +38,6 @@ import {
 	getDeletedWebinarsForAdmin,
 	recoverDeletedWebinar,
 	deleteWebinarPermanently,
-	//@todo import deleteWebinarPermanently method
 } from "./Webinar.service";
 
 import {
