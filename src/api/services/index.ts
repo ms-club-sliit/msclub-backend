@@ -65,6 +65,7 @@ import {
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
 	recoverDeletedApplication,
+	deleteApplicationPermanently,
 } from "./Application.service";
 
 import {
@@ -154,6 +155,7 @@ export default {
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
 	recoverDeletedApplication,
+	deleteApplicationPermanently,
 	// BoardMember Service
 	insertBoardMember,
 	getBoardMemberbyID,
