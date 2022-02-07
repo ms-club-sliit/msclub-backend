@@ -190,6 +190,21 @@ export const recoverRemovedWebinar = async (request: Request, response: Response
 
 /**
  delete an webinar in the system
- *@todo implement the @function deleteWebinarPermanently
  * @param webinarId @type string
  */
+export const deleteWebinarPermanently = async (request: Request, response: Response, next: NextFunction) => {
+	const webinarId = request.body.webinarId;
+	if (webinarId) {
+		await WebinarService.deleteWebinarPermanently(webinarId)
+			.then((data: any) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error: any) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
+	} else {
+		request.handleResponse.errorRespond(response)("WebinarId not found");
+	}
+};
