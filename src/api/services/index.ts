@@ -131,7 +131,6 @@ export default {
 	getDeletedWebinarsForAdmin,
 	recoverDeletedWebinar,
 	deleteWebinarPermanently,
-	//@todo export deleteWebinarPermanently method
 	// TopSpeaker Service
 	insertTopSpeaker,
 	getTopSpeaker,
