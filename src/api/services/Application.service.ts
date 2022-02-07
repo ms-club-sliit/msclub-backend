@@ -5,7 +5,6 @@ import { Request } from "express";
 import axios from "axios";
 import moment from "moment";
 
-
 /**
  * Application Service
  * @param {IApplication} application
