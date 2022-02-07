@@ -1,4 +1,6 @@
+//import { error } from "console";
 import { Request, Response, NextFunction } from "express";
+//import { request } from "http";
 import ApplicationService from "../services";
 
 /**
@@ -273,4 +275,24 @@ export const recoverRemovedApplication = async (request: Request, response: Resp
 			request.handleResponse.errorRespond(response)(error.message);
 			next();
 		});
+};
+
+//delete application from the system
+
+export const deleteApplicationPermanently = async (request: Request, response: Response, next: NextFunction) => {
+	const applicationId = request.body.applicationId;
+
+	if (applicationId) {
+		await ApplicationService.deleteApplicationPermanently(applicationId)
+			.then((data: any) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error: any) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
+	} else {
+		request.handleResponse.errorRespond(response)("ApplicationId not found");
+	}
 };
