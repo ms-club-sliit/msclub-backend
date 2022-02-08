@@ -16,5 +16,5 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
       - run: |
-          docker build . -t mscontainers.azurecr.io/mswebserver:${{ github.sha }}
-          docker push mscontainers.azurecr.io/mswebserver:${{ github.sha }}
+          docker build . -t mscontainers.azurecr.io/mswebserver:${{ 1.0 }}
+          docker push mscontainers.azurecr.io/mswebserver:${{ 1.0 }}
