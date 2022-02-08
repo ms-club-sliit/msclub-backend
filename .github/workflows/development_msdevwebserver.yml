@@ -11,41 +11,41 @@ on:
 
 jobs:
   build:
-    runs-on: 'ubuntu-latest'
+    runs-on: "ubuntu-latest"
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-    - name: Log in to registry
-      uses: docker/login-action@v1
-      with:
-        registry: https://mscontainers.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_f9a8d8b7adb8458a860dd3f0da5d1680 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_a8e47c978ec94691a8efd0aa97c74e59 }}
+      - name: Log in to registry
+        uses: docker/login-action@v1
+        with:
+          registry: https://mscontainers.azurecr.io/
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
 
-    - name: Build and push container image to registry
-      uses: docker/build-push-action@v2
-      with:
-        push: true
-        tags: mscontainers.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_f9a8d8b7adb8458a860dd3f0da5d1680 }}/mswebserver:${{ github.sha }}
-        file: ./Dockerfile
+      - name: Build and push container image to registry
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: mscontainers.azurecr.io/${{ secrets.ACR_USERNAME }}/mswebserver:${{ github.sha }}
+          file: ./Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'production'
+      name: "production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-    - name: Deploy to Azure Web App
-      id: deploy-to-webapp
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'msdevwebserver'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_b88edf503d1a45c4bdf188af01ecb76e }}
-        images: 'mscontainers.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_f9a8d8b7adb8458a860dd3f0da5d1680 }}/mswebserver:${{ github.sha }}'
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: "msdevwebserver"
+          slot-name: "production"
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          images: "mscontainers.azurecr.io/${{ secrets.ACR_USERNAME }}/mswebserver:${{ github.sha }}"
