@@ -6,7 +6,7 @@ name: Build and deploy container app to Azure Web App - mswebserver
 on:
   push:
     branches:
-      - development
+      - master
   workflow_dispatch:
 
 jobs:
