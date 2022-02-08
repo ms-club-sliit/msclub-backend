@@ -38,7 +38,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 // Root API Call
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
-	res.send("<h2>MS CLUB SLIIT - Web API</h2>");
+	res.send("<h2>MS CLUB SLIIT WEB API</h2>");
 	next();
 });
 
