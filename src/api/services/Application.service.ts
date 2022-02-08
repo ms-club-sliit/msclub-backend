@@ -197,7 +197,7 @@ export const changeApplicationStatusIntoSelected = async (request: Request, appl
 };
 
 /**
- * @todo create @function changeApplicationStatusIntoRejected to update the status into REJECTED of
+ * @function changeApplicationStatusIntoRejected to update the status into REJECTED of
  * an application in the system
  * @param applicationId @type string
  */
