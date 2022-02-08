@@ -1,6 +1,4 @@
-//import { error } from "console";
 import { Request, Response, NextFunction } from "express";
-//import { request } from "http";
 import ApplicationService from "../services";
 
 /**
