@@ -1,0 +1,20 @@
+# ACR Deployment for development
+name: Build & Deploy container image to ACR
+
+on:
+  push:
+    branches: ["development"]
+
+job:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: action/checkout@v2
+      - uses: azure/docker-login@v1
+        with:
+          login-server: mscontainers.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+      - run: |
+          docker build . -t mscontainers.azurecr.io/mswebserver:${{ github.sha }}
+          docker push mscontainers.azurecr.io/mswebserver:${{ github.sha }}
