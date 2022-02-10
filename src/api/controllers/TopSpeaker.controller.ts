@@ -157,3 +157,15 @@ export const getDeletedTopSpeakersForAdmin = async (request: Request, response: 
 			next();
 		});
 };
+
+export const permenentDeleteTopSpeaker = async (request: Request, response: Response, next: NextFunction) => {
+	await TopSpeakerService.permenentDeleteTopSpeaker(request.body.topSpeakerId)
+		.then((data) => {
+			request.handleResponse.successRespond(response)(data);
+			next();
+		})
+		.catch((error) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
+};

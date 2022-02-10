@@ -65,8 +65,9 @@ export default function (app: Express) {
   app.put("/admin/topspeaker/:topSpeakerId", middleware.authenticate,upload.single("topSpeakerFlyer"), controller.updateTopSpeaker);
   app.put("/admin/topspeaker/delete/:topSpeakerId", middleware.authenticate, controller.deleteTopSpeaker);
   app.get("/admin/topspeaker/", middleware.authenticate,controller.getAllTopSpeakersForAdmin);
-  app.get("/admin/topspeaker/delete/", middleware.authenticate,controller.getDeletedTopSpeakersForAdmin);
+  app.get("/admin/topspeaker/deleted/", middleware.authenticate,controller.getDeletedTopSpeakersForAdmin);
   app.put("/admin/topspeaker/recover/", middleware.authenticate, controller.recoverDeletedTopSpeaker);
+  app.delete("/admin/topspeaker/delete/", middleware.authenticate, controller.permenentDeleteTopSpeaker);
 
   // Top Speaker endpoints - Public
   app.get("/topspeaker/:topSpeakerId/", controller.getTopSpeaker);

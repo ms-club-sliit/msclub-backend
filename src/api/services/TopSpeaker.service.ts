@@ -206,3 +206,15 @@ export const getDeletedTopSpeakersForAdmin = async () => {
 			throw new Error(error.message);
 		});
 };
+
+/**
+delete a past event
+ * @param topSpeakerId @type string
+ */
+export const permenentDeleteTopSpeaker = async (topSpeakerId: string) => {
+	if (topSpeakerId) {
+		return TopSpeakerModel.findByIdAndDelete(topSpeakerId);
+	} else {
+		throw new Error("Topspeaker ID not Passed");
+	}
+};
