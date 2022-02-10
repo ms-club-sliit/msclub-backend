@@ -45,6 +45,7 @@ import {
 	deleteTopSpeaker,
 	getAllTopSpeakersForAdmin,
 	getDeletedTopSpeakersForAdmin,
+	permenentDeleteTopSpeaker
 } from "./TopSpeaker.service";
 
 import {
@@ -130,6 +131,7 @@ export default {
 	deleteTopSpeaker,
 	getAllTopSpeakersForAdmin,
 	getDeletedTopSpeakersForAdmin,
+	permenentDeleteTopSpeaker,
 	// Application Service
 	addApplication,
 	fetchApplicationById,
