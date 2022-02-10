@@ -52,7 +52,7 @@ export default function (app: Express) {
   app.get("/admin/webinar/", middleware.authenticate,controller.webinarsForAdmin);
   app.get("/admin/webinar/delete/", middleware.authenticate,controller.deletedWebinarsForAdmin);
   app.put("/admin/webinar/recover/", middleware.authenticate, controller.recoverRemovedWebinar);
-  //@todo add route for deleteWebinarPermanently method => use /admin/webinar/delete/ as the route => HTTP request type "delete"
+  app.delete("/admin/webinar/delete", middleware.authenticate, controller.deleteWebinarPermanently);
 
   // Webinar endpoints
   app.get("/webinar/", controller.getWebinars);
@@ -103,7 +103,8 @@ export default function (app: Express) {
   app.put("/admin/application/selected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoSelected);
   app.put("/admin/application/rejected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoRejected);
   app.put("/admin/application/recover/:applicationId", middleware.authenticate, controller.recoverRemovedApplication);
-  
+  app.delete("/admin/application/delete", middleware.authenticate, controller.deleteApplicationPermanently);
+    
   //@todo create @routes fetchPendingApplications,fetchInterviewApplications,fetchSelectedApplications,fetchRejectedApplications to filter INTERVIEW applications in the system
 
 

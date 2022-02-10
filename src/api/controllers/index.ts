@@ -38,7 +38,7 @@ import {
 	webinarsForAdmin,
 	deletedWebinarsForAdmin,
 	recoverRemovedWebinar,
-	//@todo import deleteWebinarPermanently method
+	deleteWebinarPermanently,
 } from "./Webinar.controller";
 
 import {
@@ -66,6 +66,7 @@ import {
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
 	recoverRemovedApplication,
+	deleteApplicationPermanently,
 } from "./Application.controller";
 
 import {
@@ -131,7 +132,7 @@ export default {
 	webinarsForAdmin,
 	deletedWebinarsForAdmin,
 	recoverRemovedWebinar,
-	//@todo export deleteWebinarPermanently method
+	deleteWebinarPermanently,
 	//Executive board Controllers
 	insertExecutiveBoard,
 	getExecutiveBoardbyID,
@@ -167,6 +168,7 @@ export default {
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
 	recoverRemovedApplication,
+	deleteApplicationPermanently,
 	// Organization Controllers
 	insertOrganization,
 	getOrganization,

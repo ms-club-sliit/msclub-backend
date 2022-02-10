@@ -9,6 +9,6 @@ RUN npm run build
 FROM node:14.18-alpine
 WORKDIR /app
 COPY --from=BUILD_IMAGE /ms-webserver /app/
-EXPOSE 8078
+EXPOSE 8087
 ENTRYPOINT [ "npm", "run" ]
 CMD [ "start" ]

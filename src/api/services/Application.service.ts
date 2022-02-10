@@ -197,7 +197,7 @@ export const changeApplicationStatusIntoSelected = async (request: Request, appl
 };
 
 /**
- * @todo create @function changeApplicationStatusIntoRejected to update the status into REJECTED of
+ * @function changeApplicationStatusIntoRejected to update the status into REJECTED of
  * an application in the system
  * @param applicationId @type string
  */
@@ -299,6 +299,24 @@ export const recoverDeletedApplication = async (applicationId: string) => {
 				} else {
 					throw new Error("Application is not found");
 				}
+			})
+			.catch((error) => {
+				throw new Error(error.message);
+			});
+	} else {
+		throw new Error("Application ID not Passed");
+	}
+};
+
+/*
+delete application from the system permanently
+*/
+
+export const deleteApplicationPermanently = async (applicationId: string) => {
+	if (applicationId) {
+		return await ApplicationModel.findByIdAndDelete(applicationId)
+			.then((application) => {
+				return application;
 			})
 			.catch((error) => {
 				throw new Error(error.message);
