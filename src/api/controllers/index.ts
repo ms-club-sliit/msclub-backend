@@ -66,6 +66,7 @@ import {
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
 	recoverRemovedApplication,
+	deleteApplicationPermanently,
 } from "./Application.controller";
 
 import {
@@ -167,6 +168,7 @@ export default {
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
 	recoverRemovedApplication,
+	deleteApplicationPermanently,
 	// Organization Controllers
 	insertOrganization,
 	getOrganization,
