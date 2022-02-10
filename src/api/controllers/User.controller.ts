@@ -84,6 +84,7 @@ export const login = async (request: Request, response: Response, next: NextFunc
  */
 export const getAuthUser = async (request: Request, response: Response, next: NextFunction) => {
 	const userInfo = {
+		_id: request.user._id,
 		userName: request.user.userName,
 		permissionLevel: request.user.permissionLevel,
 		authToken: request.user.authToken,
@@ -125,6 +126,12 @@ export const getAllUsers = async (request: Request, response: Response, next: Ne
  * @returns {IUser} Updated user document
  */
 export const updateUser = async (request: Request, response: Response, next: NextFunction) => {
+	const bucketDirectoryName = "profile-images";
+
+	if (request.body.profileImage) {
+		request.body.profileImage = await ImageService.uploadImage(request.file, bucketDirectoryName);
+	}
+
 	await UserService.updateUser(request.user._id, request.body)
 		.then((user) => {
 			request.handleResponse.successRespond(response)(user);
@@ -146,6 +153,11 @@ export const updateUser = async (request: Request, response: Response, next: Nex
  * @returns {IUser} Updated user document
  */
 export const adminUpdateUser = async (request: Request, response: Response, next: NextFunction) => {
+	const bucketDirectoryName = "profile-images";
+
+	if (request.body.profileImage) {
+		request.body.profileImage = await ImageService.uploadImage(request.file, bucketDirectoryName);
+	}
 	await UserService.adminUpdateUser(request.body)
 		.then((user) => {
 			request.handleResponse.successRespond(response)(user);
@@ -167,7 +179,7 @@ export const adminUpdateUser = async (request: Request, response: Response, next
  * @returns {IUser} Deleted user document
  */
 export const removeUser = async (request: Request, response: Response, next: NextFunction) => {
-	await UserService.deleteUser(request.user._id, request.user._id)
+	await UserService.deleteUser(request.body.userId, request.user._id)
 		.then((user) => {
 			request.handleResponse.successRespond(response)(user);
 			next();
