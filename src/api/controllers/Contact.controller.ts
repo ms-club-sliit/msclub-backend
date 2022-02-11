@@ -72,7 +72,7 @@ export const removedContacts = async (request: Request, response: Response, next
  * @returns {IContact[]} Removed contact information
  */
 export const removeContactPermanently = async (request: Request, response: Response, next: NextFunction) => {
-	await ContactService.deleteContactPermanently(request.body.contactId)
+	await ContactService.deleteContactPermanently(request.params.contactId)
 		.then((data) => {
 			request.handleResponse.successRespond(response)(data);
 		})

@@ -25,7 +25,7 @@ export default function (app: Express) {
   app.get("/admin/contact/", middleware.authenticate, controller.getAllContacts);
   app.get("/admin/contact/delete", middleware.authenticate, controller.removedContacts);
   app.put("/admin/contact/delete/:contactId", middleware.authenticate, controller.removeContact);
-  app.delete("/admin/contact/delete", middleware.authenticate, controller.removeContactPermanently);
+  app.delete("/admin/contact/delete/:contactId", middleware.authenticate, controller.removeContactPermanently);
 
   // Contact Us endpoints - Public
   app.post("/contact/", controller.createContact);
