@@ -19,7 +19,7 @@ interface IEvent extends Document {
 	deletedAt?: null | Date | string;
 	createdBy: Schema.Types.ObjectId;
 	updatedBy: IUpdatedBy[];
-	deletedBy?: Schema.Types.ObjectId;
+	deletedBy?: Schema.Types.ObjectId | null;
 }
 
 export type { IEvent, IUpdatedBy };
