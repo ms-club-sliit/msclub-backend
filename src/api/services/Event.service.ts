@@ -213,13 +213,16 @@ export const getDeletedEventsForAdmin = async () => {
 // Recover deleted events
 export const recoverDeletedEvent = async (eventId: string) => {
 	if (eventId) {
-		return UserModel.findById(eventId)
-			.then(async (event) => {
-				if (event) {
-					event.deletedAt = null;
-					event.deletedBy = null;
-
-					return event.save();
+		return await EventModel.findById(eventId)
+			.then(async (eventDetails) => {
+				if (eventDetails) {
+					if (eventDetails.deletedAt !== null) {
+						eventDetails.deletedAt = null;
+						eventDetails.deletedBy = null;
+						return await eventDetails.save();
+					} else {
+						return "Event is already recovered";
+					}
 				}
 			})
 			.catch((error) => {
