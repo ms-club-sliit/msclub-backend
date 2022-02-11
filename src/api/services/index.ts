@@ -10,7 +10,13 @@ import {
 	fetchDeletedUsers,
 } from "./User.service";
 
-import { insertContact, archiveContact, fetchContactInfo, getArchivedContacts } from "./Contact.service";
+import {
+	insertContact,
+	archiveContact,
+	fetchContactInfo,
+	getArchivedContacts,
+	deleteContactPermanently,
+} from "./Contact.service";
 
 import {
 	insertEvent,
@@ -108,6 +114,7 @@ export default {
 	fetchContactInfo,
 	archiveContact,
 	getArchivedContacts,
+	deleteContactPermanently,
 	// Event services
 	insertEvent,
 	getEvent,
