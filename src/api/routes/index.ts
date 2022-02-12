@@ -1,3 +1,26 @@
+/*
+ * Created on Sat Feb 12 2022
+ *
+ * The GNU General Public License v3.0
+ * Copyright (c) 2022 MS Club SLIIT Authors
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program at
+ *
+ *     https://www.gnu.org/licenses/
+ *
+ * This program is distributed in the hope that it will be useful
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ */
+
 /* eslint-disable max-len */
 /* eslint-disable indent */
 import { Express } from "express";
@@ -37,8 +60,9 @@ export default function (app: Express) {
   app.put("/admin/event/:eventId", middleware.authenticate, upload.single("eventFlyer"), controller.updateEvent);
   app.put("/admin/event/delete/:eventId", middleware.authenticate, controller.deleteEvent);
   app.put("/admin/event/recover/:eventId", middleware.authenticate, controller.recoverRemovedEvent);
-  app.delete("/admin/event/delete", middleware.authenticate, controller.deleteEventPermanently);
-
+  app.delete("/admin/event/permanentdelete/:eventId", middleware.authenticate, controller.deleteEventPermanently);
+  
+  
   // Event endpoints - Public
   app.get("/event/", controller.getEvents);
   app.get("/event/:eventId/", controller.getEvent);
@@ -49,10 +73,10 @@ export default function (app: Express) {
   app.post("/admin/webinar/", middleware.authenticate, upload.single("webinarFlyer"), controller.insertWebinar);
   app.put("/admin/webinar/:webinarId", middleware.authenticate, upload.single("webinarFlyer"), controller.updateWebinar);
   app.put("/admin/webinar/delete/:webinarId", middleware.authenticate, controller.deleteWebinar);
-  app.get("/admin/webinar/", middleware.authenticate, controller.webinarsForAdmin);
-  app.get("/admin/webinar/delete/", middleware.authenticate, controller.deletedWebinarsForAdmin);
-  app.put("/admin/webinar/recover/", middleware.authenticate, controller.recoverRemovedWebinar);
-  app.delete("/admin/webinar/delete", middleware.authenticate, controller.deleteWebinarPermanently);
+  app.get("/admin/webinar/", middleware.authenticate,controller.webinarsForAdmin);
+  app.get("/admin/webinar/delete/", middleware.authenticate,controller.deletedWebinarsForAdmin);
+  app.put("/admin/webinar/recover/:webinarId", middleware.authenticate, controller.recoverRemovedWebinar);
+  app.delete("/admin/webinar/permanentdelete/:webinarId", middleware.authenticate, controller.deleteWebinarPermanently);
 
   // Webinar endpoints
   app.get("/webinar/", controller.getWebinars);
@@ -64,9 +88,10 @@ export default function (app: Express) {
   app.post("/admin/topspeaker/", middleware.authenticate, upload.single("topSpeakerFlyer"), controller.insertTopSpeaker);
   app.put("/admin/topspeaker/:topSpeakerId", middleware.authenticate, upload.single("topSpeakerFlyer"), controller.updateTopSpeaker);
   app.put("/admin/topspeaker/delete/:topSpeakerId", middleware.authenticate, controller.deleteTopSpeaker);
-  app.get("/admin/topspeaker/", middleware.authenticate, controller.getAllTopSpeakersForAdmin);
-  app.get("/admin/topspeaker/delete/", middleware.authenticate, controller.getDeletedTopSpeakersForAdmin);
-  app.put("/admin/topspeaker/recover/", middleware.authenticate, controller.recoverDeletedTopSpeaker);
+  app.get("/admin/topspeaker/", middleware.authenticate,controller.getAllTopSpeakersForAdmin);
+  app.get("/admin/topspeaker/deleted/", middleware.authenticate,controller.getDeletedTopSpeakersForAdmin);
+  app.delete("/admin/topspeaker/permanentdelete/:topSpeakerId", middleware.authenticate, controller.permenentDeleteTopSpeaker);
+  app.put("/admin/topspeaker/recover/:topSpeakerId", middleware.authenticate, controller.recoverDeletedTopSpeaker);
 
   // Top Speaker endpoints - Public
   app.get("/topspeaker/:topSpeakerId/", controller.getTopSpeaker);
@@ -103,10 +128,7 @@ export default function (app: Express) {
   app.put("/admin/application/selected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoSelected);
   app.put("/admin/application/rejected/:applicationId", middleware.authenticate, controller.changeApplicationStatusIntoRejected);
   app.put("/admin/application/recover/:applicationId", middleware.authenticate, controller.recoverRemovedApplication);
-  app.delete("/admin/application/delete", middleware.authenticate, controller.deleteApplicationPermanently);
-
-  //@todo create @routes fetchPendingApplications,fetchInterviewApplications,fetchSelectedApplications,fetchRejectedApplications to filter INTERVIEW applications in the system
-
+  app.delete("/admin/application/permanentdelete/:applicationId", middleware.authenticate, controller.deleteApplicationPermanently);
 
   // Application endpoints - Public
   app.post("/application/", middleware.validateRequest(Schema.applicationSchema), controller.addApplication);

@@ -1,3 +1,26 @@
+/*
+ * Created on Sat Feb 12 2022
+ *
+ * The GNU General Public License v3.0
+ * Copyright (c) 2022 MS Club SLIIT Authors
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program at
+ *
+ *     https://www.gnu.org/licenses/
+ *
+ * This program is distributed in the hope that it will be useful
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ */
+
 import { Request, Response, NextFunction } from "express";
 import ApplicationService from "../services";
 
@@ -263,22 +286,27 @@ export const getDeletedApplicationsForAdmin = async (request: Request, response:
  * recoverRemovedApplication
  */
 export const recoverRemovedApplication = async (request: Request, response: Response, next: NextFunction) => {
-	const id = request.params.applicationId;
-	await ApplicationService.recoverDeletedApplication(id)
-		.then((data: any) => {
-			request.handleResponse.successRespond(response)(data);
-			next();
-		})
-		.catch((error: any) => {
-			request.handleResponse.errorRespond(response)(error.message);
-			next();
-		});
+	const applicationId = request.params.applicationId;
+
+	if (applicationId) {
+		await ApplicationService.recoverDeletedApplication(applicationId)
+			.then((data: any) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error: any) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
+	} else {
+		request.handleResponse.errorRespond(response)("ApplicationId not found");
+	}
 };
 
 //delete application from the system
 
 export const deleteApplicationPermanently = async (request: Request, response: Response, next: NextFunction) => {
-	const applicationId = request.body.applicationId;
+	const applicationId = request.params.applicationId;
 
 	if (applicationId) {
 		await ApplicationService.deleteApplicationPermanently(applicationId)
