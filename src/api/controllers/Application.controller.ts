@@ -263,14 +263,39 @@ export const getDeletedApplicationsForAdmin = async (request: Request, response:
  * recoverRemovedApplication
  */
 export const recoverRemovedApplication = async (request: Request, response: Response, next: NextFunction) => {
-	const id = request.params.applicationId;
-	await ApplicationService.recoverDeletedApplication(id)
-		.then((data: any) => {
-			request.handleResponse.successRespond(response)(data);
-			next();
-		})
-		.catch((error: any) => {
-			request.handleResponse.errorRespond(response)(error.message);
-			next();
-		});
+	const applicationId = request.params.applicationId;
+
+	if (applicationId) {
+		await ApplicationService.recoverDeletedApplication(applicationId)
+			.then((data: any) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error: any) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
+	} else {
+		request.handleResponse.errorRespond(response)("ApplicationId not found");
+	}
+};
+
+//delete application from the system
+
+export const deleteApplicationPermanently = async (request: Request, response: Response, next: NextFunction) => {
+	const applicationId = request.params.applicationId;
+
+	if (applicationId) {
+		await ApplicationService.deleteApplicationPermanently(applicationId)
+			.then((data: any) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error: any) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
+	} else {
+		request.handleResponse.errorRespond(response)("ApplicationId not found");
+	}
 };

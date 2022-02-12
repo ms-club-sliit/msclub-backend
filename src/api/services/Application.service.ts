@@ -307,3 +307,21 @@ export const recoverDeletedApplication = async (applicationId: string) => {
 		throw new Error("Application ID not Passed");
 	}
 };
+
+/*
+delete application from the system permanently
+*/
+
+export const deleteApplicationPermanently = async (applicationId: string) => {
+	if (applicationId) {
+		return await ApplicationModel.findByIdAndDelete(applicationId)
+			.then((application) => {
+				return application;
+			})
+			.catch((error) => {
+				throw new Error(error.message);
+			});
+	} else {
+		throw new Error("Application ID not Passed");
+	}
+};

@@ -10,7 +10,13 @@ import {
 	fetchDeletedUsers,
 } from "./User.service";
 
-import { insertContact, archiveContact, fetchContactInfo, getArchivedContacts } from "./Contact.service";
+import {
+	insertContact,
+	archiveContact,
+	fetchContactInfo,
+	getArchivedContacts,
+	deleteContactPermanently,
+} from "./Contact.service";
 
 import {
 	insertEvent,
@@ -66,6 +72,7 @@ import {
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
 	recoverDeletedApplication,
+	deleteApplicationPermanently,
 } from "./Application.service";
 
 import {
@@ -108,6 +115,7 @@ export default {
 	fetchContactInfo,
 	archiveContact,
 	getArchivedContacts,
+	deleteContactPermanently,
 	// Event services
 	insertEvent,
 	getEvent,
@@ -156,6 +164,7 @@ export default {
 	fetchRejectedApplications,
 	getDeletedApplicationsForAdmin,
 	recoverDeletedApplication,
+	deleteApplicationPermanently,
 	// BoardMember Service
 	insertBoardMember,
 	getBoardMemberbyID,
