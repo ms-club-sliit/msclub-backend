@@ -182,26 +182,35 @@ export const deletedEventsForAdmin = async (request: Request, response: Response
 };
 
 export const recoverRemovedEvent = async (request: Request, response: Response, next: NextFunction) => {
-	const id = request.params.eventId;
-	await EventService.recoverDeletedEvent(id)
-		.then((data) => {
-			request.handleResponse.successRespond(response)(data);
-			next();
-		})
-		.catch((error) => {
-			request.handleResponse.errorRespond(response)(error.message);
-			next();
-		});
+	const eventId = request.params.eventId;
+	if (eventId) {
+		await EventService.recoverDeletedEvent(eventId)
+			.then((data) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
+	} else {
+		request.handleResponse.errorRespond(response)("Event ID not found");
+	}
 };
 
 export const deleteEventPermanently = async (request: Request, response: Response, next: NextFunction) => {
-	await EventService.deleteEventPermanently(request.body.eventId)
-		.then((data) => {
-			request.handleResponse.successRespond(response)(data);
-			next();
-		})
-		.catch((error) => {
-			request.handleResponse.errorRespond(response)(error.message);
-			next();
-		});
+	const eventId = request.params.eventId;
+	if (eventId) {
+		await EventService.deleteEventPermanently(eventId)
+			.then((data) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
+	} else {
+		request.handleResponse.errorRespond(response)("Event ID not found");
+	}
 };
