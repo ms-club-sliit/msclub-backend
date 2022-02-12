@@ -236,8 +236,14 @@ delete a past event
  */
 export const permenentDeleteTopSpeaker = async (topSpeakerId: string) => {
 	if (topSpeakerId) {
-		return TopSpeakerModel.findByIdAndDelete(topSpeakerId);
+		return await TopSpeakerModel.findByIdAndDelete(topSpeakerId)
+			.then((deletedTopSpeaker) => {
+				return deletedTopSpeaker;
+			})
+			.catch((error) => {
+				throw new Error(error.message);
+			});
 	} else {
-		throw new Error("Topspeaker ID not Passed");
+		throw new Error("TopSpeaker ID not Passed");
 	}
 };
