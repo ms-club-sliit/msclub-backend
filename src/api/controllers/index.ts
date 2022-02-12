@@ -56,6 +56,7 @@ import {
 	recoverDeletedTopSpeaker,
 	getAllTopSpeakersForAdmin,
 	getDeletedTopSpeakersForAdmin,
+	permenentDeleteTopSpeaker,
 } from "./TopSpeaker.controller";
 
 import {
@@ -156,6 +157,7 @@ export default {
 	recoverDeletedTopSpeaker,
 	getAllTopSpeakersForAdmin,
 	getDeletedTopSpeakersForAdmin,
+	permenentDeleteTopSpeaker,
 	//Board Member Controllers
 	getBoardMemberbyID,
 	getAllBoardMembers,

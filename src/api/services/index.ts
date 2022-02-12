@@ -55,6 +55,7 @@ import {
 	recoverDeletedTopSpeaker,
 	getAllTopSpeakersForAdmin,
 	getDeletedTopSpeakersForAdmin,
+	permenentDeleteTopSpeaker,
 } from "./TopSpeaker.service";
 
 import {
@@ -148,6 +149,7 @@ export default {
 	recoverDeletedTopSpeaker,
 	getAllTopSpeakersForAdmin,
 	getDeletedTopSpeakersForAdmin,
+	permenentDeleteTopSpeaker,
 	// Application Service
 	addApplication,
 	fetchApplicationById,
