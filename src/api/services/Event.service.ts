@@ -1,7 +1,6 @@
 import { DocumentDefinition, Schema } from "mongoose";
 import { IEvent, IUpdatedBy } from "../../interfaces";
 import EventModel from "../models/Event.model";
-import UserModel from "../models/User.model";
 
 /**
  save an event in the database
@@ -236,7 +235,13 @@ export const recoverDeletedEvent = async (eventId: string) => {
 // Delete event permanently
 export const deleteEventPermanently = async (eventId: string) => {
 	if (eventId) {
-		return UserModel.findByIdAndDelete(eventId);
+		return await EventModel.findByIdAndDelete(eventId)
+			.then((deletedEvent) => {
+				return deletedEvent;
+			})
+			.catch((error) => {
+				throw new Error(error.message);
+			});
 	} else {
 		throw new Error("Event ID not Passed");
 	}
