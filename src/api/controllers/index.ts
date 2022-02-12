@@ -11,7 +11,13 @@ import {
 	getRemovedUsers,
 } from "./User.controller";
 
-import { createContact, getAllContacts, removeContact, removedContacts } from "./Contact.controller";
+import {
+	createContact,
+	getAllContacts,
+	removeContact,
+	removedContacts,
+	removeContactPermanently,
+} from "./Contact.controller";
 
 import {
 	insertEvent,
@@ -104,6 +110,7 @@ export default {
 	removeUserPermenently,
 	recoverUser,
 	getRemovedUsers,
+	removeContactPermanently,
 	//Contact Controllers
 	createContact,
 	getAllContacts,
