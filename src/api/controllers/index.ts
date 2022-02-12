@@ -56,7 +56,7 @@ import {
 	recoverDeletedTopSpeaker,
 	getAllTopSpeakersForAdmin,
 	getDeletedTopSpeakersForAdmin,
-	permenentDeleteTopSpeaker
+	permenentDeleteTopSpeaker,
 } from "./TopSpeaker.controller";
 
 import {

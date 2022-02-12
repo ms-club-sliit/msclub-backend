@@ -160,18 +160,17 @@ export const getDeletedTopSpeakersForAdmin = async (request: Request, response: 
 
 export const permenentDeleteTopSpeaker = async (request: Request, response: Response, next: NextFunction) => {
 	const topSpeakerId = request.params.topSpeakerId;
-	if(topSpeakerId) {
-		await TopSpeakerService.permenentDeleteTopSpeaker(request.body.topSpeakerId)
-		.then((data) => {
-			request.handleResponse.successRespond(response)(data);
-			next();
-		})
-		.catch((error) => {
-			request.handleResponse.errorRespond(response)(error.message);
-			next();
-		});
+	if (topSpeakerId) {
+		await TopSpeakerService.permenentDeleteTopSpeaker(topSpeakerId)
+			.then((data) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
 	} else {
 		request.handleResponse.errorRespond(response)("TopSpeaker ID not found");
 	}
-	
 };
