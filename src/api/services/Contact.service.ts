@@ -107,3 +107,22 @@ export const getArchivedContacts = async () => {
 			throw new Error(error.message);
 		});
 };
+
+/**
+ * Delete Contact Permenently
+@returns {IContact[]} Deleted Contact Details
+ */
+export const deleteContactPermanently = async (contactId: string) => {
+	if (contactId) {
+		return ContactModel.findByIdAndDelete(contactId)
+			.then((contacts) => {
+				if (contacts != null) return contacts;
+				else return "Contact Not Found";
+			})
+			.catch((error) => {
+				throw new Error(error.message);
+			});
+	} else {
+		throw new Error("Contact ID not Found");
+	}
+};

@@ -147,7 +147,7 @@ export const recoverDeletedTopSpeaker = async (request: Request, response: Respo
 	const topSpeakerId = request.params.topSpeakerId;
 
 	if (topSpeakerId) {
-		await TopSpeakerService.recoverDeletedTopSpeaker(request.params.topSpeakerId).then((data) => {
+		await TopSpeakerService.recoverDeletedTopSpeaker(topSpeakerId).then((data) => {
 			request.handleResponse.successRespond(response)(data);
 			next();
 		});

@@ -200,15 +200,20 @@ export const deletedWebinarsForAdmin = async (request: Request, response: Respon
 };
 
 export const recoverRemovedWebinar = async (request: Request, response: Response, next: NextFunction) => {
-	await WebinarService.recoverDeletedWebinar(request.body.webinarId)
-		.then((data: any) => {
-			request.handleResponse.successRespond(response)(data);
-			next();
-		})
-		.catch((error: any) => {
-			request.handleResponse.errorRespond(response)(error.message);
-			next();
-		});
+	const webinarId = request.params.webinarId;
+	if (webinarId) {
+		await WebinarService.recoverDeletedWebinar(webinarId)
+			.then((data: any) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error: any) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
+	} else {
+		request.handleResponse.errorRespond(response)("WebinarId not found");
+	}
 };
 
 /**
@@ -216,7 +221,7 @@ export const recoverRemovedWebinar = async (request: Request, response: Response
  * @param webinarId @type string
  */
 export const deleteWebinarPermanently = async (request: Request, response: Response, next: NextFunction) => {
-	const webinarId = request.body.webinarId;
+	const webinarId = request.params.webinarId;
 	if (webinarId) {
 		await WebinarService.deleteWebinarPermanently(webinarId)
 			.then((data: any) => {

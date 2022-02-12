@@ -87,3 +87,20 @@ export const removedContacts = async (request: Request, response: Response, next
 			next();
 		});
 };
+
+/**
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns {IContact[]} Removed contact information
+ */
+export const removeContactPermanently = async (request: Request, response: Response, next: NextFunction) => {
+	await ContactService.deleteContactPermanently(request.params.contactId)
+		.then((data) => {
+			request.handleResponse.successRespond(response)(data);
+		})
+		.catch((error) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
+};
