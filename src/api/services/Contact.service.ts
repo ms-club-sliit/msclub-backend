@@ -126,3 +126,25 @@ export const deleteContactPermanently = async (contactId: string) => {
 		throw new Error("Contact ID not Found");
 	}
 };
+
+// Recover deleted inquiries
+export const recoverDeletedInquiry = async (inquiryId: string) => {
+	if (inquiryId) {
+		return await ContactModel.findById(inquiryId)
+			.then(async (inquiryDetails) => {
+				if (inquiryDetails) {
+					if (inquiryDetails.deletedAt !== null) {
+						inquiryDetails.deletedAt = null;
+						return await inquiryDetails.save();
+					} else {
+						return "Inquiry is already recovered";
+					}
+				}
+			})
+			.catch((error) => {
+				throw new Error(error.message);
+			});
+	} else {
+		throw new Error("Inquiry ID not Passed");
+	}
+};
