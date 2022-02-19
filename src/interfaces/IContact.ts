@@ -29,7 +29,7 @@ interface IContact extends Document {
 	message: string;
 	createdAt: Date;
 	updatedAt: Date;
-	deletedAt?: Date;
+	deletedAt?: null | Date | string;
 }
 
 export type { IContact };

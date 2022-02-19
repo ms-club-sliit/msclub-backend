@@ -104,3 +104,20 @@ export const removeContactPermanently = async (request: Request, response: Respo
 			next();
 		});
 };
+
+export const recoverRemovedInquiry = async (request: Request, response: Response, next: NextFunction) => {
+	const inquiryId = request.params.inquiryId;
+	if (inquiryId) {
+		await ContactService.recoverDeletedInquiry(inquiryId)
+			.then((data) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
+	} else {
+		request.handleResponse.errorRespond(response)("Inquiry ID not found");
+	}
+};
