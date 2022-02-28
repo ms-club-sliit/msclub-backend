@@ -1,5 +1,5 @@
 /*
- * Created on Sat Feb 12 2022
+ * Created on Tue Mar 01 2022
  *
  * The GNU General Public License v3.0
  * Copyright (c) 2022 MS Club SLIIT Authors
@@ -21,17 +21,31 @@
  *
  */
 
-import pino from "pino";
+import { Document } from "mongoose";
 
-const LOGGER = pino({
-	transport: {
-		target: "pino-pretty",
-		options: {
-			colorize: true,
-			translateTime: "SYS:🕖dd-mm-yyyy HH:MM:ss",
-			ignore: "pid,hostname",
-		},
-	},
-});
+interface IEmail extends Document {
+	templateName: string;
+	to: string;
+	subject: string;
+	status: string;
+	body: {
+		application?: {
+			studentId: string;
+			name: string;
+			email: string;
+			contactNumber: string;
+			currentAcademicYear: string;
+			linkedIn: string;
+			gitHub: string;
+			skillsAndTalents: string[];
+		};
+		contactUs?: {
+			name: string;
+			email: string;
+			message: string;
+			date_time: string;
+		};
+	};
+}
 
-export default LOGGER;
+export type { IEmail };
