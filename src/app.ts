@@ -34,7 +34,6 @@ import connect from "./util/database.connection";
 import messageQueue from "./util/queue.config";
 import { Channel } from "amqplib";
 import { cronInit } from "./util/cron";
-import EmailService from "./util/email.handler";
 
 export const app: Express = express();
 const PORT: string = configs.port;
@@ -56,7 +55,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 	req.handleResponse = responseHandler;
 	req.channel = channel;
 	req.queue = messageQueue;
-	new EmailService(channel);
 	next();
 });
 
