@@ -29,6 +29,7 @@
 		"@types/bcrypt": "^5.0.0",
 		"@types/bcryptjs": "^2.4.2",
 		"@types/cors": "^2.8.12",
+		"@types/cron": "^1.7.3",
 		"@types/firebase": "^3.2.1",
 		"@types/handlebars": "^4.1.0",
 		"@types/imagemin": "^7.0.1",
