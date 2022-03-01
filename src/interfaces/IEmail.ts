@@ -28,24 +28,8 @@ interface IEmail extends Document {
 	to: string;
 	subject: string;
 	status: string;
-	body: {
-		application?: {
-			studentId: string;
-			name: string;
-			email: string;
-			contactNumber: string;
-			currentAcademicYear: string;
-			linkedIn: string;
-			gitHub: string;
-			skillsAndTalents: string[];
-		};
-		contactUs?: {
-			name: string;
-			email: string;
-			message: string;
-			date_time: string;
-		};
-	};
+	body?: string;
+	type: string;
 }
 
 export type { IEmail };
