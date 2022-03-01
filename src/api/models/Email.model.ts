@@ -34,23 +34,11 @@ const EmailSchema = new Schema<IEmail>(
 			default: "WAITING",
 			required: true,
 		},
-		body: {
-			application: {
-				studentId: { type: String, required: false },
-				name: { type: String, required: false },
-				email: { type: String, required: false },
-				contactNumber: { type: String, required: false },
-				currentAcademicYear: { type: String, required: false },
-				linkedIn: { type: String, required: false },
-				gitHub: { type: String, required: false },
-				skillsAndTalents: [{ type: String, required: false }],
-			},
-			contactUs: {
-				name: { type: String, required: false },
-				email: { type: String, required: false },
-				message: { type: String, required: false },
-				date_time: { type: Date, required: false },
-			},
+		body: { type: Schema.Types.Mixed, required: true },
+		type: {
+			type: String,
+			enum: ["Application", "ContactUs"],
+			required: true,
 		},
 	},
 	{
