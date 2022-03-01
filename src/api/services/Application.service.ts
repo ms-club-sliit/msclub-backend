@@ -24,7 +24,9 @@
 import { DocumentDefinition } from "mongoose";
 import { IApplication, IInterview } from "../../interfaces";
 import ApplicationModel from "../models/Application.model";
+import EmailModel from "../models/Email.model";
 import { Request } from "express";
+import { EmailTemplate, EmailType, EmailStatus } from "./Service.constant";
 import axios from "axios";
 import moment from "moment";
 
@@ -36,31 +38,26 @@ import moment from "moment";
 export const addApplication = async (request: Request, applicationData: DocumentDefinition<IApplication>) => {
 	return await ApplicationModel.create(applicationData)
 		.then(async (application) => {
-			// Send email
-			const emailTemplate = "Application-Email-Template.html";
-			const to = application.email;
-			const subject = "MS Club SLIIT - Application Received";
-			const emailBodyData = {
-				studentId: application.studentId,
-				name: application.name,
-				email: application.email,
-				contactNumber: application.contactNumber,
-				currentAcademicYear: application.currentAcademicYear,
-				linkedIn: application.linkedIn,
-				gitHub: application.gitHub,
-				skillsAndTalents: application.skillsAndTalents,
-			};
-
 			const email = {
-				template: emailTemplate,
-				to: to,
-				subject: subject,
-				body: emailBodyData,
+				templateName: EmailTemplate.Application,
+				to: application.email,
+				subject: "MS Club SLIIT - Application Received",
+				body: {
+					studentId: application.studentId,
+					name: application.name,
+					email: application.email,
+					contactNumber: application.contactNumber,
+					currentAcademicYear: application.currentAcademicYear,
+					linkedIn: application.linkedIn,
+					gitHub: application.gitHub,
+					skillsAndTalents: application.skillsAndTalents,
+				},
+				status: EmailStatus.Waiting,
+				type: EmailType.Application,
 			};
 
-			// Send email data to message queue
-			const channel = request.channel;
-			request.queue.publishMessage(channel, JSON.stringify(email));
+			// Add email information to email collection
+			await EmailModel.create(email);
 			return application;
 		})
 		.catch((error) => {
