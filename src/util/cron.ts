@@ -1,5 +1,6 @@
 import { CronJob } from "cron";
 import logger from "./logger";
+import { sendEmailWithTemplate } from "./email.handler";
 
 const cronInit = () => {
 	const crons = [];
@@ -7,8 +8,8 @@ const cronInit = () => {
 	crons.push(
 		new CronJob({
 			cronTime: "*/20 * * * * *",
-			onTick: () => {
-				logger.info("Cron is send");
+			onTick: async () => {
+				await sendEmailWithTemplate();
 			},
 			timeZone: "Asia/Colombo",
 		})
