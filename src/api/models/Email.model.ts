@@ -1,5 +1,5 @@
 /*
- * Created on Sat Feb 12 2022
+ * Created on Tue Mar 01 2022
  *
  * The GNU General Public License v3.0
  * Copyright (c) 2022 MS Club SLIIT Authors
@@ -20,18 +20,32 @@
  * GNU General Public License for more details.
  *
  */
+import mongoose, { Schema } from "mongoose";
+import { IEmail } from "../../interfaces/IEmail";
 
-import pino from "pino";
-
-const LOGGER = pino({
-	transport: {
-		target: "pino-pretty",
-		options: {
-			colorize: true,
-			translateTime: "SYS:dd-mm-yyyy HH:MM:ss",
-			ignore: "pid,hostname",
+const EmailSchema = new Schema<IEmail>(
+	{
+		templateName: { type: String, required: true },
+		to: { type: String, required: true },
+		subject: { type: String, required: true },
+		status: {
+			type: String,
+			enum: ["WAITING", "IN-PROGRESS", "DELIVERED"],
+			default: "WAITING",
+			required: true,
+		},
+		body: { type: Schema.Types.Mixed, required: true },
+		type: {
+			type: String,
+			enum: ["Application", "ContactUs"],
+			required: true,
 		},
 	},
-});
+	{
+		timestamps: true,
+	}
+);
 
-export default LOGGER;
+const EmailModel = mongoose.model<IEmail>("emails", EmailSchema);
+
+export default EmailModel;

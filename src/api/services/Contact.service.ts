@@ -24,8 +24,10 @@
 import { Request } from "express";
 import { DocumentDefinition } from "mongoose";
 import { IContact } from "../../interfaces";
+import { EmailTemplate, EmailType, EmailStatus } from "./Service.constant";
 import ContactModel from "../models/Contact.model";
 import moment from "moment";
+import EmailModel from "../models/Email.model";
 
 /**
  * @param {IContact} contactData
@@ -34,27 +36,21 @@ import moment from "moment";
 export const insertContact = async (request: Request, contactData: DocumentDefinition<IContact>) => {
 	return await ContactModel.create(contactData)
 		.then(async (data) => {
-			// Send email
-			const emailTemplate = "Contact-Us-Email-Template.html";
-			const to = data.email;
-			const subject = "MS Club SLIIT - Contact Us";
-			const emailBodyData = {
-				name: data.name,
-				email: data.email,
-				message: data.message,
-				date_time: moment(data.createdAt).format("LLL"),
-			};
-
 			const email = {
-				template: emailTemplate,
-				to: to,
-				subject: subject,
-				body: emailBodyData,
+				templateName: EmailTemplate.ContactUs,
+				to: data.email,
+				subject: "MS Club SLIIT - Contact Us",
+				body: {
+					name: data.name,
+					email: data.email,
+					message: data.message,
+					date_time: moment(data.createdAt).format("LLL"),
+				},
+				status: EmailStatus.Waiting,
+				type: EmailType.ContactUs,
 			};
 
-			// Send email data to message queue
-			const channel = request.channel;
-			request.queue.publishMessage(channel, JSON.stringify(email));
+			await EmailModel.create(email);
 			return data;
 		})
 		.catch((error) => {

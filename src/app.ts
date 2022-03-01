@@ -33,7 +33,7 @@ import { configs } from "./config";
 import connect from "./util/database.connection";
 import messageQueue from "./util/queue.config";
 import { Channel } from "amqplib";
-import EmailService from "./util/email.handler";
+import { cronInit } from "./util/cron";
 
 export const app: Express = express();
 const PORT: string = configs.port;
@@ -55,7 +55,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 	req.handleResponse = responseHandler;
 	req.channel = channel;
 	req.queue = messageQueue;
-	new EmailService(channel);
 	next();
 });
 
@@ -67,11 +66,12 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
 
 // Start the Server
 app.listen(PORT, () => {
-	logger.info(`Starting on ${ENVIRONMENT} Environment`);
-	logger.info(MONGO_URI);
+	logger.info(`✨ Starting on ${ENVIRONMENT} Environment`);
+	logger.info(`🔗 ${MONGO_URI}`);
 	// Connect to Database
 	connect();
 	// Inject Routes
 	routes(app);
-	logger.info(`API Server up and running on PORT ${PORT}`);
+	cronInit();
+	logger.info(`🚀 API Server up and running on PORT ${PORT}`);
 });
