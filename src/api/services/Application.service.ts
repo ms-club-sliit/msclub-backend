@@ -26,6 +26,7 @@ import { IApplication, IInterview } from "../../interfaces";
 import ApplicationModel from "../models/Application.model";
 import EmailModel from "../models/Email.model";
 import { Request } from "express";
+import { EmailTemplate, EmailType, EmailStatus } from "./Service.constant";
 import axios from "axios";
 import moment from "moment";
 
@@ -38,22 +39,21 @@ export const addApplication = async (request: Request, applicationData: Document
 	return await ApplicationModel.create(applicationData)
 		.then(async (application) => {
 			const email = {
-				templateName: "Application-Email-Template.html",
+				templateName: EmailTemplate.Application,
 				to: application.email,
 				subject: "MS Club SLIIT - Application Received",
 				body: {
-					application: {
-						studentId: application.studentId,
-						name: application.name,
-						email: application.email,
-						contactNumber: application.contactNumber,
-						currentAcademicYear: application.currentAcademicYear,
-						linkedIn: application.linkedIn,
-						gitHub: application.gitHub,
-						skillsAndTalents: application.skillsAndTalents,
-					},
+					studentId: application.studentId,
+					name: application.name,
+					email: application.email,
+					contactNumber: application.contactNumber,
+					currentAcademicYear: application.currentAcademicYear,
+					linkedIn: application.linkedIn,
+					gitHub: application.gitHub,
+					skillsAndTalents: application.skillsAndTalents,
 				},
-				status: "WAITING",
+				status: EmailStatus.Waiting,
+				type: EmailType.Application,
 			};
 
 			// Add email information to email collection
