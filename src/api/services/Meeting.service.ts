@@ -5,18 +5,17 @@ import { Request } from "express";
 import axios from "axios";
 
 export const scheduleInternalMeetingMSTeams = (request: Request, meetingData: DocumentDefinition<IMeeting>) => {
-	// console.log(meetingData);
 	return axios
 		.post(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/internalmeeting/schedule`, meetingData)
-		.then(() => {
+		.then((sceduleMeeting) => {
 			const meetingInfo = {
 				meetingName: meetingData.meetingName,
 				startDateTime: meetingData.startDateTime,
 				endDateTime: meetingData.endDateTime,
 				emailList: [meetingData.emailList],
-				sheduledLink: "sheduledLink",
+				sheduledLink: sceduleMeeting.data.body.onlineMeeting.joinUrl,
 			};
-			MeetingModel.create(meetingInfo)
+			return MeetingModel.create(meetingInfo)
 				.then((createdMeeting) => {
 					return createdMeeting;
 				})
