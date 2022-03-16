@@ -123,6 +123,8 @@ import {
 	updateOrganizationInfo,
 } from "./Organization.service";
 
+import { scheduleInternalMeetingMSTeams, getAllInternalMeetingsMSTeams } from "./Meeting.service";
+
 export default {
 	// User services
 	insertUser,
@@ -208,4 +210,8 @@ export default {
 	getOrganizationInfo,
 	getOrganizationInfoForAdmin,
 	updateOrganizationInfo,
+
+	// Meeting Service
+	scheduleInternalMeetingMSTeams,
+	getAllInternalMeetingsMSTeams,
 };
