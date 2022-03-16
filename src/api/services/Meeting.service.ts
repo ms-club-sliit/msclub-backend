@@ -29,3 +29,14 @@ export const scheduleInternalMeetingMSTeams = (request: Request, meetingData: Do
 			throw new Error(error.message);
 		});
 };
+
+export const getAllInternalMeetingsMSTeams = async () => {
+	return await MeetingModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
+		.sort({ createdAt: -1 })
+		.then((meetings) => {
+			return meetings;
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
