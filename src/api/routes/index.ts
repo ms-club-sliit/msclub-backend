@@ -143,4 +143,6 @@ export default function (app: Express) {
 
   // Meeting endpoints
   app.post("/api/meeting/internal/", middleware.authenticate, controller.addInternalMeetingMSTeams);
+  app.get("/api/meeting/internal/", middleware.authenticate, controller.getMeetings);
+
 }

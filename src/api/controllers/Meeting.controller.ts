@@ -12,3 +12,15 @@ export const addInternalMeetingMSTeams = async (request: Request, response: Resp
 			next();
 		});
 };
+
+export const getMeetings = async (request: Request, response: Response, next: NextFunction) => {
+	await MeetingService.getAllInternalMeetingsMSTeams()
+		.then((data) => {
+			request.handleResponse.successRespond(response)(data);
+			next();
+		})
+		.catch((error: any) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
+};
