@@ -123,7 +123,7 @@ import {
 	updateOrganization,
 } from "./Organization.controller";
 
-import { addInternalMeetingMSTeams, getMeetings } from "./Meeting.controller";
+import { scheduleInternalMeeting, getAllInternalMeetings } from "./Meeting.controller";
 
 export default {
 	//User Controllers
@@ -211,6 +211,6 @@ export default {
 	getOrganizationForAdmin,
 	updateOrganization,
 	// Meeting Controllers
-	addInternalMeetingMSTeams,
-	getMeetings,
+	scheduleInternalMeeting,
+	getAllInternalMeetings,
 };
