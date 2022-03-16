@@ -40,6 +40,7 @@ import {
 	getArchivedContacts,
 	deleteContactPermanently,
 	recoverDeletedInquiry,
+	replyInquiry,
 } from "./Contact.service";
 
 import {
@@ -141,6 +142,7 @@ export default {
 	getArchivedContacts,
 	deleteContactPermanently,
 	recoverDeletedInquiry,
+	replyInquiry,
 	// Event services
 	insertEvent,
 	getEvent,

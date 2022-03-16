@@ -144,3 +144,35 @@ export const recoverDeletedInquiry = async (inquiryId: string) => {
 		throw new Error("Inquiry ID not Passed");
 	}
 };
+
+export const replyInquiry = async (
+	request: Request,
+	inquiryId: string,
+	reply: string,
+) => {
+	return await ContactModel.findById(inquiryId)
+		.then(async (contactData) => {
+			if (contactData) {
+				const to = contactData.email;
+				const subject = "MS Club of SLIIT";
+				const emailBodyData = {
+					reply: reply,
+				};
+
+				const email = {
+					to: to,
+					subject: subject,
+					body: emailBodyData,
+				};
+
+				const channel = request.channel;
+				request.queue.publishMessage(channel, JSON.stringify(email));
+				
+			} else {
+				return null;
+			}
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};

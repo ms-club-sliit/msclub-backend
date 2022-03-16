@@ -121,3 +121,15 @@ export const recoverRemovedInquiry = async (request: Request, response: Response
 		request.handleResponse.errorRespond(response)("Inquiry ID not found");
 	}
 };
+
+export const replyInquiry = async (request: Request, response: Response, next: NextFunction) => {
+	await ContactService.replyInquiry(request, request.params.inquiryId, request.params.reply)
+		.then((data) => {
+			request.handleResponse.successRespond(response)(data);
+			next();
+		})
+		.catch((error: any) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
+};
