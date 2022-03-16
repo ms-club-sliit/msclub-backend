@@ -32,6 +32,7 @@ import { IBoardMember } from "./IBoardMember";
 import { IApplication } from "./IApplication";
 import { IInterview } from "./IInterview";
 import { IOrganization } from "./IOrganization";
+import { IMeeting } from "./IMeeting";
 
 export {
 	IUser,
@@ -48,4 +49,5 @@ export {
 	ITopSpeaker,
 	IInterview,
 	IOrganization,
+	IMeeting,
 };
