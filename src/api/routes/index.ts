@@ -142,5 +142,5 @@ export default function (app: Express) {
   app.put("/admin/organization/", middleware.authenticate, upload.single("organizationLogo"), controller.updateOrganization);
 
   // Meeting endpoints
-  app.post("/api/meeting/internal/", middleware.authenticate, controller.addInternalMeetingMSTeams);
+  app.post("/api/meeting/internal/msteams/", middleware.authenticate, controller.addInternalMeetingMSTeams);
 }
