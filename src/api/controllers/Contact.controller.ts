@@ -123,7 +123,7 @@ export const recoverRemovedInquiry = async (request: Request, response: Response
 };
 
 export const replyInquiry = async (request: Request, response: Response, next: NextFunction) => {
-	await ContactService.replyInquiry(request, request.params.inquiryId, request.params.reply)
+	await ContactService.replyInquiry(request, request.params.inquiryId, request.body)
 		.then((data) => {
 			request.handleResponse.successRespond(response)(data);
 			next();

@@ -41,6 +41,7 @@ import {
 	removedContacts,
 	removeContactPermanently,
 	recoverRemovedInquiry,
+	replyInquiry,
 } from "./Contact.controller";
 
 import {
@@ -142,6 +143,7 @@ export default {
 	removeContact,
 	removedContacts,
 	recoverRemovedInquiry,
+	replyInquiry,
 	//Event Controllers
 	insertEvent,
 	getEvent,
