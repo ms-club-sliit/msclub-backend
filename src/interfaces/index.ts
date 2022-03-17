@@ -23,7 +23,7 @@
 
 import { IUser, IUserModel, IUserRequest } from "./IUser";
 import { ITopSpeaker } from "./ITopSpeaker";
-import { IContact } from "./IContact";
+import { IContact, IInquiryReply } from "./IContact";
 import { IConfig } from "./IConfig";
 import { IEvent, IUpdatedBy } from "./IEvent";
 import { IWebinar } from "./IWebinar";
@@ -49,5 +49,6 @@ export {
 	ITopSpeaker,
 	IInterview,
 	IOrganization,
+	IInquiryReply,
 	IMeeting,
 };

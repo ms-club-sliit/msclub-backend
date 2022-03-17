@@ -23,7 +23,7 @@
 
 import { Request } from "express";
 import { DocumentDefinition } from "mongoose";
-import { IContact } from "../../interfaces";
+import { IContact, IInquiryReply } from "../../interfaces";
 import { EmailTemplate, EmailType, EmailStatus } from "./Service.constant";
 import ContactModel from "../models/Contact.model";
 import moment from "moment";
@@ -143,4 +143,36 @@ export const recoverDeletedInquiry = async (inquiryId: string) => {
 	} else {
 		throw new Error("Inquiry ID not Passed");
 	}
+};
+
+export const replyInquiry = async (
+	request: Request,
+	inquiryId: string,
+	replyData: DocumentDefinition<IInquiryReply>,
+) => {
+	return await ContactModel.findById(inquiryId)
+		.then(async (data) => {
+			if (data) {
+				const to = data.email;
+				const subject = "MS Club of SLIIT";
+
+				const email = {
+					to: to,
+					subject: subject,
+					body: replyData,
+				};
+
+				const channel = request.channel;
+				request.queue.publishMessage(channel, JSON.stringify(email));
+
+				data.replies.push(replyData.reply);
+				return await data.save();
+				
+			} else {
+				return null;
+			}
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
 };
