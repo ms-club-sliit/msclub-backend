@@ -124,6 +124,8 @@ import {
 	updateOrganization,
 } from "./Organization.controller";
 
+import { scheduleInternalMeeting, getAllInternalMeetings } from "./Meeting.controller";
+
 export default {
 	//User Controllers
 	createUser,
@@ -210,4 +212,7 @@ export default {
 	getOrganization,
 	getOrganizationForAdmin,
 	updateOrganization,
+	// Meeting Controllers
+	scheduleInternalMeeting,
+	getAllInternalMeetings,
 };

@@ -141,4 +141,9 @@ export default function (app: Express) {
   app.get("/admin/organization/info", middleware.authenticate, controller.getOrganization);
   app.get("/admin/organization/", middleware.authenticate, controller.getOrganizationForAdmin);
   app.put("/admin/organization/", middleware.authenticate, upload.single("organizationLogo"), controller.updateOrganization);
+
+  // Meeting endpoints
+  app.post("/api/meeting/internal/", middleware.authenticate, controller.scheduleInternalMeeting);
+  app.get("/api/meeting/internal/", middleware.authenticate, controller.getAllInternalMeetings);
+
 }
