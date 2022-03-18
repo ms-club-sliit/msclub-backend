@@ -24,6 +24,7 @@
 import {
 	insertUser,
 	authenticateUser,
+	authenticateUserByFace,
 	getUsers,
 	updateUser,
 	adminUpdateUser,
@@ -129,6 +130,7 @@ export default {
 	// User services
 	insertUser,
 	authenticateUser,
+	authenticateUserByFace,
 	getUsers,
 	updateUser,
 	adminUpdateUser,

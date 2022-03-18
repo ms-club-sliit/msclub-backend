@@ -24,19 +24,64 @@
 import { DocumentDefinition, Schema } from "mongoose";
 import { IUser, IUserRequest } from "../../interfaces";
 import UserModel from "../models/User.model";
+import axios from "axios";
 
 /**
  * @param {IUser} userData
  * @returns {Document} User document
  */
 export const insertUser = async (userData: DocumentDefinition<IUserRequest>) => {
-	return await UserModel.create(userData)
-		.then(async (user) => {
-			await user.generateAuthToken();
-			return user;
-		})
-		.catch((error) => {
-			throw new Error(error.message);
+	const config = {
+		headers: {
+			"Content-Type": "application/json",
+			"Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY || "null",
+		},
+	};
+
+	const profileImageDetails = {
+		url: "https://storage.googleapis.com/ms-storage-server-fb22b.appspot.com/" + userData.profileImage,
+	};
+
+	return await axios
+		.post(
+			`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/msclubmember/persistedfaces?detectionModel=detection_01`,
+			profileImageDetails,
+			config
+		)
+		.then(async (response) => {
+			userData.persistedFaceId = response.data.persistedFaceId;
+			return await UserModel.create(userData)
+				.then(async (user) => {
+					return await axios
+						.post(`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/msclubmember/train`, "", config)
+						.then(async () => {
+							await user.generateAuthToken();
+							return user;
+						})
+						.catch((error) => {
+							return axios
+								.delete(
+									`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/msclubmember/persistedfaces/${response.data.persistedFaceId}`,
+									config
+								)
+								.then(() => {
+									return axios
+										.post(`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/msclubmember/train`, "", config)
+										.then(() => {
+											return user;
+										})
+										.catch(() => {
+											throw new Error(error.message);
+										});
+								})
+								.catch(() => {
+									throw new Error(error.message);
+								});
+						});
+				})
+				.catch((error) => {
+					throw new Error(error.message);
+				});
 		});
 };
 
@@ -46,6 +91,52 @@ export const authenticateUser = async (userName: string, password: string) => {
 	} catch (error: any) {
 		throw new Error(error.message);
 	}
+};
+
+export const authenticateUserByFace = async (imageUrl: string) => {
+	const config = {
+		headers: {
+			"Content-Type": "application/json",
+			"Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY || "null",
+		},
+	};
+
+	const newImageDetails = {
+		url: process.env.STORAGE_BUCKET_URL + imageUrl,
+	};
+
+	return await axios
+		.post(
+			`${process.env.FACE_API_HOST}/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&recognitionModel=recognition_03&returnRecognitionModel=false&detectionModel=detection_02&faceIdTimeToLive=86400`,
+			newImageDetails,
+			config
+		)
+		.then(async (response) => {
+			const newUserLogin = {
+				faceId: response.data[0].faceId,
+				largeFaceListId: "msclubmember",
+				maxNumOfCandidatesReturned: 10,
+				mode: "matchPerson",
+			};
+
+			return await axios
+				.post(`${process.env.FACE_API_HOST}/face/v1.0/findsimilars`, newUserLogin, config)
+				.then(async (responseLargeFaceList) => {
+					return await UserModel.findOne({ persistedFaceId: responseLargeFaceList.data[0].persistedFaceId })
+						.then((user) => {
+							return user;
+						})
+						.catch((error) => {
+							throw new Error(error.message);
+						});
+				})
+				.catch((error) => {
+					throw new Error(error.message);
+				});
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
 };
 
 /**
