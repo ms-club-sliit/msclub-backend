@@ -35,7 +35,7 @@ export default function (app: Express) {
   // User endpoints
   app.post("/user/", upload.single("profileImage"), controller.createUser);
   app.post("/user/login/", controller.login);
-  app.post("/user/login/face/", upload.single("profileImage"), controller.loginByFace);
+  app.post("/user/login/faceauth/", upload.single("profileImage"), controller.loginByFaceAuthentication);
   app.get("/user/auth/", middleware.authenticate, controller.getAuthUser);
   app.get("/user/all", middleware.authenticate, controller.getAllUsers);
   app.get("/user/remove/", middleware.authenticate, controller.getRemovedUsers);

@@ -105,7 +105,7 @@ export const login = async (request: Request, response: Response, next: NextFunc
  * @param {NextFunction} next - Next function
  * @returns {IUser} Authenticated user document
  */
-export const loginByFace = async (request: Request, response: Response, next: NextFunction) => {
+export const loginByFaceAuthentication = async (request: Request, response: Response, next: NextFunction) => {
 	const bucketDirectoryName = "login-profile-images";
 
 	const profileImagePath = await ImageService.uploadImage(request.file, bucketDirectoryName);
