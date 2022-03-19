@@ -39,12 +39,12 @@ export const insertUser = async (userData: DocumentDefinition<IUserRequest>) => 
 	};
 
 	const profileImageDetails = {
-		url: "https://storage.googleapis.com/ms-storage-server-fb22b.appspot.com/" + userData.profileImage,
+		url: process.env.STORAGE_BUCKET_URL + userData.profileImage,
 	};
 
 	return await axios
 		.post(
-			`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/msclubmember/persistedfaces?detectionModel=detection_01`,
+			`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/persistedfaces?detectionModel=detection_01`,
 			profileImageDetails,
 			config
 		)
@@ -53,7 +53,11 @@ export const insertUser = async (userData: DocumentDefinition<IUserRequest>) => 
 			return await UserModel.create(userData)
 				.then(async (user) => {
 					return await axios
-						.post(`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/msclubmember/train`, "", config)
+						.post(
+							`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/train`,
+							"",
+							config
+						)
 						.then(async () => {
 							await user.generateAuthToken();
 							return user;
@@ -61,12 +65,16 @@ export const insertUser = async (userData: DocumentDefinition<IUserRequest>) => 
 						.catch((error) => {
 							return axios
 								.delete(
-									`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/msclubmember/persistedfaces/${response.data.persistedFaceId}`,
+									`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/persistedfaces/${response.data.persistedFaceId}`,
 									config
 								)
 								.then(() => {
 									return axios
-										.post(`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/msclubmember/train`, "", config)
+										.post(
+											`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/train`,
+											"",
+											config
+										)
 										.then(() => {
 											return user;
 										})
@@ -114,7 +122,7 @@ export const authenticateUserByFace = async (imageUrl: string) => {
 		.then(async (response) => {
 			const newUserLogin = {
 				faceId: response.data[0].faceId,
-				largeFaceListId: "msclubmember",
+				largeFaceListId: process.env.FACE_API_LARGE_LIST,
 				maxNumOfCandidatesReturned: 10,
 				mode: "matchPerson",
 			};
