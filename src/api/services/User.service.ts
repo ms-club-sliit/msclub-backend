@@ -39,7 +39,7 @@ export const insertUser = async (userData: DocumentDefinition<IUserRequest>) => 
 	};
 
 	const profileImageDetails = {
-		url: process.env.STORAGE_BUCKET_URL + userData.profileImage,
+		url: process.env.FACE_API_STORAGE_BUCKET_URL + userData.profileImage,
 	};
 
 	return await axios
@@ -110,7 +110,7 @@ export const authenticateUserByFace = async (imageUrl: string) => {
 	};
 
 	const newImageDetails = {
-		url: process.env.STORAGE_BUCKET_URL + imageUrl,
+		url: process.env.FACE_API_STORAGE_BUCKET_URL + imageUrl,
 	};
 
 	return await axios
