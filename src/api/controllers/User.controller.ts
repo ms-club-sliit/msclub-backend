@@ -192,7 +192,7 @@ export const getAllUsers = async (request: Request, response: Response, next: Ne
 export const updateUser = async (request: Request, response: Response, next: NextFunction) => {
 	const bucketDirectoryName = "profile-images";
 
-	if (request.body.profileImage) {
+	if (request.file) {
 		request.body.profileImage = await ImageService.uploadImage(request.file, bucketDirectoryName);
 	}
 
@@ -219,7 +219,7 @@ export const updateUser = async (request: Request, response: Response, next: Nex
 export const adminUpdateUser = async (request: Request, response: Response, next: NextFunction) => {
 	const bucketDirectoryName = "profile-images";
 
-	if (request.body.profileImage) {
+	if (request.file) {
 		request.body.profileImage = await ImageService.uploadImage(request.file, bucketDirectoryName);
 	}
 	await UserService.adminUpdateUser(request.body)

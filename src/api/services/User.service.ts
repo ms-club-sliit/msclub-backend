@@ -193,6 +193,33 @@ export const updateUser = async (userId: string, updateData: DocumentDefinition<
 					}
 					if (updateData.profileImage) {
 						userDetails.profileImage = updateData.profileImage;
+
+						const config = {
+							headers: {
+								"Content-Type": "application/json",
+								"Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY || "null",
+							},
+						};
+
+						const profileImageDetails = {
+							url: process.env.FACE_API_STORAGE_BUCKET_URL + updateData.profileImage,
+						};
+
+						await axios
+							.post(
+								`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/persistedfaces?detectionModel=detection_01`,
+								profileImageDetails,
+								config
+							)
+							.then(async (response) => {
+								userDetails.persistedFaceId = response.data.persistedFaceId;
+
+								await axios.post(
+									`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/train`,
+									"",
+									config
+								);
+							});
 					}
 					if (updateData.permissionLevel) {
 						userDetails.permissionLevel = updateData.permissionLevel;
@@ -243,6 +270,33 @@ export const adminUpdateUser = async (updateData: DocumentDefinition<IUser>) => 
 					}
 					if (updateData.profileImage) {
 						userDetails.profileImage = updateData.profileImage;
+
+						const config = {
+							headers: {
+								"Content-Type": "application/json",
+								"Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY || "null",
+							},
+						};
+
+						const profileImageDetails = {
+							url: process.env.FACE_API_STORAGE_BUCKET_URL + updateData.profileImage,
+						};
+
+						await axios
+							.post(
+								`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/persistedfaces?detectionModel=detection_01`,
+								profileImageDetails,
+								config
+							)
+							.then(async (response) => {
+								userDetails.persistedFaceId = response.data.persistedFaceId;
+
+								await axios.post(
+									`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/train`,
+									"",
+									config
+								);
+							});
 					}
 					if (updateData.permissionLevel) {
 						userDetails.permissionLevel = updateData.permissionLevel;
