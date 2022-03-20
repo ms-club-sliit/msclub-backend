@@ -24,6 +24,7 @@
 import {
 	createUser,
 	login,
+	loginByFaceAuthentication,
 	getAuthUser,
 	getAllUsers,
 	updateUser,
@@ -130,6 +131,7 @@ export default {
 	//User Controllers
 	createUser,
 	login,
+	loginByFaceAuthentication,
 	getAuthUser,
 	getAllUsers,
 	updateUser,

@@ -68,6 +68,7 @@ const UserSchema = new Schema<IUser>(
 		password: { type: String, required: false },
 		profileImage: { type: String, required: false, default: null },
 		authToken: { type: String, required: false },
+		persistedFaceId: { type: String, required: false },
 		permissionLevel: {
 			type: String,
 			required: true,
