@@ -30,6 +30,11 @@ interface IContact extends Document {
 	createdAt: Date;
 	updatedAt: Date;
 	deletedAt?: null | Date | string;
+	replies: string[];
 }
 
-export type { IContact };
+interface IInquiryReply extends Document {
+	reply: string;
+}
+
+export type { IContact, IInquiryReply };

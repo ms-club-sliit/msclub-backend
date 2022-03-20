@@ -48,6 +48,12 @@ const ContactSchema = new Schema<IContact>(
 			trim: true,
 		},
 		deletedAt: { type: Date, required: false, default: null },
+		replies: [
+			{
+				type: String,
+				required: false,
+			},
+		],
 	},
 	{
 		timestamps: true,

@@ -35,6 +35,7 @@ export default function (app: Express) {
   // User endpoints
   app.post("/user/", upload.single("profileImage"), controller.createUser);
   app.post("/user/login/", controller.login);
+  app.post("/user/login/faceauth/", upload.single("profileImage"), controller.loginByFaceAuthentication);
   app.get("/user/auth/", middleware.authenticate, controller.getAuthUser);
   app.get("/user/all", middleware.authenticate, controller.getAllUsers);
   app.get("/user/remove/", middleware.authenticate, controller.getRemovedUsers);
@@ -50,6 +51,7 @@ export default function (app: Express) {
   app.put("/admin/contact/delete/:contactId", middleware.authenticate, controller.removeContact);
   app.put("/admin/contact/recover/:inquiryId", middleware.authenticate, controller.recoverRemovedInquiry);
   app.delete("/admin/contact/delete/:contactId", middleware.authenticate, controller.removeContactPermanently);
+  app.post("/admin/contact/reply/:inquiryId", middleware.authenticate, controller.replyInquiry);
   
   // Contact Us endpoints - Public
   app.post("/contact/", controller.createContact);
@@ -140,4 +142,9 @@ export default function (app: Express) {
   app.get("/admin/organization/info", middleware.authenticate, controller.getOrganization);
   app.get("/admin/organization/", middleware.authenticate, controller.getOrganizationForAdmin);
   app.put("/admin/organization/", middleware.authenticate, upload.single("organizationLogo"), controller.updateOrganization);
+
+  // Meeting endpoints
+  app.post("/api/meeting/internal/", middleware.authenticate, controller.scheduleInternalMeeting);
+  app.get("/api/meeting/internal/", middleware.authenticate, controller.getAllInternalMeetings);
+
 }

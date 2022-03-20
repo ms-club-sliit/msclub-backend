@@ -105,6 +105,47 @@ export const login = async (request: Request, response: Response, next: NextFunc
  * @param {NextFunction} next - Next function
  * @returns {IUser} Authenticated user document
  */
+export const loginByFaceAuthentication = async (request: Request, response: Response, next: NextFunction) => {
+	const bucketDirectoryName = "login-profile-images";
+
+	const profileImagePath = await ImageService.uploadImage(request.file, bucketDirectoryName);
+	if (profileImagePath) {
+		await UserService.authenticateUserByFace(profileImagePath)
+			.then(async (user) => {
+				if (user) {
+					const authToken = await user.generateAuthToken();
+					const authResponseData = {
+						token: authToken,
+					};
+
+					request.handleResponse.successRespond(response)(authResponseData);
+				} else {
+					request.handleResponse.successRespond(response)(null);
+				}
+			})
+			.catch((error) => {
+				const errorResponseData = {
+					errorTime: new Date(),
+					message: error.message,
+				};
+
+				logger.error(JSON.stringify(errorResponseData));
+				request.handleResponse.errorRespond(response)(errorResponseData);
+				next();
+			});
+	} else {
+		logger.error("Username or Password is missing");
+		request.handleResponse.errorRespond(response)("Username or Password is missing");
+		next();
+	}
+};
+
+/**
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns {IUser} Authenticated user document
+ */
 export const getAuthUser = async (request: Request, response: Response, next: NextFunction) => {
 	const userInfo = {
 		_id: request.user._id,
@@ -151,7 +192,7 @@ export const getAllUsers = async (request: Request, response: Response, next: Ne
 export const updateUser = async (request: Request, response: Response, next: NextFunction) => {
 	const bucketDirectoryName = "profile-images";
 
-	if (request.body.profileImage) {
+	if (request.file) {
 		request.body.profileImage = await ImageService.uploadImage(request.file, bucketDirectoryName);
 	}
 
@@ -178,7 +219,7 @@ export const updateUser = async (request: Request, response: Response, next: Nex
 export const adminUpdateUser = async (request: Request, response: Response, next: NextFunction) => {
 	const bucketDirectoryName = "profile-images";
 
-	if (request.body.profileImage) {
+	if (request.file) {
 		request.body.profileImage = await ImageService.uploadImage(request.file, bucketDirectoryName);
 	}
 	await UserService.adminUpdateUser(request.body)

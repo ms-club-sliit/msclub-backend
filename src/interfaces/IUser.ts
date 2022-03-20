@@ -33,6 +33,7 @@ interface IUserRequest {
 	password: string;
 	profileImage?: any;
 	authToken?: string;
+	persistedFaceId?: string;
 	permissionLevel: string;
 }
 
@@ -46,6 +47,7 @@ interface IUserDocument extends Document {
 	password: string;
 	profileImage?: any;
 	authToken?: string;
+	persistedFaceId?: string;
 	permissionLevel: string;
 	deletedAt?: Date | null;
 	deletedBy?: Schema.Types.ObjectId | null;
