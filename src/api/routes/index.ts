@@ -145,5 +145,5 @@ export default function (app: Express) {
   // Meeting endpoints
   app.post("/api/meeting/internal/", middleware.authenticate, controller.scheduleInternalMeeting);
   app.get("/api/meeting/internal/", middleware.authenticate, controller.getAllInternalMeetings);
-
+  app.put("/api/meeting/delete/:meetingId", middleware.authenticate, controller.deleteMeeting);
 }
