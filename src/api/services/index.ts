@@ -124,7 +124,7 @@ import {
 	updateOrganizationInfo,
 } from "./Organization.service";
 
-import { scheduleInternalMeetingMSTeams, getAllInternalMeetingsMSTeams } from "./Meeting.service";
+import { scheduleInternalMeetingMSTeams, getAllInternalMeetingsMSTeams, deleteMeeting } from "./Meeting.service";
 
 export default {
 	// User services
@@ -216,4 +216,5 @@ export default {
 	// Meeting Service
 	scheduleInternalMeetingMSTeams,
 	getAllInternalMeetingsMSTeams,
+	deleteMeeting,
 };

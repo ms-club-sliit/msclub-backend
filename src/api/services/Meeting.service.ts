@@ -1,4 +1,4 @@
-import { DocumentDefinition } from "mongoose";
+import { DocumentDefinition, Schema } from "mongoose";
 import { IMeeting } from "../../interfaces";
 import MeetingModel from "../models/Meeting.model";
 import { Request } from "express";
@@ -35,6 +35,22 @@ export const getAllInternalMeetingsMSTeams = async () => {
 		.sort({ createdAt: -1 })
 		.then((meetings) => {
 			return meetings;
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
+
+export const deleteMeeting = async (meetingId: string, deletedBy: Schema.Types.ObjectId) => {
+	return await MeetingModel.findById(meetingId)
+		.then(async (meetingDetails) => {
+			if (meetingDetails && meetingDetails.deletedAt === null) {
+				meetingDetails.deletedAt = new Date();
+				meetingDetails.deletedBy = deletedBy;
+				return await meetingDetails.save();
+			} else {
+				return "Meeting not found";
+			}
 		})
 		.catch((error) => {
 			throw new Error(error.message);
