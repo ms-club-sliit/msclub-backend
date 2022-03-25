@@ -24,6 +24,7 @@
 import { DocumentDefinition, Schema } from "mongoose";
 import { IUser, IUserRequest } from "../../interfaces";
 import UserModel from "../models/User.model";
+import LastLoggedUserModel from "../models/LastLogin.model";
 import axios from "axios";
 
 /**
@@ -95,7 +96,13 @@ export const insertUser = async (userData: DocumentDefinition<IUserRequest>) => 
 
 export const authenticateUser = async (userName: string, password: string) => {
 	try {
-		return await UserModel.findByUsernamePassword(userName, password);
+		const user = await UserModel.findByUsernamePassword(userName, password);
+		if (user && user._id) {
+			await LastLoggedUserModel.create({ loggedAt: Date.now(), userId: user._id });
+			return user;
+		} else {
+			throw new Error("User login failed");
+		}
 	} catch (error: any) {
 		throw new Error(error.message);
 	}

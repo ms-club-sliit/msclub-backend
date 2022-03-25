@@ -3,7 +3,7 @@ import { ILastLoggedUser } from "../../interfaces/IUser";
 
 const LastLoggedUserSchema = new Schema<ILastLoggedUser>(
 	{
-		loggedAt: { type: Date, required: true },
+		loggedAt: { type: Date, required: true, default: null },
 		userId: { type: Schema.Types.ObjectId, required: true, ref: "users" },
 	},
 	{
@@ -11,5 +11,5 @@ const LastLoggedUserSchema = new Schema<ILastLoggedUser>(
 	}
 );
 
-const LastLoggedUserModel = mongoose.model<ILastLoggedUser>("userLastLoginDetails", LastLoggedUserSchema);
+const LastLoggedUserModel = mongoose.model<ILastLoggedUser>("loggins", LastLoggedUserSchema);
 export default LastLoggedUserModel;
