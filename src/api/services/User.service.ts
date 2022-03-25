@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /*
  * Created on Sat Feb 12 2022
  *
@@ -379,6 +380,20 @@ export const deleteUserPermenently = async (userId: string) => {
 	return await UserModel.findByIdAndDelete(userId)
 		.then((user) => {
 			return user;
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
+
+export const getLogins = async () => {
+	return await LastLoggedUserModel.find({ deletedAt: null })
+		.populate({
+			path: "Users",
+			match: { deletedAt: null },
+		})
+		.then(async (users) => {
+			return users;
 		})
 		.catch((error) => {
 			throw new Error(error.message);

@@ -26,6 +26,7 @@ import UserService from "../services";
 import logger from "../../util/logger";
 import ImageService from "../../util/image.handler";
 import { IUserRequest } from "../../interfaces";
+import LastLoggedUserModel from "../models/LastLogin.model";
 
 /**
  * @param {Request} request - Request from the frontend
@@ -71,7 +72,6 @@ export const createUser = async (request: Request, response: Response, next: Nex
  */
 export const login = async (request: Request, response: Response, next: NextFunction) => {
 	const { userName, password } = request.body;
-
 	if (userName && password) {
 		await UserService.authenticateUser(userName, password)
 			.then(async (user) => {
@@ -80,6 +80,7 @@ export const login = async (request: Request, response: Response, next: NextFunc
 					token: authToken,
 				};
 
+				getLogins(request, response, next);
 				request.handleResponse.successRespond(response)(authResponseData);
 			})
 			.catch((error) => {
@@ -320,4 +321,20 @@ export const removeUserPermenently = async (request: Request, response: Response
 		request.handleResponse.errorRespond(response)(JSON.parse("User id is not Passed"));
 		next();
 	}
+};
+
+/**
+ fetch all the details of last logged in users in the system
+ */
+export const getLogins = async (request: Request, response: Response, next: NextFunction) => {
+	return await LastLoggedUserModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
+		.then((users) => {
+			console.log("all users>>", users);
+			request.handleResponse.successRespond(response)(users);
+			next();
+		})
+		.catch((error) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
 };

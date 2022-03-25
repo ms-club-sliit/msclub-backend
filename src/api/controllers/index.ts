@@ -33,6 +33,7 @@ import {
 	removeUserPermenently,
 	recoverUser,
 	getRemovedUsers,
+	getLogins,
 } from "./User.controller";
 
 import {
@@ -140,7 +141,7 @@ export default {
 	removeUserPermenently,
 	recoverUser,
 	getRemovedUsers,
-	removeContactPermanently,
+	getLogins,
 	//Contact Controllers
 	createContact,
 	getAllContacts,
@@ -148,6 +149,7 @@ export default {
 	removedContacts,
 	recoverRemovedInquiry,
 	replyInquiry,
+	removeContactPermanently,
 	//Event Controllers
 	insertEvent,
 	getEvent,

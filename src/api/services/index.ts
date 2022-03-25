@@ -32,7 +32,7 @@ import {
 	deleteUserPermenently,
 	recoverUser,
 	fetchDeletedUsers,
-	storeLogin,
+	getLogins,
 } from "./User.service";
 
 import {
@@ -140,7 +140,7 @@ export default {
 	deleteUserPermenently,
 	recoverUser,
 	fetchDeletedUsers,
-	storeLogin,
+	getLogins,
 	// Contact services
 	insertContact,
 	fetchContactInfo,
