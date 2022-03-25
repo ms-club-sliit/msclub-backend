@@ -125,11 +125,7 @@ import {
 	updateOrganization,
 } from "./Organization.controller";
 
-import { 
-	scheduleInternalMeeting, 
-	getAllInternalMeetings, 
-	deleteMeeting 
-} from "./Meeting.controller";
+import { scheduleInternalMeeting, getAllInternalMeetings, deleteMeeting } from "./Meeting.controller";
 
 export default {
 	//User Controllers

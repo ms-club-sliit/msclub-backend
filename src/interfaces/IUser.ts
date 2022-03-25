@@ -53,6 +53,11 @@ interface IUserDocument extends Document {
 	deletedBy?: Schema.Types.ObjectId | null;
 }
 
+interface ILastLoggedUser extends Document {
+	loggedAt: Date | null;
+	userId: Schema.Types.ObjectId | null;
+}
+
 // Object level functions for the schema
 interface IUser extends IUserDocument {
 	generateAuthToken(): string;
@@ -64,4 +69,4 @@ interface IUserModel extends Model<IUser> {
 	findByUsernamePassword(userName: string, password: string): IUser;
 }
 
-export type { IUser, IUserModel, IUserRequest };
+export type { IUser, IUserModel, IUserRequest, ILastLoggedUser };
