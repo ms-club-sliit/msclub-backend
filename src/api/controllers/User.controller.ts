@@ -80,7 +80,7 @@ export const login = async (request: Request, response: Response, next: NextFunc
 					token: authToken,
 				};
 
-				getLogins(request, response, next);
+				await getLogins(request, response, next);
 				request.handleResponse.successRespond(response)(authResponseData);
 			})
 			.catch((error) => {
