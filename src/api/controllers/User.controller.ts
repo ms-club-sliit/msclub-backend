@@ -329,7 +329,6 @@ export const removeUserPermenently = async (request: Request, response: Response
 export const getLogins = async (request: Request, response: Response, next: NextFunction) => {
 	return await LastLoggedUserModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
 		.then((users) => {
-			console.log("all users>>", users);
 			request.handleResponse.successRespond(response)(users);
 			next();
 		})
