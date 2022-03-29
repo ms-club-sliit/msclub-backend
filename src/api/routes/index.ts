@@ -44,6 +44,7 @@ export default function (app: Express) {
   app.put("/user/remove/", middleware.authenticate, controller.removeUser);
   app.put("/user/recover/", middleware.authenticate, controller.recoverUser);
   app.delete("/user/remove/", middleware.authenticate, controller.removeUserPermenently);
+  app.get("user/logins", middleware.authenticate, controller.getLogins);
 
   // Contact Us endpoints - Private
   app.get("/admin/contact/", middleware.authenticate, controller.getAllContacts);
