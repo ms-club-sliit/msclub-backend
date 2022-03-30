@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /*
  * Created on Sat Feb 12 2022
  *
@@ -24,6 +25,7 @@
 import { DocumentDefinition, Schema } from "mongoose";
 import { IUser, IUserRequest } from "../../interfaces";
 import UserModel from "../models/User.model";
+import LastLoggedUserModel from "../models/LastLogin.model";
 import axios from "axios";
 
 /**
@@ -95,7 +97,13 @@ export const insertUser = async (userData: DocumentDefinition<IUserRequest>) => 
 
 export const authenticateUser = async (userName: string, password: string) => {
 	try {
-		return await UserModel.findByUsernamePassword(userName, password);
+		const user = await UserModel.findByUsernamePassword(userName, password);
+		if (user && user._id) {
+			await LastLoggedUserModel.create({ loggedAt: Date.now(), userId: user._id });
+			return user;
+		} else {
+			throw new Error("User login failed");
+		}
 	} catch (error: any) {
 		throw new Error(error.message);
 	}
@@ -372,6 +380,20 @@ export const deleteUserPermenently = async (userId: string) => {
 	return await UserModel.findByIdAndDelete(userId)
 		.then((user) => {
 			return user;
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
+
+export const getLogins = async () => {
+	return await LastLoggedUserModel.find({ deletedAt: null })
+		.populate({
+			path: "users",
+			match: { deletedAt: null },
+		})
+		.then(async (users) => {
+			return users;
 		})
 		.catch((error) => {
 			throw new Error(error.message);

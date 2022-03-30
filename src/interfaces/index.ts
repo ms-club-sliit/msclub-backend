@@ -21,7 +21,7 @@
  *
  */
 
-import { IUser, IUserModel, IUserRequest } from "./IUser";
+import { IUser, IUserModel, IUserRequest, ILastLoggedUser } from "./IUser";
 import { ITopSpeaker } from "./ITopSpeaker";
 import { IContact, IInquiryReply } from "./IContact";
 import { IConfig } from "./IConfig";
@@ -38,6 +38,7 @@ export {
 	IUser,
 	IUserModel,
 	IUserRequest,
+	ILastLoggedUser,
 	IContact,
 	IConfig,
 	IEvent,
