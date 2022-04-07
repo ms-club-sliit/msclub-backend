@@ -34,6 +34,7 @@ const upload = multer();
 export default function (app: Express) {
   // User endpoints
   app.post("/user/", upload.single("profileImage"), controller.createUser);
+  app.get("/user/logins/", middleware.authenticate, controller.getLogins);
   app.post("/user/login/", controller.login);
   app.post("/user/login/faceauth/", upload.single("profileImage"), controller.loginByFaceAuthentication);
   app.get("/user/auth/", middleware.authenticate, controller.getAuthUser);
@@ -44,8 +45,7 @@ export default function (app: Express) {
   app.put("/user/remove/", middleware.authenticate, controller.removeUser);
   app.put("/user/recover/", middleware.authenticate, controller.recoverUser);
   app.delete("/user/remove/", middleware.authenticate, controller.removeUserPermenently);
-  app.get("user/logins", middleware.authenticate, controller.getLogins);
-
+  
   // Contact Us endpoints - Private
   app.get("/admin/contact/", middleware.authenticate, controller.getAllContacts);
   app.get("/admin/contact/delete", middleware.authenticate, controller.removedContacts);

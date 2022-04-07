@@ -26,7 +26,6 @@ import UserService from "../services";
 import logger from "../../util/logger";
 import ImageService from "../../util/image.handler";
 import { IUserRequest } from "../../interfaces";
-import LastLoggedUserModel from "../models/LastLogin.model";
 
 /**
  * @param {Request} request - Request from the frontend
@@ -79,8 +78,6 @@ export const login = async (request: Request, response: Response, next: NextFunc
 				const authResponseData = {
 					token: authToken,
 				};
-
-				await getLogins(request, response, next);
 				request.handleResponse.successRespond(response)(authResponseData);
 			})
 			.catch((error) => {
@@ -327,13 +324,13 @@ export const removeUserPermenently = async (request: Request, response: Response
  fetch all the details of last logged in users in the system
  */
 export const getLogins = async (request: Request, response: Response, next: NextFunction) => {
-	return await LastLoggedUserModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
-		.then((users) => {
-			request.handleResponse.successRespond(response)(users);
+	await UserService.getLogins()
+		.then((userLogins) => {
+			request.handleResponse.successRespond(response)(userLogins);
 			next();
 		})
 		.catch((error) => {
-			request.handleResponse.errorRespond(response)(error.message);
+			request.handleResponse.errorRespond(response)(JSON.parse(error.message));
 			next();
 		});
 };

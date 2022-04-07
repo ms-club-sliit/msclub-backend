@@ -99,7 +99,7 @@ export const authenticateUser = async (userName: string, password: string) => {
 	try {
 		const user = await UserModel.findByUsernamePassword(userName, password);
 		if (user && user._id) {
-			await LastLoggedUserModel.create({ loggedAt: Date.now(), userId: user._id });
+			await LastLoggedUserModel.create({ loggedAt: Date.now(), user: { _id: user._id } });
 			return user;
 		} else {
 			throw new Error("User login failed");
@@ -139,7 +139,8 @@ export const authenticateUserByFace = async (imageUrl: string) => {
 				.post(`${process.env.FACE_API_HOST}/face/v1.0/findsimilars`, newUserLogin, config)
 				.then(async (responseLargeFaceList) => {
 					return await UserModel.findOne({ persistedFaceId: responseLargeFaceList.data[0].persistedFaceId })
-						.then((user) => {
+						.then(async (user) => {
+							if (user) await LastLoggedUserModel.create({ loggedAt: Date.now(), user: { _id: user._id } });
 							return user;
 						})
 						.catch((error) => {
@@ -387,12 +388,9 @@ export const deleteUserPermenently = async (userId: string) => {
 };
 
 export const getLogins = async () => {
-	return await LastLoggedUserModel.find({ deletedAt: null })
-		.populate({
-			path: "users",
-			match: { deletedAt: null },
-		})
-		.then(async (users) => {
+	return await LastLoggedUserModel.find()
+		.populate({ path: "user", model: "users", select: "firstName lastName permissionLevel" })
+		.then((users) => {
 			return users;
 		})
 		.catch((error) => {
