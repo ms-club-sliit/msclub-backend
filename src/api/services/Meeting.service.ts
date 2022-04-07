@@ -56,3 +56,13 @@ export const deleteMeeting = async (meetingId: string, deletedBy: Schema.Types.O
 			throw new Error(error.message);
 		});
 };
+
+export const fetchMeetingById = async (meetingId: string) => {
+	return await MeetingModel.findById(meetingId)
+		.then((meeting) => {
+			return meeting;
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
