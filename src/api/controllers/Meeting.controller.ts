@@ -42,3 +42,20 @@ export const deleteMeeting = async (request: Request, response: Response, next: 
 		request.handleResponse.errorRespond(response)("Meeting ID not found");
 	}
 };
+
+export const getInternalMeetingById = async (request: Request, response: Response, next: NextFunction) => {
+	const meetingId = request.params.meetingId;
+	if (meetingId) {
+		await MeetingService.fetchMeetingById(request.params.meetingId)
+			.then((data) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error: any) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
+	} else {
+		request.handleResponse.errorRespond(response)("MeetingId not found");
+	}
+};

@@ -148,4 +148,5 @@ export default function (app: Express) {
   app.post("/api/meeting/internal/", middleware.authenticate, controller.scheduleInternalMeeting);
   app.get("/api/meeting/internal/", middleware.authenticate, controller.getAllInternalMeetings);
   app.put("/api/meeting/delete/:meetingId", middleware.authenticate, controller.deleteMeeting);
+  app.get("/api/meeting/internal/:meetingId", middleware.authenticate, controller.getInternalMeetingById);
 }
