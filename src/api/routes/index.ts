@@ -52,7 +52,7 @@ export default function (app: Express) {
   app.put("/admin/contact/delete/:contactId", middleware.authenticate, controller.removeContact);
   app.put("/admin/contact/recover/:inquiryId", middleware.authenticate, controller.recoverRemovedInquiry);
   app.delete("/admin/contact/delete/:contactId", middleware.authenticate, controller.removeContactPermanently);
-  app.post("/admin/contact/reply/:inquiryId", middleware.authenticate, controller.replyInquiry);
+  app.put("/admin/contact/reply/:inquiryId", middleware.authenticate, controller.replyInquiry);
   
   // Contact Us endpoints - Public
   app.post("/contact/", controller.createContact);
