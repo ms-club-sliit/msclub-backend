@@ -131,6 +131,7 @@ import {
 	getAllInternalMeetings,
 	deleteMeeting,
 	getInternalMeetingById,
+	deleteMeetingPermanently,
 } from "./Meeting.controller";
 
 export default {
@@ -226,4 +227,5 @@ export default {
 	getAllInternalMeetings,
 	deleteMeeting,
 	getInternalMeetingById,
+	deleteMeetingPermanently,
 };

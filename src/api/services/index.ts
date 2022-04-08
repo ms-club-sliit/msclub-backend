@@ -131,6 +131,7 @@ import {
 	getAllInternalMeetingsMSTeams,
 	deleteMeeting,
 	fetchMeetingById,
+	deleteMeetingPermanently,
 } from "./Meeting.service";
 
 export default {
@@ -227,4 +228,5 @@ export default {
 	getAllInternalMeetingsMSTeams,
 	deleteMeeting,
 	fetchMeetingById,
+	deleteMeetingPermanently,
 };

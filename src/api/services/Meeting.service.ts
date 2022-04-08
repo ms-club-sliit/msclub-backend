@@ -66,3 +66,17 @@ export const fetchMeetingById = async (meetingId: string) => {
 			throw new Error(error.message);
 		});
 };
+
+export const deleteMeetingPermanently = async (meetingId: string) => {
+	if (meetingId) {
+		return await MeetingModel.findByIdAndDelete(meetingId)
+			.then((meeting) => {
+				return meeting;
+			})
+			.catch((error) => {
+				throw new Error(error.message);
+			});
+	} else {
+		throw new Error("Meeting ID not Passed");
+	}
+};
