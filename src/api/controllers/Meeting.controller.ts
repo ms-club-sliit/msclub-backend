@@ -63,7 +63,7 @@ export const getInternalMeetingById = async (request: Request, response: Respons
 export const deleteMeetingPermanently = async (request: Request, response: Response, next: NextFunction) => {
 	const meetingId = request.params.meetingId;
 	if (meetingId) {
-		await MeetingService.deleteMeetingPermanently(meetingId)
+		MeetingService.deleteMeetingPermanently(meetingId)
 			.then((data: any) => {
 				request.handleResponse.successRespond(response)(data);
 				next();

@@ -69,7 +69,7 @@ export const fetchMeetingById = async (meetingId: string) => {
 
 export const deleteMeetingPermanently = async (meetingId: string) => {
 	if (meetingId) {
-		return await MeetingModel.findByIdAndDelete(meetingId)
+		return MeetingModel.findByIdAndDelete(meetingId)
 			.then((meeting) => {
 				return meeting;
 			})
