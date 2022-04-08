@@ -59,3 +59,20 @@ export const getInternalMeetingById = async (request: Request, response: Respons
 		request.handleResponse.errorRespond(response)("MeetingId not found");
 	}
 };
+
+export const deleteMeetingPermanently = (request: Request, response: Response, next: NextFunction) => {
+	const meetingId = request.params.meetingId;
+	if (meetingId) {
+		MeetingService.deleteMeetingPermanently(meetingId)
+			.then((data: any) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error: any) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
+	} else {
+		request.handleResponse.errorRespond(response)("MeetingId not found");
+	}
+};
