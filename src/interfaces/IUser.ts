@@ -33,6 +33,7 @@ interface IUserRequest {
 	password: string;
 	profileImage?: any;
 	authToken?: string;
+	persistedFaceId?: string;
 	permissionLevel: string;
 }
 
@@ -46,9 +47,15 @@ interface IUserDocument extends Document {
 	password: string;
 	profileImage?: any;
 	authToken?: string;
+	persistedFaceId?: string;
 	permissionLevel: string;
 	deletedAt?: Date | null;
 	deletedBy?: Schema.Types.ObjectId | null;
+}
+
+interface ILastLoggedUser extends Document {
+	loggedAt: string | null;
+	user: Schema.Types.ObjectId | null;
 }
 
 // Object level functions for the schema
@@ -62,4 +69,4 @@ interface IUserModel extends Model<IUser> {
 	findByUsernamePassword(userName: string, password: string): IUser;
 }
 
-export type { IUser, IUserModel, IUserRequest };
+export type { IUser, IUserModel, IUserRequest, ILastLoggedUser };

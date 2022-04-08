@@ -21,9 +21,9 @@
  *
  */
 
-import { IUser, IUserModel, IUserRequest } from "./IUser";
+import { IUser, IUserModel, IUserRequest, ILastLoggedUser } from "./IUser";
 import { ITopSpeaker } from "./ITopSpeaker";
-import { IContact } from "./IContact";
+import { IContact, IInquiryReply } from "./IContact";
 import { IConfig } from "./IConfig";
 import { IEvent, IUpdatedBy } from "./IEvent";
 import { IWebinar } from "./IWebinar";
@@ -32,11 +32,13 @@ import { IBoardMember } from "./IBoardMember";
 import { IApplication } from "./IApplication";
 import { IInterview } from "./IInterview";
 import { IOrganization } from "./IOrganization";
+import { IMeeting } from "./IMeeting";
 
 export {
 	IUser,
 	IUserModel,
 	IUserRequest,
+	ILastLoggedUser,
 	IContact,
 	IConfig,
 	IEvent,
@@ -48,4 +50,6 @@ export {
 	ITopSpeaker,
 	IInterview,
 	IOrganization,
+	IInquiryReply,
+	IMeeting,
 };

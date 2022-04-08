@@ -71,7 +71,6 @@ export const createUser = async (request: Request, response: Response, next: Nex
  */
 export const login = async (request: Request, response: Response, next: NextFunction) => {
 	const { userName, password } = request.body;
-
 	if (userName && password) {
 		await UserService.authenticateUser(userName, password)
 			.then(async (user) => {
@@ -79,8 +78,48 @@ export const login = async (request: Request, response: Response, next: NextFunc
 				const authResponseData = {
 					token: authToken,
 				};
-
 				request.handleResponse.successRespond(response)(authResponseData);
+			})
+			.catch((error) => {
+				const errorResponseData = {
+					errorTime: new Date(),
+					message: error.message,
+				};
+
+				logger.error(JSON.stringify(errorResponseData));
+				request.handleResponse.errorRespond(response)(errorResponseData);
+				next();
+			});
+	} else {
+		logger.error("Username or Password is missing");
+		request.handleResponse.errorRespond(response)("Username or Password is missing");
+		next();
+	}
+};
+
+/**
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns {IUser} Authenticated user document
+ */
+export const loginByFaceAuthentication = async (request: Request, response: Response, next: NextFunction) => {
+	const bucketDirectoryName = "login-profile-images";
+
+	const profileImagePath = await ImageService.uploadImage(request.file, bucketDirectoryName);
+	if (profileImagePath) {
+		await UserService.authenticateUserByFace(profileImagePath)
+			.then(async (user) => {
+				if (user) {
+					const authToken = await user.generateAuthToken();
+					const authResponseData = {
+						token: authToken,
+					};
+
+					request.handleResponse.successRespond(response)(authResponseData);
+				} else {
+					request.handleResponse.successRespond(response)(null);
+				}
 			})
 			.catch((error) => {
 				const errorResponseData = {
@@ -151,7 +190,7 @@ export const getAllUsers = async (request: Request, response: Response, next: Ne
 export const updateUser = async (request: Request, response: Response, next: NextFunction) => {
 	const bucketDirectoryName = "profile-images";
 
-	if (request.body.profileImage) {
+	if (request.file) {
 		request.body.profileImage = await ImageService.uploadImage(request.file, bucketDirectoryName);
 	}
 
@@ -178,7 +217,7 @@ export const updateUser = async (request: Request, response: Response, next: Nex
 export const adminUpdateUser = async (request: Request, response: Response, next: NextFunction) => {
 	const bucketDirectoryName = "profile-images";
 
-	if (request.body.profileImage) {
+	if (request.file) {
 		request.body.profileImage = await ImageService.uploadImage(request.file, bucketDirectoryName);
 	}
 	await UserService.adminUpdateUser(request.body)
@@ -279,4 +318,19 @@ export const removeUserPermenently = async (request: Request, response: Response
 		request.handleResponse.errorRespond(response)(JSON.parse("User id is not Passed"));
 		next();
 	}
+};
+
+/**
+ fetch all the details of last logged in users in the system
+ */
+export const getLogins = async (request: Request, response: Response, next: NextFunction) => {
+	await UserService.getLogins()
+		.then((userLogins) => {
+			request.handleResponse.successRespond(response)(userLogins);
+			next();
+		})
+		.catch((error) => {
+			request.handleResponse.errorRespond(response)(JSON.parse(error.message));
+			next();
+		});
 };

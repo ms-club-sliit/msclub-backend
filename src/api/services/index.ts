@@ -24,6 +24,7 @@
 import {
 	insertUser,
 	authenticateUser,
+	authenticateUserByFace,
 	getUsers,
 	updateUser,
 	adminUpdateUser,
@@ -31,6 +32,7 @@ import {
 	deleteUserPermenently,
 	recoverUser,
 	fetchDeletedUsers,
+	getLogins,
 } from "./User.service";
 
 import {
@@ -40,6 +42,7 @@ import {
 	getArchivedContacts,
 	deleteContactPermanently,
 	recoverDeletedInquiry,
+	replyInquiry,
 } from "./Contact.service";
 
 import {
@@ -123,10 +126,18 @@ import {
 	updateOrganizationInfo,
 } from "./Organization.service";
 
+import {
+	scheduleInternalMeetingMSTeams,
+	getAllInternalMeetingsMSTeams,
+	deleteMeeting,
+	fetchMeetingById,
+} from "./Meeting.service";
+
 export default {
 	// User services
 	insertUser,
 	authenticateUser,
+	authenticateUserByFace,
 	getUsers,
 	updateUser,
 	adminUpdateUser,
@@ -134,6 +145,7 @@ export default {
 	deleteUserPermenently,
 	recoverUser,
 	fetchDeletedUsers,
+	getLogins,
 	// Contact services
 	insertContact,
 	fetchContactInfo,
@@ -141,6 +153,7 @@ export default {
 	getArchivedContacts,
 	deleteContactPermanently,
 	recoverDeletedInquiry,
+	replyInquiry,
 	// Event services
 	insertEvent,
 	getEvent,
@@ -208,4 +221,10 @@ export default {
 	getOrganizationInfo,
 	getOrganizationInfoForAdmin,
 	updateOrganizationInfo,
+
+	// Meeting Service
+	scheduleInternalMeetingMSTeams,
+	getAllInternalMeetingsMSTeams,
+	deleteMeeting,
+	fetchMeetingById,
 };

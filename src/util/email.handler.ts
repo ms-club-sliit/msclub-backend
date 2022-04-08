@@ -23,12 +23,12 @@
 
 import handlebars from "handlebars";
 import fs from "fs";
+import Email from "../api/models/Email.model";
+import { EmailStatus } from "../api/services/Service.constant";
 import logger from "./logger";
 import { configs } from "../config";
 import moment from "moment";
 import fetch from "cross-fetch";
-import { Channel } from "amqplib";
-import messageQueue from "./queue.config";
 import sgMail from "@sendgrid/mail";
 
 // HTML Configuration
@@ -39,96 +39,86 @@ require.extensions[".html"] = (module: any, fileName: string) => {
 let template: HandlebarsTemplateDelegate;
 let htmlToSend: string;
 
-class EmailService {
-	channel: Channel;
+const sendEmailWithTemplate = async () => {
+	logger.info(`#### Step 00 - Starting the Email Queue Items at ${new Date().getMinutes()}`);
+	logger.info("#### Step 01 - Fetch the email that in the WAITING & IN-PROGRESS state");
+	const email = await Email.findOne({ $or: [{ status: EmailStatus.Waiting }, { status: EmailStatus.InProgress }] });
 
-	constructor(channel: Channel) {
-		this.channel = channel;
-		messageQueue.subscribeMessages(this.channel, this);
-	}
+	if (email && email._id) {
+		// Change the status from "WAITING" -> "IN-PROGRESS";
+		logger.info("#### Step 02 - Change the status from 'WAITING' -> 'IN-PROGRESS'");
+		await Email.findByIdAndUpdate(email._id, { status: EmailStatus.InProgress });
 
-	sendEmailWithTemplate(data: any) {
-		const fileName = data.template;
-		const to = data.to;
-		const subject = data.subject;
-		const emailBodyData = data.body;
+		logger.info("#### Step 03 - Get the Email template");
+		const emailTemplate = await getEmailTemplatePath(email.templateName);
+		logger.info("#### Step 04 - Compile the Email template");
+		template = handlebars.compile(emailTemplate);
+		htmlToSend = template(email.body);
 
-		return new Promise((resolve, reject) => {
-			EmailService.getEmailTemplatePath(fileName)
-				.then((emailTemplate) => {
-					if (emailTemplate) {
-						template = handlebars.compile(emailTemplate);
-						htmlToSend = template(emailBodyData);
-
-						EmailService.retry(
-							5, // Retry count
-							function () {
-								return EmailService.sendEmail(to, subject, htmlToSend)
-									.then((responseData) => {
-										return resolve(responseData);
-									})
-									.catch((error) => {
-										return reject(error.message);
-									});
-							},
-							"sendEmailWithTemplate->sendEmail"
-						);
-					} else {
-						return reject("Email template not found");
-					}
-				})
-				.catch((error) => {
+		logger.info("#### Step 04 - Send the Email Notification");
+		retry(
+			5, // Retry count
+			async () => {
+				try {
+					await sendEmail(email.to, email.subject, htmlToSend);
+					logger.info("#### Step 06 - Change the status from 'IN-PROGRESS' -> 'DELIVERED'");
+					await Email.findByIdAndUpdate(email._id, { status: EmailStatus.Delivered });
+				} catch (error: any) {
 					logger.error(error.message);
-				});
-		});
+				}
+			},
+			"sendEmail"
+		);
+	} else {
+		logger.info(`#### Step 07 - Email Queue is empty at ${new Date().getMinutes()}`);
 	}
+};
 
-	static getEmailTemplatePath = async (fileName: string) => {
-		const emailBucketLink = `${configs.firebase.storageBucket}/${configs.firebase.bucketName}/${configs.firebase.emailTemplateBucket}`;
-		const templatePath = (await fetch(`${emailBucketLink}/${fileName}`)).text();
+const getEmailTemplatePath = async (fileName: string) => {
+	const emailBucketLink = `${configs.firebase.storageBucket}/${configs.firebase.bucketName}/${configs.firebase.emailTemplateBucket}`;
+	const templatePath = (await fetch(`${emailBucketLink}/${fileName}`)).text();
 
-		return templatePath;
-	};
+	return templatePath;
+};
 
-	static sendEmail = (to: string, subject: string, htmlTemplate: any) => {
-		return new Promise((resolve, reject) => {
-			sgMail.setApiKey(configs.email.sendGrid.apiKey);
-			const msg = {
-				to: to, // Change to your recipient
-				from: { name: "MS Club of SLIIT", email: configs.email.sendGrid.user }, // Change to your verified sender
-				cc: "msclubofsliit@gmail.com",
-				subject: subject,
-				text: htmlTemplate,
-				html: htmlTemplate,
-			};
-			sgMail
-				.send(msg)
-				.then((responseData: any) => {
-					logger.info(`Email sent to ${to}`);
-					return resolve(responseData);
-				})
-				.catch((error: any) => {
-					logger.error("Send Email Error: " + error);
-					return reject(error);
-				});
-		});
-	};
+const sendEmail = (to: string, subject: string, htmlTemplate: any) => {
+	return new Promise((resolve, reject) => {
+		sgMail.setApiKey(configs.email.sendGrid.apiKey);
+		const msg = {
+			to: to, // Change to your recipient
+			from: { name: "MS Club of SLIIT", email: configs.email.sendGrid.user }, // Change to your verified sender
+			cc: "msclubofsliit@gmail.com",
+			subject: subject,
+			text: htmlTemplate,
+			html: htmlTemplate,
+		};
+		sgMail
+			.send(msg)
+			.then((responseData: any) => {
+				logger.info(`#### Step 05 - Email sent to ${to}`);
+				return resolve(responseData);
+			})
+			.catch((error: any) => {
+				logger.error("Send Email Error: " + error);
+				return reject(error);
+			});
+	});
+};
 
-	static retry = (maxRetries: number, retryFunction: any, retryFunctionName: string) => {
-		logger.info("## RETRY COUNT: " + maxRetries);
+const retry = (maxRetries: number, retryFunction: any, retryFunctionName: string) => {
+	logger.info("#### Retry Count: " + maxRetries);
 
-		return retryFunction().catch(() => {
-			if (maxRetries <= 0) {
-				const RetryFailedDateAndTime = moment().utcOffset("+05.30").format("MMMM Do YYYY, h:mm:ss a");
-				logger.error(RetryFailedDateAndTime);
-				/**
-				 * @todo - to send Email to the system admin about the failure
-				 */
-			}
+	return retryFunction().catch(() => {
+		if (maxRetries <= 0) {
+			const RetryFailedDateAndTime = moment().utcOffset("+05.30").format("MMMM Do YYYY, h:mm:ss a");
+			logger.error(RetryFailedDateAndTime);
+			/**
+			 * @todo - to send Email to the system admin about the failure
+			 */
+		}
 
-			return this.retry(maxRetries - 1, retryFunction, retryFunctionName);
-		});
-	};
-}
+		return retry(maxRetries - 1, retryFunction, retryFunctionName);
+	});
+};
 
-export default EmailService;
+export { sendEmailWithTemplate };

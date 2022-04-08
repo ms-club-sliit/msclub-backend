@@ -37,7 +37,7 @@ const connect = async () => {
 	Mongoose.connect(databaseConnectionString)
 		.then((connection) => {
 			database = connection.connection;
-			logger.info("Database Synced");
+			logger.info("✅ Database Synced");
 		})
 		.catch((error: any) => {
 			logger.error("Error connecting to database: ", error.message);

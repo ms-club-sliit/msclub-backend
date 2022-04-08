@@ -24,6 +24,7 @@
 import {
 	createUser,
 	login,
+	loginByFaceAuthentication,
 	getAuthUser,
 	getAllUsers,
 	updateUser,
@@ -32,6 +33,7 @@ import {
 	removeUserPermenently,
 	recoverUser,
 	getRemovedUsers,
+	getLogins,
 } from "./User.controller";
 
 import {
@@ -41,6 +43,7 @@ import {
 	removedContacts,
 	removeContactPermanently,
 	recoverRemovedInquiry,
+	replyInquiry,
 } from "./Contact.controller";
 
 import {
@@ -123,10 +126,18 @@ import {
 	updateOrganization,
 } from "./Organization.controller";
 
+import {
+	scheduleInternalMeeting,
+	getAllInternalMeetings,
+	deleteMeeting,
+	getInternalMeetingById,
+} from "./Meeting.controller";
+
 export default {
 	//User Controllers
 	createUser,
 	login,
+	loginByFaceAuthentication,
 	getAuthUser,
 	getAllUsers,
 	updateUser,
@@ -135,13 +146,15 @@ export default {
 	removeUserPermenently,
 	recoverUser,
 	getRemovedUsers,
-	removeContactPermanently,
+	getLogins,
 	//Contact Controllers
 	createContact,
 	getAllContacts,
 	removeContact,
 	removedContacts,
 	recoverRemovedInquiry,
+	replyInquiry,
+	removeContactPermanently,
 	//Event Controllers
 	insertEvent,
 	getEvent,
@@ -208,4 +221,9 @@ export default {
 	getOrganization,
 	getOrganizationForAdmin,
 	updateOrganization,
+	// Meeting Controllers
+	scheduleInternalMeeting,
+	getAllInternalMeetings,
+	deleteMeeting,
+	getInternalMeetingById,
 };

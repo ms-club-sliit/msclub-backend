@@ -22,14 +22,16 @@
  */
 
 import pino from "pino";
-import dayjs from "dayjs";
 
 const LOGGER = pino({
-	prettyPrint: true,
-	base: {
-		pid: false,
+	transport: {
+		target: "pino-pretty",
+		options: {
+			colorize: true,
+			translateTime: "SYS:dd-mm-yyyy HH:MM:ss",
+			ignore: "pid,hostname",
+		},
 	},
-	timestamp: () => `, "TIME"::"${dayjs().format()}"`,
 });
 
 export default LOGGER;

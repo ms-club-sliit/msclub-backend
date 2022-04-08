@@ -1,5 +1,5 @@
 /*
- * Created on Sat Feb 12 2022
+ * Created on Tue Mar 01 2022
  *
  * The GNU General Public License v3.0
  * Copyright (c) 2022 MS Club SLIIT Authors
@@ -23,18 +23,13 @@
 
 import { Document } from "mongoose";
 
-interface IContact extends Document {
-	name: string;
-	email: string;
-	message: string;
-	createdAt: Date;
-	updatedAt: Date;
-	deletedAt?: null | Date | string;
-	replies: string[];
+interface IEmail extends Document {
+	templateName: string;
+	to: string;
+	subject: string;
+	status: string;
+	body?: string;
+	type: string;
 }
 
-interface IInquiryReply extends Document {
-	reply: string;
-}
-
-export type { IContact, IInquiryReply };
+export type { IEmail };
