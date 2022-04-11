@@ -389,7 +389,7 @@ export const deleteUserPermenently = async (userId: string) => {
 
 export const getLogins = async () => {
 	return await LastLoggedUserModel.find()
-		.populate({ path: "user", model: "users", select: "firstName lastName permissionLevel" })
+		.populate({ path: "user", model: "users", select: "firstName lastName permissionLevel profileImage" })
 		.then((users) => {
 			return users;
 		})
