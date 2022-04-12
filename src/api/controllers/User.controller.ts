@@ -71,7 +71,6 @@ export const createUser = async (request: Request, response: Response, next: Nex
  */
 export const login = async (request: Request, response: Response, next: NextFunction) => {
 	const { userName, password } = request.body;
-
 	if (userName && password) {
 		await UserService.authenticateUser(userName, password)
 			.then(async (user) => {
@@ -79,7 +78,6 @@ export const login = async (request: Request, response: Response, next: NextFunc
 				const authResponseData = {
 					token: authToken,
 				};
-
 				request.handleResponse.successRespond(response)(authResponseData);
 			})
 			.catch((error) => {
@@ -320,4 +318,19 @@ export const removeUserPermenently = async (request: Request, response: Response
 		request.handleResponse.errorRespond(response)(JSON.parse("User id is not Passed"));
 		next();
 	}
+};
+
+/**
+ fetch all the details of last logged in users in the system
+ */
+export const getLogins = async (request: Request, response: Response, next: NextFunction) => {
+	await UserService.getLogins()
+		.then((userLogins) => {
+			request.handleResponse.successRespond(response)(userLogins);
+			next();
+		})
+		.catch((error) => {
+			request.handleResponse.errorRespond(response)(JSON.parse(error.message));
+			next();
+		});
 };

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /*
  * Created on Sat Feb 12 2022
  *
@@ -24,6 +25,7 @@
 import { DocumentDefinition, Schema } from "mongoose";
 import { IUser, IUserRequest } from "../../interfaces";
 import UserModel from "../models/User.model";
+import LastLoggedUserModel from "../models/LastLogin.model";
 import axios from "axios";
 
 /**
@@ -95,7 +97,13 @@ export const insertUser = async (userData: DocumentDefinition<IUserRequest>) => 
 
 export const authenticateUser = async (userName: string, password: string) => {
 	try {
-		return await UserModel.findByUsernamePassword(userName, password);
+		const user = await UserModel.findByUsernamePassword(userName, password);
+		if (user && user._id) {
+			await LastLoggedUserModel.create({ loggedAt: Date.now(), user: { _id: user._id } });
+			return user;
+		} else {
+			throw new Error("User login failed");
+		}
 	} catch (error: any) {
 		throw new Error(error.message);
 	}
@@ -131,7 +139,8 @@ export const authenticateUserByFace = async (imageUrl: string) => {
 				.post(`${process.env.FACE_API_HOST}/face/v1.0/findsimilars`, newUserLogin, config)
 				.then(async (responseLargeFaceList) => {
 					return await UserModel.findOne({ persistedFaceId: responseLargeFaceList.data[0].persistedFaceId })
-						.then((user) => {
+						.then(async (user) => {
+							if (user) await LastLoggedUserModel.create({ loggedAt: Date.now(), user: { _id: user._id } });
 							return user;
 						})
 						.catch((error) => {
@@ -372,6 +381,17 @@ export const deleteUserPermenently = async (userId: string) => {
 	return await UserModel.findByIdAndDelete(userId)
 		.then((user) => {
 			return user;
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
+
+export const getLogins = async () => {
+	return await LastLoggedUserModel.find()
+		.populate({ path: "user", model: "users", select: "firstName lastName permissionLevel profileImage" })
+		.then((users) => {
+			return users;
 		})
 		.catch((error) => {
 			throw new Error(error.message);

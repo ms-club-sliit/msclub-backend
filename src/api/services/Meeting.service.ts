@@ -1,4 +1,4 @@
-import { DocumentDefinition } from "mongoose";
+import { DocumentDefinition, Schema } from "mongoose";
 import { IMeeting } from "../../interfaces";
 import MeetingModel from "../models/Meeting.model";
 import { Request } from "express";
@@ -39,4 +39,44 @@ export const getAllInternalMeetingsMSTeams = async () => {
 		.catch((error) => {
 			throw new Error(error.message);
 		});
+};
+
+export const deleteMeeting = async (meetingId: string, deletedBy: Schema.Types.ObjectId) => {
+	return await MeetingModel.findById(meetingId)
+		.then(async (meetingDetails) => {
+			if (meetingDetails && meetingDetails.deletedAt === null) {
+				meetingDetails.deletedAt = new Date();
+				meetingDetails.deletedBy = deletedBy;
+				return await meetingDetails.save();
+			} else {
+				return "Meeting not found";
+			}
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
+
+export const fetchMeetingById = async (meetingId: string) => {
+	return await MeetingModel.findById(meetingId)
+		.then((meeting) => {
+			return meeting;
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
+
+export const deleteMeetingPermanently = (meetingId: string) => {
+	if (meetingId) {
+		return MeetingModel.findByIdAndDelete(meetingId)
+			.then((meeting) => {
+				return meeting;
+			})
+			.catch((error) => {
+				throw new Error(error.message);
+			});
+	} else {
+		throw new Error("Meeting ID not Passed");
+	}
 };

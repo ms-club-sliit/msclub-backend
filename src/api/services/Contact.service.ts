@@ -148,7 +148,7 @@ export const recoverDeletedInquiry = async (inquiryId: string) => {
 export const replyInquiry = async (
 	request: Request,
 	inquiryId: string,
-	replyData: DocumentDefinition<IInquiryReply>,
+	replyData: DocumentDefinition<IInquiryReply>
 ) => {
 	return await ContactModel.findById(inquiryId)
 		.then(async (data) => {
@@ -167,7 +167,6 @@ export const replyInquiry = async (
 
 				data.replies.push(replyData.reply);
 				return await data.save();
-				
 			} else {
 				return null;
 			}
