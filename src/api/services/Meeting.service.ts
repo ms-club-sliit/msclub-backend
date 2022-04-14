@@ -57,3 +57,27 @@ export const deleteMeeting = async (meetingId: string, deletedBy: Schema.Types.O
 			throw new Error(error.message);
 		});
 };
+
+export const fetchMeetingById = async (meetingId: string) => {
+	return await MeetingModel.findById(meetingId)
+		.then((meeting) => {
+			return meeting;
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
+
+export const deleteMeetingPermanently = (meetingId: string) => {
+	if (meetingId) {
+		return MeetingModel.findByIdAndDelete(meetingId)
+			.then((meeting) => {
+				return meeting;
+			})
+			.catch((error) => {
+				throw new Error(error.message);
+			});
+	} else {
+		throw new Error("Meeting ID not Passed");
+	}
+};
