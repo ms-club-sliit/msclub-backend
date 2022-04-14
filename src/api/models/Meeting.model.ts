@@ -3,6 +3,7 @@ import { IMeeting } from "../../interfaces";
 
 const MeetingSchema = new Schema<IMeeting>(
 	{
+		meetingId: { type: String, required: true },
 		meetingName: { type: String, required: true },
 		startDateTime: { type: Date, required: true },
 		endDateTime: { type: Date, required: true },

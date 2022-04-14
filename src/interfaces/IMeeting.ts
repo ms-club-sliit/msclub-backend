@@ -1,5 +1,6 @@
 import { Document, Schema } from "mongoose";
 interface IMeeting extends Document {
+	meetingId: string;
 	meetingName: string;
 	startDateTime: Date;
 	endDateTime: Date;
