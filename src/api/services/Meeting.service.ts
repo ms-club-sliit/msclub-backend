@@ -9,6 +9,7 @@ export const scheduleInternalMeetingMSTeams = (request: Request, meetingData: Do
 		.post(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/internalmeeting/schedule`, meetingData)
 		.then(async (sceduleMeeting) => {
 			const meetingInfo = new MeetingModel({
+				meetingId: sceduleMeeting.data.body.id,
 				meetingName: meetingData.meetingName,
 				startDateTime: meetingData.startDateTime,
 				endDateTime: meetingData.endDateTime,
