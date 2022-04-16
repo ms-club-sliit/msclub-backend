@@ -81,7 +81,7 @@ export const deleteMeetingPermanently = async(meetingId: string) => {
 					})
 					.catch((error) => {
 						throw new Error(error.message);
-					});q
+					});
 		})
 		.catch((error) => {
 			throw new Error(error.message);
