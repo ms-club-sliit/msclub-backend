@@ -70,14 +70,14 @@ export const fetchMeetingById = async (meetingId: string) => {
 
 export const deleteMeetingPermanently = async(meetingId: string) => {
 
-	const meetings = await MeetingModel.findById(meetingId);
-	if(meetings){
+	const meeting = await MeetingModel.findById(meetingId);
+	if(meeting){
 		return axios
-		.delete(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/internalmeeting/${meetings.meetingId}`)
+		.delete(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/internalmeeting/${meeting.meetingId}`)
 		.then(async () =>  {
 				return MeetingModel.findByIdAndDelete(meetingId)
-					.then((meetings) => {
-						return meetings;
+					.then((meeting) => {
+						return meeting;
 					})
 					.catch((error) => {
 						throw new Error(error.message);
