@@ -76,12 +76,12 @@ export const deleteMeetingPermanently = async(meetingId: string) => {
 		.delete(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/internalmeeting/${meeting.meetingId}`)
 		.then(async () =>  {
 				return MeetingModel.findByIdAndDelete(meetingId)
-					.then((meeting) => {
-						return meeting;
+					.then((deletedmeeting) => {
+						return deletedmeeting;
 					})
 					.catch((error) => {
 						throw new Error(error.message);
-					});
+					});q
 		})
 		.catch((error) => {
 			throw new Error(error.message);
