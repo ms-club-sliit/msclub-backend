@@ -68,16 +68,26 @@ export const fetchMeetingById = async (meetingId: string) => {
 		});
 };
 
-export const deleteMeetingPermanently = (meetingId: string) => {
-	if (meetingId) {
-		return MeetingModel.findByIdAndDelete(meetingId)
-			.then((meeting) => {
-				return meeting;
-			})
-			.catch((error) => {
-				throw new Error(error.message);
-			});
-	} else {
-		throw new Error("Meeting ID not Passed");
+export const deleteMeetingPermanently = async(meetingId: string) => {
+
+	const meeting = await MeetingModel.findById(meetingId);
+	if(meeting){
+		return axios
+		.delete(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/internalmeeting/${meeting.meetingId}`)
+		.then(async () =>  {
+				return MeetingModel.findByIdAndDelete(meetingId)
+					.then((deletedmeeting) => {
+						return deletedmeeting;
+					})
+					.catch((error) => {
+						throw new Error(error.message);
+					});
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+
 	}
+	
+
 };
