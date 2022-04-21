@@ -132,6 +132,7 @@ import {
 	deleteMeeting,
 	getInternalMeetingById,
 	deleteMeetingPermanently,
+	scheduleInterviewMeeting,
 } from "./Meeting.controller";
 
 export default {
@@ -228,4 +229,5 @@ export default {
 	deleteMeeting,
 	getInternalMeetingById,
 	deleteMeetingPermanently,
+	scheduleInterviewMeeting,
 };
