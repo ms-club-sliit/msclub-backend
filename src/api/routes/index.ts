@@ -153,4 +153,5 @@ export default function (app: Express) {
     "/api/meeting/internal/permanentdelete/:meetingId",
     middleware.authenticate,
     controller.deleteMeetingPermanently);
+  app.post("/api/meeting/interview/", middleware.authenticate, controller.scheduleInterviewMeeting);
 }

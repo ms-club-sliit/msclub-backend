@@ -68,13 +68,12 @@ export const fetchMeetingById = async (meetingId: string) => {
 		});
 };
 
-export const deleteMeetingPermanently = async(meetingId: string) => {
-
+export const deleteMeetingPermanently = async (meetingId: string) => {
 	const meeting = await MeetingModel.findById(meetingId);
-	if(meeting){
+	if (meeting) {
 		return axios
-		.delete(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/internalmeeting/${meeting.meetingId}`)
-		.then(async () =>  {
+			.delete(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/internalmeeting/${meeting.meetingId}`)
+			.then(async () => {
 				return MeetingModel.findByIdAndDelete(meetingId)
 					.then((deletedmeeting) => {
 						return deletedmeeting;
@@ -82,12 +81,36 @@ export const deleteMeetingPermanently = async(meetingId: string) => {
 					.catch((error) => {
 						throw new Error(error.message);
 					});
+			})
+			.catch((error) => {
+				throw new Error(error.message);
+			});
+	}
+};
+
+export const scheduleInterviewMeetingMSTeams = (request: Request, meetingData: DocumentDefinition<IMeeting>) => {
+	return axios
+		.post(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/schedule`, meetingData)
+		.then(async (sceduleMeeting) => {
+			const meetingInfo = new MeetingModel({
+				meetingId: sceduleMeeting.data.body.id,
+				meetingName: meetingData.meetingName,
+				startDateTime: sceduleMeeting.data.body.start.dateTime,
+				endDateTime: sceduleMeeting.data.body.end.dateTime,
+				emailList: meetingData.emailList,
+				sheduledLink: sceduleMeeting.data.body.onlineMeeting.joinUrl,
+			});
+
+			return await meetingInfo
+				.save()
+				.then((createdMeeting) => {
+					return createdMeeting;
+				})
+				.catch((error) => {
+					throw new Error(error.message);
+				});
 		})
 		.catch((error) => {
 			throw new Error(error.message);
 		});
-
-	}
-	
-
 };
