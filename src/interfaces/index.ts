@@ -32,7 +32,7 @@ import { IBoardMember } from "./IBoardMember";
 import { IApplication } from "./IApplication";
 import { IInterview } from "./IInterview";
 import { IOrganization } from "./IOrganization";
-import { IMeeting } from "./IMeeting";
+import { IMeeting, IMeetingRequest } from "./IMeeting";
 
 export {
 	IUser,
@@ -52,4 +52,5 @@ export {
 	IOrganization,
 	IInquiryReply,
 	IMeeting,
+	IMeetingRequest,
 };

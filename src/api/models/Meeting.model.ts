@@ -9,6 +9,11 @@ const MeetingSchema = new Schema<IMeeting>(
 		endDateTime: { type: Date, required: true },
 		emailList: [{ type: String, required: true }],
 		sheduledLink: { type: String, required: true },
+		type: {
+			type: String,
+			enum: ["INTERNAL", "INTERVIEW"],
+			required: true,
+		},
 		deletedAt: { type: Date, required: false, default: null },
 		deletedBy: {
 			type: Schema.Types.ObjectId,

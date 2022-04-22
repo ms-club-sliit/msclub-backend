@@ -1,5 +1,5 @@
 import { DocumentDefinition, Schema } from "mongoose";
-import { IMeeting } from "../../interfaces";
+import { IMeeting, IMeetingRequest } from "../../interfaces";
 import MeetingModel from "../models/Meeting.model";
 import { Request } from "express";
 import axios from "axios";
@@ -15,6 +15,7 @@ export const scheduleInternalMeetingMSTeams = (request: Request, meetingData: Do
 				endDateTime: meetingData.endDateTime,
 				emailList: meetingData.emailList,
 				sheduledLink: sceduleMeeting.data.body.onlineMeeting.joinUrl,
+				type: "INTERNAL",
 			});
 
 			return await meetingInfo
@@ -88,7 +89,7 @@ export const deleteMeetingPermanently = async (meetingId: string) => {
 	}
 };
 
-export const scheduleInterviewMeetingMSTeams = (request: Request, meetingData: DocumentDefinition<IMeeting>) => {
+export const scheduleInterviewMeetingMSTeams = (meetingData: DocumentDefinition<IMeetingRequest>) => {
 	return axios
 		.post(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/schedule`, meetingData)
 		.then(async (sceduleMeeting) => {
@@ -99,6 +100,7 @@ export const scheduleInterviewMeetingMSTeams = (request: Request, meetingData: D
 				endDateTime: sceduleMeeting.data.body.end.dateTime,
 				emailList: meetingData.emailList,
 				sheduledLink: sceduleMeeting.data.body.onlineMeeting.joinUrl,
+				type: "INTERVIEW",
 			});
 
 			return await meetingInfo

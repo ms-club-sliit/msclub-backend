@@ -22,13 +22,14 @@
  */
 
 import { DocumentDefinition } from "mongoose";
-import { IApplication, IInterview } from "../../interfaces";
+import { IApplication, IInterview, IMeetingRequest } from "../../interfaces";
 import ApplicationModel from "../models/Application.model";
 import EmailModel from "../models/Email.model";
 import { Request } from "express";
 import { EmailTemplate, EmailType, EmailStatus } from "./Service.constant";
-import axios from "axios";
 import moment from "moment";
+import MeetingService from "../services";
+import MeetingModel from "../models/Meeting.model";
 
 /**
  * Application Service
@@ -72,6 +73,7 @@ export const addApplication = async (request: Request, applicationData: Document
  */
 export const fetchApplicationById = async (applicationId: string) => {
 	return await ApplicationModel.findById(applicationId)
+		.populate("meeting")
 		.then((application) => {
 			return application;
 		})
@@ -88,8 +90,9 @@ export const fetchApplicationById = async (applicationId: string) => {
 export const fetchApplications = async () => {
 	return await ApplicationModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
 		.sort({ createdAt: -1 })
-		.then((applications) => {
-			return applications;
+		.then(async (applications) => {
+			await MeetingModel.populate(applications, { path: "meeting" });
+			return await applications;
 		})
 		.catch((error) => {
 			throw new Error(error.message);
@@ -149,8 +152,8 @@ export const changeApplicationStatusIntoInterview = async (
 				const applicantMail = `${application.studentId.toLowerCase()}@my.sliit.lk`;
 				const emailList = interviewData.attendees;
 				emailList.push(applicantMail);
-				const interviewScheduleDetails = {
-					studentName: application.name,
+				const interviewScheduleDetails: DocumentDefinition<IMeetingRequest> = {
+					meetingName: application.name,
 					startDateTime: interviewData.startDateTime,
 					endDateTime: interviewData.endDateTime,
 					emailList: emailList,
@@ -160,16 +163,22 @@ export const changeApplicationStatusIntoInterview = async (
 				const channel = request.channel;
 				request.queue.publishMessage(channel, JSON.stringify(email));
 				application.status = "INTERVIEW";
-				return await application.save().then((application) => {
-					return axios
-						.post(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/schedule`, interviewScheduleDetails)
-						.then(() => {
-							return application;
-						})
-						.catch((error) => {
-							throw new Error(error.message);
-						});
-				});
+
+				return await MeetingService.scheduleInterviewMeetingMSTeams(interviewScheduleDetails)
+					.then(async (data: any) => {
+						application.meeting = data;
+						return await application
+							.save()
+							.then((application) => {
+								return application;
+							})
+							.catch((error: any) => {
+								throw new Error(error.message);
+							});
+					})
+					.catch((error: any) => {
+						throw new Error(error.message);
+					});
 			} else {
 				return null;
 			}

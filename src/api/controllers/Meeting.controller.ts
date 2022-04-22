@@ -78,7 +78,7 @@ export const deleteMeetingPermanently = (request: Request, response: Response, n
 };
 
 export const scheduleInterviewMeeting = async (request: Request, response: Response, next: NextFunction) => {
-	await MeetingService.scheduleInterviewMeetingMSTeams(request, request.body)
+	await MeetingService.scheduleInterviewMeetingMSTeams(request.body)
 		.then((data: any) => {
 			request.handleResponse.successRespond(response)(data);
 			next();

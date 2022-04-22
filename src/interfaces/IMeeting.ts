@@ -6,8 +6,16 @@ interface IMeeting extends Document {
 	endDateTime: Date;
 	emailList: string[];
 	sheduledLink: string;
+	type: string;
 	deletedAt?: null | Date | string;
 	deletedBy?: Schema.Types.ObjectId | null;
 }
 
-export type { IMeeting };
+interface IMeetingRequest extends Document {
+	meetingName: string;
+	startDateTime: Date;
+	endDateTime: Date;
+	emailList: string[];
+}
+
+export type { IMeeting, IMeetingRequest };
