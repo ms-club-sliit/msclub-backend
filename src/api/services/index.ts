@@ -132,6 +132,7 @@ import {
 	deleteMeeting,
 	fetchMeetingById,
 	deleteMeetingPermanently,
+	scheduleInterviewMeetingMSTeams,
 } from "./Meeting.service";
 
 export default {
@@ -229,4 +230,5 @@ export default {
 	deleteMeeting,
 	fetchMeetingById,
 	deleteMeetingPermanently,
+	scheduleInterviewMeetingMSTeams,
 };

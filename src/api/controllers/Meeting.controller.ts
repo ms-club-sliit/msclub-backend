@@ -76,3 +76,15 @@ export const deleteMeetingPermanently = (request: Request, response: Response, n
 		request.handleResponse.errorRespond(response)("MeetingId not found");
 	}
 };
+
+export const scheduleInterviewMeeting = async (request: Request, response: Response, next: NextFunction) => {
+	await MeetingService.scheduleInterviewMeetingMSTeams(request.body)
+		.then((data: any) => {
+			request.handleResponse.successRespond(response)(data);
+			next();
+		})
+		.catch((error: any) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
+};

@@ -1,5 +1,5 @@
 import { DocumentDefinition, Schema } from "mongoose";
-import { IMeeting } from "../../interfaces";
+import { IMeeting, IMeetingRequest } from "../../interfaces";
 import MeetingModel from "../models/Meeting.model";
 import { Request } from "express";
 import axios from "axios";
@@ -15,6 +15,7 @@ export const scheduleInternalMeetingMSTeams = (request: Request, meetingData: Do
 				endDateTime: meetingData.endDateTime,
 				emailList: meetingData.emailList,
 				sheduledLink: sceduleMeeting.data.body.onlineMeeting.joinUrl,
+				type: "INTERNAL",
 			});
 
 			return await meetingInfo
@@ -68,16 +69,50 @@ export const fetchMeetingById = async (meetingId: string) => {
 		});
 };
 
-export const deleteMeetingPermanently = (meetingId: string) => {
-	if (meetingId) {
-		return MeetingModel.findByIdAndDelete(meetingId)
-			.then((meeting) => {
-				return meeting;
+export const deleteMeetingPermanently = async (meetingId: string) => {
+	const meeting = await MeetingModel.findById(meetingId);
+	if (meeting) {
+		return axios
+			.delete(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/internalmeeting/${meeting.meetingId}`)
+			.then(async () => {
+				return MeetingModel.findByIdAndDelete(meetingId)
+					.then((deletedmeeting) => {
+						return deletedmeeting;
+					})
+					.catch((error) => {
+						throw new Error(error.message);
+					});
 			})
 			.catch((error) => {
 				throw new Error(error.message);
 			});
-	} else {
-		throw new Error("Meeting ID not Passed");
 	}
+};
+
+export const scheduleInterviewMeetingMSTeams = (meetingData: DocumentDefinition<IMeetingRequest>) => {
+	return axios
+		.post(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/schedule`, meetingData)
+		.then(async (sceduleMeeting) => {
+			const meetingInfo = new MeetingModel({
+				meetingId: sceduleMeeting.data.body.id,
+				meetingName: meetingData.meetingName,
+				startDateTime: sceduleMeeting.data.body.start.dateTime,
+				endDateTime: sceduleMeeting.data.body.end.dateTime,
+				emailList: meetingData.emailList,
+				sheduledLink: sceduleMeeting.data.body.onlineMeeting.joinUrl,
+				type: "INTERVIEW",
+			});
+
+			return await meetingInfo
+				.save()
+				.then((createdMeeting) => {
+					return createdMeeting;
+				})
+				.catch((error) => {
+					throw new Error(error.message);
+				});
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
 };

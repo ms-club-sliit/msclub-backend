@@ -21,7 +21,7 @@
  *
  */
 
-import { Document } from "mongoose";
+import { Document, Schema } from "mongoose";
 
 interface IApplication extends Document {
 	studentId: string;
@@ -41,6 +41,7 @@ interface IApplication extends Document {
 	pastWork?: string;
 	deletedAt?: Date | null;
 	status: string;
+	meeting: Schema.Types.ObjectId;
 }
 
 export type { IApplication };
