@@ -29,7 +29,7 @@ const OrganizationSchema = new Schema<IOrganization>(
 		name: { type: String, required: true, trim: true },
 		email: { type: String, required: true, trim: true },
 		university: { type: String, required: true, trim: true },
-		phoneNumber: { type: String, required: true, trim: true },
+		phoneNumber: { type: String, required: false, trim: true },
 		address: { type: String, required: true, trim: true },
 		website: { type: String, required: true, trim: true },
 		imagePath: { type: String, required: true, trim: true },
