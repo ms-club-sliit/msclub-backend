@@ -91,7 +91,7 @@ export const updateOrganizationInfo = async (
 					if (updateInfo.university) organization.university = updateInfo.university;
 					if (updateInfo.address) organization.address = updateInfo.address;
 					if (updateInfo.website) organization.website = updateInfo.website;
-					if (updateInfo.imagePath) organization.website = updateInfo.imagePath;
+					if (updateInfo.imagePath) organization.imagePath = updateInfo.imagePath;
 
 					const updateUserInfo: IUpdatedBy = {
 						user: user,
