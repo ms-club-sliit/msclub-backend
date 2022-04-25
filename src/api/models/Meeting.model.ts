@@ -5,8 +5,8 @@ const MeetingSchema = new Schema<IMeeting>(
 	{
 		meetingId: { type: String, required: true },
 		meetingName: { type: String, required: true },
-		startDateTime: { type: Date, required: true },
-		endDateTime: { type: Date, required: true },
+		startDateTime: { type: String, required: true },
+		endDateTime: { type: String, required: true },
 		emailList: [{ type: String, required: true }],
 		sheduledLink: { type: String, required: true },
 		type: {
@@ -21,6 +21,12 @@ const MeetingSchema = new Schema<IMeeting>(
 			default: null,
 			ref: "users",
 		},
+		updatedBy: [
+			{
+				user: { type: Schema.Types.ObjectId, required: false, ref: "users" },
+				updatedAt: { type: Date, required: false },
+			},
+		],
 	},
 	{ timestamps: true }
 );

@@ -60,6 +60,25 @@ export const getInternalMeetingById = async (request: Request, response: Respons
 	}
 };
 
+export const updateMeeting = async (request: Request, response: Response, next: NextFunction) => {
+	const meetingId = request.params.meetingId;
+	const updatedBy = request.user && request.user._id ? request.user._id : null;
+
+	if (meetingId) {
+		await MeetingService.updateMeeting(meetingId, request.body, updatedBy)
+			.then((data: any) => {
+				request.handleResponse.successRespond(response)(data);
+				next();
+			})
+			.catch((error: any) => {
+				request.handleResponse.errorRespond(response)(error.message);
+				next();
+			});
+	} else {
+		request.handleResponse.errorRespond(response)("MeetingId not found");
+	}
+};
+
 export const deleteMeetingPermanently = (request: Request, response: Response, next: NextFunction) => {
 	const meetingId = request.params.meetingId;
 	if (meetingId) {
