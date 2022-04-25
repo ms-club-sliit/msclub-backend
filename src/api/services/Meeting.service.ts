@@ -79,7 +79,7 @@ export const updateMeeting = async (
 		return axios
 			.patch(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/meeting/${meeting.meetingId}`, updateInfo)
 			.then(async (res) => {
-				if (res.status == 200) {
+				if (res.status === 200) {
 					if (updateInfo.meetingId) {
 						meeting.meetingId = updateInfo.meetingId;
 					}
