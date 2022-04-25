@@ -71,55 +71,53 @@ export const fetchMeetingById = async (meetingId: string) => {
 
 export const updateMeeting = async (
 	meetingId: string,
-	meetingData: DocumentDefinition<IMeeting>,
-	updatedBy: Schema.Types.ObjectId
+	updateInfo: DocumentDefinition<IMeeting>,
+	user: Schema.Types.ObjectId
 ) => {
 	const meeting = await MeetingModel.findById(meetingId);
 	if (meeting) {
-		return await MeetingModel.findById(meetingId)
-			.then(async (meetingDetails) => {
-				if (meetingDetails) {
-					if (!meetingDetails.deletedAt) {
-						if (meetingData.meetingId) {
-							meetingDetails.meetingId = meetingData.meetingId;
-						}
-
-						if (meetingData.meetingName) {
-							meetingDetails.meetingName = meetingData.meetingName;
-						}
-
-						if (meetingData.startDateTime) {
-							meetingDetails.startDateTime = meetingData.startDateTime;
-						}
-
-						if (meetingData.endDateTime) {
-							meetingDetails.endDateTime = meetingData.endDateTime;
-						}
-
-						if (meetingData.emailList) {
-							meetingDetails.emailList = meetingData.emailList;
-						}
-
-						if (meetingData.sheduledLink) {
-							meetingDetails.sheduledLink = meetingData.sheduledLink;
-						}
-
-						const updateUserInfo: IUpdatedBy = {
-							user: updatedBy,
-							updatedAt: new Date(),
-						};
-						meetingDetails.updatedBy.push(updateUserInfo);
-						return await meetingDetails.save();
-					} else {
-						throw new Error("Meeting is not found");
+		return axios
+			.patch(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/meeting/${meeting.meetingId}`, updateInfo)
+			.then(async (res) => {
+				if (res.status == 200) {
+					if (updateInfo.meetingId) {
+						meeting.meetingId = updateInfo.meetingId;
 					}
+
+					if (updateInfo.meetingName) {
+						meeting.meetingName = updateInfo.meetingName;
+					}
+
+					if (updateInfo.startDateTime) {
+						meeting.startDateTime = updateInfo.startDateTime;
+					}
+
+					if (updateInfo.endDateTime) {
+						meeting.endDateTime = updateInfo.endDateTime;
+					}
+
+					if (updateInfo.emailList) {
+						meeting.emailList = updateInfo.emailList;
+					}
+
+					if (updateInfo.sheduledLink) {
+						meeting.sheduledLink = updateInfo.sheduledLink;
+					}
+					const updateUserInfo: IUpdatedBy = {
+						user: user,
+						updatedAt: new Date(),
+					};
+					meeting.updatedBy.push(updateUserInfo);
+					return await meeting.save();
 				} else {
-					return null;
+					throw new Error("Meeting ID not found");
 				}
 			})
 			.catch((error) => {
 				throw new Error(error.message);
 			});
+	} else {
+		return "Meeting not found";
 	}
 };
 

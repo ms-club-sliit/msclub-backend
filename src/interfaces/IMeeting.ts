@@ -7,8 +7,8 @@ interface IUpdatedBy {
 interface IMeeting extends Document {
 	meetingId: string;
 	meetingName: string;
-	startDateTime: Date;
-	endDateTime: Date;
+	startDateTime: string;
+	endDateTime: string;
 	emailList: string[];
 	sheduledLink: string;
 	type: string;
