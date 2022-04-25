@@ -1,4 +1,9 @@
 import { Document, Schema } from "mongoose";
+
+interface IUpdatedBy {
+	user: Schema.Types.ObjectId;
+	updatedAt: Date;
+}
 interface IMeeting extends Document {
 	meetingId: string;
 	meetingName: string;
@@ -8,6 +13,7 @@ interface IMeeting extends Document {
 	sheduledLink: string;
 	type: string;
 	deletedAt?: null | Date | string;
+	updatedBy: IUpdatedBy[];
 	deletedBy?: Schema.Types.ObjectId | null;
 }
 

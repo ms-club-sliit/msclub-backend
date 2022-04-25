@@ -1,5 +1,5 @@
 import { DocumentDefinition, Schema } from "mongoose";
-import { IMeeting, IMeetingRequest } from "../../interfaces";
+import { IMeeting, IMeetingRequest, IUpdatedBy } from "../../interfaces";
 import MeetingModel from "../models/Meeting.model";
 import { Request } from "express";
 import axios from "axios";
@@ -67,6 +67,60 @@ export const fetchMeetingById = async (meetingId: string) => {
 		.catch((error) => {
 			throw new Error(error.message);
 		});
+};
+
+export const updateMeeting = async (
+	meetingId: string,
+	meetingData: DocumentDefinition<IMeeting>,
+	updatedBy: Schema.Types.ObjectId
+) => {
+	const meeting = await MeetingModel.findById(meetingId);
+	if (meeting) {
+		return await MeetingModel.findById(meetingId)
+			.then(async (meetingDetails) => {
+				if (meetingDetails) {
+					if (!meetingDetails.deletedAt) {
+						if (meetingData.meetingId) {
+							meetingDetails.meetingId = meetingData.meetingId;
+						}
+
+						if (meetingData.meetingName) {
+							meetingDetails.meetingName = meetingData.meetingName;
+						}
+
+						if (meetingData.startDateTime) {
+							meetingDetails.startDateTime = meetingData.startDateTime;
+						}
+
+						if (meetingData.endDateTime) {
+							meetingDetails.endDateTime = meetingData.endDateTime;
+						}
+
+						if (meetingData.emailList) {
+							meetingDetails.emailList = meetingData.emailList;
+						}
+
+						if (meetingData.sheduledLink) {
+							meetingDetails.sheduledLink = meetingData.sheduledLink;
+						}
+
+						const updateUserInfo: IUpdatedBy = {
+							user: updatedBy,
+							updatedAt: new Date(),
+						};
+						meetingDetails.updatedBy.push(updateUserInfo);
+						return await meetingDetails.save();
+					} else {
+						throw new Error("Meeting is not found");
+					}
+				} else {
+					return null;
+				}
+			})
+			.catch((error) => {
+				throw new Error(error.message);
+			});
+	}
 };
 
 export const deleteMeetingPermanently = async (meetingId: string) => {
