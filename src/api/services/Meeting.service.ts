@@ -71,6 +71,7 @@ export const fetchMeetingById = async (meetingId: string) => {
 
 export const deleteMeetingPermanently = async (meetingId: string) => {
 	const meeting = await MeetingModel.findById(meetingId);
+
 	if (meeting) {
 		return axios
 			.delete(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/internalmeeting/${meeting.meetingId}`)
