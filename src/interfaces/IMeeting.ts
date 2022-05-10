@@ -10,7 +10,7 @@ interface IMeeting extends Document {
 	startDateTime: string;
 	endDateTime: string;
 	emailList: string[];
-	sheduledLink: string;
+	scheduledLink: string;
 	type: string;
 	deletedAt?: null | Date | string;
 	updatedBy: IUpdatedBy[];
