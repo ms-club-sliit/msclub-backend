@@ -8,7 +8,7 @@ const MeetingSchema = new Schema<IMeeting>(
 		startDateTime: { type: String, required: true },
 		endDateTime: { type: String, required: true },
 		emailList: [{ type: String, required: true }],
-		sheduledLink: { type: String, required: true },
+		scheduledLink: { type: String, required: true },
 		type: {
 			type: String,
 			enum: ["INTERNAL", "INTERVIEW"],
