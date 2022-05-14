@@ -14,7 +14,7 @@ export const scheduleInternalMeetingMSTeams = (request: Request, meetingData: Do
 				startDateTime: meetingData.startDateTime,
 				endDateTime: meetingData.endDateTime,
 				emailList: meetingData.emailList,
-				sheduledLink: sceduleMeeting.data.body.onlineMeeting.joinUrl,
+				scheduledLink: sceduleMeeting.data.body.onlineMeeting.joinUrl,
 				type: "INTERNAL",
 			});
 
@@ -100,8 +100,8 @@ export const updateMeeting = async (
 						meeting.emailList = updateInfo.emailList;
 					}
 
-					if (updateInfo.sheduledLink) {
-						meeting.sheduledLink = updateInfo.sheduledLink;
+					if (updateInfo.scheduledLink) {
+						meeting.scheduledLink = updateInfo.scheduledLink;
 					}
 					const updateUserInfo: IUpdatedBy = {
 						user: user,
@@ -123,6 +123,7 @@ export const updateMeeting = async (
 
 export const deleteMeetingPermanently = async (meetingId: string) => {
 	const meeting = await MeetingModel.findById(meetingId);
+
 	if (meeting) {
 		return axios
 			.delete(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/internalmeeting/${meeting.meetingId}`)
@@ -151,7 +152,7 @@ export const scheduleInterviewMeetingMSTeams = (meetingData: DocumentDefinition<
 				startDateTime: sceduleMeeting.data.body.start.dateTime,
 				endDateTime: sceduleMeeting.data.body.end.dateTime,
 				emailList: meetingData.emailList,
-				sheduledLink: sceduleMeeting.data.body.onlineMeeting.joinUrl,
+				scheduledLink: sceduleMeeting.data.body.onlineMeeting.joinUrl,
 				type: "INTERVIEW",
 			});
 
