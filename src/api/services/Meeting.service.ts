@@ -33,7 +33,7 @@ export const scheduleInternalMeetingMSTeams = (request: Request, meetingData: Do
 };
 
 export const getAllInternalMeetingsMSTeams = async () => {
-	return await MeetingModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
+	return await MeetingModel.aggregate([{ $match: { deletedAt: { $eq: null }, type: { $eq: "INTERNAL" } } }])
 		.sort({ createdAt: -1 })
 		.then((meetings) => {
 			return meetings;
