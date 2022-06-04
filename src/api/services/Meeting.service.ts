@@ -1,7 +1,6 @@
 import { DocumentDefinition, Schema } from "mongoose";
 import { IMeeting, IMeetingRequest, IUpdatedBy } from "../../interfaces";
 import MeetingModel from "../models/Meeting.model";
-import { Request } from "express";
 import axios from "axios";
 
 export const scheduleInternalMeetingMSTeams = (meetingData: DocumentDefinition<IMeeting>) => {
@@ -135,8 +134,12 @@ export const updateMeeting = async (
 			break;
 		case "MSMEET":
 			res = await axios.patch(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/meeting/${meeting.meetingId}`, updateInfo)
+			break;
+		default:
+			throw new Error("Document has no meetProvider set");
 	}
 
+	console.log(res);
 	if(!res || res.status != 200)
 		throw new Error("Something went wrong in the meeting service");
 	
@@ -158,7 +161,6 @@ export const updateMeeting = async (
 export const deleteMeetingPermanently = async (meetingId : string) => {
 	const meeting = await MeetingModel.findById(meetingId);
 
-	console.log(meeting);
 	if(!meeting)
 		throw new Error("Meeting ID not found");
 

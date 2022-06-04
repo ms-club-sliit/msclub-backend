@@ -112,6 +112,7 @@ export const deleteMeetingPermanently = async (request: Request, response: Respo
 
 		request.handleResponse.successRespond(response)(data);
 	}catch(error : any){
+		console.error(error);
 		request.handleResponse.errorRespond(response)(error.message);
 	}
 
