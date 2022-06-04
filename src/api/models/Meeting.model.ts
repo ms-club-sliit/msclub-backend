@@ -14,6 +14,11 @@ const MeetingSchema = new Schema<IMeeting>(
 			enum: ["INTERNAL", "INTERVIEW"],
 			required: true,
 		},
+		meetProvider: {
+			type: String,
+			enum: ["MSMEET", "GOOGLEMEET"],
+			required: true,
+		},
 		deletedAt: { type: Date, required: false, default: null },
 		deletedBy: {
 			type: Schema.Types.ObjectId,
@@ -27,6 +32,7 @@ const MeetingSchema = new Schema<IMeeting>(
 				updatedAt: { type: Date, required: false },
 			},
 		],
+
 	},
 	{ timestamps: true }
 );
