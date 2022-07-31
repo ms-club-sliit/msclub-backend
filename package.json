@@ -56,7 +56,7 @@
 		"imagemin": "^7.0.1",
 		"is-jpg": "^3.0.0",
 		"jsonwebtoken": "^8.5.1",
-		"moment": "^2.29.1",
+		"moment": "^2.29.4",
 		"multer": "^1.4.3",
 		"node-fetch": "^3.1.0",
 		"nodemailer": "^6.7.2",
