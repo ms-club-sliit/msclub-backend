@@ -1,10 +1,9 @@
 import { DocumentDefinition, Schema } from "mongoose";
 import { IMeeting, IMeetingRequest, IUpdatedBy } from "../../interfaces";
 import MeetingModel from "../models/Meeting.model";
-import { Request } from "express";
 import axios from "axios";
 
-export const scheduleInternalMeetingMSTeams = (request: Request, meetingData: DocumentDefinition<IMeeting>) => {
+export const scheduleInternalMeetingMSTeams = (meetingData: DocumentDefinition<IMeeting>) => {
 	return axios
 		.post(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/internalmeeting/schedule`, meetingData)
 		.then(async (sceduleMeeting) => {
@@ -16,6 +15,7 @@ export const scheduleInternalMeetingMSTeams = (request: Request, meetingData: Do
 				emailList: meetingData.emailList,
 				scheduledLink: sceduleMeeting.data.body.onlineMeeting.joinUrl,
 				type: "INTERNAL",
+				meetProvider: "MSMEET",
 			});
 
 			return await meetingInfo
@@ -33,7 +33,7 @@ export const scheduleInternalMeetingMSTeams = (request: Request, meetingData: Do
 };
 
 export const getAllInternalMeetingsMSTeams = async () => {
-	return await MeetingModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
+	return await MeetingModel.aggregate([{ $match: { deletedAt: { $eq: null }, type: { $eq: "INTERNAL" } } }])
 		.sort({ createdAt: -1 })
 		.then((meetings) => {
 			return meetings;
@@ -69,79 +69,6 @@ export const fetchMeetingById = async (meetingId: string) => {
 		});
 };
 
-export const updateMeeting = async (
-	meetingId: string,
-	updateInfo: DocumentDefinition<IMeeting>,
-	user: Schema.Types.ObjectId
-) => {
-	const meeting = await MeetingModel.findById(meetingId);
-	if (meeting) {
-		return axios
-			.patch(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/meeting/${meeting.meetingId}`, updateInfo)
-			.then(async (res) => {
-				if (res.status === 200) {
-					if (updateInfo.meetingId) {
-						meeting.meetingId = updateInfo.meetingId;
-					}
-
-					if (updateInfo.meetingName) {
-						meeting.meetingName = updateInfo.meetingName;
-					}
-
-					if (updateInfo.startDateTime) {
-						meeting.startDateTime = updateInfo.startDateTime;
-					}
-
-					if (updateInfo.endDateTime) {
-						meeting.endDateTime = updateInfo.endDateTime;
-					}
-
-					if (updateInfo.emailList) {
-						meeting.emailList = updateInfo.emailList;
-					}
-
-					if (updateInfo.scheduledLink) {
-						meeting.scheduledLink = updateInfo.scheduledLink;
-					}
-					const updateUserInfo: IUpdatedBy = {
-						user: user,
-						updatedAt: new Date(),
-					};
-					meeting.updatedBy.push(updateUserInfo);
-					return await meeting.save();
-				} else {
-					throw new Error("Meeting ID not found");
-				}
-			})
-			.catch((error) => {
-				throw new Error(error.message);
-			});
-	} else {
-		return "Meeting not found";
-	}
-};
-
-export const deleteMeetingPermanently = async (meetingId: string) => {
-	const meeting = await MeetingModel.findById(meetingId);
-
-	if (meeting) {
-		return axios
-			.delete(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/internalmeeting/${meeting.meetingId}`)
-			.then(async () => {
-				return MeetingModel.findByIdAndDelete(meetingId)
-					.then((deletedmeeting) => {
-						return deletedmeeting;
-					})
-					.catch((error) => {
-						throw new Error(error.message);
-					});
-			})
-			.catch((error) => {
-				throw new Error(error.message);
-			});
-	}
-};
-
 export const scheduleInterviewMeetingMSTeams = (meetingData: DocumentDefinition<IMeetingRequest>) => {
 	return axios
 		.post(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/schedule`, meetingData)
@@ -154,6 +81,7 @@ export const scheduleInterviewMeetingMSTeams = (meetingData: DocumentDefinition<
 				emailList: meetingData.emailList,
 				scheduledLink: sceduleMeeting.data.body.onlineMeeting.joinUrl,
 				type: "INTERVIEW",
+				meetProvider: "MSMEET"
 			});
 
 			return await meetingInfo
@@ -169,3 +97,103 @@ export const scheduleInterviewMeetingMSTeams = (meetingData: DocumentDefinition<
 			throw new Error(error.message);
 		});
 };
+export const scheduleInterviewGoogleMeeting = async (meetingData: DocumentDefinition<IMeeting>) => {
+	
+	let res = await axios.post(`${process.env.MS_MEETING_MANAGER_API}/api/googlemeet/internalmeeting/schedule`, meetingData);
+
+	if(res.status != 200)
+		throw new Error("Something went wrong in the meeting service");
+
+	let data = res.data;
+
+	let new_meeting = new MeetingModel({
+		 ...data, 
+		 meetProvider: "GOOGLEMEET",
+		 type: "INTERVIEW"
+	});
+
+	return await new_meeting.save();
+}
+
+export const scheduleInternalGoogleMeeting = async (meetingData: DocumentDefinition<IMeeting>) => {
+	
+	let res = await axios.post(`${process.env.MS_MEETING_MANAGER_API}/api/googlemeet/internalmeeting/schedule`, meetingData);
+
+	if(res.status != 200)
+		throw new Error("Something went wrong in the meeting service");
+
+	let data = res.data;
+
+	let new_meeting = new MeetingModel({
+		 ...data, 
+		 meetProvider: "GOOGLEMEET",
+		 type: "INTERNAL"
+	});
+
+	return await new_meeting.save();
+}
+
+export const updateMeeting = async (
+	meetingId: string,
+	updateInfo: any,
+	user: Schema.Types.ObjectId
+) => {
+	const meeting = await MeetingModel.findById(meetingId).exec();
+
+	if(!meeting)
+		throw new Error("Meeting ID not found");
+
+	let res;
+
+	switch(meeting.meetProvider){
+		case "GOOGLEMEET":
+			res = await axios.patch(`${process.env.MS_MEETING_MANAGER_API}/api/googlemeet/meeting/${meeting.meetingId}`, updateInfo);
+			break;
+		case "MSMEET":
+			res = await axios.patch(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/meeting/${meeting.meetingId}`, updateInfo)
+			break;
+		default:
+			throw new Error("Document has no meetProvider set");
+	}
+
+	if(!res || res.status != 200)
+		throw new Error("Something went wrong in the meeting service");
+	
+	for(const key in updateInfo){
+		let d = updateInfo[key];
+		if(d) meeting.set(key, d);
+	}
+	
+	const updateUserInfo: IUpdatedBy = {
+		user: user,
+		updatedAt: new Date(),
+	};
+
+	meeting.updatedBy.push(updateUserInfo);
+	return await meeting.save();
+}
+
+
+export const deleteMeetingPermanently = async (meetingId : string) => {
+	const meeting = await MeetingModel.findById(meetingId);
+
+	if(!meeting)
+		throw new Error("Meeting ID not found");
+
+	let res;
+	switch(meeting.meetProvider){
+		case "MSMEET":
+			res = await axios.delete(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/internalmeeting/${meeting.meetingId}`)
+			break;
+		case "GOOGLEMEET":
+			res = await axios.delete(`${process.env.MS_MEETING_MANAGER_API}/api/googlemeet/meeting/${meeting.meetingId}`);
+			break;
+		default:
+			throw new Error("Document has no meetProvider set");
+	}
+
+	if(res.status != 200)
+		throw new Error("Something went wrong in the meeting service.");
+
+	return await MeetingModel.findByIdAndDelete(meetingId);
+}

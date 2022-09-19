@@ -12,6 +12,7 @@ interface IMeeting extends Document {
 	emailList: string[];
 	scheduledLink: string;
 	type: string;
+	meetProvider: string;
 	deletedAt?: null | Date | string;
 	updatedBy: IUpdatedBy[];
 	deletedBy?: Schema.Types.ObjectId | null;
