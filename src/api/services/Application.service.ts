@@ -131,23 +131,42 @@ export const changeApplicationStatusIntoInterview = async (
 		.then(async (application) => {
 			if (application) {
 				// Send email
-				const emailTemplate = "Interview-Email-Template.html";
-				const to = application.email;
-				const subject = "MS Club of SLIIT - Interview";
-				const emailBodyData = {
-					name: application.name,
-					email: application.email,
-					date: moment.utc(interviewData.startDateTime).format("LL"),
-					time: moment.utc(interviewData.startDateTime).format("LTS"),
-					format: interviewData.format,
-				};
+				// const to = application.email;
+				// const subject = "MS Club of SLIIT - Interview";
+				// const emailBodyData = {
+				// 	name: application.name,
+				// 	email: application.email,
+				// 	date: moment.utc(interviewData.startDateTime).format("LL"),
+				// 	time: moment.utc(interviewData.startDateTime).format("LTS"),
+				// 	format: interviewData.format,
+				// };
+
+				// const email = {
+				// 	templateName: EmailTemplate.Interview,
+				// 	to: to,
+				// 	subject: subject,
+				// 	body: emailBodyData,
+				// 	status: EmailStatus.Waiting,
+				// 	type: EmailType.Interview,
+				// };
 
 				const email = {
-					template: emailTemplate,
-					to: to,
-					subject: subject,
-					body: emailBodyData,
+					templateName: EmailTemplate.Application,
+					to: application.email,
+					subject: "MS Club SLIIT - Interview",
+					body: {
+						name: application.name,
+						email: application.email,
+						date: moment.utc(interviewData.startDateTime).format("LL"),
+						time: moment.utc(interviewData.startDateTime).format("LTS"),
+						format: interviewData.format,
+					},
+					status: EmailStatus.Waiting,
+					type: EmailType.Application,
 				};
+
+				// Add email information to email collection
+				await EmailModel.create(email);
 
 				const applicantMail = `${application.studentId.toLowerCase()}@my.sliit.lk`;
 				const emailList = interviewData.attendees;
@@ -159,9 +178,6 @@ export const changeApplicationStatusIntoInterview = async (
 					emailList: emailList,
 				};
 
-				// Send email data to message queue
-				const channel = request.channel;
-				request.queue.publishMessage(channel, JSON.stringify(email));
 				application.status = "INTERVIEW";
 
 				return await MeetingService.scheduleInterviewMeetingMSTeams(interviewScheduleDetails)
@@ -196,24 +212,23 @@ export const changeApplicationStatusIntoSelected = async (request: Request, appl
 	return await ApplicationModel.findById(applicationId)
 		.then(async (application) => {
 			if (application) {
-				// Send email
-				const emailTemplate = "Selected-Email-Template.html";
-				const to = application.email;
-				const subject = "Congratulations from MS Club Team !";
-				const emailBodyData = {
-					name: application.name,
+				const email = {
+					templateName: EmailTemplate.Selected,
+					to: application.email,
+					subject: "Congratulations from MS Club Team",
+					body: {
+						name: application.name,
+					},
+					status: EmailStatus.Waiting,
+					type: EmailType.Selected,
 				};
 
-				const email = {
-					template: emailTemplate,
-					to: to,
-					subject: subject,
-					body: emailBodyData,
-				};
+				// Add email information to email collection
+				await EmailModel.create(email);
 
 				// Send email data to message queue
-				const channel = request.channel;
-				request.queue.publishMessage(channel, JSON.stringify(email));
+				// const channel = request.channel;
+				// request.queue.publishMessage(channel, JSON.stringify(email));
 				application.status = "SELECTED";
 				return await application.save();
 			} else {
