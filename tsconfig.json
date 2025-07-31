@@ -9,7 +9,14 @@
 		"forceConsistentCasingInFileNames": true,
 		"strict": true,
 		"skipLibCheck": true,
-		"typeRoots": ["./typings", "./node_modules/@types"]
+		"noImplicitAny": false,
+		"typeRoots": ["./typings", "./node_modules/@types"],
+		"resolveJsonModule": true,
+		"allowSyntheticDefaultImports": true,
+		"declaration": false,
+		"noEmitOnError": false,
+		"noImplicitReturns": false,
+		"noFallthroughCasesInSwitch": false
 	},
 	"exclude": ["node_modules", "**/*.spec.ts"]
 }
