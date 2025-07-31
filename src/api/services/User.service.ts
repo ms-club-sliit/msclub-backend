@@ -22,9 +22,8 @@
  *
  */
 
-import { DocumentDefinition, Schema } from "mongoose";
 import { IUser, IUserRequest } from "../../interfaces";
-import UserModel from "../models/User.model";
+import { Schema } from "mongoose";import UserModel from "../models/User.model";
 import LastLoggedUserModel from "../models/LastLogin.model";
 import axios from "axios";
 
@@ -32,7 +31,7 @@ import axios from "axios";
  * @param {IUser} userData
  * @returns {Document} User document
  */
-export const insertUser = async (userData: DocumentDefinition<IUserRequest>) => {
+export const insertUser = async (userData: IUserRequest) => {
 	const config = {
 		headers: {
 			"Content-Type": "application/json",
@@ -172,9 +171,9 @@ export const getUsers = async () => {
 /**
  * update user
  * @param userId @type string
- * @param updateData @type DocumentDefinition<IUser>
+ * @param updateData @type IUser
  */
-export const updateUser = async (userId: string, updateData: DocumentDefinition<IUser>) => {
+export const updateUser = async (userId: string, updateData: IUser) => {
 	return await UserModel.findById(userId)
 		.then(async (userDetails) => {
 			if (userDetails) {
@@ -249,9 +248,9 @@ export const updateUser = async (userId: string, updateData: DocumentDefinition<
 
 /**
  * admin update user
- * @param updateData @type DocumentDefinition<IUser>
+ * @param updateData @type IUser
  */
-export const adminUpdateUser = async (updateData: DocumentDefinition<IUser>) => {
+export const adminUpdateUser = async (updateData: IUser) => {
 	return await UserModel.findById(updateData._id)
 		.then(async (userDetails) => {
 			if (userDetails) {
@@ -328,12 +327,12 @@ export const adminUpdateUser = async (updateData: DocumentDefinition<IUser>) => 
  * delete user
  * @param userId @type string
  */
-export const deleteUser = async (userId: string, deletedBy: Schema.Types.ObjectId) => {
+export const deleteUser = async (userId: string, deletedBy: string) => {
 	return await UserModel.findById(userId)
 		.then(async (userDetails) => {
 			if (userDetails && userDetails.deletedAt === null) {
 				userDetails.deletedAt = new Date();
-				userDetails.deletedBy = deletedBy;
+				userDetails.deletedBy = new Schema.Types.ObjectId(deletedBy);
 				return await userDetails.save();
 			} else {
 				const errorInfo = {

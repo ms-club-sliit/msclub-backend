@@ -3,16 +3,18 @@ import logger from "./logger";
 import { sendEmailWithTemplate } from "./email.handler";
 
 const cronInit = () => {
-	const crons = [];
+	const crons: CronJob[] = [];
 
 	crons.push(
-		new CronJob({
-			cronTime: "*/20 * * * * *",
-			onTick: async () => {
+		new CronJob(
+			"*/20 * * * * *",
+			async () => {
 				await sendEmailWithTemplate();
 			},
-			timeZone: "Asia/Colombo",
-		})
+			null,
+			false,
+			"Asia/Colombo"
+		)
 	);
 
 	for (const cron of crons) {

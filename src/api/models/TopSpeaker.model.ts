@@ -37,10 +37,10 @@ const TopSpeakerSchema = new Schema<ITopSpeaker>(
 			web: { type: String, required: true },
 		},
 		deletedAt: { type: Date, required: false, default: null },
-		createdBy: { type: Schema.Types.ObjectId, required: true, ref: "users" },
+		createdBy: { type: Schema.Types.ObjectId, required: true, ref: "users" } as any,
 		updatedBy: [
 			{
-				user: { type: Schema.Types.ObjectId, required: false, ref: "users" },
+				user: { type: Schema.Types.ObjectId, required: false, ref: "users" } as any,
 				updatedAt: { type: Date, required: false },
 			},
 		],
@@ -49,7 +49,7 @@ const TopSpeakerSchema = new Schema<ITopSpeaker>(
 			required: false,
 			default: null,
 			ref: "users",
-		},
+		} as any,
 	},
 	{ timestamps: true }
 );

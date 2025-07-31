@@ -21,14 +21,14 @@
  *
  */
 
-import { DocumentDefinition, Schema } from "mongoose";
 import { IEvent, IUpdatedBy } from "../../interfaces";
 import EventModel from "../models/Event.model";
+import { Schema } from "mongoose";
 
 /**
  save an event in the database
  */
-export const insertEvent = async (eventData: DocumentDefinition<IEvent>) => {
+export const insertEvent = async (eventData: IEvent) => {
 	return await EventModel.create(eventData)
 		.then(async (event) => {
 			const initialUpdatedBy: IUpdatedBy = {
@@ -105,12 +105,12 @@ export const getUpcomingEvent = async () => {
 /**
  update an event in the system
  * @param eventId @type string
- * @param updateData @type DocumentDefinition<IEvent>
+ * @param updateData @type IEvent
  */
 export const updateEvent = async (
 	eventId: string,
-	eventData: DocumentDefinition<IEvent>,
-	updatedBy: Schema.Types.ObjectId
+	eventData: IEvent,
+	updatedBy: string
 ) => {
 	return await EventModel.findById(eventId)
 		.then(async (eventDetails) => {
@@ -142,7 +142,7 @@ export const updateEvent = async (
 					}
 
 					const updateUserInfo: IUpdatedBy = {
-						user: updatedBy,
+						user: new Schema.Types.ObjectId(updatedBy),
 						updatedAt: new Date(),
 					};
 
@@ -164,12 +164,12 @@ export const updateEvent = async (
  delete an event
  * @param eventId @type string
  */
-export const deleteEvent = async (eventId: string, deletedBy: Schema.Types.ObjectId) => {
+export const deleteEvent = async (eventId: string, deletedBy: string) => {
 	return await EventModel.findById(eventId)
 		.then(async (eventDetails) => {
 			if (eventDetails && eventDetails.deletedAt === null) {
 				eventDetails.deletedAt = new Date();
-				eventDetails.deletedBy = deletedBy;
+				eventDetails.deletedBy = new Schema.Types.ObjectId(deletedBy);
 				return await eventDetails.save();
 			} else {
 				return "Event not found";

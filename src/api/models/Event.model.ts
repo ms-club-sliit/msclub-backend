@@ -35,10 +35,10 @@ const EventSchema = new Schema<IEvent>(
 		registrationLink: { type: String, required: false },
 		eventType: { type: String, enum: ["PAST", "UPCOMING"], required: true },
 		deletedAt: { type: Date, required: false, default: null },
-		createdBy: { type: Schema.Types.ObjectId, required: true, ref: "users" },
+		createdBy: { type: Schema.Types.ObjectId, required: true, ref: "users" } as any,
 		updatedBy: [
 			{
-				user: { type: Schema.Types.ObjectId, required: false, ref: "users" },
+				user: { type: Schema.Types.ObjectId, required: false, ref: "users" } as any,
 				updatedAt: { type: Date, required: false },
 			},
 		],
@@ -47,7 +47,7 @@ const EventSchema = new Schema<IEvent>(
 			required: false,
 			default: null,
 			ref: "users",
-		},
+		} as any,
 	},
 	{ timestamps: true }
 );

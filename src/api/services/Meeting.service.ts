@@ -1,9 +1,9 @@
-import { DocumentDefinition, Schema } from "mongoose";
 import { IMeeting, IMeetingRequest, IUpdatedBy } from "../../interfaces";
 import MeetingModel from "../models/Meeting.model";
 import axios from "axios";
+import { Schema } from "mongoose";
 
-export const scheduleInternalMeetingMSTeams = (meetingData: DocumentDefinition<IMeeting>) => {
+export const scheduleInternalMeetingMSTeams = (meetingData: IMeeting) => {
 	return axios
 		.post(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/internalmeeting/schedule`, meetingData)
 		.then(async (sceduleMeeting) => {
@@ -43,12 +43,12 @@ export const getAllInternalMeetingsMSTeams = async () => {
 		});
 };
 
-export const deleteMeeting = async (meetingId: string, deletedBy: Schema.Types.ObjectId) => {
+export const deleteMeeting = async (meetingId: string, deletedBy: string) => {
 	return await MeetingModel.findById(meetingId)
 		.then(async (meetingDetails) => {
 			if (meetingDetails && meetingDetails.deletedAt === null) {
 				meetingDetails.deletedAt = new Date();
-				meetingDetails.deletedBy = deletedBy;
+				meetingDetails.deletedBy = new Schema.Types.ObjectId(deletedBy);
 				return await meetingDetails.save();
 			} else {
 				return "Meeting not found";
@@ -69,7 +69,7 @@ export const fetchMeetingById = async (meetingId: string) => {
 		});
 };
 
-export const scheduleInterviewMeetingMSTeams = (meetingData: DocumentDefinition<IMeetingRequest>) => {
+export const scheduleInterviewMeetingMSTeams = (meetingData: IMeetingRequest) => {
 	return axios
 		.post(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/schedule`, meetingData)
 		.then(async (sceduleMeeting) => {
@@ -97,7 +97,7 @@ export const scheduleInterviewMeetingMSTeams = (meetingData: DocumentDefinition<
 			throw new Error(error.message);
 		});
 };
-export const scheduleInterviewGoogleMeeting = async (meetingData: DocumentDefinition<IMeeting>) => {
+export const scheduleInterviewGoogleMeeting = async (meetingData: IMeeting) => {
 	
 	let res = await axios.post(`${process.env.MS_MEETING_MANAGER_API}/api/googlemeet/internalmeeting/schedule`, meetingData);
 
@@ -115,7 +115,7 @@ export const scheduleInterviewGoogleMeeting = async (meetingData: DocumentDefini
 	return await new_meeting.save();
 }
 
-export const scheduleInternalGoogleMeeting = async (meetingData: DocumentDefinition<IMeeting>) => {
+export const scheduleInternalGoogleMeeting = async (meetingData: IMeeting) => {
 	
 	let res = await axios.post(`${process.env.MS_MEETING_MANAGER_API}/api/googlemeet/internalmeeting/schedule`, meetingData);
 
@@ -136,7 +136,7 @@ export const scheduleInternalGoogleMeeting = async (meetingData: DocumentDefinit
 export const updateMeeting = async (
 	meetingId: string,
 	updateInfo: any,
-	user: Schema.Types.ObjectId
+	user: string
 ) => {
 	const meeting = await MeetingModel.findById(meetingId).exec();
 
@@ -165,7 +165,7 @@ export const updateMeeting = async (
 	}
 	
 	const updateUserInfo: IUpdatedBy = {
-		user: user,
+		user: new Schema.Types.ObjectId(user),
 		updatedAt: new Date(),
 	};
 

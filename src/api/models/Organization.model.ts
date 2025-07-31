@@ -35,7 +35,7 @@ const OrganizationSchema = new Schema<IOrganization>(
 		imagePath: { type: String, required: true, trim: true },
 		updatedBy: [
 			{
-				user: { type: Schema.Types.ObjectId, required: false, ref: "users" },
+				user: { type: Schema.Types.ObjectId, required: false, ref: "users" } as any,
 				updatedAt: { type: Date, required: false },
 			},
 		],

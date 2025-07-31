@@ -26,12 +26,12 @@ import { IExecutiveBoard } from "../../interfaces/IExecutiveBoard";
 
 const ExecutiveBoardSchema = new Schema<IExecutiveBoard>({
 	year: { type: String, required: true },
-	board: [{ type: mongoose.Schema.Types.ObjectId, ref: "boardmember" }],
+	board: [{ type: Schema.Types.ObjectId, ref: "boardmember" }],
 	deletedAt: { type: Date, required: false, default: null },
-	createdBy: { type: Schema.Types.ObjectId, required: true, ref: "users" },
+	createdBy: { type: Schema.Types.ObjectId, required: true, ref: "users" } as any,
 	updatedBy: [
 		{
-			user: { type: Schema.Types.ObjectId, required: false, ref: "users" },
+			user: { type: Schema.Types.ObjectId, required: false, ref: "users" } as any,
 			updatedAt: { type: Date, required: false },
 		},
 	],
@@ -40,7 +40,7 @@ const ExecutiveBoardSchema = new Schema<IExecutiveBoard>({
 		required: false,
 		default: null,
 		ref: "users",
-	},
+	} as any,
 });
 
 const ExecutiveBoardModel = mongoose.model<IExecutiveBoard>("ececutiveboard", ExecutiveBoardSchema);

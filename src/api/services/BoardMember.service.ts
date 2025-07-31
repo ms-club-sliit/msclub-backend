@@ -21,14 +21,14 @@
  *
  */
 
-import { DocumentDefinition, Schema } from "mongoose";
 import { IBoardMember, IUpdatedBy } from "../../interfaces";
 import BoardMemberModel from "../models/BoardMember.model";
+import { Schema } from "mongoose";
 
 /**
  add a new Board Member to the database
  */
-export const insertBoardMember = async (BoardMemberData: DocumentDefinition<IBoardMember>) => {
+export const insertBoardMember = async (BoardMemberData: IBoardMember) => {
 	return await BoardMemberModel.create(BoardMemberData)
 		.then(async (boardMember) => {
 			const initialUpdatedBy: IUpdatedBy = {
@@ -71,13 +71,13 @@ export const getAllBoardMembers = async () => {
 /**
  update details of the member
  * @param boardMemberId @type string
- * @param updateData @type DocumentDefinition<IBoardMember>
+ * @param updateData @type IBoardMember
  */
 
 export const updateBoardMemberDetails = async (
 	boardMemberId: string,
-	updateData: DocumentDefinition<IBoardMember>,
-	updatedBy: Schema.Types.ObjectId
+	updateData: IBoardMember,
+	updatedBy: string
 ) => {
 	return await BoardMemberModel.findById(boardMemberId)
 		.then(async (boardMemberDetails) => {
@@ -107,7 +107,7 @@ export const updateBoardMemberDetails = async (
 						}
 					}
 					const updateUserInfo: IUpdatedBy = {
-						user: updatedBy,
+						user: new Schema.Types.ObjectId(updatedBy),
 						updatedAt: new Date(),
 					};
 
@@ -129,12 +129,12 @@ export const updateBoardMemberDetails = async (
  delete member
  * @param boardMemberId @type string
  */
-export const deleteBoardMemberDetails = async (boardMemberId: string, deletedBy: Schema.Types.ObjectId) => {
+export const deleteBoardMemberDetails = async (boardMemberId: string, deletedBy: string) => {
 	return await BoardMemberModel.findById(boardMemberId)
 		.then(async (boardMemberDetails) => {
 			if (boardMemberDetails && boardMemberDetails.deletedAt === null) {
 				boardMemberDetails.deletedAt = new Date();
-				boardMemberDetails.deletedBy = deletedBy;
+				boardMemberDetails.deletedBy = new Schema.Types.ObjectId(deletedBy);
 				return await boardMemberDetails.save();
 			} else {
 				return null;

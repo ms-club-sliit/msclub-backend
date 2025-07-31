@@ -22,18 +22,17 @@
  */
 
 import OrganizationModel from "../models/Organization.model";
-import { DocumentDefinition, Schema } from "mongoose";
 import { IOrganization, IUpdatedBy } from "../../interfaces";
-
+import { Schema } from "mongoose";
 // Insert the organization information
 export const createOrganization = async (
-	organizationData: DocumentDefinition<IOrganization>,
-	user: Schema.Types.ObjectId
+	organizationData: IOrganization,
+	user: string
 ) => {
 	return OrganizationModel.create(organizationData)
 		.then(async (organization) => {
 			const initialUpdatedBy: IUpdatedBy = {
-				user: user,
+				user: new Schema.Types.ObjectId(user),
 				updatedAt: new Date(),
 			};
 			organization.updatedBy.push(initialUpdatedBy);
@@ -78,8 +77,8 @@ export const getOrganizationInfoForAdmin = async () => {
 // Update organization information
 export const updateOrganizationInfo = async (
 	organizationId: string,
-	updateInfo: DocumentDefinition<IOrganization>,
-	user: Schema.Types.ObjectId
+	updateInfo: IOrganization,
+	user: string
 ) => {
 	if (organizationId) {
 		return OrganizationModel.findById(organizationId)
@@ -94,7 +93,7 @@ export const updateOrganizationInfo = async (
 					if (updateInfo.imagePath) organization.imagePath = updateInfo.imagePath;
 
 					const updateUserInfo: IUpdatedBy = {
-						user: user,
+						user: new Schema.Types.ObjectId(user),
 						updatedAt: new Date(),
 					};
 					organization.updatedBy.push(updateUserInfo);

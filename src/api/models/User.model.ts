@@ -76,7 +76,7 @@ const UserSchema = new Schema<IUser>(
 			default: "EDITOR",
 		},
 		deletedAt: { type: Date, required: false, default: null },
-		deletedBy: { type: Schema.Types.ObjectId, required: false, default: null },
+		deletedBy: { type: Schema.Types.ObjectId, required: false, default: null } as any,
 	},
 	{
 		timestamps: true,

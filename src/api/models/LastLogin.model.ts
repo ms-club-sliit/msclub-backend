@@ -4,7 +4,7 @@ import { ILastLoggedUser } from "../../interfaces/IUser";
 const LastLoggedUserSchema = new Schema<ILastLoggedUser>(
 	{
 		loggedAt: { type: Date, required: true, default: null },
-		user: { type: Schema.Types.ObjectId, required: true, ref: "users" },
+		user: { type: Schema.Types.ObjectId, required: true, ref: "users" } as any,
 	},
 	{
 		timestamps: true,

@@ -35,10 +35,10 @@ const BoardMemberSchema = new Schema<IBoardMember>({
 		linkedIn: { type: String, required: true },
 	},
 	deletedAt: { type: Date, required: false, default: null },
-	createdBy: { type: Schema.Types.ObjectId, required: true, ref: "users" },
+	createdBy: { type: Schema.Types.ObjectId, required: true, ref: "users" } as any,
 	updatedBy: [
 		{
-			user: { type: Schema.Types.ObjectId, required: false, ref: "users" },
+			user: { type: Schema.Types.ObjectId, required: false, ref: "users" } as any,
 			updatedAt: { type: Date, required: false },
 		},
 	],
@@ -47,7 +47,7 @@ const BoardMemberSchema = new Schema<IBoardMember>({
 		required: false,
 		default: null,
 		ref: "users",
-	},
+	} as any,
 });
 
 const BoardMemberModel = mongoose.model<IBoardMember>("boardmember", BoardMemberSchema);
