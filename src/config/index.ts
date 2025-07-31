@@ -49,17 +49,11 @@ if (environment == "Local") {
 			tls: {
 				rejectUnauthorized: false,
 			},
-			sendGrid: {
-				user: process.env.EMAIL_SENDGRID_USER as string,
-				apiKey: process.env.SENDGRID_API_KEY as string,
-			},
 		},
-		firebase: {
-			projectId: process.env.LOCAL_STORAGE_PROJECT_ID as string,
-			clientEmail: process.env.LOCAL_STORAGE_CLIENT_EMAIL as string,
-			privateKey: process.env.LOCAL_STORAGE_PRIVATE_KEY as string,
-			storageBucket: process.env.LOCAL_STORAGE_BUCKET_URL as string,
-			bucketName: process.env.LOCAL_BUCKET_NAME as string,
+		supabase: {
+			url: process.env.LOCAL_SUPABASE_URL as string,
+			anonKey: process.env.LOCAL_SUPABASE_ANON_KEY as string,
+			serviceRoleKey: process.env.LOCAL_SUPABASE_SERVICE_ROLE_KEY as string,
 			applicationImageBucket: process.env.LOCAL_APPLICATION_IMAGES_BUCKET as string,
 			emailTemplateBucket: process.env.LOCAL_EMAIL_TEMPLATE_BUCKET as string,
 		},
@@ -96,17 +90,11 @@ if (environment == "Development") {
 			tls: {
 				rejectUnauthorized: false,
 			},
-			sendGrid: {
-				user: process.env.EMAIL_SENDGRID_USER as string,
-				apiKey: process.env.SENDGRID_API_KEY as string,
-			},
 		},
-		firebase: {
-			projectId: process.env.STORAGE_PROJECT_ID as string,
-			clientEmail: process.env.STORAGE_CLIENT_EMAIL as string,
-			privateKey: process.env.STORAGE_PRIVATE_KEY as string,
-			storageBucket: process.env.STORAGE_BUCKET_URL as string,
-			bucketName: process.env.BUCKET_NAME as string,
+		supabase: {
+			url: process.env.SUPABASE_URL as string,
+			anonKey: process.env.SUPABASE_ANON_KEY as string,
+			serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY as string,
 			applicationImageBucket: process.env.APPLICATION_IMAGES_BUCKET as string,
 			emailTemplateBucket: process.env.EMAIL_TEMPLATE_BUCKET as string,
 		},
@@ -143,17 +131,11 @@ if (environment == "Production") {
 			tls: {
 				rejectUnauthorized: false,
 			},
-			sendGrid: {
-				user: process.env.EMAIL_SENDGRID_USER as string,
-				apiKey: process.env.SENDGRID_API_KEY as string,
-			},
 		},
-		firebase: {
-			projectId: process.env.STORAGE_PROJECT_ID as string,
-			clientEmail: process.env.STORAGE_CLIENT_EMAIL as string,
-			privateKey: process.env.STORAGE_PRIVATE_KEY as string,
-			storageBucket: process.env.STORAGE_BUCKET_URL as string,
-			bucketName: process.env.BUCKET_NAME as string,
+		supabase: {
+			url: process.env.SUPABASE_URL as string,
+			anonKey: process.env.SUPABASE_ANON_KEY as string,
+			serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY as string,
 			applicationImageBucket: process.env.APPLICATION_IMAGES_BUCKET as string,
 			emailTemplateBucket: process.env.EMAIL_TEMPLATE_BUCKET as string,
 		},

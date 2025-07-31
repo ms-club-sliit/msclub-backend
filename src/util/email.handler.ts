@@ -29,7 +29,8 @@ import logger from "./logger";
 import { configs } from "../config";
 import moment from "moment";
 import fetch from "cross-fetch";
-import sgMail from "@sendgrid/mail";
+import nodemailer from "nodemailer";
+import getSupabaseClient from "../config/storage.config";
 
 // HTML Configuration
 require.extensions[".html"] = (module: any, fileName: string) => {
@@ -40,6 +41,14 @@ let template: HandlebarsTemplateDelegate;
 let htmlToSend: string;
 
 const sendEmailWithTemplate = async () => {
+	// Check if Supabase is configured before proceeding
+	if (!configs.supabase.url || !configs.supabase.serviceRoleKey) {
+		logger.warn("#### Supabase not configured - skipping email processing");
+		logger.warn(`#### URL: ${configs.supabase.url ? 'Set' : 'Not set'}`);
+		logger.warn(`#### Service Key: ${configs.supabase.serviceRoleKey ? 'Set' : 'Not set'}`);
+		return;
+	}
+
 	logger.info(`#### Step 00 - Starting the Email Queue Items at ${new Date().getMinutes()}`);
 	logger.info("#### Step 01 - Fetch the email that in the WAITING & IN-PROGRESS state");
 	const email = await Email.findOne({ $or: [{ status: EmailStatus.Waiting }, { status: EmailStatus.InProgress }] });
@@ -75,34 +84,64 @@ const sendEmailWithTemplate = async () => {
 };
 
 const getEmailTemplatePath = async (fileName: string) => {
-	const emailBucketLink = `${configs.firebase.storageBucket}/${configs.firebase.bucketName}/${configs.firebase.emailTemplateBucket}`;
-	const templatePath = (await fetch(`${emailBucketLink}/${fileName}`)).text();
+	try {
+		const supabase = getSupabaseClient();
+		const { data, error } = await supabase.storage
+			.from(configs.supabase.emailTemplateBucket)
+			.download(fileName);
 
-	return templatePath;
+		if (error) {
+			throw new Error(`Failed to fetch template: ${error.message}`);
+		}
+
+		if (!data) {
+			throw new Error(`Template file not found: ${fileName}`);
+		}
+
+		const templateText = await data.text();
+		return templateText;
+	} catch (error: any) {
+		logger.error(`Error fetching email template: ${error.message}`);
+		throw error;
+	}
 };
 
-const sendEmail = (to: string, subject: string, htmlTemplate: any) => {
-	return new Promise((resolve, reject) => {
-		sgMail.setApiKey(configs.email.sendGrid.apiKey);
-		const msg = {
-			to: to, // Change to your recipient
-			from: { name: "MS Club of SLIIT", email: configs.email.sendGrid.user }, // Change to your verified sender
+const sendEmail = async (to: string, subject: string, htmlTemplate: any) => {
+	try {
+		// Create transporter using Gmail SMTP configuration
+		const transporter = nodemailer.createTransport({
+			host: configs.email.host,
+			port: parseInt(configs.email.port),
+			secure: false, // Gmail uses STARTTLS, not SSL
+			auth: {
+				user: configs.email.auth.user,
+				pass: configs.email.auth.pass,
+			},
+			tls: {
+				rejectUnauthorized: false,
+				ciphers: 'SSLv3'
+			},
+		});
+
+		// Email options
+		const mailOptions = {
+			from: `"MS Club of SLIIT" <${configs.email.auth.user}>`,
+			to: to,
 			cc: "msclubofsliit@gmail.com",
 			subject: subject,
 			text: htmlTemplate,
 			html: htmlTemplate,
 		};
-		sgMail
-			.send(msg)
-			.then((responseData: any) => {
-				logger.info(`#### Step 05 - Email sent to ${to}`);
-				return resolve(responseData);
-			})
-			.catch((error: any) => {
-				logger.error("Send Email Error: " + error);
-				return reject(error);
-			});
-	});
+
+		// Send email
+		const info = await transporter.sendMail(mailOptions);
+		logger.info(`#### Step 05 - Email sent to ${to}`);
+		logger.info(`Message ID: ${info.messageId}`);
+		return info;
+	} catch (error: any) {
+		logger.error("Send Email Error: " + error.message);
+		throw error;
+	}
 };
 
 const retry = (maxRetries: number, retryFunction: any, retryFunctionName: string) => {
