@@ -22,130 +22,44 @@
  */
 
 import { IConfig } from "../interfaces";
-let configs: IConfig;
-const environment = process.env.NODE_ENV?.trim() as string;
 
-if (environment == "Local") {
-	configs = {
-		ip: process.env.IP || "localhost",
-		port: (process.env.PORT as string) || "8087",
-		environment: process.env.LOCAL_ENVIRONMENT as string,
-		mongodb: {
-			uri: process.env.DEV_LOCAL_MONGO_URI as string,
-		},
+const configs: IConfig = {
+	ip: process.env.IP || "localhost",
+	port: process.env.PORT as string,
+	environment: process.env.NODE_ENV as string,
+	mongodb: {
+		uri: process.env.MONGO_URI as string,
+	},
+	auth: {
+		secret: process.env.JWT_SECRET as string,
+	},
+	email: {
+		host: process.env.EMAIL_HOST as string,
+		port: process.env.EMAIL_PORT as string,
+		secure: true,
+		pool: true,
+		secureConnection: true,
 		auth: {
-			secret: process.env.DEV_JWT_SECRET as string,
+			user: process.env.EMAIL_AUTH_USER as string,
+			pass: process.env.EMAIL_AUTH_PASSWORD as string,
 		},
-		email: {
-			host: process.env.EMAIL_HOST as string,
-			port: process.env.EMAIL_PORT as string,
-			secure: true,
-			pool: true,
-			secureConnection: true,
-			auth: {
-				user: process.env.EMAIL_AUTH_USER as string,
-				pass: process.env.EMAIL_AUTH_PASSWORD as string,
-			},
-			tls: {
-				rejectUnauthorized: false,
-			},
+		tls: {
+			rejectUnauthorized: false,
 		},
-		supabase: {
-			url: process.env.LOCAL_SUPABASE_URL as string,
-			anonKey: process.env.LOCAL_SUPABASE_ANON_KEY as string,
-			serviceRoleKey: process.env.LOCAL_SUPABASE_SERVICE_ROLE_KEY as string,
-			applicationImageBucket: process.env.LOCAL_APPLICATION_IMAGES_BUCKET as string,
-			emailTemplateBucket: process.env.LOCAL_EMAIL_TEMPLATE_BUCKET as string,
-		},
-		queue: {
-			messageBrokerURL: process.env.DEV_MESSAGE_BROKER_URL as string,
-			exchangeName: process.env.EXCHANGE_NAME as string,
-			emailService: process.env.EMAIL_SERVICE_NAME as string,
-			emailQueue: process.env.EMAIL_QUEUE_NAME as string,
-		},
-	};
-}
-
-if (environment == "Development") {
-	configs = {
-		ip: process.env.IP || "localhost",
-		port: (process.env.PORT as string) || "8087",
-		environment: process.env.DEV_ENVIRONMENT as string,
-		mongodb: {
-			uri: process.env.DEV_MONGO_URI as string,
-		},
-		auth: {
-			secret: process.env.DEV_JWT_SECRET as string,
-		},
-		email: {
-			host: process.env.EMAIL_HOST as string,
-			port: process.env.EMAIL_PORT as string,
-			secure: true,
-			pool: true,
-			secureConnection: true,
-			auth: {
-				user: process.env.EMAIL_AUTH_USER as string,
-				pass: process.env.EMAIL_AUTH_PASSWORD as string,
-			},
-			tls: {
-				rejectUnauthorized: false,
-			},
-		},
-		supabase: {
-			url: process.env.SUPABASE_URL as string,
-			anonKey: process.env.SUPABASE_ANON_KEY as string,
-			serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY as string,
-			applicationImageBucket: process.env.APPLICATION_IMAGES_BUCKET as string,
-			emailTemplateBucket: process.env.EMAIL_TEMPLATE_BUCKET as string,
-		},
-		queue: {
-			messageBrokerURL: process.env.DEV_MESSAGE_BROKER_URL as string,
-			exchangeName: process.env.EXCHANGE_NAME as string,
-			emailService: process.env.EMAIL_SERVICE_NAME as string,
-			emailQueue: process.env.EMAIL_QUEUE_NAME as string,
-		},
-	};
-}
-
-if (environment == "Production") {
-	configs = {
-		ip: process.env.IP || "localhost",
-		port: (process.env.PORT as string) || "8087",
-		environment: process.env.PROD_ENVIRONMENT as string,
-		mongodb: {
-			uri: process.env.PROD_MONGO_URI as string,
-		},
-		auth: {
-			secret: process.env.PROD_JWT_SECRET as string,
-		},
-		email: {
-			host: process.env.EMAIL_HOST as string,
-			port: process.env.EMAIL_PORT as string,
-			secure: true,
-			pool: true,
-			secureConnection: true,
-			auth: {
-				user: process.env.EMAIL_AUTH_USER as string,
-				pass: process.env.EMAIL_AUTH_PASSWORD as string,
-			},
-			tls: {
-				rejectUnauthorized: false,
-			},
-		},
-		supabase: {
-			url: process.env.SUPABASE_URL as string,
-			anonKey: process.env.SUPABASE_ANON_KEY as string,
-			serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY as string,
-			applicationImageBucket: process.env.APPLICATION_IMAGES_BUCKET as string,
-			emailTemplateBucket: process.env.EMAIL_TEMPLATE_BUCKET as string,
-		},
-		queue: {
-			messageBrokerURL: process.env.PROD_MESSAGE_BROKER_URL as string,
-			exchangeName: process.env.EXCHANGE_NAME as string,
-			emailService: process.env.EMAIL_SERVICE_NAME as string,
-			emailQueue: process.env.EMAIL_QUEUE_NAME as string,
-		},
-	};
-}
+	},
+	supabase: {
+		url: process.env.SUPABASE_URL as string,
+		anonKey: process.env.SUPABASE_ANON_KEY as string,
+		serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY as string,
+		applicationImageBucket: process.env.APPLICATION_IMAGES_BUCKET as string,
+		emailTemplateBucket: process.env.EMAIL_TEMPLATE_BUCKET as string,
+	},
+	queue: {
+		messageBrokerURL: process.env.MESSAGE_BROKER_URL as string,
+		exchangeName: process.env.EXCHANGE_NAME as string,
+		emailService: process.env.EMAIL_SERVICE_NAME as string,
+		emailQueue: process.env.EMAIL_QUEUE_NAME as string,
+	},
+};
 
 export { configs };
