@@ -39,12 +39,12 @@ export const insertContact = async (request: Request, contactData: IContact) => 
 				templateName: EmailTemplate.ContactUs,
 				to: data.email,
 				subject: "MS Club SLIIT - Contact Us",
-				body: {
+				body: JSON.stringify({
 					name: data.name,
 					email: data.email,
 					message: data.message,
 					date_time: moment(data.createdAt).format("LLL"),
-				},
+				}),
 				status: EmailStatus.Waiting,
 				type: EmailType.ContactUs,
 			};
