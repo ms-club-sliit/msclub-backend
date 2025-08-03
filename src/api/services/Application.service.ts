@@ -46,7 +46,7 @@ export const addApplication = async (request: Request, applicationData: IApplica
 				templateName: EmailTemplate.Application,
 				to: application.email,
 				subject: "MS Club SLIIT - Application Received",
-				body: {
+				body: JSON.stringify({
 					studentId: application.studentId,
 					name: application.name,
 					email: application.email,
@@ -55,7 +55,7 @@ export const addApplication = async (request: Request, applicationData: IApplica
 					linkedIn: application.linkedIn,
 					gitHub: application.gitHub,
 					skillsAndTalents: application.skillsAndTalents,
-				},
+				}),
 				status: EmailStatus.Waiting,
 				type: EmailType.Application,
 			};
@@ -157,13 +157,13 @@ export const changeApplicationStatusIntoInterview = async (
 					templateName: EmailTemplate.Application,
 					to: application.email,
 					subject: "MS Club SLIIT - Interview",
-					body: {
+					body: JSON.stringify({
 						name: application.name,
 						email: application.email,
 						date: moment.utc(interviewData.startDateTime).format("LL"),
 						time: moment.utc(interviewData.startDateTime).format("LTS"),
 						format: interviewData.format,
-					},
+					}),
 					status: EmailStatus.Waiting,
 					type: EmailType.Application,
 				};
