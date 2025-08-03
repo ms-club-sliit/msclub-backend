@@ -34,7 +34,7 @@ const EmailSchema = new Schema<IEmail>(
 			default: "WAITING",
 			required: true,
 		},
-		body: { type: String, required: true },
+		body: { type: Schema.Types.Mixed, required: true },
 		type: {
 			type: String,
 			enum: ["Application", "ContactUs", "Selected", "Interview"],
