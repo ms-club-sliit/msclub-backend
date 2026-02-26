@@ -40,7 +40,7 @@
 		"@types/uuid": "^8.3.3",
 		"@types/validator": "^13.7.0",
 		"@types/whatwg-url": "^8.2.1",
-		"amqplib": "^0.8.0",
+		"amqplib": "^0.10.9",
 		"axios": "^0.24.0",
 		"bcryptjs": "^2.4.3",
 		"body-parser": "^1.19.0",

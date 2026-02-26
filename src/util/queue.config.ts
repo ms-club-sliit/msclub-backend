@@ -23,30 +23,159 @@
 
 import amqp, { Channel } from "amqplib";
 import { configs } from "../config";
+import logger from "./logger";
 
-// Create a channel
-const createChannel = async () => {
-	const connection = await amqp.connect(configs.queue.messageBrokerURL);
-	const channel = await connection.createChannel();
-	await channel.assertQueue(configs.queue.emailQueue, { durable: false });
-	return channel;
+let channel: Channel | null = null;
+
+/**
+ * Acts as a mutex: while a connection attempt is in-flight,
+ * all concurrent callers await the same promise instead of
+ * starting duplicate connections.
+ */
+let connectingPromise: Promise<Channel | null> | null = null;
+
+/**
+ * Prevents multiple overlapping reconnect timers from stacking.
+ */
+let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+
+const RECONNECT_DELAY_MS = 5000;
+const MAX_RECONNECT_DELAY_MS = 30000;
+let currentReconnectDelay = RECONNECT_DELAY_MS;
+
+/**
+ * Tears down existing connection/channel references safely.
+ * Called from error/close handlers and before reconnect.
+ */
+const cleanup = () => {
+	channel = null;
+	connectingPromise = null;
+	// Don't clear reconnectTimer here — let scheduleReconnect manage its own lifecycle
 };
 
-// Publish the messages
-const publishMessage = (channel: Channel, message: any) => {
-	channel.sendToQueue(configs.queue.emailQueue, Buffer.from(JSON.stringify(message)));
+/**
+ * Schedules a reconnection attempt with exponential backoff.
+ * If reconnection fails, recursively schedules another attempt
+ * so the system never stays permanently disconnected.
+ */
+const scheduleReconnect = () => {
+	// Prevent stacking multiple timers
+	if (reconnectTimer) return;
+
+	logger.info(`[RabbitMQ] Reconnecting in ${currentReconnectDelay / 1000}s...`);
+
+	reconnectTimer = setTimeout(async () => {
+		reconnectTimer = null;
+		const ch = await getChannel();
+
+		if (ch) {
+			// Success: backoff is already reset inside createConnection()
+			logger.info("[RabbitMQ] Reconnection successful.");
+		} else {
+			// Failed: increase backoff and try again
+			currentReconnectDelay = Math.min(currentReconnectDelay * 2, MAX_RECONNECT_DELAY_MS);
+			logger.warn(`[RabbitMQ] Reconnection failed. Next attempt in ${currentReconnectDelay / 1000}s...`);
+			scheduleReconnect();
+		}
+	}, currentReconnectDelay);
 };
 
-// Subscribe to messages
-const subscribeMessages = async (channel: Channel, service: any) => {
-	const serviceQueue = await channel.assertQueue(configs.queue.emailQueue, { durable: false });
-	channel.consume(serviceQueue.queue, (data) => {
+/**
+ * Internal function that actually creates the connection + channel.
+ * Only one instance of this runs at a time (guarded by connectingPromise).
+ */
+const createConnection = async (): Promise<Channel | null> => {
+	try {
+		const conn = await amqp.connect(configs.queue.messageBrokerURL, {
+			heartbeat: 60,
+			servername: new URL(configs.queue.messageBrokerURL).hostname,
+		});
+
+		const ch = await conn.createChannel();
+		await ch.assertQueue(configs.queue.emailQueue, { durable: false });
+
+		conn.on("error", (err) => {
+			logger.error("[RabbitMQ] Connection error:", err.message);
+			scheduleReconnect();
+			cleanup();
+		});
+
+		conn.on("close", () => {
+			logger.warn("[RabbitMQ] Connection closed.");
+			cleanup();
+			scheduleReconnect();
+		});
+
+		ch.on("error", (err) => {
+			logger.error("[RabbitMQ] Channel error:", err.message);
+			channel = null;
+		});
+
+		ch.on("close", () => {
+			logger.warn("[RabbitMQ] Channel closed.");
+			channel = null;
+		});
+
+		currentReconnectDelay = RECONNECT_DELAY_MS;
+
+		channel = ch;
+
+		logger.info("[RabbitMQ] Connected successfully.");
+		return ch;
+	} catch (err: any) {
+		logger.error(`[RabbitMQ] Failed to connect: ${err.message}`);
+		cleanup();
+		scheduleReconnect();
+		return null;
+	}
+};
+
+/**
+ * Returns an active channel, or creates one.
+ * Uses connectingPromise as a mutex so concurrent callers
+ * share a single connection attempt.
+ */
+const getChannel = async (): Promise<Channel | null> => {
+	// already connected
+	if (channel) return channel;
+
+	// If a connection attempt is already in-flight, wait for it
+	if (connectingPromise) return connectingPromise;
+
+	// Start a new connection attempt and store the promise (mutex)
+	connectingPromise = createConnection();
+
+	try {
+		return await connectingPromise;
+	} finally {
+		// Clear the mutex once resolved (success or failure)
+		connectingPromise = null;
+	}
+};
+
+const publishMessage = async (message: any) => {
+	const ch = await getChannel();
+	if (!ch) {
+		logger.warn("[RabbitMQ] Skipping publish - no connection available");
+		return;
+	}
+	ch.sendToQueue(configs.queue.emailQueue, Buffer.from(JSON.stringify(message)));
+};
+
+const subscribeMessages = async (service: any) => {
+	const ch = await getChannel();
+	if (!ch) {
+		logger.warn("[RabbitMQ] Skipping subscribe - no connection available");
+		return;
+	}
+	const serviceQueue = await ch.assertQueue(configs.queue.emailQueue, { durable: false });
+	await ch.consume(serviceQueue.queue, (data) => {
 		if (data) {
 			const queueItem = JSON.parse(JSON.parse(data.content.toString()));
 			service.sendEmailWithTemplate(queueItem);
-			channel.ack(data); // Send acknowledgement to queue after consume the message
+			ch.ack(data);
 		}
 	});
 };
 
-export default { createChannel, publishMessage, subscribeMessages };
+export default { getChannel, publishMessage, subscribeMessages };
