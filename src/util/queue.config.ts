@@ -136,7 +136,7 @@ const createConnection = async (): Promise<Channel | null> => {
  * share a single connection attempt.
  */
 const getChannel = async (): Promise<Channel | null> => {
-	// Fast path: already connected
+	// already connected
 	if (channel) return channel;
 
 	// If a connection attempt is already in-flight, wait for it
