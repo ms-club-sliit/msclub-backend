@@ -28,7 +28,6 @@ import { EmailStatus } from "../api/services/Service.constant";
 import logger from "./logger";
 import { configs } from "../config";
 import moment from "moment";
-import fetch from "cross-fetch";
 import nodemailer from "nodemailer";
 import getSupabaseClient from "../config/storage.config";
 
