@@ -21,8 +21,11 @@
  *
  */
 
-import { DocumentDefinition } from "mongoose";
+
 import { IApplication, IInterview, IMeetingRequest } from "../../interfaces";
+
+// Type alias for document data
+type DocumentData<T> = Partial<T>;
 import ApplicationModel from "../models/Application.model";
 import EmailModel from "../models/Email.model";
 import { Request } from "express";
@@ -36,7 +39,7 @@ import MeetingModel from "../models/Meeting.model";
  * @param {IApplication} application
  * @returns {Promise<IApplication>}
  */
-export const addApplication = async (request: Request, applicationData: DocumentDefinition<IApplication>) => {
+export const addApplication = async (request: Request, applicationData: IApplication) => {
 	return await ApplicationModel.create(applicationData)
 		.then(async (application) => {
 			const email = {
@@ -125,7 +128,7 @@ export const archiveApplication = async (applicationId: string) => {
 export const changeApplicationStatusIntoInterview = async (
 	request: Request,
 	applicationId: string,
-	interviewData: DocumentDefinition<IInterview>
+	interviewData: IInterview
 ) => {
 	return await ApplicationModel.findById(applicationId)
 		.then(async (application) => {
@@ -171,7 +174,7 @@ export const changeApplicationStatusIntoInterview = async (
 				const applicantMail = `${application.studentId.toLowerCase()}@my.sliit.lk`;
 				const emailList = interviewData.attendees;
 				emailList.push(applicantMail);
-				const interviewScheduleDetails: DocumentDefinition<IMeetingRequest> = {
+				const interviewScheduleDetails: any = {
 					meetingName: application.name,
 					startDateTime: interviewData.startDateTime,
 					endDateTime: interviewData.endDateTime,

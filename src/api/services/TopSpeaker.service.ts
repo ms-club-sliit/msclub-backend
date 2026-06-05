@@ -21,13 +21,12 @@
  *
  */
 
-import { DocumentDefinition, Schema } from "mongoose";
 import { ITopSpeaker, IUpdatedBy } from "../../interfaces";
-import TopSpeakerModel from "../models/TopSpeaker.model";
+import { Schema } from "mongoose";import TopSpeakerModel from "../models/TopSpeaker.model";
 /**
  save a speaker in the database
  */
-export const insertTopSpeaker = async (topSpeakerData: DocumentDefinition<ITopSpeaker>) => {
+export const insertTopSpeaker = async (topSpeakerData: ITopSpeaker) => {
 	return await TopSpeakerModel.create(topSpeakerData)
 		.then(async (topSpeaker) => {
 			const initialUpdatedBy: IUpdatedBy = {
@@ -77,12 +76,12 @@ export const getTopSpeakers = async () => {
 /**
  update a TopSpeaker in the system
  * @param topSpeakerId @type string
- * @param updateData @type DocumentDefinition<ITopSpeaker>
+ * @param updateData @type ITopSpeaker
  */
 export const updateTopSpeaker = async (
 	topSpeakerId: string,
-	updateData: DocumentDefinition<ITopSpeaker>,
-	updatedBy: Schema.Types.ObjectId
+	updateData: ITopSpeaker,
+	updatedBy: string
 ) => {
 	return await TopSpeakerModel.findById(topSpeakerId)
 		.then(async (topSpeakerDetails) => {
@@ -120,7 +119,7 @@ export const updateTopSpeaker = async (
 				}
 
 				const updateUserInfo: IUpdatedBy = {
-					user: updatedBy,
+					user: new Schema.Types.ObjectId(updatedBy),
 					updatedAt: new Date(),
 				};
 
@@ -139,12 +138,12 @@ export const updateTopSpeaker = async (
 delete a past event
  * @param topSpeakerId @type string
  */
-export const deleteTopSpeaker = async (topSpeakerId: string, deletedBy: Schema.Types.ObjectId) => {
+export const deleteTopSpeaker = async (topSpeakerId: string, deletedBy: string) => {
 	return await TopSpeakerModel.findById(topSpeakerId)
 		.then(async (topSpeakerDetails) => {
 			if (topSpeakerDetails && topSpeakerDetails.deletedAt === null) {
 				topSpeakerDetails.deletedAt = new Date();
-				topSpeakerDetails.deletedBy = deletedBy;
+				topSpeakerDetails.deletedBy = new Schema.Types.ObjectId(deletedBy);
 				return await topSpeakerDetails.save();
 			} else {
 				return null;

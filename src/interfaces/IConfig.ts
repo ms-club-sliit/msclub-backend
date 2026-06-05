@@ -44,19 +44,13 @@ interface IConfig {
 		tls: {
 			rejectUnauthorized: boolean;
 		};
-		sendGrid: {
-			user: string;
-			apiKey: string;
-		};
 	};
-	firebase: {
-		projectId: string;
-		clientEmail: string;
-		privateKey: string;
-		storageBucket: string;
+	supabase: {
+		url: string;
+		anonKey: string;
+		serviceRoleKey: string;
 		emailTemplateBucket: string;
 		applicationImageBucket: string;
-		bucketName: string;
 	};
 	queue: {
 		messageBrokerURL: string;

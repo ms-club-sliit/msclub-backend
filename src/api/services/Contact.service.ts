@@ -22,7 +22,6 @@
  */
 
 import { Request } from "express";
-import { DocumentDefinition } from "mongoose";
 import { IContact, IInquiryReply } from "../../interfaces";
 import { EmailTemplate, EmailType, EmailStatus } from "./Service.constant";
 import ContactModel from "../models/Contact.model";
@@ -33,7 +32,7 @@ import EmailModel from "../models/Email.model";
  * @param {IContact} contactData
  * @returns {IContact} Contact data
  */
-export const insertContact = async (request: Request, contactData: DocumentDefinition<IContact>) => {
+export const insertContact = async (request: Request, contactData: IContact) => {
 	return await ContactModel.create(contactData)
 		.then(async (data) => {
 			const email = {
@@ -148,7 +147,7 @@ export const recoverDeletedInquiry = async (inquiryId: string) => {
 export const replyInquiry = async (
 	request: Request,
 	inquiryId: string,
-	replyData: DocumentDefinition<IInquiryReply>
+	replyData: IInquiryReply
 ) => {
 	return await ContactModel.findById(inquiryId)
 		.then(async (data) => {

@@ -48,7 +48,7 @@ const ApplicationSchema = new Schema<IApplication>(
 			required: false,
 			default: "PENDING",
 		},
-		meeting: { type: mongoose.Schema.Types.ObjectId, ref: "meeting" },
+		meeting: { type: Schema.Types.ObjectId, ref: "meeting" } as any,
 	},
 	{ timestamps: true }
 );

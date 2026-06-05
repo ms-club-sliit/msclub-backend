@@ -1,4 +1,4 @@
-FROM node:14.18-alpine AS BUILD_IMAGE
+FROM node:18-alpine AS build_image
 RUN apk add --no-cache nodejs npm
 WORKDIR /ms-webserver
 COPY ["package.json", "./"]
@@ -6,9 +6,9 @@ RUN npm install
 COPY . .
 RUN npm run build 
 
-FROM node:14.18-alpine
+FROM node:18-alpine
 WORKDIR /app
-COPY --from=BUILD_IMAGE /ms-webserver /app/
+COPY --from=build_image /ms-webserver /app/
 EXPOSE 8087
 ENTRYPOINT [ "npm", "run" ]
 CMD [ "start" ]

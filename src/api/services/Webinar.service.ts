@@ -21,15 +21,14 @@
  *
  */
 
-import { DocumentDefinition, Schema } from "mongoose";
 import { IWebinar, IUpdatedBy } from "../../interfaces";
-import WebinarModel from "../models/Webinar.model";
+import { Schema } from "mongoose";import WebinarModel from "../models/Webinar.model";
 /**
  * Save a webinar in the database
  * @param {IWebinar} webinarData
  * @returns {IWebinar} New webinar document
  */
-export const insertWebinar = async (webinarData: DocumentDefinition<IWebinar>) => {
+export const insertWebinar = async (webinarData: IWebinar) => {
 	return await WebinarModel.create(webinarData)
 		.then(async (webinar) => {
 			const initialUpdatedBy: IUpdatedBy = {
@@ -109,12 +108,12 @@ export const fetchUpcomingWebinar = async () => {
 /**
  * Update a webinar in the database
  * @param webinarId @type string
- * @param updateData @type DocumentDefinition<IWebinar>
+ * @param updateData @type IWebinar
  */
 export const updateWebinar = async (
 	webinarId: string,
-	webinarData: DocumentDefinition<IWebinar>,
-	updatedBy: Schema.Types.ObjectId
+	webinarData: IWebinar,
+	updatedBy: string
 ) => {
 	return await WebinarModel.findById(webinarId)
 		.then(async (webinarDetails) => {
@@ -153,7 +152,7 @@ export const updateWebinar = async (
 					}
 
 					const updateUserInfo: IUpdatedBy = {
-						user: updatedBy,
+						user: new Schema.Types.ObjectId(updatedBy),
 						updatedAt: new Date(),
 					};
 					webinarDetails.updatedBy.push(updateUserInfo);
@@ -174,12 +173,12 @@ export const updateWebinar = async (
  * Delete a webinar in the database
  * @param webinarId @type string
  */
-export const removeWebinar = async (webinarId: string, deletedBy: Schema.Types.ObjectId) => {
+export const removeWebinar = async (webinarId: string, deletedBy: string) => {
 	return await WebinarModel.findById(webinarId)
 		.then(async (webinarDetails) => {
 			if (webinarDetails && webinarDetails.deletedAt === null) {
 				webinarDetails.deletedAt = new Date();
-				webinarDetails.deletedBy = deletedBy;
+				webinarDetails.deletedBy = new Schema.Types.ObjectId(deletedBy);
 				return await webinarDetails.save();
 			} else {
 				return "Webinar not found";

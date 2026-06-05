@@ -21,29 +21,35 @@
  *
  */
 
-import StorageBucket from "../config/storage.config";
+import getSupabaseClient from "../config/storage.config";
 import logger from "./logger";
+import { configs } from "../config";
+
 class ImageService {
 	static uploadImage = async (file: any, folderName: string): Promise<string> => {
-		return new Promise((resolve, reject) => {
+		try {
 			const { buffer } = file;
+			const fileName = this.generateImageName();
+			const filePath = `${folderName}/${fileName}`;
 
-			const blob = StorageBucket.file(`${folderName}/${this.generateImageName()}`);
-			const blobStream = blob.createWriteStream({
-				resumable: false,
-				gzip: true,
-			});
+			const supabase = getSupabaseClient();
+			const { data, error } = await supabase.storage
+				.from(configs.supabase.applicationImageBucket)
+				.upload(filePath, buffer, {
+					contentType: 'image/jpeg',
+					upsert: false
+				});
 
-			blobStream
-				.on("finish", () => {
-					resolve(blob.name);
-				})
-				.on("error", (error) => {
-					logger.error(error.message);
-					reject(`Upload Error: ${error.message}`);
-				})
-				.end(buffer);
-		});
+			if (error) {
+				logger.error(`Upload Error: ${error.message}`);
+				throw new Error(`Upload Error: ${error.message}`);
+			}
+
+			return filePath;
+		} catch (error: any) {
+			logger.error(error.message);
+			throw new Error(`Upload Error: ${error.message}`);
+		}
 	};
 
 	static generateImageName = () => {

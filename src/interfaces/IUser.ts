@@ -54,7 +54,7 @@ interface IUserDocument extends Document {
 }
 
 interface ILastLoggedUser extends Document {
-	loggedAt: string | null;
+	loggedAt: Date | null;
 	user: Schema.Types.ObjectId | null;
 }
 

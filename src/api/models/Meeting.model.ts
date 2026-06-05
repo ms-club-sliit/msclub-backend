@@ -25,10 +25,10 @@ const MeetingSchema = new Schema<IMeeting>(
 			required: false,
 			default: null,
 			ref: "users",
-		},
+		} as any,
 		updatedBy: [
 			{
-				user: { type: Schema.Types.ObjectId, required: false, ref: "users" },
+				user: { type: Schema.Types.ObjectId, required: false, ref: "users" } as any,
 				updatedAt: { type: Date, required: false },
 			},
 		],
