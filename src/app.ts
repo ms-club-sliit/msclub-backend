@@ -48,8 +48,8 @@ app.use(express.urlencoded({ extended: true }));
 // Channel is fetched lazily per-request via messageQueue.getChannel()
 // so it always returns the current live channel (handles reconnects).
 app.use((req: Request, res: Response, next: NextFunction) => {
-	(req as any).handleResponse = responseHandler;
-	(req as any).queue = messageQueue;
+	req.handleResponse = responseHandler;
+	req.queue = messageQueue;
 	next();
 });
 
