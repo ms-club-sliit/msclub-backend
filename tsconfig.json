@@ -4,7 +4,6 @@
 		"module": "commonjs",
 		"rootDir": "./src",
 		"moduleResolution": "node",
-		"ignoreDeprecations": "6.0",
 		"outDir": "./build",
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
@@ -19,9 +18,5 @@
 		"noImplicitReturns": false,
 		"noFallthroughCasesInSwitch": false
 	},
-	"include": ["src/**/*", "typings/**/*"],
-	"exclude": ["node_modules", "**/*.spec.ts"],
-	"ts-node": {
-		"files": true
-	}
+	"exclude": ["node_modules", "**/*.spec.ts"]
 }
