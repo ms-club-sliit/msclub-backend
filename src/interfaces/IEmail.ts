@@ -28,7 +28,7 @@ interface IEmail extends Document {
 	to: string;
 	subject: string;
 	status: string;
-	body?: string;
+	body?: any;
 	type: string;
 }
 

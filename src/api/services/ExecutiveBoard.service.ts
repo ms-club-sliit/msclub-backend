@@ -79,11 +79,7 @@ export const getExecutiveBoard = async () => {
  * @param boardId @type string
  * @param insertData @type IBoardMember
  */
-export const addBoardMember = async (
-	executiveBoardId: string,
-	insertData: IBoardMember,
-	updatedBy: string
-) => {
+export const addBoardMember = async (executiveBoardId: string, insertData: IBoardMember, updatedBy: string) => {
 	return await insertBoardMember(insertData)
 		.then(async (createdBoardMember: IBoardMember) => {
 			const executiveBoard = await ExecutiveBoardModel.findById(executiveBoardId);
@@ -109,11 +105,7 @@ export const addBoardMember = async (
  * @param boardId @type string
  * @param updateData @type IExecutiveBoard
  */
-export const updateExecutiveBoardDetails = async (
-	boardId: string,
-	updateData: IExecutiveBoard,
-	updatedBy: string
-) => {
+export const updateExecutiveBoardDetails = async (boardId: string, updateData: IExecutiveBoard, updatedBy: string) => {
 	return await ExecutiveBoardModel.findById(boardId)
 		.then(async (executiveBoardDetails) => {
 			if (executiveBoardDetails) {

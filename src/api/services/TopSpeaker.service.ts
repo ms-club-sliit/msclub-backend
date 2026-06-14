@@ -22,7 +22,8 @@
  */
 
 import { ITopSpeaker, IUpdatedBy } from "../../interfaces";
-import { Schema } from "mongoose";import TopSpeakerModel from "../models/TopSpeaker.model";
+import { Schema } from "mongoose";
+import TopSpeakerModel from "../models/TopSpeaker.model";
 /**
  save a speaker in the database
  */
@@ -78,11 +79,7 @@ export const getTopSpeakers = async () => {
  * @param topSpeakerId @type string
  * @param updateData @type ITopSpeaker
  */
-export const updateTopSpeaker = async (
-	topSpeakerId: string,
-	updateData: ITopSpeaker,
-	updatedBy: string
-) => {
+export const updateTopSpeaker = async (topSpeakerId: string, updateData: ITopSpeaker, updatedBy: string) => {
 	return await TopSpeakerModel.findById(topSpeakerId)
 		.then(async (topSpeakerDetails) => {
 			if (topSpeakerDetails) {

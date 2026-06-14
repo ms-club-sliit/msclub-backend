@@ -89,7 +89,8 @@ UserSchema.pre("save", async function (next) {
 	const password: any = user.password;
 
 	if (!user.isModified("password")) {
-		return next();
+		next();
+		return;
 	}
 
 	// Number of rounds hash function will execute
@@ -97,14 +98,14 @@ UserSchema.pre("save", async function (next) {
 
 	const hash = await bcrypt.hashSync(password, salt);
 	user.password = hash;
-	return next();
+	next();
 });
 
 UserSchema.methods.generateAuthToken = async function () {
 	const user = this as IUser;
 	const secret = process.env.JWT_SECRET as string;
 
-	const authToken = jwt.sign({ _id: user._id }, secret);
+	const authToken = jwt.sign({ _id: user._id }, secret, { algorithm: "HS256" });
 	user.authToken = authToken;
 	await user.save();
 	return authToken;

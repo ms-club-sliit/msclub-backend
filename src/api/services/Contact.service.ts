@@ -144,11 +144,7 @@ export const recoverDeletedInquiry = async (inquiryId: string) => {
 	}
 };
 
-export const replyInquiry = async (
-	request: Request,
-	inquiryId: string,
-	replyData: IInquiryReply
-) => {
+export const replyInquiry = async (request: Request, inquiryId: string, replyData: IInquiryReply) => {
 	return await ContactModel.findById(inquiryId)
 		.then(async (data) => {
 			if (data) {
