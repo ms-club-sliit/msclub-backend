@@ -1,0 +1,60 @@
+name: "General Issue"
+description: For general discussions, questions, or proposals
+title: "[General]: "
+labels: ["discussion"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        General issue form. Please provide the details below.
+
+  # Type of Issue
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Type
+      description: Select the category that best describes your issue.
+      options:
+        - Question
+        - Proposal
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  # Description
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please provide details about your question, proposal, or discussion topic.
+    validations:
+      required: true
+
+  # Screenshots
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Drag & drop images or paste screenshots here, if applicable.
+    validations:
+      required: false
+
+  # Environment info
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment / Version info
+      description: Provide relevant environment details if applicable.
+    validations:
+      required: false
+
+  # Code of Conduct
+  - type: checkboxes
+    id: coc
+    attributes:
+      label: Code of Conduct
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
