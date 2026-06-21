@@ -1,0 +1,69 @@
+name: "Bug Report"
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please provide all required details below.
+
+  # Description 
+  - type: textarea
+    id: steps
+    attributes:
+      label: Description / Steps to reproduce
+      description: Explain the issue and how to reproduce it
+      placeholder: |
+        1. Go to ...
+        2. Click ...
+        3. See error
+    validations:
+      required: true
+
+  # Expected vs Actual behavior
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  # Screenshots 
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Drag & drop images or paste screenshots here 
+    validations:
+      required: false
+
+  # Environment info
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment / Version info
+      description: OS, browser, app version, device, etc.
+      placeholder: |
+        OS: Windows 11
+        Browser: Chrome 121
+        Version: 1.0.0
+    validations:
+      required: true
+
+  # Code of Conduct
+  - type: checkboxes
+    id: coc
+    attributes:
+      label: Code of Conduct
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
