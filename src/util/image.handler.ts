@@ -36,8 +36,8 @@ class ImageService {
 			const { data, error } = await supabase.storage
 				.from(configs.supabase.applicationImageBucket)
 				.upload(filePath, buffer, {
-					contentType: 'image/jpeg',
-					upsert: false
+					contentType: "image/jpeg",
+					upsert: false,
 				});
 
 			if (error) {

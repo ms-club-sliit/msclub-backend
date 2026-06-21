@@ -29,7 +29,7 @@ import { IEvent, IUpdatedBy } from "./IEvent";
 import { IWebinar } from "./IWebinar";
 import { IExecutiveBoard } from "./IExecutiveBoard";
 import { IBoardMember } from "./IBoardMember";
-import { IApplication } from "./IApplication";
+import { IApplication, IPaginatedApplicationResponse } from "./IApplication";
 import { IInterview } from "./IInterview";
 import { IOrganization } from "./IOrganization";
 import { IMeeting, IMeetingRequest } from "./IMeeting";
@@ -47,6 +47,7 @@ export {
 	IExecutiveBoard,
 	IBoardMember,
 	IApplication,
+	IPaginatedApplicationResponse,
 	ITopSpeaker,
 	IInterview,
 	IOrganization,

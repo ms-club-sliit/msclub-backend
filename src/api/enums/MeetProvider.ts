@@ -1,6 +1,6 @@
 enum MeetProvider {
-    GOOGLEMEET = "googleMeet",
-    MSMEET = "msMeet"
+	GOOGLEMEET = "googleMeet",
+	MSMEET = "msMeet",
 }
 
 export { MeetProvider };

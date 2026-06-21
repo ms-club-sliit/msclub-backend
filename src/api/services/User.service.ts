@@ -23,7 +23,8 @@
  */
 
 import { IUser, IUserRequest } from "../../interfaces";
-import { Schema } from "mongoose";import UserModel from "../models/User.model";
+import { Schema } from "mongoose";
+import UserModel from "../models/User.model";
 import LastLoggedUserModel from "../models/LastLogin.model";
 import axios from "axios";
 
