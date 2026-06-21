@@ -54,7 +54,7 @@ interface IPaginationMeta {
 }
 
 interface IPaginatedApplicationResponse {
-	data: any[];
+	data: IApplication[];
 	pagination: IPaginationMeta;
 }
 
