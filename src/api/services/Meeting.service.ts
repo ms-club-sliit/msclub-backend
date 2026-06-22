@@ -81,7 +81,7 @@ export const scheduleInterviewMeetingMSTeams = (meetingData: IMeetingRequest) =>
 				emailList: meetingData.emailList,
 				scheduledLink: sceduleMeeting.data.body.onlineMeeting.joinUrl,
 				type: "INTERVIEW",
-				meetProvider: "MSMEET"
+				meetProvider: "MSMEET",
 			});
 
 			return await meetingInfo
@@ -98,72 +98,74 @@ export const scheduleInterviewMeetingMSTeams = (meetingData: IMeetingRequest) =>
 		});
 };
 export const scheduleInterviewGoogleMeeting = async (meetingData: IMeeting) => {
-	
-	let res = await axios.post(`${process.env.MS_MEETING_MANAGER_API}/api/googlemeet/internalmeeting/schedule`, meetingData);
+	let res = await axios.post(
+		`${process.env.MS_MEETING_MANAGER_API}/api/googlemeet/internalmeeting/schedule`,
+		meetingData
+	);
 
-	if(res.status != 200)
-		throw new Error("Something went wrong in the meeting service");
+	if (res.status != 200) throw new Error("Something went wrong in the meeting service");
 
 	let data = res.data;
 
 	let new_meeting = new MeetingModel({
-		 ...data, 
-		 meetProvider: "GOOGLEMEET",
-		 type: "INTERVIEW"
+		...data,
+		meetProvider: "GOOGLEMEET",
+		type: "INTERVIEW",
 	});
 
 	return await new_meeting.save();
-}
+};
 
 export const scheduleInternalGoogleMeeting = async (meetingData: IMeeting) => {
-	
-	let res = await axios.post(`${process.env.MS_MEETING_MANAGER_API}/api/googlemeet/internalmeeting/schedule`, meetingData);
+	let res = await axios.post(
+		`${process.env.MS_MEETING_MANAGER_API}/api/googlemeet/internalmeeting/schedule`,
+		meetingData
+	);
 
-	if(res.status != 200)
-		throw new Error("Something went wrong in the meeting service");
+	if (res.status != 200) throw new Error("Something went wrong in the meeting service");
 
 	let data = res.data;
 
 	let new_meeting = new MeetingModel({
-		 ...data, 
-		 meetProvider: "GOOGLEMEET",
-		 type: "INTERNAL"
+		...data,
+		meetProvider: "GOOGLEMEET",
+		type: "INTERNAL",
 	});
 
 	return await new_meeting.save();
-}
+};
 
-export const updateMeeting = async (
-	meetingId: string,
-	updateInfo: any,
-	user: string
-) => {
+export const updateMeeting = async (meetingId: string, updateInfo: any, user: string) => {
 	const meeting = await MeetingModel.findById(meetingId).exec();
 
-	if(!meeting)
-		throw new Error("Meeting ID not found");
+	if (!meeting) throw new Error("Meeting ID not found");
 
 	let res;
 
-	switch(meeting.meetProvider){
+	switch (meeting.meetProvider) {
 		case "GOOGLEMEET":
-			res = await axios.patch(`${process.env.MS_MEETING_MANAGER_API}/api/googlemeet/meeting/${meeting.meetingId}`, updateInfo);
+			res = await axios.patch(
+				`${process.env.MS_MEETING_MANAGER_API}/api/googlemeet/meeting/${meeting.meetingId}`,
+				updateInfo
+			);
 			break;
 		case "MSMEET":
-			res = await axios.patch(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/meeting/${meeting.meetingId}`, updateInfo)
+			res = await axios.patch(
+				`${process.env.MS_MEETING_MANAGER_API}/api/msteams/meeting/${meeting.meetingId}`,
+				updateInfo
+			);
 			break;
 		default:
 			throw new Error("Document has no meetProvider set");
 	}
 
-	if(!res || res.status != 200)
-		throw new Error("Something went wrong in the meeting service");
-	
-	for(const key in updateInfo){
+	if (!res || res.status != 200) throw new Error("Something went wrong in the meeting service");
+
+	for (const key in updateInfo) {
 		let d = updateInfo[key];
-		if(d) meeting.set(key, d);
+		if (d) meeting.set(key, d);
 	}
-	
+
 	const updateUserInfo: IUpdatedBy = {
 		user: new Schema.Types.ObjectId(user),
 		updatedAt: new Date(),
@@ -171,19 +173,19 @@ export const updateMeeting = async (
 
 	meeting.updatedBy.push(updateUserInfo);
 	return await meeting.save();
-}
+};
 
-
-export const deleteMeetingPermanently = async (meetingId : string) => {
+export const deleteMeetingPermanently = async (meetingId: string) => {
 	const meeting = await MeetingModel.findById(meetingId);
 
-	if(!meeting)
-		throw new Error("Meeting ID not found");
+	if (!meeting) throw new Error("Meeting ID not found");
 
 	let res;
-	switch(meeting.meetProvider){
+	switch (meeting.meetProvider) {
 		case "MSMEET":
-			res = await axios.delete(`${process.env.MS_MEETING_MANAGER_API}/api/msteams/internalmeeting/${meeting.meetingId}`)
+			res = await axios.delete(
+				`${process.env.MS_MEETING_MANAGER_API}/api/msteams/internalmeeting/${meeting.meetingId}`
+			);
 			break;
 		case "GOOGLEMEET":
 			res = await axios.delete(`${process.env.MS_MEETING_MANAGER_API}/api/googlemeet/meeting/${meeting.meetingId}`);
@@ -192,8 +194,7 @@ export const deleteMeetingPermanently = async (meetingId : string) => {
 			throw new Error("Document has no meetProvider set");
 	}
 
-	if(res.status != 200)
-		throw new Error("Something went wrong in the meeting service.");
+	if (res.status != 200) throw new Error("Something went wrong in the meeting service.");
 
 	return await MeetingModel.findByIdAndDelete(meetingId);
-}
+};
