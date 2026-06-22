@@ -43,7 +43,7 @@ export const authenticate = async (request: Request, response: Response, next: N
 
 		if (secret) {
 			const authToken = request.header("Authorization") as string;
-			const decode = jwt.verify(authToken, secret);
+			const decode = jwt.verify(authToken, secret, { algorithms: ["HS256"] });
 			const user = await UserModel.findOne({
 				_id: decode as string,
 				authToken: authToken,
