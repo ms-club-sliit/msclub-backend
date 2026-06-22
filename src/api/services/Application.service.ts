@@ -21,7 +21,6 @@
  *
  */
 
-
 import { IApplication, IInterview, IMeetingRequest } from "../../interfaces";
 
 // Type alias for document data

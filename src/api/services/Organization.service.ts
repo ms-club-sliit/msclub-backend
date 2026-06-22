@@ -25,10 +25,7 @@ import OrganizationModel from "../models/Organization.model";
 import { IOrganization, IUpdatedBy } from "../../interfaces";
 import { Schema } from "mongoose";
 // Insert the organization information
-export const createOrganization = async (
-	organizationData: IOrganization,
-	user: string
-) => {
+export const createOrganization = async (organizationData: IOrganization, user: string) => {
 	return OrganizationModel.create(organizationData)
 		.then(async (organization) => {
 			const initialUpdatedBy: IUpdatedBy = {
@@ -75,11 +72,7 @@ export const getOrganizationInfoForAdmin = async () => {
 };
 
 // Update organization information
-export const updateOrganizationInfo = async (
-	organizationId: string,
-	updateInfo: IOrganization,
-	user: string
-) => {
+export const updateOrganizationInfo = async (organizationId: string, updateInfo: IOrganization, user: string) => {
 	if (organizationId) {
 		return OrganizationModel.findById(organizationId)
 			.then(async (organization) => {

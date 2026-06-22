@@ -74,11 +74,7 @@ export const getAllBoardMembers = async () => {
  * @param updateData @type IBoardMember
  */
 
-export const updateBoardMemberDetails = async (
-	boardMemberId: string,
-	updateData: IBoardMember,
-	updatedBy: string
-) => {
+export const updateBoardMemberDetails = async (boardMemberId: string, updateData: IBoardMember, updatedBy: string) => {
 	return await BoardMemberModel.findById(boardMemberId)
 		.then(async (boardMemberDetails) => {
 			if (boardMemberDetails) {

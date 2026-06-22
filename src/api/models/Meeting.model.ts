@@ -32,7 +32,6 @@ const MeetingSchema = new Schema<IMeeting>(
 				updatedAt: { type: Date, required: false },
 			},
 		],
-
 	},
 	{ timestamps: true }
 );

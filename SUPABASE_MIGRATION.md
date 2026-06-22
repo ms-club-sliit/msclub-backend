@@ -1,20 +1,24 @@
 # Firebase Storage to Supabase Storage Migration Guide
 
 ## Overview
+
 This guide helps you migrate from Firebase Storage to Supabase Storage while keeping MongoDB as your main database.
 
 ## Changes Made
 
 ### 1. Configuration Updates
+
 - Updated `src/interfaces/IConfig.ts` - Changed Firebase config to Supabase config
 - Updated `src/config/index.ts` - Updated all environment configurations
 
 ### 2. Storage Configuration
+
 - Updated `src/config/storage.config.ts` - Replaced Firebase Storage with Supabase client
 - Updated `src/util/image.handler.ts` - Modified image upload to use Supabase
 - Updated `src/util/email.handler.ts` - Modified email template fetching to use Supabase
 
 ### 3. Email Service Migration
+
 - Migrated from SendGrid to Nodemailer for email sending
 - Updated `src/util/email.handler.ts` - Replaced SendGrid with Nodemailer SMTP
 - Removed SendGrid dependencies from `package.json`
@@ -69,6 +73,7 @@ npm install @supabase/supabase-js
 Set up Row Level Security (RLS) policies for your buckets:
 
 ### For `application_images` bucket:
+
 ```sql
 -- Allow authenticated users to upload images
 CREATE POLICY "Allow authenticated uploads" ON storage.objects
@@ -80,6 +85,7 @@ FOR SELECT USING (bucket_id = 'application-images');
 ```
 
 ### For `email_templates` bucket:
+
 ```sql
 -- Allow service role to read email templates
 CREATE POLICY "Allow service role read access" ON storage.objects
@@ -105,6 +111,7 @@ To migrate existing files from Firebase Storage to Supabase Storage:
 ## Email Service Benefits
 
 ### SendGrid to Nodemailer Migration:
+
 - **Cost savings**: No more SendGrid API costs
 - **Simplified setup**: Uses existing SMTP configuration
 - **Better control**: Full control over email delivery
@@ -113,6 +120,7 @@ To migrate existing files from Firebase Storage to Supabase Storage:
 ## Testing
 
 After migration, test these features:
+
 - User profile image uploads
 - Event flyer uploads
 - Email template fetching
@@ -122,6 +130,7 @@ After migration, test these features:
 ## Rollback Plan
 
 If you need to rollback:
+
 1. Keep the old Firebase configuration in a backup
 2. Revert the code changes
 3. Switch back to Firebase Storage environment variables
@@ -133,4 +142,4 @@ If you need to rollback:
 - **Unified platform** if you decide to use other Supabase features later
 - **Open source** and more transparent
 - **Cost effective** for small to medium projects
-- **Real-time capabilities** available if needed in the future 
+- **Real-time capabilities** available if needed in the future
