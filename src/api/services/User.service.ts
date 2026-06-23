@@ -195,6 +195,7 @@ export const getUsers = async () => {
 
 /**
  * update user
+ * @deprecated Use updateUserWithoutFace instead
  * @param userId @type string
  * @param updateData @type IUser
  */
@@ -274,7 +275,59 @@ export const updateUser = async (userId: string, updateData: IUser) => {
 };
 
 /**
+ * update user without face api
+ * @param userId @type string
+ * @param updateData @type IUser
+ */
+export const updateUserWithoutFace = async (userId: string, updateData: IUser) => {
+	return await UserModel.findById(userId)
+		.then(async (userDetails) => {
+			if (userDetails) {
+				if (userDetails.deletedAt === null) {
+					if (updateData.firstName) {
+						userDetails.firstName = updateData.firstName;
+					}
+					if (updateData.lastName) {
+						userDetails.lastName = updateData.lastName;
+					}
+					if (updateData.phoneNumber01) {
+						userDetails.phoneNumber01 = updateData.phoneNumber01;
+					}
+					if (updateData.phoneNumber02) {
+						userDetails.phoneNumber02 = updateData.phoneNumber02;
+					}
+					if (updateData.email) {
+						userDetails.email = updateData.email;
+					}
+					if (updateData.userName) {
+						userDetails.userName = updateData.userName;
+					}
+					if (updateData.password) {
+						userDetails.password = updateData.password;
+					}
+					if (updateData.profileImage) {
+						userDetails.profileImage = updateData.profileImage;
+					}
+					if (updateData.permissionLevel) {
+						userDetails.permissionLevel = updateData.permissionLevel;
+					}
+
+					return await userDetails.save();
+				} else {
+					throw new Error("User is not found");
+				}
+			} else {
+				throw new Error("User already removed");
+			}
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
+
+/**
  * admin update user
+ * @deprecated Use adminUpdateUserWithoutFace instead
  * @param updateData @type IUser
  */
 export const adminUpdateUser = async (updateData: IUser) => {
@@ -334,6 +387,56 @@ export const adminUpdateUser = async (updateData: IUser) => {
 									);
 								});
 						}
+					}
+					if (updateData.permissionLevel) {
+						userDetails.permissionLevel = updateData.permissionLevel;
+					}
+
+					return await userDetails.save();
+				} else {
+					throw new Error("User is not found");
+				}
+			} else {
+				throw new Error("User already removed");
+			}
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
+
+/**
+ * admin update user without face api
+ * @param updateData @type IUser
+ */
+export const adminUpdateUserWithoutFace = async (updateData: IUser) => {
+	return await UserModel.findById(updateData._id)
+		.then(async (userDetails) => {
+			if (userDetails) {
+				if (userDetails.deletedAt === null) {
+					if (updateData.firstName) {
+						userDetails.firstName = updateData.firstName;
+					}
+					if (updateData.lastName) {
+						userDetails.lastName = updateData.lastName;
+					}
+					if (updateData.phoneNumber01) {
+						userDetails.phoneNumber01 = updateData.phoneNumber01;
+					}
+					if (updateData.phoneNumber02) {
+						userDetails.phoneNumber02 = updateData.phoneNumber02;
+					}
+					if (updateData.email) {
+						userDetails.email = updateData.email;
+					}
+					if (updateData.userName) {
+						userDetails.userName = updateData.userName;
+					}
+					if (updateData.password) {
+						userDetails.password = updateData.password;
+					}
+					if (updateData.profileImage) {
+						userDetails.profileImage = updateData.profileImage;
 					}
 					if (updateData.permissionLevel) {
 						userDetails.permissionLevel = updateData.permissionLevel;
