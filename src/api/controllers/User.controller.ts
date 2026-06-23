@@ -50,7 +50,7 @@ export const createUser = async (request: Request, response: Response, next: Nex
 		permissionLevel: request.body.permissionLevel as string,
 	};
 
-	await UserService.insertUser(userInfo)
+	await UserService.insertUserWithoutFace(userInfo)
 		.then((data) => {
 			logger.info(`New user with ID ${data._id} created`);
 			request.handleResponse.successRespond(response)(data);

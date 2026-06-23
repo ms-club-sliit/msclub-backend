@@ -23,6 +23,7 @@
 
 import {
 	insertUser,
+	insertUserWithoutFace,
 	authenticateUser,
 	authenticateUserByFace,
 	getUsers,
@@ -139,6 +140,7 @@ import {
 export default {
 	// User services
 	insertUser,
+	insertUserWithoutFace,
 	authenticateUser,
 	authenticateUserByFace,
 	getUsers,

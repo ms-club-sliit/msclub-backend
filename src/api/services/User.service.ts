@@ -29,10 +29,15 @@ import LastLoggedUserModel from "../models/LastLogin.model";
 import axios from "axios";
 
 /**
+ * @deprecated Use insertUserWithoutFace instead
  * @param {IUser} userData
  * @returns {Document} User document
  */
 export const insertUser = async (userData: IUserRequest) => {
+	if (process.env.FACE_API_ENABLED !== "true") {
+		return insertUserWithoutFace(userData);
+	}
+
 	const config = {
 		headers: {
 			"Content-Type": "application/json",
@@ -95,6 +100,21 @@ export const insertUser = async (userData: IUserRequest) => {
 		});
 };
 
+/**
+ * @param {IUser} userData
+ * @returns {Document} User document
+ */
+export const insertUserWithoutFace = async (userData: IUserRequest) => {
+	return await UserModel.create(userData)
+		.then(async (user) => {
+			await user.generateAuthToken();
+			return user;
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
+
 export const authenticateUser = async (userName: string, password: string) => {
 	try {
 		const user = await UserModel.findByUsernamePassword(userName, password);
@@ -110,6 +130,10 @@ export const authenticateUser = async (userName: string, password: string) => {
 };
 
 export const authenticateUserByFace = async (imageUrl: string) => {
+	if (process.env.FACE_API_ENABLED !== "true") {
+		throw new Error("Face authentication is currently disabled.");
+	}
+
 	const config = {
 		headers: {
 			"Content-Type": "application/json",
@@ -203,32 +227,34 @@ export const updateUser = async (userId: string, updateData: IUser) => {
 					if (updateData.profileImage) {
 						userDetails.profileImage = updateData.profileImage;
 
-						const config = {
-							headers: {
-								"Content-Type": "application/json",
-								"Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY || "null",
-							},
-						};
+						if (process.env.FACE_API_ENABLED === "true") {
+							const config = {
+								headers: {
+									"Content-Type": "application/json",
+									"Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY || "null",
+								},
+							};
 
-						const profileImageDetails = {
-							url: process.env.FACE_API_STORAGE_BUCKET_URL + updateData.profileImage,
-						};
+							const profileImageDetails = {
+								url: process.env.FACE_API_STORAGE_BUCKET_URL + updateData.profileImage,
+							};
 
-						await axios
-							.post(
-								`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/persistedfaces?detectionModel=detection_01`,
-								profileImageDetails,
-								config
-							)
-							.then(async (response) => {
-								userDetails.persistedFaceId = response.data.persistedFaceId;
-
-								await axios.post(
-									`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/train`,
-									"",
+							await axios
+								.post(
+									`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/persistedfaces?detectionModel=detection_01`,
+									profileImageDetails,
 									config
-								);
-							});
+								)
+								.then(async (response) => {
+									userDetails.persistedFaceId = response.data.persistedFaceId;
+
+									await axios.post(
+										`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/train`,
+										"",
+										config
+									);
+								});
+						}
 					}
 					if (updateData.permissionLevel) {
 						userDetails.permissionLevel = updateData.permissionLevel;
@@ -280,32 +306,34 @@ export const adminUpdateUser = async (updateData: IUser) => {
 					if (updateData.profileImage) {
 						userDetails.profileImage = updateData.profileImage;
 
-						const config = {
-							headers: {
-								"Content-Type": "application/json",
-								"Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY || "null",
-							},
-						};
+						if (process.env.FACE_API_ENABLED === "true") {
+							const config = {
+								headers: {
+									"Content-Type": "application/json",
+									"Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY || "null",
+								},
+							};
 
-						const profileImageDetails = {
-							url: process.env.FACE_API_STORAGE_BUCKET_URL + updateData.profileImage,
-						};
+							const profileImageDetails = {
+								url: process.env.FACE_API_STORAGE_BUCKET_URL + updateData.profileImage,
+							};
 
-						await axios
-							.post(
-								`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/persistedfaces?detectionModel=detection_01`,
-								profileImageDetails,
-								config
-							)
-							.then(async (response) => {
-								userDetails.persistedFaceId = response.data.persistedFaceId;
-
-								await axios.post(
-									`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/train`,
-									"",
+							await axios
+								.post(
+									`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/persistedfaces?detectionModel=detection_01`,
+									profileImageDetails,
 									config
-								);
-							});
+								)
+								.then(async (response) => {
+									userDetails.persistedFaceId = response.data.persistedFaceId;
+
+									await axios.post(
+										`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/train`,
+										"",
+										config
+									);
+								});
+						}
 					}
 					if (updateData.permissionLevel) {
 						userDetails.permissionLevel = updateData.permissionLevel;
