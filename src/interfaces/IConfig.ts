@@ -58,6 +58,13 @@ interface IConfig {
 		emailQueue: string;
 		emailService: string;
 	};
+	faceApi: {
+		enabled: string;
+		key: string;
+		host: string;
+		storageBucketUrl: string;
+		largeList: string;
+	};
 }
 
 export type { IConfig };

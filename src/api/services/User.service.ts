@@ -23,6 +23,7 @@
  */
 
 import { IUser, IUserRequest } from "../../interfaces";
+import { configs } from "../../config";
 import { Schema } from "mongoose";
 import UserModel from "../models/User.model";
 import LastLoggedUserModel from "../models/LastLogin.model";
@@ -34,24 +35,24 @@ import axios from "axios";
  * @returns {Document} User document
  */
 export const insertUser = async (userData: IUserRequest) => {
-	if (process.env.FACE_API_ENABLED !== "true") {
+	if (configs.faceApi.enabled !== "true") {
 		return insertUserWithoutFace(userData);
 	}
 
 	const config = {
 		headers: {
 			"Content-Type": "application/json",
-			"Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY || "null",
+			"Ocp-Apim-Subscription-Key": configs.faceApi.key || "null",
 		},
 	};
 
 	const profileImageDetails = {
-		url: process.env.FACE_API_STORAGE_BUCKET_URL + userData.profileImage,
+		url: configs.faceApi.storageBucketUrl + userData.profileImage,
 	};
 
 	return await axios
 		.post(
-			`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/persistedfaces?detectionModel=detection_01`,
+			`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/persistedfaces?detectionModel=detection_01`,
 			profileImageDetails,
 			config
 		)
@@ -61,7 +62,7 @@ export const insertUser = async (userData: IUserRequest) => {
 				.then(async (user) => {
 					return await axios
 						.post(
-							`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/train`,
+							`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/train`,
 							"",
 							config
 						)
@@ -72,13 +73,13 @@ export const insertUser = async (userData: IUserRequest) => {
 						.catch((error) => {
 							return axios
 								.delete(
-									`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/persistedfaces/${response.data.persistedFaceId}`,
+									`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/persistedfaces/${response.data.persistedFaceId}`,
 									config
 								)
 								.then(() => {
 									return axios
 										.post(
-											`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/train`,
+											`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/train`,
 											"",
 											config
 										)
@@ -130,37 +131,37 @@ export const authenticateUser = async (userName: string, password: string) => {
 };
 
 export const authenticateUserByFace = async (imageUrl: string) => {
-	if (process.env.FACE_API_ENABLED !== "true") {
+	if (configs.faceApi.enabled !== "true") {
 		throw new Error("Face authentication is currently disabled.");
 	}
 
 	const config = {
 		headers: {
 			"Content-Type": "application/json",
-			"Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY || "null",
+			"Ocp-Apim-Subscription-Key": configs.faceApi.key || "null",
 		},
 	};
 
 	const newImageDetails = {
-		url: process.env.FACE_API_STORAGE_BUCKET_URL + imageUrl,
+		url: configs.faceApi.storageBucketUrl + imageUrl,
 	};
 
 	return await axios
 		.post(
-			`${process.env.FACE_API_HOST}/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&recognitionModel=recognition_03&returnRecognitionModel=false&detectionModel=detection_02&faceIdTimeToLive=86400`,
+			`${configs.faceApi.host}/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&recognitionModel=recognition_03&returnRecognitionModel=false&detectionModel=detection_02&faceIdTimeToLive=86400`,
 			newImageDetails,
 			config
 		)
 		.then(async (response) => {
 			const newUserLogin = {
 				faceId: response.data[0].faceId,
-				largeFaceListId: process.env.FACE_API_LARGE_LIST,
+				largeFaceListId: configs.faceApi.largeList,
 				maxNumOfCandidatesReturned: 10,
 				mode: "matchPerson",
 			};
 
 			return await axios
-				.post(`${process.env.FACE_API_HOST}/face/v1.0/findsimilars`, newUserLogin, config)
+				.post(`${configs.faceApi.host}/face/v1.0/findsimilars`, newUserLogin, config)
 				.then(async (responseLargeFaceList) => {
 					return await UserModel.findOne({ persistedFaceId: responseLargeFaceList.data[0].persistedFaceId })
 						.then(async (user) => {
@@ -228,21 +229,21 @@ export const updateUser = async (userId: string, updateData: IUser) => {
 					if (updateData.profileImage) {
 						userDetails.profileImage = updateData.profileImage;
 
-						if (process.env.FACE_API_ENABLED === "true") {
+						if (configs.faceApi.enabled === "true") {
 							const config = {
 								headers: {
 									"Content-Type": "application/json",
-									"Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY || "null",
+									"Ocp-Apim-Subscription-Key": configs.faceApi.key || "null",
 								},
 							};
 
 							const profileImageDetails = {
-								url: process.env.FACE_API_STORAGE_BUCKET_URL + updateData.profileImage,
+								url: configs.faceApi.storageBucketUrl + updateData.profileImage,
 							};
 
 							await axios
 								.post(
-									`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/persistedfaces?detectionModel=detection_01`,
+									`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/persistedfaces?detectionModel=detection_01`,
 									profileImageDetails,
 									config
 								)
@@ -250,7 +251,7 @@ export const updateUser = async (userId: string, updateData: IUser) => {
 									userDetails.persistedFaceId = response.data.persistedFaceId;
 
 									await axios.post(
-										`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/train`,
+										`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/train`,
 										"",
 										config
 									);
@@ -359,21 +360,21 @@ export const adminUpdateUser = async (updateData: IUser) => {
 					if (updateData.profileImage) {
 						userDetails.profileImage = updateData.profileImage;
 
-						if (process.env.FACE_API_ENABLED === "true") {
+						if (configs.faceApi.enabled === "true") {
 							const config = {
 								headers: {
 									"Content-Type": "application/json",
-									"Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY || "null",
+									"Ocp-Apim-Subscription-Key": configs.faceApi.key || "null",
 								},
 							};
 
 							const profileImageDetails = {
-								url: process.env.FACE_API_STORAGE_BUCKET_URL + updateData.profileImage,
+								url: configs.faceApi.storageBucketUrl + updateData.profileImage,
 							};
 
 							await axios
 								.post(
-									`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/persistedfaces?detectionModel=detection_01`,
+									`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/persistedfaces?detectionModel=detection_01`,
 									profileImageDetails,
 									config
 								)
@@ -381,7 +382,7 @@ export const adminUpdateUser = async (updateData: IUser) => {
 									userDetails.persistedFaceId = response.data.persistedFaceId;
 
 									await axios.post(
-										`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/train`,
+										`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/train`,
 										"",
 										config
 									);

@@ -60,6 +60,13 @@ const configs: IConfig = {
 		emailService: process.env.EMAIL_SERVICE_NAME as string,
 		emailQueue: process.env.EMAIL_QUEUE_NAME as string,
 	},
+	faceApi: {
+		enabled: process.env.FACE_API_ENABLED as string,
+		key: process.env.FACE_API_KEY as string,
+		host: process.env.FACE_API_HOST as string,
+		storageBucketUrl: process.env.FACE_API_STORAGE_BUCKET_URL as string,
+		largeList: process.env.FACE_API_LARGELIST as string,
+	},
 };
 
 export { configs };
