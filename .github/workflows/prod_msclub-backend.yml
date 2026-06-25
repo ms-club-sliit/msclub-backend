@@ -6,7 +6,7 @@ name: Build and deploy Node.js app to Azure Web App - msclub-backend
 on:
   push:
     branches:
-      - staging
+      - master
   workflow_dispatch:
 
 jobs:
