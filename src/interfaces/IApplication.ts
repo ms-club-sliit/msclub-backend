@@ -44,4 +44,18 @@ interface IApplication extends Document {
 	meeting: Schema.Types.ObjectId;
 }
 
-export type { IApplication };
+interface IPaginationMeta {
+	totalRecords: number;
+	totalPages: number;
+	currentPage: number;
+	limit: number;
+	hasNextPage: boolean;
+	hasPrevPage: boolean;
+}
+
+interface IPaginatedApplicationResponse {
+	data: IApplication[];
+	pagination: IPaginationMeta;
+}
+
+export type { IApplication, IPaginatedApplicationResponse };
