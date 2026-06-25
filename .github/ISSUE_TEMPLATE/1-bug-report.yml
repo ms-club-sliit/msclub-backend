@@ -9,7 +9,7 @@ body:
       value: |
         Thanks for reporting a bug. Please provide all required details below.
 
-  # Description 
+  # Description
   - type: textarea
     id: steps
     attributes:
@@ -37,12 +37,12 @@ body:
     validations:
       required: true
 
-  # Screenshots 
+  # Screenshots
   - type: textarea
     id: screenshots
     attributes:
       label: Screenshots
-      description: Drag & drop images or paste screenshots here 
+      description: Drag & drop images or paste screenshots here
     validations:
       required: false
 

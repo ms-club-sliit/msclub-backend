@@ -23,11 +23,14 @@
 
 import {
 	insertUser,
+	insertUserWithoutFace,
 	authenticateUser,
 	authenticateUserByFace,
 	getUsers,
 	updateUser,
+	updateUserWithoutFace,
 	adminUpdateUser,
+	adminUpdateUserWithoutFace,
 	deleteUser,
 	deleteUserPermenently,
 	recoverUser,
@@ -139,11 +142,14 @@ import {
 export default {
 	// User services
 	insertUser,
+	insertUserWithoutFace,
 	authenticateUser,
 	authenticateUserByFace,
 	getUsers,
 	updateUser,
+	updateUserWithoutFace,
 	adminUpdateUser,
+	adminUpdateUserWithoutFace,
 	deleteUser,
 	deleteUserPermenently,
 	recoverUser,

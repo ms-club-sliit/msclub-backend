@@ -22,7 +22,8 @@
  */
 
 import { IWebinar, IUpdatedBy } from "../../interfaces";
-import { Schema } from "mongoose";import WebinarModel from "../models/Webinar.model";
+import { Schema } from "mongoose";
+import WebinarModel from "../models/Webinar.model";
 /**
  * Save a webinar in the database
  * @param {IWebinar} webinarData
@@ -110,11 +111,7 @@ export const fetchUpcomingWebinar = async () => {
  * @param webinarId @type string
  * @param updateData @type IWebinar
  */
-export const updateWebinar = async (
-	webinarId: string,
-	webinarData: IWebinar,
-	updatedBy: string
-) => {
+export const updateWebinar = async (webinarId: string, webinarData: IWebinar, updatedBy: string) => {
 	return await WebinarModel.findById(webinarId)
 		.then(async (webinarDetails) => {
 			if (webinarDetails) {

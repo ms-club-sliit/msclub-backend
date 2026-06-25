@@ -21,7 +21,7 @@
  *
  */
 
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { configs } from ".";
 
 let supabaseInstance: SupabaseClient | null = null;
@@ -29,15 +29,12 @@ let supabaseInstance: SupabaseClient | null = null;
 const getSupabaseClient = (): SupabaseClient => {
 	if (!supabaseInstance) {
 		if (!configs.supabase.url || !configs.supabase.serviceRoleKey) {
-			throw new Error('Supabase URL and service role key are required. Please check your environment variables.');
+			throw new Error("Supabase URL and service role key are required. Please check your environment variables.");
 		}
-		
-		supabaseInstance = createClient(
-			configs.supabase.url,
-			configs.supabase.serviceRoleKey
-		);
+
+		supabaseInstance = createClient(configs.supabase.url, configs.supabase.serviceRoleKey);
 	}
-	
+
 	return supabaseInstance;
 };
 

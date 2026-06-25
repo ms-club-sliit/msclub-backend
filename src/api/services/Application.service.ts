@@ -21,8 +21,7 @@
  *
  */
 
-
-import { IApplication, IInterview, IMeetingRequest } from "../../interfaces";
+import { IApplication, IInterview, IMeetingRequest, IPaginatedApplicationResponse } from "../../interfaces";
 
 // Type alias for document data
 type DocumentData<T> = Partial<T>;
@@ -86,16 +85,52 @@ export const fetchApplicationById = async (applicationId: string) => {
 };
 
 /**
- * Application Service
- * @param {FilterQuery<IApplication>} query
- * @returns {Promise<IApplication>}
+ * Fetches a paginated list of active (non-deleted) applications.
+ *
+ * @param page    - Page number to retrieve (1-indexed). Defaults to 1.
+ * @param limit   - Number of records per page. Defaults to 10.
+ * @param status  - Optional status filter: "PENDING" | "INTERVIEW" | "SELECTED" | "REJECTED".
+ *                  When omitted, all non-deleted applications are returned.
+ * @returns       - A paginated response containing the data array and pagination metadata.
  */
-export const fetchApplications = async () => {
-	return await ApplicationModel.aggregate([{ $match: { deletedAt: { $eq: null } } }])
-		.sort({ createdAt: -1 })
-		.then(async (applications) => {
+export const fetchApplications = async (
+	page: number,
+	limit: number,
+	status?: string
+): Promise<IPaginatedApplicationResponse> => {
+	const skip = (page - 1) * limit;
+
+	// Build the match filter: always exclude soft-deleted records
+	const matchFilter: Record<string, any> = { deletedAt: { $eq: null } };
+	if (status) {
+		matchFilter.status = status;
+	}
+
+	return await ApplicationModel.countDocuments(matchFilter)
+		.then(async (totalRecords) => {
+			const totalPages = Math.ceil(totalRecords / limit);
+
+			const applications = await ApplicationModel.aggregate([
+				{ $match: matchFilter },
+				{ $sort: { createdAt: -1 } },
+				{ $skip: skip },
+				{ $limit: limit },
+			]);
+
+			// Populate meeting references after aggregation
 			await MeetingModel.populate(applications, { path: "meeting" });
-			return await applications;
+
+			return {
+				data: applications,
+				pagination: {
+					totalRecords,
+					totalPages,
+					currentPage: page,
+					limit,
+					hasNextPage: page < totalPages,
+					hasPrevPage: page > 1,
+				},
+			};
 		})
 		.catch((error) => {
 			throw new Error(error.message);

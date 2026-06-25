@@ -107,11 +107,7 @@ export const getUpcomingEvent = async () => {
  * @param eventId @type string
  * @param updateData @type IEvent
  */
-export const updateEvent = async (
-	eventId: string,
-	eventData: IEvent,
-	updatedBy: string
-) => {
+export const updateEvent = async (eventId: string, eventData: IEvent, updatedBy: string) => {
 	return await EventModel.findById(eventId)
 		.then(async (eventDetails) => {
 			if (eventDetails) {

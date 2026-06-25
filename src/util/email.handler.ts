@@ -43,8 +43,8 @@ const sendEmailWithTemplate = async () => {
 	// Check if Supabase is configured before proceeding
 	if (!configs.supabase.url || !configs.supabase.serviceRoleKey) {
 		logger.warn("#### Supabase not configured - skipping email processing");
-		logger.warn(`#### URL: ${configs.supabase.url ? 'Set' : 'Not set'}`);
-		logger.warn(`#### Service Key: ${configs.supabase.serviceRoleKey ? 'Set' : 'Not set'}`);
+		logger.warn(`#### URL: ${configs.supabase.url ? "Set" : "Not set"}`);
+		logger.warn(`#### Service Key: ${configs.supabase.serviceRoleKey ? "Set" : "Not set"}`);
 		return;
 	}
 
@@ -85,9 +85,7 @@ const sendEmailWithTemplate = async () => {
 const getEmailTemplatePath = async (fileName: string) => {
 	try {
 		const supabase = getSupabaseClient();
-		const { data, error } = await supabase.storage
-			.from(configs.supabase.emailTemplateBucket)
-			.download(fileName);
+		const { data, error } = await supabase.storage.from(configs.supabase.emailTemplateBucket).download(fileName);
 
 		if (error) {
 			throw new Error(`Failed to fetch template: ${error.message}`);
@@ -118,7 +116,7 @@ const sendEmail = async (to: string, subject: string, htmlTemplate: any) => {
 			},
 			tls: {
 				rejectUnauthorized: false,
-				ciphers: 'SSLv3'
+				ciphers: "SSLv3",
 			},
 		});
 
