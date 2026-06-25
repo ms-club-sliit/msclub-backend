@@ -23,30 +23,36 @@
  */
 
 import { IUser, IUserRequest } from "../../interfaces";
+import { configs } from "../../config";
 import { Schema } from "mongoose";
 import UserModel from "../models/User.model";
 import LastLoggedUserModel from "../models/LastLogin.model";
 import axios from "axios";
 
 /**
+ * @deprecated Use insertUserWithoutFace instead
  * @param {IUser} userData
  * @returns {Document} User document
  */
 export const insertUser = async (userData: IUserRequest) => {
+	if (configs.faceApi.enabled !== "true") {
+		return insertUserWithoutFace(userData);
+	}
+
 	const config = {
 		headers: {
 			"Content-Type": "application/json",
-			"Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY || "null",
+			"Ocp-Apim-Subscription-Key": configs.faceApi.key || "null",
 		},
 	};
 
 	const profileImageDetails = {
-		url: process.env.FACE_API_STORAGE_BUCKET_URL + userData.profileImage,
+		url: configs.faceApi.storageBucketUrl + userData.profileImage,
 	};
 
 	return await axios
 		.post(
-			`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/persistedfaces?detectionModel=detection_01`,
+			`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/persistedfaces?detectionModel=detection_01`,
 			profileImageDetails,
 			config
 		)
@@ -56,7 +62,7 @@ export const insertUser = async (userData: IUserRequest) => {
 				.then(async (user) => {
 					return await axios
 						.post(
-							`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/train`,
+							`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/train`,
 							"",
 							config
 						)
@@ -67,13 +73,13 @@ export const insertUser = async (userData: IUserRequest) => {
 						.catch((error) => {
 							return axios
 								.delete(
-									`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/persistedfaces/${response.data.persistedFaceId}`,
+									`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/persistedfaces/${response.data.persistedFaceId}`,
 									config
 								)
 								.then(() => {
 									return axios
 										.post(
-											`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/train`,
+											`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/train`,
 											"",
 											config
 										)
@@ -95,6 +101,21 @@ export const insertUser = async (userData: IUserRequest) => {
 		});
 };
 
+/**
+ * @param {IUser} userData
+ * @returns {Document} User document
+ */
+export const insertUserWithoutFace = async (userData: IUserRequest) => {
+	return await UserModel.create(userData)
+		.then(async (user) => {
+			await user.generateAuthToken();
+			return user;
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
+
 export const authenticateUser = async (userName: string, password: string) => {
 	try {
 		const user = await UserModel.findByUsernamePassword(userName, password);
@@ -110,33 +131,37 @@ export const authenticateUser = async (userName: string, password: string) => {
 };
 
 export const authenticateUserByFace = async (imageUrl: string) => {
+	if (configs.faceApi.enabled !== "true") {
+		throw new Error("Face authentication is currently disabled.");
+	}
+
 	const config = {
 		headers: {
 			"Content-Type": "application/json",
-			"Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY || "null",
+			"Ocp-Apim-Subscription-Key": configs.faceApi.key || "null",
 		},
 	};
 
 	const newImageDetails = {
-		url: process.env.FACE_API_STORAGE_BUCKET_URL + imageUrl,
+		url: configs.faceApi.storageBucketUrl + imageUrl,
 	};
 
 	return await axios
 		.post(
-			`${process.env.FACE_API_HOST}/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&recognitionModel=recognition_03&returnRecognitionModel=false&detectionModel=detection_02&faceIdTimeToLive=86400`,
+			`${configs.faceApi.host}/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&recognitionModel=recognition_03&returnRecognitionModel=false&detectionModel=detection_02&faceIdTimeToLive=86400`,
 			newImageDetails,
 			config
 		)
 		.then(async (response) => {
 			const newUserLogin = {
 				faceId: response.data[0].faceId,
-				largeFaceListId: process.env.FACE_API_LARGE_LIST,
+				largeFaceListId: configs.faceApi.largeList,
 				maxNumOfCandidatesReturned: 10,
 				mode: "matchPerson",
 			};
 
 			return await axios
-				.post(`${process.env.FACE_API_HOST}/face/v1.0/findsimilars`, newUserLogin, config)
+				.post(`${configs.faceApi.host}/face/v1.0/findsimilars`, newUserLogin, config)
 				.then(async (responseLargeFaceList) => {
 					return await UserModel.findOne({ persistedFaceId: responseLargeFaceList.data[0].persistedFaceId })
 						.then(async (user) => {
@@ -171,6 +196,7 @@ export const getUsers = async () => {
 
 /**
  * update user
+ * @deprecated Use updateUserWithoutFace instead
  * @param userId @type string
  * @param updateData @type IUser
  */
@@ -203,32 +229,85 @@ export const updateUser = async (userId: string, updateData: IUser) => {
 					if (updateData.profileImage) {
 						userDetails.profileImage = updateData.profileImage;
 
-						const config = {
-							headers: {
-								"Content-Type": "application/json",
-								"Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY || "null",
-							},
-						};
+						if (configs.faceApi.enabled === "true") {
+							const config = {
+								headers: {
+									"Content-Type": "application/json",
+									"Ocp-Apim-Subscription-Key": configs.faceApi.key || "null",
+								},
+							};
 
-						const profileImageDetails = {
-							url: process.env.FACE_API_STORAGE_BUCKET_URL + updateData.profileImage,
-						};
+							const profileImageDetails = {
+								url: configs.faceApi.storageBucketUrl + updateData.profileImage,
+							};
 
-						await axios
-							.post(
-								`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/persistedfaces?detectionModel=detection_01`,
-								profileImageDetails,
-								config
-							)
-							.then(async (response) => {
-								userDetails.persistedFaceId = response.data.persistedFaceId;
-
-								await axios.post(
-									`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/train`,
-									"",
+							await axios
+								.post(
+									`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/persistedfaces?detectionModel=detection_01`,
+									profileImageDetails,
 									config
-								);
-							});
+								)
+								.then(async (response) => {
+									userDetails.persistedFaceId = response.data.persistedFaceId;
+
+									await axios.post(
+										`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/train`,
+										"",
+										config
+									);
+								});
+						}
+					}
+					if (updateData.permissionLevel) {
+						userDetails.permissionLevel = updateData.permissionLevel;
+					}
+
+					return await userDetails.save();
+				} else {
+					throw new Error("User is not found");
+				}
+			} else {
+				throw new Error("User already removed");
+			}
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
+
+/**
+ * update user without face api
+ * @param userId @type string
+ * @param updateData @type IUser
+ */
+export const updateUserWithoutFace = async (userId: string, updateData: IUser) => {
+	return await UserModel.findById(userId)
+		.then(async (userDetails) => {
+			if (userDetails) {
+				if (userDetails.deletedAt === null) {
+					if (updateData.firstName) {
+						userDetails.firstName = updateData.firstName;
+					}
+					if (updateData.lastName) {
+						userDetails.lastName = updateData.lastName;
+					}
+					if (updateData.phoneNumber01) {
+						userDetails.phoneNumber01 = updateData.phoneNumber01;
+					}
+					if (updateData.phoneNumber02) {
+						userDetails.phoneNumber02 = updateData.phoneNumber02;
+					}
+					if (updateData.email) {
+						userDetails.email = updateData.email;
+					}
+					if (updateData.userName) {
+						userDetails.userName = updateData.userName;
+					}
+					if (updateData.password) {
+						userDetails.password = updateData.password;
+					}
+					if (updateData.profileImage) {
+						userDetails.profileImage = updateData.profileImage;
 					}
 					if (updateData.permissionLevel) {
 						userDetails.permissionLevel = updateData.permissionLevel;
@@ -249,6 +328,7 @@ export const updateUser = async (userId: string, updateData: IUser) => {
 
 /**
  * admin update user
+ * @deprecated Use adminUpdateUserWithoutFace instead
  * @param updateData @type IUser
  */
 export const adminUpdateUser = async (updateData: IUser) => {
@@ -280,32 +360,84 @@ export const adminUpdateUser = async (updateData: IUser) => {
 					if (updateData.profileImage) {
 						userDetails.profileImage = updateData.profileImage;
 
-						const config = {
-							headers: {
-								"Content-Type": "application/json",
-								"Ocp-Apim-Subscription-Key": process.env.FACE_API_KEY || "null",
-							},
-						};
+						if (configs.faceApi.enabled === "true") {
+							const config = {
+								headers: {
+									"Content-Type": "application/json",
+									"Ocp-Apim-Subscription-Key": configs.faceApi.key || "null",
+								},
+							};
 
-						const profileImageDetails = {
-							url: process.env.FACE_API_STORAGE_BUCKET_URL + updateData.profileImage,
-						};
+							const profileImageDetails = {
+								url: configs.faceApi.storageBucketUrl + updateData.profileImage,
+							};
 
-						await axios
-							.post(
-								`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/persistedfaces?detectionModel=detection_01`,
-								profileImageDetails,
-								config
-							)
-							.then(async (response) => {
-								userDetails.persistedFaceId = response.data.persistedFaceId;
-
-								await axios.post(
-									`${process.env.FACE_API_HOST}/face/v1.0/largefacelists/${process.env.FACE_API_LARGE_LIST}/train`,
-									"",
+							await axios
+								.post(
+									`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/persistedfaces?detectionModel=detection_01`,
+									profileImageDetails,
 									config
-								);
-							});
+								)
+								.then(async (response) => {
+									userDetails.persistedFaceId = response.data.persistedFaceId;
+
+									await axios.post(
+										`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/train`,
+										"",
+										config
+									);
+								});
+						}
+					}
+					if (updateData.permissionLevel) {
+						userDetails.permissionLevel = updateData.permissionLevel;
+					}
+
+					return await userDetails.save();
+				} else {
+					throw new Error("User is not found");
+				}
+			} else {
+				throw new Error("User already removed");
+			}
+		})
+		.catch((error) => {
+			throw new Error(error.message);
+		});
+};
+
+/**
+ * admin update user without face api
+ * @param updateData @type IUser
+ */
+export const adminUpdateUserWithoutFace = async (updateData: IUser) => {
+	return await UserModel.findById(updateData._id)
+		.then(async (userDetails) => {
+			if (userDetails) {
+				if (userDetails.deletedAt === null) {
+					if (updateData.firstName) {
+						userDetails.firstName = updateData.firstName;
+					}
+					if (updateData.lastName) {
+						userDetails.lastName = updateData.lastName;
+					}
+					if (updateData.phoneNumber01) {
+						userDetails.phoneNumber01 = updateData.phoneNumber01;
+					}
+					if (updateData.phoneNumber02) {
+						userDetails.phoneNumber02 = updateData.phoneNumber02;
+					}
+					if (updateData.email) {
+						userDetails.email = updateData.email;
+					}
+					if (updateData.userName) {
+						userDetails.userName = updateData.userName;
+					}
+					if (updateData.password) {
+						userDetails.password = updateData.password;
+					}
+					if (updateData.profileImage) {
+						userDetails.profileImage = updateData.profileImage;
 					}
 					if (updateData.permissionLevel) {
 						userDetails.permissionLevel = updateData.permissionLevel;

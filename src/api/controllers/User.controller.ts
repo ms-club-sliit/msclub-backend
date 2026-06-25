@@ -50,7 +50,7 @@ export const createUser = async (request: Request, response: Response, next: Nex
 		permissionLevel: request.body.permissionLevel as string,
 	};
 
-	await UserService.insertUser(userInfo)
+	await UserService.insertUserWithoutFace(userInfo)
 		.then((data) => {
 			logger.info(`New user with ID ${data._id} created`);
 			request.handleResponse.successRespond(response)(data);
@@ -194,7 +194,7 @@ export const updateUser = async (request: Request, response: Response, next: Nex
 		request.body.profileImage = await ImageService.uploadImage(request.file, bucketDirectoryName);
 	}
 
-	await UserService.updateUser(request.user._id, request.body)
+	await UserService.updateUserWithoutFace(request.user._id, request.body)
 		.then((user) => {
 			request.handleResponse.successRespond(response)(user);
 			next();
@@ -220,7 +220,7 @@ export const adminUpdateUser = async (request: Request, response: Response, next
 	if (request.file) {
 		request.body.profileImage = await ImageService.uploadImage(request.file, bucketDirectoryName);
 	}
-	await UserService.adminUpdateUser(request.body)
+	await UserService.adminUpdateUserWithoutFace(request.body)
 		.then((user) => {
 			request.handleResponse.successRespond(response)(user);
 			next();
