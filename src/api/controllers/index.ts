@@ -26,6 +26,7 @@ import {
 	login,
 	loginByFaceAuthentication,
 	getAuthUser,
+	getMe,
 	getAllUsers,
 	updateUser,
 	adminUpdateUser,
@@ -136,6 +137,7 @@ import {
 	scheduleInterviewMeeting,
 } from "./Meeting.controller";
 
+
 export default {
 	//User Controllers
 	createUser,
@@ -143,6 +145,7 @@ export default {
 	loginByFaceAuthentication,
 	getAuthUser,
 	getAllUsers,
+	getMe,
 	updateUser,
 	adminUpdateUser,
 	removeUser,

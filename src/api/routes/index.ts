@@ -41,6 +41,7 @@ export default function (app: Express) {
   app.post("/user/login/", asHandler(controller.login));
   app.post("/user/login/faceauth/", upload.single("profileImage"), asHandler(controller.loginByFaceAuthentication));
   app.get("/user/auth/", middleware.authenticate, asHandler(controller.getAuthUser));
+  app.get("/user/me" , middleware.authenticate, asHandler(controller.getMe));
   app.get("/user/all", middleware.authenticate, asHandler(controller.getAllUsers));
   app.get("/user/remove/", middleware.authenticate, asHandler(controller.getRemovedUsers));
   app.put("/user/", middleware.authenticate, upload.single("profileImage"), asHandler(controller.updateUser));

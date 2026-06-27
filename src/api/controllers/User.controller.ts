@@ -26,6 +26,7 @@ import UserService from "../services";
 import logger from "../../util/logger";
 import ImageService from "../../util/image.handler";
 import { IUserRequest } from "../../interfaces";
+import { request } from "http";
 
 /**
  * @param {Request} request - Request from the frontend
@@ -155,6 +156,43 @@ export const getAuthUser = async (request: Request, response: Response, next: Ne
 
 	request.handleResponse.successRespond(response)(userInfo);
 	next();
+};
+
+
+/**
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns {IUser} Authenticated user's full profile document
+ */
+
+export const getMe = async (request: Request, response: Response, next: NextFunction) => {
+	const userId = request.user._id;
+
+	await UserService.getUserById(userId)
+		.then((user) => {
+			const userProfile = {
+				_id: user._id,
+				firstName: user.firstName,
+				lastName: user.lastName,
+				phoneNumber01: user.phoneNumber01,
+				phoneNumber02: user.phoneNumber02,
+				email: user.email,
+				userName: user.userName,
+				profileImage: user.profileImage,
+				permissionLevel: user.permissionLevel,
+				deletedAt: user.deletedAt,
+				deletedBy: user.deletedBy,
+				createdAt: user.createdAt,
+				updatedAt: user.updatedAt,
+			};
+			request.handleResponse.successRespond(response)(userProfile);
+			next();
+		})
+		.catch((error) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
 };
 
 /**
