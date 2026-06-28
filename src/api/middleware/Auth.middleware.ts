@@ -42,10 +42,13 @@ export const authenticate = async (request: Request, response: Response, next: N
 		const secret = process.env.JWT_SECRET as string;
 
 		if (secret) {
-			const authToken = request.header("Authorization") as string;
-			const decode = jwt.verify(authToken, secret);
+			let authToken = request.header("Authorization") as string;
+			if (authToken && authToken.startsWith("Bearer ")) {
+				authToken = authToken.replace("Bearer ", "");
+			}
+			const decode = jwt.verify(authToken, secret) as any;
 			const user = await UserModel.findOne({
-				_id: decode as string,
+				_id: decode._id,
 				authToken: authToken,
 			});
 
