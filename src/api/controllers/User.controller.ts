@@ -247,7 +247,7 @@ export const removeUser = async (request: Request, response: Response, next: Nex
 			next();
 		})
 		.catch((error) => {
-			request.handleResponse.errorRespond(response)(JSON.parse(error.message));
+			request.handleResponse.errorRespond(response)(error.message);
 			next();
 		});
 };
@@ -268,7 +268,7 @@ export const recoverUser = async (request: Request, response: Response, next: Ne
 			next();
 		})
 		.catch((error) => {
-			request.handleResponse.errorRespond(response)(JSON.parse(error.message));
+			request.handleResponse.errorRespond(response)(error.message);
 			next();
 		});
 };
@@ -311,11 +311,11 @@ export const removeUserPermenently = async (request: Request, response: Response
 				next();
 			})
 			.catch((error) => {
-				request.handleResponse.errorRespond(response)(JSON.parse(error.message));
+				request.handleResponse.errorRespond(response)(error.message);
 				next();
 			});
 	} else {
-		request.handleResponse.errorRespond(response)(JSON.parse("User id is not Passed"));
+		request.handleResponse.errorRespond(response)("User id is not Passed");
 		next();
 	}
 };

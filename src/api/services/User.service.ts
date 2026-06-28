@@ -24,7 +24,7 @@
 
 import { IUser, IUserRequest } from "../../interfaces";
 import { configs } from "../../config";
-import { Schema } from "mongoose";
+
 import UserModel from "../models/User.model";
 import LastLoggedUserModel from "../models/LastLogin.model";
 import axios from "axios";
@@ -61,11 +61,7 @@ export const insertUser = async (userData: IUserRequest) => {
 			return await UserModel.create(userData)
 				.then(async (user) => {
 					return await axios
-						.post(
-							`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/train`,
-							"",
-							config
-						)
+						.post(`${configs.faceApi.host}/face/v1.0/largefacelists/${configs.faceApi.largeList}/train`, "", config)
 						.then(async () => {
 							await user.generateAuthToken();
 							return user;
@@ -465,7 +461,7 @@ export const deleteUser = async (userId: string, deletedBy: string) => {
 		.then(async (userDetails) => {
 			if (userDetails && userDetails.deletedAt === null) {
 				userDetails.deletedAt = new Date();
-				userDetails.deletedBy = new Schema.Types.ObjectId(deletedBy);
+				userDetails.deletedBy = deletedBy as any;
 				return await userDetails.save();
 			} else {
 				const errorInfo = {
