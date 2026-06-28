@@ -51,6 +51,8 @@ interface IUserDocument extends Document {
 	permissionLevel: string;
 	deletedAt?: Date | null;
 	deletedBy?: Schema.Types.ObjectId | null;
+	createdAt?: Date;
+	updatedAt?: Date;
 }
 
 interface ILastLoggedUser extends Document {

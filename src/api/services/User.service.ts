@@ -29,6 +29,7 @@ import UserModel from "../models/User.model";
 import LastLoggedUserModel from "../models/LastLogin.model";
 import axios from "axios";
 
+
 /**
  * @deprecated Use insertUserWithoutFace instead
  * @param {IUser} userData
@@ -193,6 +194,27 @@ export const getUsers = async () => {
 			throw new Error(error.message);
 		});
 };
+
+
+/**
+ * Get user by ID
+ * @param userId @type string
+ * @returns {IUser} User document
+ */
+
+export const getUserById = async (userId : string) => {
+	return await UserModel.findById(userId)
+	   .then((user) => {
+          if (!user || user.deletedAt !== null) {
+						throw new Error("User not found")
+					}
+					return user;
+					})
+					.catch((error) => {
+						throw new Error(error.message)
+					});
+		 };
+
 
 /**
  * update user
