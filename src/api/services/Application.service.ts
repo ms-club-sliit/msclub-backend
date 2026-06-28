@@ -21,11 +21,14 @@
  *
  */
 
-import { IApplication, IInterview, IMeetingRequest, IPaginatedApplicationResponse } from "../../interfaces";
+import { IApplication, IInterview, IMeetingRequest, IPaginatedApplicationResponse, IAdminStats } from "../../interfaces";
 
 // Type alias for document data
 type DocumentData<T> = Partial<T>;
 import ApplicationModel from "../models/Application.model";
+import ContactModel from "../models/Contact.model";
+import EventModel from "../models/Event.model";
+import UserModel from "../models/User.model";
 import EmailModel from "../models/Email.model";
 import { Request } from "express";
 import { EmailTemplate, EmailType, EmailStatus } from "./Service.constant";
@@ -406,4 +409,70 @@ export const deleteApplicationPermanently = async (applicationId: string) => {
 	} else {
 		throw new Error("Application ID not Passed");
 	}
+};
+
+/**
+ * @function getAdminStats
+ * Retrieves a consolidated statistics payload for the admin dashboard.
+ *
+ * Returns:
+ *  - Application status breakdown (PENDING, INTERVIEW, SELECTED, REJECTED, total)
+ *  - Total number of inquiries (non-deleted)
+ *  - Total number of registered users (non-deleted)
+ *  - Total number of events (non-deleted)
+ *  - Last 10 most recent applications (non-deleted), sorted by createdAt DESC
+ *
+ * Uses countDocuments() and aggregation for performance.
+ *
+ * @returns {Promise<IAdminStats>}
+ */
+export const getAdminStats = async (): Promise<IAdminStats> => {
+	const activeApplicationFilter = { deletedAt: { $eq: null } };
+
+	const [pending, interview, selected, rejected, totalApplications, totalInquiries, totalUsers, totalEvents, recentApplications] =
+		await Promise.all([
+			ApplicationModel.countDocuments({ ...activeApplicationFilter, status: "PENDING" }),
+			ApplicationModel.countDocuments({ ...activeApplicationFilter, status: "INTERVIEW" }),
+			ApplicationModel.countDocuments({ ...activeApplicationFilter, status: "SELECTED" }),
+			ApplicationModel.countDocuments({ ...activeApplicationFilter, status: "REJECTED" }),
+			ApplicationModel.countDocuments(activeApplicationFilter),
+			ContactModel.countDocuments({ deletedAt: { $eq: null } }),
+			UserModel.countDocuments({ deletedAt: { $eq: null } }),
+			EventModel.countDocuments({ deletedAt: { $eq: null } }),
+			ApplicationModel.aggregate([
+				{ $match: activeApplicationFilter },
+				{ $sort: { createdAt: -1 } },
+				{ $limit: 10 },
+				{
+					$project: {
+						_id: 1,
+						name: 1,
+						status: 1,
+						appliedAt: "$createdAt",
+						studentId: 1,
+						currentAcademicYear: 1,
+					},
+				},
+			] as any[]),
+		]);
+
+	return {
+		applications: {
+			pending,
+			interview,
+			selected,
+			rejected,
+			total: totalApplications,
+		},
+		inquiries: {
+			total: totalInquiries,
+		},
+		users: {
+			total: totalUsers,
+		},
+		events: {
+			total: totalEvents,
+		},
+		recentApplications,
+	};
 };

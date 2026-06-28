@@ -137,6 +137,8 @@ export default function (app: Express) {
   app.put("/admin/application/recover/:applicationId", middleware.authenticate, asHandler(controller.recoverRemovedApplication));
   app.delete("/admin/application/permanentdelete/:applicationId", middleware.authenticate, asHandler(controller.deleteApplicationPermanently));
 
+  app.get("/admin/stats/", middleware.authenticate, asHandler(controller.getAdminStats));
+
   // Application endpoints - Public
   //app.post("/application/", middleware.validateRequest(Schema.applicationSchema), controller.addApplication);
   app.post("/application/", asHandler(controller.addApplication));

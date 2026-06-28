@@ -58,4 +58,24 @@ interface IPaginatedApplicationResponse {
 	pagination: IPaginationMeta;
 }
 
-export type { IApplication, IPaginatedApplicationResponse };
+interface IAdminStats {
+	applications: {
+		pending: number;
+		interview: number;
+		selected: number;
+		rejected: number;
+		total: number;
+	};
+	inquiries: {
+		total: number;
+	};
+	users: {
+		total: number;
+	};
+	events: {
+		total: number;
+	};
+	recentApplications: Partial<IApplication>[];
+}
+
+export type { IApplication, IPaginatedApplicationResponse, IAdminStats };

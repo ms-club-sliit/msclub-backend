@@ -101,6 +101,7 @@ import {
 	getDeletedApplicationsForAdmin,
 	recoverRemovedApplication,
 	deleteApplicationPermanently,
+	getAdminStats,
 } from "./Application.controller";
 
 import {
@@ -219,6 +220,7 @@ export default {
 	getDeletedApplicationsForAdmin,
 	recoverRemovedApplication,
 	deleteApplicationPermanently,
+	getAdminStats,
 	// Organization Controllers
 	insertOrganization,
 	getOrganization,

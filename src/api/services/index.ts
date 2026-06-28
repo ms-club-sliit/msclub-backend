@@ -103,6 +103,7 @@ import {
 	getDeletedApplicationsForAdmin,
 	recoverDeletedApplication,
 	deleteApplicationPermanently,
+	getAdminStats,
 } from "./Application.service";
 
 import {
@@ -212,6 +213,7 @@ export default {
 	getDeletedApplicationsForAdmin,
 	recoverDeletedApplication,
 	deleteApplicationPermanently,
+	getAdminStats,
 	// BoardMember Service
 	insertBoardMember,
 	getBoardMemberbyID,
