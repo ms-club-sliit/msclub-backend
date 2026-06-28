@@ -26,7 +26,7 @@ import UserService from "../services";
 import logger from "../../util/logger";
 import ImageService from "../../util/image.handler";
 import { IUserRequest } from "../../interfaces";
-import { request } from "http";
+
 
 /**
  * @param {Request} request - Request from the frontend
