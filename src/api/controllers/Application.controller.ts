@@ -337,3 +337,29 @@ export const deleteApplicationPermanently = async (request: Request, response: R
 		request.handleResponse.errorRespond(response)("ApplicationId not found");
 	}
 };
+
+/**
+ * @function getAdminStats
+ * Returns a consolidated statistics payload for the admin dashboard including:
+ * - Application status breakdown (PENDING, INTERVIEW, SELECTED, REJECTED, total)
+ * - Total number of inquiries
+ * - Total number of registered users
+ * - Total number of events
+ * - Last 10 most recent applications sorted by appliedAt DESC
+ *
+ * @param {Request} request - Request from the frontend
+ * @param {Response} response - Response that need to send to the client
+ * @param {NextFunction} next - Next function
+ * @returns {IAdminStats} - Consolidated admin statistics payload
+ */
+export const getAdminStats = async (request: Request, response: Response, next: NextFunction) => {
+	await ApplicationService.getAdminStats()
+		.then((data) => {
+			request.handleResponse.successRespond(response)(data);
+			next();
+		})
+		.catch((error: any) => {
+			request.handleResponse.errorRespond(response)(error.message);
+			next();
+		});
+};
